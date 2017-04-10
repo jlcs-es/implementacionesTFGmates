@@ -2,13 +2,173 @@
 \chapter{Preliminares}\label{ch:preliminares}
 %*****************************************
 
+% Sin demostraciones, solo resultados que se necesiten para secciones posteriores
+
+Para poder comprender los resultados de los siguientes capítulos necesitaremos recordar ciertas definiciones y propiedades de álgebra que se cursan durante el grado, e introducir otros preliminares de algoritmia que formalizan el estudio. No incluiremos demostraciones, pues son los conceptos básicos de donde partiremos para desarrollar el resto del trabajo, pero el lector que quiera conocerlas puede consultar las referencias en \textbf{TODO: cite}.
+
 \section{Preliminares de Álgebra}
 
-Teoría necesaria de grupos y anillos
+% Aritmética elemental:
+%	Algoritmo de Euclides: mcd
+%	Congruencias
+%		Ver TFG de Eva para aplicaciones de Euclides, + encontrar el inverso de a mod b con la Id de Bezout de a,b
+%	Grupos y Anillos
+%		Hasta grupos Z_n y sus propiedades
+%
+
+\paragraph{Aritmética elemental}
+
+\begin{definition}
+	Un entero $d$ se dice que es el \textbf{máximo común divisor} de dos enteros $a$ y $b$ si es el mayor entero que divide a ambos. Lo denotaremos $d=mcd(a,b)$.
+\end{definition}
+
+\hfil
+
+Euclides describió en su obra \textit{Los Elementos} un método para calcular el $mcd$ de dos enteros, que hoy en día se conoce como \textit{Algoritmo de Euclides}. La propiedad que utiliza el algoritmo para calcular el $mcd$ es la siguiente:
 
 
-\section{Preliminares de Algoritmia ?}
+
+\begin{proposition}
+	Sean $a$, $b$ $\in \mathbb{Z}$. Entonces, para todo $\alpha \in \mathbb{Z}$ se tiene:
+			\begin{center}
+				$mcd(a,b) = mcd(a, b-\alpha a) = mcd(a-\alpha b, b).$
+			\end{center}
+	En particular, cuando $b \neq 0$ y la división entera de $a$ entre $b$ es $a = bq + r$, tenemos que $mcd(a,b) = mcd(b, r)$.
+\end{proposition}
+
+\hfil
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Euclides]
+	Encuentra el $mcd$ de $a$, $b \in \mathbb{Z}$:
+	
+	\begin{enumerate}
+		\item Inicializa $r_0 = a$ y $r_1 = b$.
+		
+		\item Calcula las siguientes divisiones euclídeas
+		
+		\begin{tabular}{rcl}
+			$r_0$ & $=$ & $q_1 r_1 + r_2$ \\
+			$r_1$ & $=$ & $q_2 r_2 + r_3$ \\
+			& \dots & \\
+			$r_{n-3}$ & $=$ & $q_{n-2} r_{n-2} + r_{n-1}$ \\
+			$r_{n-2}$ & $=$ & $q_{n-1} r_{n-1} + r_{n}$ \\
+		\end{tabular}
+		
+		hasta que se obtenga un $r_n = 0$, con $r_{n-1} \neq 0$.
+		
+		\item Como $b = r_1 > r_2 > ... \geq 0$ y cada $r_i$ es entero, para $i = 1, 2, ...$, se obtiene $r_n = 0$ en un número finito de pasos y acaba el algoritmo con $mcd(a,b) = r_{n-1}$.
+		
+	\end{enumerate}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+A partir del \textit{Algoritmo de Euclides} se puede expresar $d$ como una ``combinación $\mathbb{Z}$-lineal'' de $a$ y $b$:
+\begin{center}
+	$d = as + bt$
+\end{center}
+conocida como la \textit{Identidad de Bézout}.
+
+\hfil
+
+El algoritmo se conoce como \textit{Algoritmo de Euclides extendido}:
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Euclides extendido]
+	Encuentra el $d = mcd$ de $a$, $b \in \mathbb{Z}$ y valores $s$, $t$ $\in \mathbb{Z}$ tal que $d = as + bt$.
+	\begin{enumerate}
+		\item Inicializa ${\displaystyle r_{0}\gets a,r_{1}\gets b,s_{0}\gets 1,t_{0}\gets 0,s_{1}\gets 0,t_{1}\gets 1}$
+		
+		$i\gets 1$
+		
+		\item Mientras $r_i \neq 0$:
+			\subitem Calcule la división euclídea $r_{i-1} = q_i r_i + r_{i+1}$
+			\subitem ${\displaystyle s_{i+1}\gets s_{i-1}-q_{i}s_{i}}$
+			\subitem ${\displaystyle t_{i+1}\gets t_{i-1}-q_{i}t_{i}}$
+			\subitem $i \gets i+1$
+		
+		\item $d = r_{i-1}$	\quad	$s = s_{i-1}$ \quad  $t = t_{i-1}$
+	\end{enumerate}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+\begin{remark}
+	Los valores de $s$ y $t$ no tienen por qué ser únicos:
+	
+	${\displaystyle a(s-kb)+b(t+ka)=as-kba+bt+kba=as+bt = d}$
+\end{remark}
+
+\hfil
+
+Utilizaremos la Identidad de Bézout para calcular los inversos en aritmética modular.
+
+\hfil
+
+\paragraph{Grupos y Anillos}
+
+%TODO
+
+\paragraph{Congruencias}
+
+\begin{definition}
+	Sean $a,\,b,\,n\,\in \mathbb{Z}$, $n \neq 0$, diremos que $a$ y $b$ son \textbf{congruentes módulo $n$}, y lo escribiremos $a \equiv b \, mod \, n$, si la diferencia $a - b$ es múltiplo de $n$.
+\end{definition}
+
+Cuando $a \equiv b \, mod \, n$ decimos que b es un \textit{\textbf{residuo} de $a$ módulo $n$}.
+
+\begin{proposition}
+	La relación de \textbf{congruencia módulo $n$} es una relación de equivalencia, es decir, es reflexiva, simétrica y transitiva.
+\end{proposition}
+
+Esto establece una relación de equivalencia en $\mathbb{Z}$, en la que la \textbf{clase} de un entero $a$ módulo $n$ es $\overline{a} = \{ a + kn \}_{k \in \mathbb{Z}}$. Cuando no exista confusión, escribiremos la clase de equivalencia $\overline{a}$ como $a$.
+El correspondiente conjunto cociente, de las \textit{clases de resto módulo $n$}, es $\mathbb{Z}_n = \{\overline{0},\,\overline{1},\,\dots\overline{n-1}\}$, y hereda la suma y producto de $\mathbb{Z}$ convirtiéndose en un anillo conmutativo con neutros $\overline{0}$ para la suma y $\overline{1}$ para el producto.
+
+
+\begin{theorem}
+	El anillo $\mathbb{Z}_n$ es un cuerpo cuando $n$ es un número primo.
+\end{theorem}
+
+\begin{theorem}[Euler]
+	Si $x$ es coprimo con 
+\end{theorem}
+
+
+\hfil
+
+Si tenemos ahora dos enteros $a$ y $b$ coprimos, es decir, $mcd(a,\,b) = 1$, usando el \textit{algoritmo de Euclides extendido} podemos encontrar $r$ y $s$ de la \textit{Identidad de Bézout} tales que:
+\begin{center}
+	$ as + bt = 1 $
+\end{center}
+
+Si a esta igualdad le aplicamos módulo $b$, obtenemos el inverso de $a$ en $\mathbb{Z}_b$:
+\begin{center}
+	\begin{tabular}{ccccc}
+	$  ( as + bt ) \, mod \, b $ & $\equiv $ & $as \, mod \, b $ & $ \equiv$ & $1 \, mod \, b $ \\
+	$ \overline{as+bt} $ & $=$ & $\overline{as} $ & $=$ & $\overline{1} $
+\end{tabular}
+\end{center}
+
+Así hemos demostrado el siguiente resultado:
+
+\begin{proposition}
+	Si $mcd(a,\,n) = 1$, entonces el elemento inverso $a^{-1}$, $0<a^{-1}<n$, existe y $a a^{-1} \equiv 1 \, mod \, n$.
+\end{proposition}
+
+
+\hfil
+
+%TODO:
+
+% Cardinal de Z^*_p
+% Generador de "
+
+\section{Preliminares de Criptografía}
 
 Teoría de complejidad algorítmica, problema de P NP, problema RSA de factorizar N, problemas de decisión, estadística usada en el estudio de los ZKP (\textit{ensembles}), \textit{probabilistic computations}, ...
 
 La mayor parte está en los primeros capítulos de Fundamentals of Computer Security, y de sus referencias se podrá sacar más detallado.
+

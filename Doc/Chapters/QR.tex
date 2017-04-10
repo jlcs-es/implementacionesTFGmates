@@ -2,5 +2,43 @@
 \chapter{Residuos Cuadráticos}\label{ch:qr} 
 %************************************************
 
+%TODO
+TODO : Párrafo de introducción al capítulo y referencias
+% Handbook of applied
+% A course in computational
+
 
 Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz discreta?
+
+
+%%%%%%
+
+
+\begin{definition}
+	Sea $a\in \mathbb{Z}^*_n$. Se dice que $a$ es un \textit{residuo cuadrático} módulo n, o un \textit{cuadrado} módulo n, si existe un $x \in \mathbb{Z}^*_n$ tal que $x^2 \equiv a \, mod \, n$.
+	Si no existe dicho $x$, entonces $a$ se llama un \textit{no-residuo cuadrático} módulo n.
+	
+	El conjunto de todos los residuos cuadráticos módulo n de $\mathbb{Z}^*_n$ los denotaremos como $Q_n$ o bien como $\mathbb{Z}^{Q+}_n$.
+	Al conjunto de los no-residuos cuadráticos lo denotamos como $\overline{Q_n}$.
+\end{definition}
+
+\begin{remark}
+	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ y $0 \notin \overline{Q_n}$.
+\end{remark}
+
+\begin{proposition}
+	Sea $p$ un primo impar. Se cumple que $|Q_p| = \frac{p-1}{2}$ y $|\overline{Q_p}| = \frac{p-1}{2}$, es decir, la mitad de los elementos de $\mathbb{Z}^*_p$ son residuos cuadráticos, y la otra mitad no-residuos cuadráticos.
+\end{proposition}
+
+\begin{proof}
+	Sea $\alpha \in \mathbb{Z}^*_p$ un generador de $\mathbb{Z}^*_p$.
+	Un elemento $a \in \mathbb{Z}^*_p$ es un residuo cuadrático módulo p sii $a \equiv \alpha^i \, mod \, p$ donde $i$ es un entero par. Como $p$ es primo, $\phi(p) = p-1 = |\mathbb{Z}^*_p|$, que es un entero par, y de ahí se sigue el enunciado.
+\end{proof}
+
+
+\section{Símbolos de Legendre-Jacobi-Kronecker}
+
+
+\begin{definition}
+	Dado un entero primo impar $p$, se define el \textit{símbolo de Lebesgue} 
+\end{definition}

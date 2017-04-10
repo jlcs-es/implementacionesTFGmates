@@ -21,6 +21,23 @@
 	
 \PassOptionsToPackage{es-tabla,spanish,es-lcroman,english}{babel}
 	\usepackage{babel}
+	
+	
+\usepackage{amsthm}
+
+
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{example}[theorem]{Ejemplo}
+\newtheorem{algorithm}[theorem]{Algoritmo}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Observación}
 
 % ****************************************************************************************************
 % 1. Configure classicthesis for your needs here, e.g., remove "drafting" below 
