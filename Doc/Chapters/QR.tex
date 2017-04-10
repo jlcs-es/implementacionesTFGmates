@@ -6,13 +6,15 @@
 TODO : Párrafo de introducción al capítulo y referencias
 % Handbook of applied
 % A course in computational
-
+% A Classical Introduction to Modern Number Theory
+% Proofwifi ?
 
 Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz discreta?
 
 
 %%%%%%
 
+\section{Primeras propiedades}
 
 \begin{definition}
 	Sea $a\in \mathbb{Z}^*_n$. Se dice que $a$ es un \textit{residuo cuadrático} módulo n, o un \textit{cuadrado} módulo n, si existe un $x \in \mathbb{Z}^*_n$ tal que $x^2 \equiv a \, mod \, n$.
@@ -22,9 +24,18 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 	Al conjunto de los no-residuos cuadráticos lo denotamos como $\overline{Q_n}$.
 \end{definition}
 
+
 \begin{remark}
 	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ y $0 \notin \overline{Q_n}$.
 \end{remark}
+
+
+
+\begin{definition}
+	Sea $a \in Q_n$. Si $x \in \mathbb{Z}^*_n$ satisface $ x^2 \equiv a \, mod \, n$, entonces $x$ se llama \textit{raíz cuadrada} módulo n de $a$.
+\end{definition}
+
+
 
 \begin{proposition}
 	Sea $p$ un primo impar. Se cumple que $|Q_p| = \frac{p-1}{2}$ y $|\overline{Q_p}| = \frac{p-1}{2}$, es decir, la mitad de los elementos de $\mathbb{Z}^*_p$ son residuos cuadráticos, y la otra mitad no-residuos cuadráticos.
@@ -35,10 +46,232 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 	Un elemento $a \in \mathbb{Z}^*_p$ es un residuo cuadrático módulo p sii $a \equiv \alpha^i \, mod \, p$ donde $i$ es un entero par. Como $p$ es primo, $\phi(p) = p-1 = |\mathbb{Z}^*_p|$, que es un entero par, y de ahí se sigue el enunciado.
 \end{proof}
 
+\begin{example}
+	Para $p=13$ tenemos que $\alpha = 6$ es un generador de $\mathbb{Z}^*_{13}$. Las potencias de $\alpha$ módulo 13 son:
+	
+	\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|c|}
+		 \hline
+			$i$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ \\
+			\hline
+			$6^i \, mod \, 13$ & $6$ & $10$ & $8$ & $9$ & $2$ & $12$ & $7$ & $3$ & $5$ & $4$ & $11$ & $1$ \\
+		 \hline
+	\end{tabular}
 
-\section{Símbolos de Legendre-Jacobi-Kronecker}
+	\hfil
 
+	Lo que nos da $Q_{13} = \{1,\,3,\,4,\,9,\,10,\,12\}$ y $\overline{Q_{13}} = \{2,\,5,\,6,\,7,\,8,\,11\}$.
+\end{example}
+
+\begin{proposition}
+	Sea $n$ un producto de dos primos impares $p$ y $q$, $n = pq$. Entonces  $a \in \mathbb{Z}^*_p$ es un residuo cuadrático módulo $n$, $a \in Q_n$ si y solo si $a \in Q_p$ y $a \in Q_q$. Se sigue que $|Q_n| = |Q_p|\cdot |Q_q| = \frac{(p-1)(q-1)}{4}$, y por tanto  $\overline{|Q_n|} = |\mathbb{Z}^*_n| - |Q_n| = \frac{3(p-1)(q-1)}{4}$.
+\end{proposition}
+
+\begin{proof}	
+	Si $a$ es un residuo cuadrático módulo $n=pq$, $a \equiv x^2  \, mod \, n$, es inmediato que en módulos $p$ y $q$ se cumple $a \equiv x^2  \, mod \, p$, $a \equiv x^2  \, mod \, q$.
+	
+	Si tenemos que $a$ es un residuo cuadrático módulo $p$, $a \equiv x_p^2 \, mod \, p$, y también módulo $q$, $a \equiv x_q^2 \, mod \, q$, por el Teorema Chino de los Restos existe un $x$ tal que:
+	
+	$x \equiv x_p \, mod \, p$
+	
+	$x \equiv x_q \, mod \, q$
+	
+	De modo que, elevando al cuadrado:
+	
+	$x^2 \equiv x_p^2 \equiv a \, mod \, p$
+	
+	$x^2 \equiv x_q^2 \equiv a \, mod \, q$
+	
+	Por lo que $x^2 \equiv a \, mod \, n$.
+	
+\end{proof}
+
+
+
+% TODO: ¿hace falta? --> Sí
+%\begin{proposition}
+%	Si $p$ es un primo impar y $a \in Q_p$, entonces $a$ tiene exáctamente $2$ raíces módulo $p$.
+%\end{proposition}
+
+
+
+
+
+\section{Símbolo de Legendre}
+
+Para identificar los residuos cuadráticos disponemos de una herramienta muy útil:
 
 \begin{definition}
-	Dado un entero primo impar $p$, se define el \textit{símbolo de Lebesgue} 
+	Dados un primo impar $p$ y un entero $a$, se define el \textit{símbolo de Lebesgue} $\left( \frac{a}{p} \right) $ como
+	
+	\begin{center}
+		$
+		\left( \dfrac{a}{p} \right) = 
+		\begin{cases}
+			0, & si\ a \equiv 0 \, mod \, p\\
+			1, & si\ a \in Q_p  \\
+			-1, & si\ a \in \overline{Q_p} \\
+		\end{cases}
+		$
+	\end{center}
 \end{definition}
+
+\hfil
+
+Veamos ahora algunas propiedades del símbolo de Legendre:
+
+\begin{theorem}[Criterio de Euler]
+	Sea $p$ un primo impar. Sea $a \not\equiv 0 \, mod \, p$. Entonces:
+	
+ 	\begin{center}
+ 		$ a^{(p-1)/2} \equiv \left( \dfrac{a}{p} \right)  \, mod \, p$
+ 	\end{center}
+	
+\end{theorem}
+
+\begin{proof}
+	Observemos primero que las raíces de $1$ módulo $p$ son $1$ y $-1$ $mod\, p$. También que por el Teorema de Euler, $a^{\phi(p)} \equiv a^{p-1} \equiv 1 \, mod \, p$.
+	
+	De este modo, tenemos que $ a^{\frac{p-1}{2}} \equiv 1 \, ó \, -1 \, mod \, p$.
+	
+	Ahora demostrar el teorema es equivalente a demostrar que $a^{(p-1)/2} \equiv 1 \, mod \, p$ sii $a$ es un residuo cuadrático.
+	
+	\hfil
+	
+	Supongamos que $a$ es un residuo cuadrático módulo $p$. Sea $x$ tal que $x^2 \equiv a \, mod \, p$. Entonces, $ a^{\frac{p-1}{2}} \equiv x^{(p-1)} \equiv 1 \, mod \, p$, de nuevo por el Teorema de Euler.
+	
+	\hfil
+	
+	Sea ahora  $ a^{\frac{p-1}{2}} \equiv 1 \, mod \, p$.
+	
+	Tomamos $g$ un generador de $\mathbb{Z}^*_p$, de modo que $a \equiv g^r \, mod \, p$. 
+	Sustituyendo:
+	 $ g^{r\frac{p-1}{2}} \equiv 1 \, mod \, p$, 
+	 y como $g$ tiene orden $p-1$, queda $ g^{\frac{r}{2}} \equiv 1 \, mod \, p$, de donde deducimos que necesariamente $r$ es un entero par, $r = 2s$.
+	 
+	 Construimos $x \equiv g^s \, mod \, p$, que cumple:
+	 $x^2 \equiv g^{2s} \equiv g^r \equiv a \, mod \, p$,
+	 de modo que $a$ es un residuo cuadrático módulo $p$.
+	
+\end{proof}
+
+\begin{proposition}[Propiedad multiplicativa del símbolo de Lebesgue]
+	Sean $a$ y $b$ enteros coprimos con $p$, un primo impar. Entonces:
+	
+\begin{center}
+ 	$
+		\left( \dfrac{a}{p} \right) 	\left( \dfrac{b}{p} \right) = 	\left( \dfrac{ab}{p} \right) 
+	$.
+\end{center}
+	
+	En particular, el producto de dos no-residuos cuadráticos es un residuo cuadrático.
+	
+\end{proposition}
+
+\begin{proof}
+	Utilizando el Criterio de Euler:
+	
+	\[
+			\left( \dfrac{a}{p} \right) 	\left( \dfrac{b}{p} \right) =
+			a^{(p-1)/2} \cdot b^{(p-1)/2} = (ab)^{(p-1)/2} =
+			 	\left( \dfrac{ab}{p} \right) 
+	\]
+	
+\end{proof}
+
+% TODO : hace falta? -> sí, para Jacobi
+% https://proofwiki.org/wiki/Law_of_Quadratic_Reciprocity
+\begin{theorem}[Ley de reciprocidad cuadrática]
+	Sean $p$ y $q$ primos impares distintos, se cumple:
+	
+	\begin{center}
+		$
+	\left( \dfrac{p}{q} \right) 	\left( \dfrac{q}{p} \right) = \left( -1 \right) ^{(p-1)(q-1)/4}
+	$.
+	\end{center}
+	O de otro modo:
+	
+	\begin{center}
+		$
+		\left({\dfrac p q}\right) = \begin{cases}
+		\quad \left({\dfrac q p}\right) & Si\quad p \equiv 1 \, mod \, 4 \quad  ó \quad  q \equiv 1 \, mod \, 4 \\
+		-\left({\dfrac q p}\right) & Si\quad p \equiv q \equiv 3 \, mod \, 4
+		\end{cases}
+		$.
+	\end{center}
+	
+	\label{quadRec:theo}
+	
+	%TODO : las fórmulas extra del -1 y 2
+\end{theorem}
+
+
+
+\hfil
+
+\section{Símbolo de Jacobi}
+
+El símbolo de Legendre está definido para módulos un primo impar $p$. Ahora vamos a ver una generalización del concepto para cualquier módulo $N$ .
+
+\begin{definition}
+	Sean $a,\,N\in \mathbb{Z}$, con $N = p_1 p_2 \cdots p_r$, donde los $p_i$ son primos, no necesariamente distintos, incluyendo el $2$ y el $-1$ para el signo.
+	
+	Definimos el \textit{Símbolo de Jacobi} $\left( \frac{a}{N} \right) $ como
+	
+		\[
+		\left( \dfrac{a}{N} \right) = \prod_{i=1}^{r} \left( \dfrac{a}{p_i} \right)
+		\]
+
+	donde $\left( \frac{a}{p_i} \right)$ es el Símbolo de Legendre para los $p_i > 2$, y para los casos $p=2$ y $p=-1$ definimos:
+	
+	\begin{center}
+		$
+		\left( \dfrac{a}{2} \right) = 
+		\begin{cases}
+		0, & si\ a \ es\ par.\\
+		(-1)^{(a^2-1)/8}, & si\ a \ es\ impar.\\
+		\end{cases}
+		$
+	\end{center}
+
+	y
+	
+	\begin{center}
+		$
+		\left( \dfrac{a}{2} \right) = 
+		\begin{cases}
+		1, & si\ a \geq 0\\
+		-1, & si\ a < 0.\\
+		\end{cases}
+		$
+	\end{center}
+	 
+\end{definition}
+
+\hfil
+
+Igual que antes, veamos algunas propiedades del Símbolo de Jacobi:
+
+
+\begin{theorem}
+	Propiedades del Símbolo de Jacobi:
+	
+	\begin{enumerate}[label=(\roman*)]
+		\item 	$\left( \frac{a}{N} \right) = 0$ si y sólo si $mcd(a, N) = 1$.
+		\item Para cada $a$, $b$ y $c$ enteros, tenemos: \\
+		
+		\begin{center}
+			$
+			\left( \dfrac{ab}{c} \right) = \left( \dfrac{a}{c} \right) \left( \dfrac{b}{c} \right), \quad \left( \dfrac{a}{bc} \right) = \left( \dfrac{a}{b} \right) \left( \dfrac{a}{c} \right) \quad si\ bc \neq 0
+			$.
+		\end{center}
+		
+		\item Fijado $N > 0$, el símbolo $ \left( \frac{a}{N} \right) $ es periódico en $a$ con periodo $N$ si $N \not\equiv 2 \, mod \, 4$, en otro caso, es periódico con periodo $4N$.
+		
+		\item Fijado $a \neq 0$, el símbolo $ \left( \frac{a}{N} \right) $ es periódico en $N$ con periodo $|a|$ si $a \equiv 0 \ ó \ 1 \, mod \, 4$, en otro caso, es periódico con periodo $4|a|$.
+		
+		\item Las fórmulas del \autoref{quadRec:theo} se siguen verificando si $p$ y $q$ son enteros impares positivos, ya no necesitan ser primos.
+		
+	\end{enumerate}
+\end{theorem}
+
+%TODO: proof
