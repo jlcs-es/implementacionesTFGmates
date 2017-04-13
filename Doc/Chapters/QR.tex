@@ -202,34 +202,35 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	\label{quadRec:theo}
 	
 	%TODO : las fórmulas extra del -1 y 2
+	
 \end{theorem}
 
 
 
 \hfil
 
-\section{Símbolo de Jacobi}
+\section{Símbolo de Kronecker-Jacobi}
 
 El símbolo de Legendre está definido para módulos un primo impar $p$. Ahora vamos a ver una generalización del concepto para cualquier módulo $N$ .
 
 \begin{definition}
 	Sean $a,\,N\in \mathbb{Z}$, con $N = p_1 p_2 \cdots p_r$, donde los $p_i$ son primos, no necesariamente distintos, incluyendo el $2$ y el $-1$ para el signo.
 	
-	Definimos el \textit{Símbolo de Jacobi} $\left( \frac{a}{N} \right) $ como
+	Definimos el \textit{Símbolo de Kronecker-Jacobi} $\left( \frac{a}{N} \right) $ como
 	
 		\[
 		\left( \dfrac{a}{N} \right) = \prod_{i=1}^{r} \left( \dfrac{a}{p_i} \right)
 		\]
-
+		
 	donde $\left( \frac{a}{p_i} \right)$ es el Símbolo de Legendre para los $p_i > 2$, y para los casos $p=2$ y $p=-1$ definimos:
 	
 	\begin{center}
 		$
 		\left( \dfrac{a}{2} \right) = 
-		\begin{cases}
-		0, & si\ a \ es\ par.\\
-		(-1)^{(a^2-1)/8}, & si\ a \ es\ impar.\\
-		\end{cases}
+			\begin{cases}
+			0, & si\ a \ es\ par.\\
+			(-1)^{(a^2-1)/8}, & si\ a \ es\ impar.\\
+			\end{cases}
 		$
 	\end{center}
 
@@ -246,6 +247,10 @@ El símbolo de Legendre está definido para módulos un primo impar $p$. Ahora v
 	\end{center}
 	 
 \end{definition}
+
+\begin{remark}
+	A diferencia del Símbolo de Legendre, el Símbolo de Jacobi $\left( \frac{a}{N} \right) $ no indica si $a$ es un residuo cuadrático módulo $N$. Es cierto que si $a \in Q_N$, su Símbolo de Jacobi será $\left( \frac{a}{N} \right) = 1$, pero el contrario no se cumple.
+\end{remark}
 
 \hfil
 
@@ -275,3 +280,10 @@ Igual que antes, veamos algunas propiedades del Símbolo de Jacobi:
 \end{theorem}
 
 %TODO: proof
+
+
+\section{El problema de residuosidad cuadrática}
+
+
+Indicar el problema, que es NP y que se puede reducir al de encontrar la factorización de N
+
