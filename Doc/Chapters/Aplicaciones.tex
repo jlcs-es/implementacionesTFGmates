@@ -5,3 +5,103 @@
 ?
 Fiat-Shamir para QR, Schnorr para logaritmo discreto, ...
 Aplicación de ZKP en los certificados de Idemix. Analizar cómo realizan pruebas de AND, OR, etc.
+
+\section{Protocolos de identificación basados en ZKP}
+% Fiat-Shamir, FFS, GQ, Schnorr
+
+
+Las pruebas de conocimiento cero tienen una gran aplicación en el campo de la seguridad informática, en particular en la \textbf{autenticación}. Tras la autenticación se aplicará autorización y control de acceso, por eso es importante un sistema de identificación fiable. Además, de entre las ventajas de las pruebas de conocimiento cero, un sistema de identificación basado en ZKP hereda privacidad, al no revelar información del usuario, y seguridad al no \textit{degradarse} con el uso, es decir, resiste al criptoanálisis por muchos mensajes que se intercepten, y ataques con mensajes elegidos. 
+
+%TODO
+TODO: poner mejor las ventajas.
+
+Estos protocolos de identificación se basan en una prueba de conocimiento cero de un problema $Q$, donde P (el usuario) tiene un \textit{secreto} que le permite demostrar una instancia $Verdadera$ de $Q$ al verificador V, y que además conocer dicho secreto le relaciona con una identidad, con la ventaja de no tener que revelar el secreto.
+
+
+\subsection{Protocolo de identificación de Fiat-Shamir}
+
+El protocolo  de identificación más característico basado en ZKP y el problema QR es el de Fiat-Shamir.
+
+Como hemos visto, el problema QR es \textbf{NP}, de modo que obtener una raíz cuadrada módulo un $N$ compuesto, es computacionalmente inviable, equivalente a factorizar $N$. Bajo esta suposición, podemos utilizar como información pública un residuo cuadrático módulo $N$, que llamaremos $v$, y asociarlo a una identidad, de modo que el usuario que conozca una de sus raíces cuadradas, el secreto $s$, podrá demostrar que $v$ es un residuo cuadrático por medio de una prueba de conocimiento cero.
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Protocolo de identificación Fiat-Shamir]
+	\hfil
+	
+	\textit{Configuración de la identidad}:
+	\begin{enumerate}
+		\item La entidad de confianza selecciona y publica $N=pq$, con $p$ y $q$ primos y secretos.
+		
+		\item Cada usuario P genera un secreto $s \in \mathbb{Z_N^*}$, coprimo con $N$ (si no, se podría obtener la factorización de $N$ y perder la seguridad del protocolo). Calcula $v \equiv s^2 \, mod \, N$ y lo envía a la entidad de confianza como su clave pública.
+		
+	\end{enumerate}
+	
+	
+	\textit{Protocolo}: Repetir $t$ rondas:
+	\begin{enumerate}
+		\item P escoge aleatoriamente $r \in_R \mathbb{Z_N^*}$, el \textit{compromiso}.
+		\item $P \rightarrow V$:\quad $u \equiv r^2 \, mod \, N$, el \textit{testigo}.
+		\item $V \rightarrow P$:\quad $b \in_R \{0,1\}$, el \textit{reto}.
+		\item $P \rightarrow V$:\quad $w \equiv r\cdot s^b \, mod \, N$, la \textit{respuesta}.
+		\item V verifica si \quad $ w^2 \equiv u\cdot v^b \, mod \, N$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+% decir que es casi idéntico a la prueba interactiva, pero que la v hace de x, y para que P pueda calcular u, un residuo cuadrático, y luego w una raíz cuadrada de u o xu, lo que hace es partir de las raíces de x y u, y construir u, el testigo, y 
+
+% poner cómo haría un ataque una máquina, usando la misma idea de partir de la raíz
+
+% poner que la seguridad es la probabilidad 2^-t de adivinar cada reto
+
+% poner que P, ahora una máquina normal, debe elegir bien sus r, pues si analizan la secuencia de testigos y obtienen r y rs con b=0, b=1, se puede obtener el secreto.
+
+
+\subsection{Protocolo de identificación de Feige-Fiat-Shamir}
+
+Una variación del protocolo de Fiat-Shamir para disminuir el número de mensajes intercambiados combinando varios testigos y retos a la vez.
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Protocolo de identificación Feige-Fiat-Shamir]
+	\hfil
+	
+	\textit{Configuración de la identidad}:
+	\begin{enumerate}
+		\item 
+		
+	\end{enumerate}
+	
+	
+	\textit{Protocolo}: Repetir $t$ rondas:
+	\begin{enumerate}
+		\item 
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+% indicar que la seguridad es la probabilidad 2^-kt de adivinar en cada ronda el vector del reto
+
+
+
+
+% Como este apartado es más corto, poner aquí cómo hacerlo de firma, o no interactivo, con un hash
+
+
+
+
+
+%
+%
+%
+%
+%
+
+% TODO:
+% Si en los preliminares de QR ampliamos a la dificultad de solucionar una raíz n-ésima, podemos meter Guillou-Quisquater (GQ), y dejar caer que es ZKP al ser una extensión de Fiat-Shamir, o demostrar formalmente que es ZKP (~).
+
+
+% Si metemos preliminares del logaritmo discreto y demostramos que es ZKP, ponemos Schnorr.
