@@ -10,6 +10,7 @@ TODO : Párrafo de introducción al capítulo y referencias
 % A course in computational
 % A Classical Introduction to Modern Number Theory
 % Proofwifi ?
+% http://www2.math.ou.edu/~kmartin/nti/
 
 Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz discreta?
 
@@ -28,9 +29,17 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 	Sea $a\in \mathbb{Z}^*_n$. Se dice que $a$ es un \textit{residuo cuadrático} módulo n, o un \textit{cuadrado} módulo n, si existe un $x \in \mathbb{Z}^*_n$ tal que $x^2 \equiv a \, mod \, n$.
 	Si no existe dicho $x$, entonces $a$ se llama un \textit{no-residuo cuadrático} módulo n.
 	
-	El conjunto de todos los residuos cuadráticos módulo n de $\mathbb{Z}^*_n$ los denotaremos como $Q_n$ o bien como $\mathbb{Z}^{Q+}_n$.
+	Al conjunto de todos los residuos cuadráticos módulo n de $\mathbb{Z}^*_n$ los denotaremos como $Q_n$ o bien como $\mathbb{Z}^{Q+}_n$.
 	Al conjunto de los no-residuos cuadráticos lo denotamos como $\overline{Q_n}$.
 \end{definition}
+
+\begin{example}
+	Si tomamos $n=4$, los no-residuos cuadráticos son $2$ y $3$, y el único residuo cuadrático es $1$:
+	\begin{align*}
+		1^2 \equiv 1 \, mod \, 4 \qquad 2^2 \equiv 0 \, mod \, 4 \qquad  3^2 \equiv 1 \, mod \, 4 
+	\end{align*}
+	
+\end{example}
 
 
 \begin{remark}
@@ -51,7 +60,7 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 
 \begin{proof}
 	Sea $\alpha \in \mathbb{Z}^*_p$ un generador de $\mathbb{Z}^*_p$.
-	Un elemento $a \in \mathbb{Z}^*_p$ es un residuo cuadrático módulo p sii $a \equiv \alpha^i \, mod \, p$ donde $i$ es un entero par. Como $p$ es primo, $\phi(p) = p-1 = |\mathbb{Z}^*_p|$, que es un entero par, y de ahí se sigue el enunciado.
+	Un elemento $a \in \mathbb{Z}^*_p$ es un residuo cuadrático módulo p si y solo si $a \equiv \alpha^i \, mod \, p$ donde $i$ es un entero par. Como $p$ es primo, $\phi(p) = p-1 = |\mathbb{Z}^*_p|$, que es un entero par, y de ahí se sigue el enunciado, la mitad de los elementos son generados por un $i$ par, la otra mitad por un $i$ impar.
 \end{proof}
 
 \begin{example}
@@ -59,7 +68,7 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 	
 	\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|c|}
 		 \hline
-			$i$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ \\
+			$i$ & $1$ & $\underline{2}$ & $3$ & $\underline{4}$ & $5$ & $\underline{6}$ & $7$ & $\underline{8}$ & $9$ & $\underline{10}$ & $11$ & $\underline{12}$ \\
 			\hline
 			$6^i \, mod \, 13$ & $6$ & $10$ & $8$ & $9$ & $2$ & $12$ & $7$ & $3$ & $5$ & $4$ & $11$ & $1$ \\
 		 \hline
@@ -79,9 +88,7 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 	
 	Si tenemos que $a$ es un residuo cuadrático módulo $p$, $a \equiv x_p^2 \, mod \, p$, y también módulo $q$, $a \equiv x_q^2 \, mod \, q$, por el Teorema Chino de los Restos existe un $x$ tal que:
 	
-	$x \equiv x_p \, mod \, p$
-	
-	$x \equiv x_q \, mod \, q$
+	$x \equiv x_p \, mod \, p$ \quad y \quad $x \equiv x_q \, mod \, q$
 	
 	De modo que, elevando al cuadrado:
 	
@@ -109,7 +116,7 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 Para identificar los residuos cuadráticos disponemos de una herramienta muy útil:
 
 \begin{definition}
-	Dados un primo impar $p$ y un entero $a$, se define el \textit{símbolo de Lebesgue} $\left( \frac{a}{p} \right) $ como
+	Dados un primo impar $p$ y un entero $a$, se define el \textit{símbolo de Legendre} $\left( \frac{a}{p} \right) $ como
 	
 	\begin{center}
 		$
@@ -136,12 +143,14 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	
 \end{theorem}
 
+\hfil
+
 \begin{proof}
 	Observemos primero que las raíces de $1$ módulo $p$ son $1$ y $-1$ $mod\, p$. También que por el Teorema de Euler, $a^{\phi(p)} \equiv a^{p-1} \equiv 1 \, mod \, p$.
 	
-	De este modo, tenemos que $ a^{\frac{p-1}{2}} \equiv 1 \, ó \, -1 \, mod \, p$.
+	De este modo, tenemos que $ a^{\frac{p-1}{2}} \equiv \pm 1 \, mod \, p$.
 	
-	Ahora demostrar el teorema es equivalente a demostrar que $a^{(p-1)/2} \equiv 1 \, mod \, p$ sii $a$ es un residuo cuadrático.
+	Ahora demostrar el teorema es equivalente a demostrar que $a^{(p-1)/2} \equiv 1 \, mod \, p$ si y solo si $a$ es un residuo cuadrático.
 	
 	\hfil
 	
@@ -151,10 +160,11 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	
 	Sea ahora  $ a^{\frac{p-1}{2}} \equiv 1 \, mod \, p$.
 	
-	Tomamos $g$ un generador de $\mathbb{Z}^*_p$, de modo que $a \equiv g^r \, mod \, p$. 
+	Tomamos $g$ un generador de $\mathbb{Z}^*_p$, de modo que $a \equiv g^r \, mod \, p$.
+	
 	Sustituyendo:
 	 $ g^{r\frac{p-1}{2}} \equiv 1 \, mod \, p$, 
-	 y como $g$ tiene orden $p-1$, queda $ g^{\frac{r}{2}} \equiv 1 \, mod \, p$, de donde deducimos que necesariamente $r$ es un entero par, $r = 2s$.
+	 y utilizando que $g$ tiene orden $p-1$, nos queda $ g^{r\frac{p-1}{2}} \equiv g^{\frac{r}{2}} \equiv 1 \, mod \, p$, de donde deducimos que necesariamente $r$ es un entero par, $r = 2s$.
 	 
 	 Construimos $x \equiv g^s \, mod \, p$, que cumple:
 	 $x^2 \equiv g^{2s} \equiv g^r \equiv a \, mod \, p$,
@@ -217,51 +227,36 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 
 \hfil
 
-\section{Símbolo de Kronecker-Jacobi}
+\section{Símbolo de Jacobi}
 
 % TODO: la parte de Kronecker no haría falta
 % TODO: notación Z^Q para designar símbolo Jacobi = 1, Z^Q = Z^Q+ U Z^Q-
 
-El símbolo de Legendre está definido para módulos un primo impar $p$. Ahora vamos a ver una generalización del concepto para cualquier módulo $N$ .
+El símbolo de Legendre está definido para módulos un primo impar $p$. Ahora vamos a ver una generalización del concepto:
 
 \begin{definition}
-	Sean $a,\,N\in \mathbb{Z}$, con $N = p_1 p_2 \cdots p_r$, donde los $p_i$ son primos, no necesariamente distintos, incluyendo el $2$ y el $-1$ para el signo.
+	Sean $a,\,N\in \mathbb{Z}$, con $N = p_1 p_2 \cdots p_r$, donde los $p_i$ son primos impares, no necesariamente distintos.
 	
 	Definimos el \textit{Símbolo de Kronecker-Jacobi} $\left( \frac{a}{N} \right) $ como
-	
 		\[
 		\left( \dfrac{a}{N} \right) = \prod_{i=1}^{r} \left( \dfrac{a}{p_i} \right)
 		\]
 		
-	donde $\left( \frac{a}{p_i} \right)$ es el Símbolo de Legendre para los $p_i > 2$, y para los casos $p=2$ y $p=-1$ definimos:
-	
-	\begin{center}
-		$
-		\left( \dfrac{a}{2} \right) = 
-			\begin{cases}
-			0, & si\ a \ es\ par.\\
-			(-1)^{(a^2-1)/8}, & si\ a \ es\ impar.\\
-			\end{cases}
-		$
-	\end{center}
-
-	y
-	
-	\begin{center}
-		$
-		\left( \dfrac{a}{2} \right) = 
-		\begin{cases}
-		1, & si\ a \geq 0\\
-		-1, & si\ a < 0.\\
-		\end{cases}
-		$
-	\end{center}
+	donde $\left( \frac{a}{p_i} \right)$ es el Símbolo de Legendre.
 	 
 \end{definition}
 
 \begin{remark}
 	A diferencia del Símbolo de Legendre, el Símbolo de Jacobi $\left( \frac{a}{N} \right) $ no indica si $a$ es un residuo cuadrático módulo $N$. Es cierto que si $a \in Q_N$, su Símbolo de Jacobi será $\left( \frac{a}{N} \right) = 1$, pero el contrario no se cumple.
 \end{remark}
+
+\begin{example}
+	Sea $a=2$ y $N=15=3\cdot 5$.
+	\begin{center}
+		$\left( \dfrac{2}{15} \right) = \left( \dfrac{2}{3} \right) \left( \dfrac{2}{5} \right) =  \left(-1\right) \cdot  \left(-1\right) = 1$
+	\end{center}
+	Ya que $Q_3 = \{1\}$, $\overline{Q_3}=\{2\}$, y $Q_5 = \{1,4\}$, $\overline{Q_5}=\{2,3\}$.
+\end{example}
 
 \hfil
 
@@ -272,7 +267,7 @@ Igual que antes, veamos algunas propiedades del Símbolo de Jacobi:
 	Propiedades del Símbolo de Jacobi:
 	
 	\begin{enumerate}[label=(\roman*)]
-		\item 	$\left( \frac{a}{N} \right) = 0$ si y sólo si $mcd(a, N) = 1$.
+		\item 	$\left( \frac{a}{N} \right) = 0$ si y sólo si $mcd(a, N) \neq 1$.
 		\item Para cada $a$, $b$ y $c$ enteros, tenemos: \\
 		
 		\begin{center}
@@ -281,9 +276,9 @@ Igual que antes, veamos algunas propiedades del Símbolo de Jacobi:
 			$.
 		\end{center}
 		
-		\item Fijado $N > 0$, el símbolo $ \left( \frac{a}{N} \right) $ es periódico en $a$ con periodo $N$ si $N \not\equiv 2 \, mod \, 4$, en otro caso, es periódico con periodo $4N$.
+		%\item Fijado $N > 0$, el símbolo $ \left( \frac{a}{N} \right) $ es periódico en $a$ con periodo $N$ si $N \not\equiv 2 \, mod \, 4$, en otro caso, es periódico con periodo $4N$.
 		
-		\item Fijado $a \neq 0$, el símbolo $ \left( \frac{a}{N} \right) $ es periódico en $N$ con periodo $|a|$ si $a \equiv 0 \ ó \ 1 \, mod \, 4$, en otro caso, es periódico con periodo $4|a|$.
+		%\item Fijado $a \neq 0$, el símbolo $ \left( \frac{a}{N} \right) $ es periódico en $N$ con periodo $|a|$ si $a \equiv 0 \ ó \ 1 \, mod \, 4$, en otro caso, es periódico con periodo $4|a|$.
 		
 		\item Las fórmulas del \autoref{quadRec:theo} se siguen verificando si $p$ y $q$ son enteros impares positivos, ya no necesitan ser primos.
 		

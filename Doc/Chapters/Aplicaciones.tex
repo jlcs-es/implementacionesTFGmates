@@ -2,6 +2,10 @@
 \chapter{Aplicaciones de ZKP}\label{ch:aplicaciones} 
 %************************************************
 
+
+% TODO poner cómo hacerlo de firma, o no interactivo, con un hash
+
+
 ?
 Fiat-Shamir para QR, Schnorr para logaritmo discreto, ...
 Aplicación de ZKP en los certificados de Idemix. Analizar cómo realizan pruebas de AND, OR, etc.
@@ -50,17 +54,29 @@ Como hemos visto, el problema QR es \textbf{NP}, de modo que obtener una raíz c
 \end{algorithm}
 \rule{\textwidth}{1pt}
 
+\hfil
 
-% decir que es casi idéntico a la prueba interactiva, pero que la v hace de x, y para que P pueda calcular u, un residuo cuadrático, y luego w una raíz cuadrada de u o xu, lo que hace es partir de las raíces de x y u, y construir u, el testigo, y 
 
-% poner cómo haría un ataque una máquina, usando la misma idea de partir de la raíz
+El protocolo de Fiat-Shamir es casi idéntico a la prueba interactiva \ref{QRinteractive:alg}, donde aquí $(v,N)$ hace el papel de instancia $Verdadera$ del problema QR, y como P, el usuario, es una máquina computacionalmente limitada, en vez de elegir aleatoriamente el residuo cuadrático $u$ y la raíz cuadrada $w$, parte de las raíces cuadradas, $s$ y $r$, para poder calcular $u$, $v$ y $w$ elevando al cuadrado. Como los valores que se envían siguen siendo $u$, un residuo cuadrático aleatorio, $b$ un bit de reto, y $w$ una raíz cuadrada aleatoria de $u$ o $uv$, según $b$, las transcripciones del protocolo de Fiat-Shamir son las mismas que las de la prueba interactiva, que sabemos que es de conocimiento cero perfecta.
 
-% poner que la seguridad es la probabilidad 2^-t de adivinar cada reto
+\hfil
 
-% poner que P, ahora una máquina normal, debe elegir bien sus r, pues si analizan la secuencia de testigos y obtienen r y rs con b=0, b=1, se puede obtener el secreto.
+El intento de ataque que vimos en la demostración de robustez varía ligeramente para Fiat-Shamir, pues el objetivo es intentar demostrar que $v$ es residuo cuadrático, sin conocer $s$ u otra raíz cuadrada, necesaria para una máquina de cómputo limitado del mundo real.
+
+Un atacante debe adivinar el bit del reto que recibirá, de modo que si cree que $b=0$ calcula el testigo como en el protocolo, pero si cree que $b=1$, calcula en el paso 2 el testigo $u \equiv r^2\cdot v^{-1} \, mod \, N$, y en 4 la respuesta $w \equiv r \, mod \, N$. En ambos casos fallaría si no adivina $b$ correctamente, pues para corregir su error debería ser capaz de calcular, respectivamente, una raíz cuadrada de $v$, que permitiría pasar la prueba siempre, o una raíz cuadrada de $u \equiv r^2\cdot v^{-1} \, mod \, N$, computacionalmente inviable pues $p$ y $q$ los guarda como secretos la entidad de verificación.
+
+Como en la prueba interactiva, un atacante tiene una probabilidad de $1/2$ de engañar a V en cada ronda, de modo que la robustez se mantiene con una probabilidad de ataque de $2^{-t}$. Si P pasa correctamente las $t$ rondas, V da por válida la prueba. Si falla aunque sea sólo una, rechaza la identificación.
+
+\hfil
+
+Un detalle importante a tener en cuenta es que, considerando ordenadores reales para el caso práctico, si P no utiliza un buen generador de números aleatorios para sus $r$ del paso 1, un atacante podría adivinar cuándo repetirá el $r$, mandar $b=0$ y $b=1$, y así calcular el secreto $s$.
+
+
 
 
 \subsection{Protocolo de identificación de Feige-Fiat-Shamir}
+
+% TODO: no estoy convencido de poner este. En el Fiat-Shamir el protocolo es prácticamente la prueba de conocimiento cero formal, aquí se intuye que se basa en la dificultad de QR, pero ya está.
 
 Una variación del protocolo de Fiat-Shamir para disminuir el número de mensajes intercambiados combinando varios testigos y retos a la vez.
 
@@ -70,14 +86,26 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 	
 	\textit{Configuración de la identidad}:
 	\begin{enumerate}
-		\item 
+		\item \textit{Parámetros del sistema}: La entidad de confianza publica el módulo $N=pq$, con $p$ y $q$ $\equiv \, mod \, 4$, primos guardados secretos, de modo que $-1$ es un no-residuo cuadrático con símbolo de Jacobi 1. También define los enteros $k$ y $t$ que definen la seguridad.
+		
+		\item \textit{Selección del secreto}: Cada usuario P hace:
+		
+		\subitem (a) Selecciona aleatoriamente un vector $(s_1,s_2,\dots ,s_k)$, donde cada  $s_i \in \mathbb{Z_N^*}$ y $mcd(s_i, N)=1$. Además, elige también aleatoriamente $k$ bits $(b_1, b_2, \dots , b_k)$.
+		
+		\subitem (b) Calcula $v_i \equiv (-1)^{b_i}\cdot (s_i^2)^{-1} \, mod \, N$ para cada $i=1,\dots k$.
+		
+		\subitem (c) El usuario se identifica ante la entidad de confianza y envía su \textit{clave pública} $(v_1,\dots , v_k; N)$, y guarda su \textit{clave privada} $(s_1, \dots , s_k)$.
 		
 	\end{enumerate}
 	
 	
 	\textit{Protocolo}: Repetir $t$ rondas:
 	\begin{enumerate}
-		\item 
+		\item P escoge aleatoriamente $r \in_R \mathbb{Z_N^*}$ y un bit $b \in_R \{0,1\}$.
+		\item $P \rightarrow V$:\quad $u \equiv (-1)^b \cdot r^2 \, mod \, N$, el \textit{testigo}.
+		\item $V \rightarrow P$:\quad $(b_1,\dots ,b_k)$, con cada $b_i \in_R \{0,1\}$, el \textit{reto}.
+		\item $P \rightarrow V$:\quad $w \equiv r\cdot \prod_{j=1}^{k} s_j^{b_j} \, mod \, N$, la \textit{respuesta}.
+		\item V verifica si \quad $ u \equiv \pm \, y^2 \cdot \prod_{j=1}^{k} v_j^{b_i} \, mod \, N$.
 	\end{enumerate}
 	
 \end{algorithm}
@@ -88,7 +116,7 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 
 
 
-% Como este apartado es más corto, poner aquí cómo hacerlo de firma, o no interactivo, con un hash
+
 
 
 
@@ -105,3 +133,8 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 
 
 % Si metemos preliminares del logaritmo discreto y demostramos que es ZKP, ponemos Schnorr.
+
+
+% https://crypto.stackexchange.com/questions/9997/perfect-zero-knowledge-for-the-schnorr-protocol
+
+% Indican que demostrar que Schnorr es ZKP con un challenge grande no se puede, porque no se conoce un simulador eficiente
