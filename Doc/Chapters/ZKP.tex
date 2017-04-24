@@ -82,7 +82,7 @@ Más tarde Eva habla con Víctor, que está seguro de que Peggy conoce la clave,
 
 \hfil
 
-\section{Sistema de Prueba Interactivo}
+\section{Sistemas de Pruebas Interactivas}
 
 Un \textit{sistema de prueba interactivo} es un concepto de la teoría computacional que modela el intercambio de un número finito de mensajes entre dos partes, el probador P y el verificador V, con el objetivo de que P demuestre a V que una instancia de un problema de decisión es $Verdadera$. V tiene una capacidad de cómputo limitada, a lo sumo un algoritmo probabilístico de tiempo de cómputo polinomial. P es computacionalmente todopoderoso. Al final del intercambio de mensajes, o bien V acepta que la instancia es $Verdadera$, o bien la rechaza por ser $Falsa$.
 
@@ -177,7 +177,7 @@ Una instancia $Verdadera$ del problema es un $x$ residuo cuadrático módulo $N$
 			\end{cases}
 		\]
 		
-		Si la comparación falla, V termina en rechazo, la instancia es $Falsa$. En caso contrario, vuelve al paso 1.
+		Si la comparación falla, V termina en rechazo. En caso contrario, vuelve al paso 1.
 		
 		
 	\end{enumerate}
@@ -291,6 +291,8 @@ La existencia de un Simulador $S_{V^*}(q,h)$, cuyos ensambles son iguales que lo
 
 \hfil
 
+\subsection{Residuos cuadráticos}
+
 Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que su prueba interactiva cumplía \textit{completitud} y \textit{robustez}.
 
 \begin{theorem}
@@ -343,7 +345,7 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que
 		\item \textbf{Si} $b_{i+1} = 0$, \textbf{entonces} calcular \qquad $u_{i+1} \equiv w_{i+1}^2 \, mod \,  N$ \\
 			  \textbf{Si no}, \qquad \qquad \qquad \qquad \qquad \qquad \: $u_{i+1} \equiv w_{i+1}^2 \cdot x^{-1} \, mod \,  N$
 			  
-		\item \textbf{Si} $b_{i+1} = F(x,N,h,v_i,u_{i+1})$, \textbf{entonces} añadir la tupla \\ $(u_{i+1},\,b_{i+1},\,w_{i+1},\,)$ a la transcripción. \\
+		\item \textbf{Si} $b_{i+1} = F(x,N,h,v_i,u_{i+1})$, \textbf{entonces} añadir la tupla \\ $(u_{i+1},\,b_{i+1},\,w_{i+1})$ a la transcripción. \\
 			  \textbf{Si no}, volver al paso 1.
 		
 		\item $i = i+1$
@@ -461,17 +463,302 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que
 
 
 
+\subsection{Isomorfismo de grafos}
+
+
+Otro problema de decisión del que podemos dar una prueba interactiva de conocimiento cero es el de encontrar un isomorfismo entre grafos:
+
+
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema GI (\textit{Graph Isomorphism}). \\
+	\textit{Parámetros:} & Dos grafos $G_0 = (V_0, E_0)$ y $G_1 = (V_1, E_1)$, \\ & del mismo orden $\mid V_0 \mid = \mid V_1 \mid = n$. \\
+	\textit{Pregunta:} & ¿Existe un isomorfismo $\pi : V_0 \rightarrow V_1$ tal que \\ & una arista $(u,v)\in E_0$ si y solo si $(\pi (u),\pi (v)) \in E_1$? \\
+\end{tabular}
+\\
+
+\hfil
+
+\begin{theorem}
+	El problema GI tiene una prueba de conocimiento cero.
+\end{theorem}
+
+
+\begin{proof}
+	
+	\hfil
+	
+	Primero debemos dar un protocolo interactivo entre un P y un V que cumpla completitud y robustez. Después daremos un Simulador para demostrar la propiedad de conocimiento cero.
+	
+	\hfil
+
+	\rule{\textwidth}{1pt}
+	\begin{algorithm}[Prueba interactiva para GI]
+		
+		\hfil
+		
+		\textit{Datos comunes}: Una instancia ($G_0=(V_0,E_0)$, $G_1=(V_1,E_1)$) del Problema GI. $\mid V_0 \mid = \mid V_1 \mid = n$ es el tamaño de la instancia.
+		
+		\textit{Protocolo}: Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
+		
+		\begin{enumerate}
+			
+			\item P calcula el isomorfismo $\tau \in Sym(V_1)$ entre $G_1$ y $G_0$, es decir, $\tau(G_1)=G_0$.
+			
+			\item P $\rightarrow$ V :\quad $h = \pi (G_0)$, donde $\pi \in_R Sym(V_0)$.
+			
+			\item V $\rightarrow$ P :\quad $b \in_R \{0,\,1\}$.
+			
+			\item P $\rightarrow$ V :\; $\omega$,\; tal que
+			\[
+			\omega =
+			\begin{cases}
+			\pi  & si\ b = 0\\
+			\pi \circ \tau  & si\ b = 1.\\
+			\end{cases}
+			\]
+			
+			\item V comprueba si:
+			\[
+			h \overset{?}{=}
+			\begin{cases}
+			\omega(G_0)  & si\ b = 0\\
+			\omega(G_1)  & si\ b = 1,\\
+			\end{cases}
+			\]
+			
+			es decir, si $h$ es isomorfo a $G_b$ por $\omega$.
+			
+			Si la comparación falla, V termina en rechazo. En caso contrario, vuelve al paso 1.
+			
+			
+		\end{enumerate}
+		
+		Tras $t(n)$ rondas, V termina y acepta la instancia como $Verdadera$, $G_0$ y $G_1$ son isomorfos.
+		
+		\label{GIinteractive:alg}
+	\end{algorithm}
+	\rule{\textwidth}{1pt}
+	
+	\hfil
+
+	Sea $(G_0,G_1)$ una instancia $Verdadera$. Sea cual sea el reto $b$, P siempre puede devolver el isomorfismo $\omega$, pues $G_0$ y $G_1$ son ambos isomorfos a $h$. Tenemos que el protocolo es \textit{completo}.
+	
+	Si $(G_0,G_1)$ es $Falsa$, $G_0 \not\simeq G_1$, un P tramposo deberá adivinar el reto $b$ antes de calcular $h$, pues como éste debe ser un isomorfismo de $G_0$ o $G_1$, no podrá serlo de ambos a la vez. La probabilidad de acertar el reto y mandar el isomorfismo correcto es de $1/2$ en cada ronda, por lo que la probabilidad de que un P tramposo engañe a V es de $2^{-t(n)}$. El protocolo es \textit{robusto}.
+	
+	\hfil
+	
+	Sea $(G_0, G_1)$ una instancia $Verdadera$ del problema GI. La Vista entre P y V es el ensamble
+	
+	\begin{align*}
+		Vista_{P,V^*}(G_0, G_1, h) = (G_0, G_1, h,H_1,B_1,\Phi_1,\dots , H_{t(n)}, B_{t(n)}, \Phi_{t(n)}),
+	\end{align*}
+
+	donde la variable aleatoria $H_i$ representa el grafo isomorfo $h_i$ de la $i$-ésima ronda, la v.a. $B_i$ el reto $b_i$ de V a P, y $\Phi_i$ es el isomorfismo que envía P como respuesta al final de la ronda. El historial de anteriores transcripciones se representa con $h$.
+	
+	Como en el problema QR, V$^*$ podría utilizar un algoritmo probabilístico $F$, de tiempo polinomial, al calcular los retos $b_i$, para intentar obtener información de P. $F$ utilizará toda la información accesible a V$^*$ en el momento de enviar el reto.
+	
+	El Simulador para la prueba interactiva anterior, que utilizará el mismo algoritmo $F$, es el siguiente:
+	
+	
+	\hfil 
+	
+	\rule{\textwidth}{1pt}
+	
+	\textbf{Simulador para el problema GI} $S_{V^*}(G_0, G_1 ,h)$.
+	
+	\hfil
+	
+	\textit{Datos}: \quad $(G_0, G_1)$, una instancia $Verdadera$ del problema GI; \quad $h$, transcripciones de ejecuciones previas del protocolo; \quad $v_i$, transcripción de la interacción actual ($i$ rondas).
+	
+	\textit{Ejecución}: Repetir para $i+1 \leq t(n)$:
+	
+	\begin{enumerate}
+		\item Elegir $b_{i+1} \in_R \{0,\,1\}$
+		
+		\item Elegir $\pi_{i+1} \in_R Sym(V_{b_{i+1}})$ y calcular $h_{i+1}=\pi_{i+1}(G_{b_{i+1}})$.
+		
+		\item \textbf{Si} $b_{i+1} = F(G_0,G_1,h,v_i,h_{i+1})$, \textbf{entonces} añadir la tupla \\ $(h_{i+1},\,b_{i+1},\,\pi_{i+1})$ a la transcripción. \\
+		\textbf{Si no}, volver al paso 1.
+		
+		\item $i = i+1$
+		
+	\end{enumerate}
+	
+	\rule{\textwidth}{1pt}
+	
+	\hfill
+	
+	
+	La probabilidad de que el $b_{i+1}$ elegido coincida con el de la función $F$ es $1/2$, por lo que en promedio se necesitarán dos rondas por tupla. El Simulador es un algoritmo probabilístico que se ejecuta en un tiempo estimado polinomial.
+	
+	\hfil
+	
+	Veamos ahora que el ensamble de la $Vista_{P,V^*}(G_0, G_1 ,h)$, es igual al del Simulador, $S_{V^*}(G_0, G_1 ,h)$. Procedemos por inducción sobre $i$, el número de rondas.
+	
+	Para $i=0$, ambos ensambles son constantes, $Vista_{P,V^*}(G_0, G_1 ,h) = S_{V^*}(G_0, G_1 ,h) = (G_0, G_1, h)$, por lo que sus distribuciones de probabilidad son idénticas y los ensambles coinciden.
+	
+	Suponemos cierto para $i-1$ rondas, $P(Vista_{P,V^*}=v_{i-1}) = P(S_{V^*}=v_{i-1})$.
+	
+	\hfil
+	
+	Siguiendo el protocolo, se generarán las v.a. $(H_i, B_i, \Phi_i)$ para la $i$-ésima ronda. Utilizando el Teorema de la probabilidad compuesta, y observando la dependencia de las variables durante la ejecución del protocolo, calculamos:
+	
+	\begin{align*}
+	& P(H_i=h, B_i=b, \Phi_i = \pi) = \\
+	& P(\Phi_i = \pi) \cdot P(B_i = b \mid \Phi_i = \pi) \cdot P(H_i = h \mid \Phi_i = \pi, B_i=b)
+	\end{align*}
+
+	El isomorfismo $\pi$ se elige aleatoriamente entre todas las posibles permutaciones de $V_0$, como $\mid Sym(V_0) \mid = n!$, $P(\Phi_i = \pi) = \frac{1}{n!}$.
+	
+	La variable aleatoria $B_i$ se calcula con la función $F$, $B_i=F(h, V_i, H_i)$, por lo que asignamos la probabilidad $P(B_i = b \mid \Phi_i = \pi) = p_b$ dependiente de la $F$ que use V.
+
+	Por último $P(H_i = h \mid \Phi_i = \pi, B_i=b) = 1$ por construcción del grafo $h$ por el isomorfismo $\pi$, independiente del valor de $B_i$.
+	
+	Nos queda en total que $P(H_i=h, B_i=b, \Phi_i = \pi) = \frac{p_b}{n!}$.
+	
+	\hfil
+	
+	Ahora consideramos la tupla de v.a.  $(H_i^`, B_i^`, \Phi_i^`)$ del Simulador.
+	
+	La variable $\Phi_i^`$ se elige aleatoriamente entre $Sym(V_0)$ o $Sym(V_1)$, ambos de mismo orden pues $\mid V_0 \mid = \mid V_1 \mid = n$, por lo que  $\mid Sym(V_0) \mid =$ $ \mid Sym(V_1) \mid =$ $ n!$, luego obtenemos $P(\Phi_i^` = \pi)=\frac{1}{n!}$.
+	
+	Como en la Vista, el Simulador utiliza $F$ para calcular el valor $b$ de $B_i^`$, así que $P(B_i^` = b \mid \Phi_i^` = \pi) = p_b$.
+	
+	Finalmente, $h$ viene determinado por $\pi$, de modo que $P(H_i^` = h \mid \Phi_i^` = \pi, B_i^`=b) = 1$.
+	
+	La probabilidad del Simulador nos queda $P(H_i^`=h, B_i^`=b, \Phi_i^` = \pi) = \frac{p_b}{n!}$, igual que la del ensamble de la Vista.
+	
+	\hfil
+	
+	
+	Concluimos que se cumple la propiedad de \textit{conocimiento cero} y el problema GI tiene una prueba interactiva de conocimiento cero perfecta.
+	
+	
+\end{proof}
 
 
 
 
 
-\subsection{Pruebas de conocimiento cero estadísticas}
+
+
+\subsection{Logaritmo discreto}
+
+
+Vamos a expresar el problema del logaritmo discreto como un problema de decisión, donde podamos mantener cierta información secreta que no se revele en la prueba de conocimiento cero, y que permita solucionar el problema:
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
+	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el cálculo del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
+	\textit{Pregunta:} & ¿Conoce P el entero $s\in \mathbb{Z}_q$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = u$? \\
+\end{tabular}
+\\
+
+\hfil
+
+A la prueba interactiva asociada a este problema se les llama \textit{pruebas de conocimiento}. Veremos una prueba de conocimiento  cero de conocimiento del secreto $s$, en inglés llamadas \textit{Zero-Knowledge Proof of Knowledge}. A pesar de la verbosidad del término, se diferencian poco de las ya vistas, como vamos a ver enseguida.
+
+
+\begin{theorem}
+	El problema DL tiene una prueba de conocimiento cero.
+\end{theorem}
+
+
+\begin{proof}
+	
+	\hfil
+	
+	Primero veremos un protocolo interactivo entre P y V para probar el conocimiento de $s$, y entonces comprobaremos las tres propiedades necesarias, completitud, robustez y conocimiento cero.
+	
+	\hfil
+	
+	\rule{\textwidth}{1pt}
+	\begin{algorithm}[Prueba interactiva para DL]
+		
+		\hfil
+		
+		\textit{Datos comunes}: Una instancia ($G$, $g$, $y$) del Problema DL. $n=o(g)=q$ es el tamaño del problema.
+		
+		\textit{Protocolo}: Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
+		
+		\begin{enumerate}
+			
+			\item P elige aleatoriamente $u \in_R \mathbb{Z}_q^*$.
+			
+			\item P $\rightarrow$ V :\quad $a = g^u$.
+			
+			\item V $\rightarrow$ P :\quad $b \in_R \{0,\,1\}$.
+			
+			\item P $\rightarrow$ V :\quad $w = (u + sb)\, mod \, q$.
+			
+			\item V comprueba si:
+			\[
+			g^w \overset{?}{=}
+			\begin{cases}
+			a  & si\ b = 0\\
+			a\cdot y  & si\ b = 1.\\
+			\end{cases}
+			\]
+			
+			Si la comparación falla, V termina en rechazo. En caso contrario, vuelve al paso 1.
+			
+			
+		\end{enumerate}
+		
+		Tras $t(n)$ rondas, V termina y acepta la instancia como $Verdadera$, P conoce el logaritmo discreto de $y \in G=\langle g \rangle $.
+		\label{DLinteractive:alg}
+	\end{algorithm}
+	\rule{\textwidth}{1pt}
+	
+	\hfil
+	
+	
+	Nótese que por el propio enunciado del problema, P no ha necesitado de su potencia ilimitada de cálculo.
+	
+	\hfil
+	
+	El protocolo es \textit{completo}, pues si P conoce $s$, siempre puede calcular un $w$ que pase la comprobación de V en el paso 5.
+	
+	\hfil
+	
+	Es también \textit{robusto}, pues suponiendo un grupo $G$ donde un P tramposo, una máquina limitada a cálculos en tiempo polinomial, no puede calcular fácilmente el secreto $s$, este P tramposo deberá intentar adivinar el reto $b$.
+	
+	Si P$^*$ supone que el reto $b=0$, seguirá el protocolo, mandando $w=u$, pero fallaría si V manda $b=1$, al no poder calcular el $s$.
+	
+	Si P$^*$ quiere superar un reto $b=1$, puede elegir $u$ como en el paso 1, enviar $a=g^u \cdot y-1$, y contestar al reto con $w=u$. Si se equivoca y V envía $b=0$, necesitaría $s$ para poder enviar el $w$ correcto y fallaría la prueba.
+	
+	La probabilidad de acertar el reto $b$ es de $1/2$, de modo que la probabilidad de pasar la prueba interactiva con una instancia $Falsa$ es de $2^{-t(n)}$. Se cumple la propiedad de \textit{robustez}.
+	
+	
+	\hfil
+	
+	Nos queda comprobar la propiedad de \textit{conocimiento cero}.
+	%TODO
+	
+	
+	
+	
+	
+	
+	
+	%TODO: poca seguridad ante ataques:
+	% Si u = 0 -> a=1, se detecta fácil, b=1, nos da el secreto w=s
+	% Si u = 1 -> a=g, ", b=1, nos da el secreto s=w-1
+	% Si u = 2 -> a=g^2, por ser g primo su raíz es fácil, b=1, nos da el secreto s = w-2
+	% Indicar lo que se dijo, es la seguridad del caso común, no del peor caso, o de un mínimo nº de casos
+\end{proof}
+
+\paragraph{Pruebas de conocimiento cero estadísticas}
 
 
 
-\subsection{Pruebas de conocimiento cero computacionales}
+\paragraph{Pruebas de conocimiento cero computacionales}
 
 
-
+% Hacerlas no interactivas
 
