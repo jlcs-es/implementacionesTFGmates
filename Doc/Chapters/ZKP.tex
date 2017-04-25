@@ -17,6 +17,15 @@
 %	QR: es Perfect ZKP, y aplicaciones (id de Shamir, ...)
 %	
 
+
+% Para la estadística referenciar:
+% JL Gomez Pardo Introduction to cryptography with Mapple
+% Elementos probabilidad Zoroa
+%
+% Fundamentals
+% https://en.wikipedia.org/wiki/Computational_indistinguishability
+
+
 % TODO: teorema de que el logaritmo discreto tiene un ZKP (para Schnorr). Buscar si existe demostración, por si no es perfect
 
 %TODO: lista de ventajas de Handbook of applied? pag 408
@@ -505,7 +514,7 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 		
 		\begin{enumerate}
 			
-			\item P calcula el isomorfismo $\tau \in Sym(V_1)$ entre $G_1$ y $G_0$, es decir, $\tau(G_1)=G_0$.
+			\item P calcula el isomorfismo $\tau$ entre $G_1$ y $G_0$, es decir, $\tau(G_1)=G_0$.
 			
 			\item P $\rightarrow$ V :\quad $h = \pi (G_0)$, donde $\pi \in_R Sym(V_0)$.
 			
@@ -546,7 +555,7 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 
 	Sea $(G_0,G_1)$ una instancia $Verdadera$. Sea cual sea el reto $b$, P siempre puede devolver el isomorfismo $\omega$, pues $G_0$ y $G_1$ son ambos isomorfos a $h$. Tenemos que el protocolo es \textit{completo}.
 	
-	Si $(G_0,G_1)$ es $Falsa$, $G_0 \not\simeq G_1$, un P tramposo deberá adivinar el reto $b$ antes de calcular $h$, pues como éste debe ser un isomorfismo de $G_0$ o $G_1$, no podrá serlo de ambos a la vez. La probabilidad de acertar el reto y mandar el isomorfismo correcto es de $1/2$ en cada ronda, por lo que la probabilidad de que un P tramposo engañe a V es de $2^{-t(n)}$. El protocolo es \textit{robusto}.
+	Si $(G_0,G_1)$ es $Falsa$, $G_0 \not\simeq G_1$, un P tramposo deberá adivinar el reto $b$ antes de calcular $h$, pues como éste debe ser un isomorfismo de $G_0$ ó $G_1$, no podrá serlo de ambos a la vez. La probabilidad de acertar el reto y mandar el isomorfismo correcto es de $1/2$ en cada ronda, por lo que la probabilidad de que un P tramposo engañe a V es de $2^{-t(n)}$. El protocolo es \textit{robusto}.
 	
 	\hfil
 	

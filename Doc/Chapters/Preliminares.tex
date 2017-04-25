@@ -4,24 +4,68 @@
 
 % Sin demostraciones, solo resultados que se necesiten para secciones posteriores
 
-Para poder comprender los resultados de los siguientes capítulos necesitaremos recordar ciertas definiciones y propiedades de álgebra que se cursan durante el grado, e introducir otros preliminares de algoritmia que formalizan el estudio. No incluiremos demostraciones, pues son los conceptos básicos de donde partiremos para desarrollar el resto del trabajo, pero el lector que quiera conocerlas puede consultar las referencias en \textbf{TODO: cite}.
+Para poder comprender los resultados de los siguientes capítulos necesitaremos recordar ciertas definiciones y propiedades de álgebra que se cursan durante el grado, e introducir otros preliminares de algoritmia que formalizan el estudio. No incluiremos demostraciones, pues son los conceptos básicos de donde partiremos para desarrollar el resto del trabajo, pero el lector que quiera conocerlas puede consultar las referencias en \textbf{TODO: cite} \citep{gruposYanillos}.
+
+% handbook of applied
+% apuntes algebra conmutativa
 
 \section{Preliminares de Álgebra}
 
-% Aritmética elemental:
-%	Algoritmo de Euclides: mcd
-%	Congruencias
-%		Ver TFG de Eva para aplicaciones de Euclides, + encontrar el inverso de a mod b con la Id de Bezout de a,b
-%	Grupos y Anillos
-%		Hasta grupos Z_n y sus propiedades
-% 	Para el GI el grupo de las simetrías (breve)
-
 %https://en.wikipedia.org/wiki/Schnorr_group
 
-\paragraph{Aritmética elemental}
+
+\paragraph{Grupos y Anillos}
+
+\hfil
+
+Vamos a recordar los conceptos más básicos de la teoría de grupos, empezando con la definición de operación binaria:
 
 \begin{definition}
-	Un entero $d$ se dice que es el \textbf{máximo común divisor} de dos enteros $a$ y $b$ si es el mayor entero que divide a ambos. Lo denotaremos $d=mcd(a,b)$.
+	Una \textit{operación binaria} en un conjunto $A$ es una aplicación $* : AxA \rightarrow A$.
+\end{definition}
+
+Según una operación binaria cumpla ciertas propiedades, diremos que:
+
+\begin{itemize}
+	\item La operación es \textit{asociativa} si $a*(b*c) = (a*b)*c \quad \forall a,b,c\in A$.
+	\item La operación es \textit{conmutativa} si $a*b=b*a\quad \forall a,b\in A$.
+	\item El elemento $e\in A$ es un \textit{elemento neutro} para $*$ si $a*e = e*a = a \quad \forall a\in A$. Además es único cuando existe neutro.
+	\item Cuando existe el neutro $e$, el elemento $b$ es el \textit{simétrico} de $a$ si $a*b=b*a=e$.
+\end{itemize}
+
+Podemos ahora dar formalmente la definición de grupo:
+
+\begin{definition}
+	Un \textit{grupo} es un conjunto $G$ con una operación asociativa, con elemento neutro y con simétrico para cada elemento. Si la operación es además conmutativa, se dice que $G$ es un \textit{grupo abeliano}.
+\end{definition}
+
+Con la operación suma $+$ habitual, los conjuntos $\mathbb{Z}$, $\mathbb{Q}$ y $\mathbb{R}$ son grupos abelianos aditivos. Dado un conjunto $A$ con una operación multiplicativa $\cdot$, $A^*$ denotará el \textit{conjunto de los elementos invertibles en A}. Así, con la multiplicación usual, $Q^* = Q \setminus \{0\}$, y $\mathbb{Z}^* = \{-1,1\}$.
+
+\hfil
+
+\begin{definition}
+	Un \textit{anillo} es un conjunto $A$ con dos operaciones, $+$ y $\cdot$ (suma y producto), tales que:
+	\begin{itemize}
+		\item $(A,+)$ es un grupo abeliano aditivo; con neutro $0$.
+		\item El producto es asociativo y tiene neutro $1$, distinto del neutro aditivo ($1\neq 0$).
+		\item El producto es distributivo con respecto a la suma, es decir, $\forall a,b,c \in A$ se tiene $a\cdot(b+c)=a\cdot b + a\cdot c$ y $(b+c)\cdot a = b\cdot a + c\cdot a$.
+	\end{itemize}
+
+	El anillo es \textit{conmutativo} si lo es el producto. Un anillo conmutativo donde todo elemento $\neq 0$ tiene \textit{inverso} (simétrico para el producto), se dice que es un \textit{cuerpo}.
+	
+\end{definition}
+
+
+
+%TODO
+
+\hfil
+
+
+\paragraph{Aritmética en $\mathbb{Z}$}
+
+\begin{definition}
+	Un entero $d$ se dice que es el \textbf{máximo común divisor} de dos enteros $a$ y $b$ si es el mayor entero que divide a ambos. Lo denotaremos como $d=mcd(a,b)$.
 \end{definition}
 
 \hfil
@@ -32,9 +76,9 @@ Euclides describió en su obra \textit{Los Elementos} un método para calcular e
 
 \begin{proposition}
 	Sean $a$, $b$ $\in \mathbb{Z}$. Entonces, para todo $\alpha \in \mathbb{Z}$ se tiene:
-			\begin{center}
-				$mcd(a,b) = mcd(a, b-\alpha a) = mcd(a-\alpha b, b).$
-			\end{center}
+	\begin{center}
+		$mcd(a,b) = mcd(a, b-\alpha a) = mcd(a-\alpha b, b).$
+	\end{center}
 	En particular, cuando $b \neq 0$ y la división entera de $a$ entre $b$ es $a = bq + r$, tenemos que $mcd(a,b) = mcd(b, r)$.
 \end{proposition}
 
@@ -87,10 +131,10 @@ El algoritmo se conoce como \textit{Algoritmo de Euclides extendido}:
 		$i\gets 1$
 		
 		\item Mientras $r_i \neq 0$:
-			\subitem Calcule la división euclídea $r_{i-1} = q_i r_i + r_{i+1}$
-			\subitem ${\displaystyle s_{i+1}\gets s_{i-1}-q_{i}s_{i}}$
-			\subitem ${\displaystyle t_{i+1}\gets t_{i-1}-q_{i}t_{i}}$
-			\subitem $i \gets i+1$
+		\subitem Calcule la división euclídea $r_{i-1} = q_i r_i + r_{i+1}$
+		\subitem ${\displaystyle s_{i+1}\gets s_{i-1}-q_{i}s_{i}}$
+		\subitem ${\displaystyle t_{i+1}\gets t_{i-1}-q_{i}t_{i}}$
+		\subitem $i \gets i+1$
 		
 		\item $d = r_{i-1}$	\quad	$s = s_{i-1}$ \quad  $t = t_{i-1}$
 	\end{enumerate}
@@ -106,13 +150,20 @@ El algoritmo se conoce como \textit{Algoritmo de Euclides extendido}:
 
 \hfil
 
-Utilizaremos la Identidad de Bézout para calcular los inversos en aritmética modular.
+Utilizaremos la Identidad de Bézout para calcular los inversos en aritmética modular más adelante.
 
 \hfil
 
-\paragraph{Grupos y Anillos}
 
-%TODO
+
+
+
+
+
+
+
+
+
 
 \paragraph{Congruencias}
 
@@ -129,15 +180,28 @@ Cuando $a \equiv b \, mod \, n$ decimos que b es un \textit{\textbf{residuo} de 
 Esto establece una relación de equivalencia en $\mathbb{Z}$, en la que la \textbf{clase} de un entero $a$ módulo $n$ es $\overline{a} = \{ a + kn \}_{k \in \mathbb{Z}}$. Cuando no exista confusión, escribiremos la clase de equivalencia $\overline{a}$ como $a$.
 El correspondiente conjunto cociente, de las \textit{clases de resto módulo $n$}, es $\mathbb{Z}_n = \{\overline{0},\,\overline{1},\,\dots\overline{n-1}\}$, y hereda la suma y producto de $\mathbb{Z}$ convirtiéndose en un anillo conmutativo con neutros $\overline{0}$ para la suma y $\overline{1}$ para el producto.
 
+\begin{proposition}
+	El conjunto $\mathbb{Z}_n^*$ de los elementos invertibles, con el producto, de $\mathbb{Z}_n$, es un grupo abeliano.
+\end{proposition}
+
 
 \begin{theorem}
 	El anillo $\mathbb{Z}_n$ es un cuerpo cuando $n$ es un número primo.
 \end{theorem}
 
-\begin{theorem}[Euler]
-	Si $x$ es coprimo con 
-\end{theorem}
+Sea $\varphi$ la \textit{función de Euler}, tal que a cada entero $n=\pm p_1^{m_1}p_2^{m_2}\cdots p_k^{m_k}$, expresado como producto de primos, le asigna el valor:
 
+$\varphi(n)=p_1^{m_1-1} p_2^{m_2-1} \cdots p_k^{m_k-1} (p_1 -1) (p_2 -1) \cdots (p_k -1)$.
+
+La función de Euler indica el número de enteros entre $1$ y $n-1$ coprimos con $n$.
+
+\begin{proposition}
+	$\mid \mathbb{Z}^*_n \mid = \varphi(n)$, donde $\varphi$ es la función de Euler.
+\end{proposition}
+
+\begin{theorem}[Euler]
+	Si $x$ es coprimo con $n$, entonces $x^{\varphi(n)} \equiv 1 \, mod \, n$.
+\end{theorem}
 
 \hfil
 
@@ -163,19 +227,98 @@ Así hemos demostrado el siguiente resultado:
 
 \hfil
 
-%TODO:
 
-% Cardinal de Z^*_p
-% Generador de Z^*_p, orden
-% Teorema Chino de los Restos
-% Pequeño teorema de Fermat o Teorema de Euler para congruencias
+\begin{theorem}[Teorema Chino de los restos]
+	
+	\hfil 
+	
+	Supongamos que $n_1,\, n_2, …, n_k$
+	son enteros positivos coprimos dos a dos. Entonces, para enteros dados $a_1,\, a_2, …, a_k$, existe un
+	entero $x$ que resuelve el sistema de congruencias simultáneas
+	
+	\begin{align*}
+	x &\equiv a_1 \pmod{n_1} \\
+	x &\equiv a_2 \pmod{n_2} \\
+	&\vdots \\
+	x &\equiv a_k \pmod{n_k}
+	\end{align*}
+	
+	Más aún, todas las soluciones $x$ de este sistema son congruentes módulo el
+	producto $N = n_1 n_2 ... n_k$.
+	
+	Otra interpretación del teorema es: para cada entero positivo con factorización en números primos:
+	
+	$n = p_1^{r_1}\cdots p_k^{r_k}$
+	
+	se tiene un isomorfismo entre un anillo y la suma directa de sus potencias primas:
+	
+	$\mathbf{Z}_n \cong \mathbf{Z}_{p_1^{r_1}} \oplus \cdots \oplus \mathbf{Z}{p_k^{r_k}}$
+
+\end{theorem}
 
 
+\hfil
+
+\begin{definition}
+	El \textit{orden} de un elemento $a \in \mathbb{Z}^*_n$, denotado $o(a)$, es el menor entero positivo $t$ tal que $a^t \equiv 1 \, mod \, n$.
+\end{definition}
+
+\begin{proposition}
+	Si el orden de $a \in \mathbb{Z}^*_n$ es $o(a)=t$, y ocurre que $a^2 \equiv 1 \, mod \, n$, entonces $t \mid s$. En particular, $t\mid \varphi(n)$.
+\end{proposition}
 
 
+\begin{definition}
+	Sea $\alpha \in \mathbb{Z}^*_n$. Si el orden de $\alpha$ es $\varphi(n)$, entonces se dice que $\alpha$ es un \textit{generador} de $\mathbb{Z}^*_n$. Se indica como $\mathbb{Z}^*_n = \langle \alpha \rangle $. Si $\mathbb{Z}^*_n$ tiene un generador, se dice que es \textit{cíclico}.
+\end{definition}
+
+\begin{proposition}[Propiedades de los generadores de $\mathbb{Z}^*_n$]
+	\hfil
+	
+	\begin{itemize}
+		\item $\mathbb{Z}^*_n$ tiene un generador si y solo si $n=2,4,p^k\ ó\ 2p^k$, con $p$ primo y $k\geq 1$.
+		\item Si $\alpha$ es un generador de $\mathbb{Z}^*_n$, entonces $\mathbb{Z}^*_n = \{\alpha^i \, mod \, n \, \mid \, 0 \leq i \leq \varphi(n)-1 \}$.
+	\end{itemize}
+\end{proposition}
 
 
+\hfil
 
+% Grupos simétricos
+\paragraph{El grupo simétrico $S_n$: permutaciones}
+
+\hfil
+
+
+\begin{definition}
+	Denotamos con $S_n$ al \textit{grupo simétrico} de las biyecciones o \textit{permutaciones} del conjunto
+	\begin{center}
+		$\mathbb{N}_n = \{1,2,3,\dots n\}$
+	\end{center}
+	con la operación composición $\circ$.
+\end{definition}
+
+
+Se dice que una permutación $\sigma \in S_n$ \textit{fija} al elemento $i\in \mathbb{N}_n$ si $\sigma(i)=i$, y en caso contrario lo \textit{mueve}.
+
+La composición siempre es asociativa, y el elemento neutro es la aplicación identidad, que deja fijos a todos los elementos.
+
+\begin{example}
+	Una permutación $\sigma \in S_n$ puede describirse poniendo los elementos $1,2,\dots,n$ y debajo sus imágenes $\sigma(1), \sigma(2),\dots, \sigma(n)$. Por ejemplo, en $S_6$ tenemos la permutación:
+	\[
+		\sigma =  \left( 
+			\begin{tabular}{cccccc}
+				1 & 2 & 3 & 4 & 5 & 6 \\
+				3 & 6 & 4 & 1 & 5 & 2
+			\end{tabular}
+		\right),
+	\] que fija al 5, intercambia al 2 con el 6, y con el resto hace un \textit{ciclo} $1\mapsto 3\mapsto 4\mapsto 1$.
+	
+\end{example}
+
+\begin{remark}
+	El grupo $S_n$ tiene $n!$ elementos, $\mid S_n \mid = n!$, pues son las posibles formas de ordenar $n$ elementos: $n$ opciones para el primero, $n-1$ para el segundo, etc.
+\end{remark}
 
 
 
@@ -191,16 +334,9 @@ Así hemos demostrado el siguiente resultado:
 
 
 
-
+\hfil
 
 \section{Preliminares de Computación}
-
-Teoría de complejidad algorítmica, problema de P NP, problema RSA de factorizar N, problemas de decisión, estadística usada en el estudio de los ZKP (\textit{ensembles}), \textit{probabilistic computations}, ...
-
-La mayor parte está en los primeros capítulos de Fundamentals of Computer Security, y de sus referencias se podrá sacar más detallado.
-
-
-
 
 %para relacionar con la criptografía, ver WIKIPEDIA
 % https://en.wikipedia.org/wiki/Computational_complexity_theory#Problems_in_NP_not_known_to_be_in_P_or_NP-complete
@@ -453,6 +589,8 @@ Para intentar resolver la infactibilidad computacional de ciertos problemas, sur
 		\textit{Pregunta:} & ¿Es $n$ primo? \\
 	\end{tabular}
 	\\
+	\hfil
+	
 	es un problema en \textbf{NP}$\cap$\textbf{co-NP} (es el contrario del problema del entero compuesto), pero no se conoce ningún algoritmo que lo resuelva en tiempo polinómico, por ello no sabemos aún si pertenece a \textbf{P}.
 	
 	Un algoritmo probabilístico basado en el Pequeño Teorema de Fermat, $a^{n-1} \equiv 1 \, mod \, n$ si $n$ es primo para cualquier $a\in \mathbb{Z}_n$, puede utilizarse para comprobar si $n$ es primo.
@@ -477,33 +615,105 @@ Para intentar resolver la infactibilidad computacional de ciertos problemas, sur
 %
 %
 
-
-
-
-
-
-\section{Preliminares de Probabilidad}
-
-
-
-% JL Gomez Pardo Introduction to cryptography with Mapple
-% Elementos probabilidad Zoroa
-% Fundamentals
-% https://en.wikipedia.org/wiki/Computational_indistinguishability
-
-%% Depende de si pongo computacionalmente indistinguible, y en el capítulo de ZKP da un resumen de lo que es por límites, más una línea informal, sobra.
-
-
-%
-%
-%
-%
-%
-%
-
-
+\hfil
 
 
 \section{Preliminares de Grafos}
 
-% Si ponemos GI y a lo mejor lo pasamos al capítulo correspondiente.
+La teoría necesaria para comprender las aplicaciones de ZKP con grafos es muy básica, los resultados de esta sección se pueden consultar en \citep{grafosyOD}.
+% TODO añadir bibliografía si falta
+
+\begin{definition}
+	Un \textit{grafo} (simple no dirigido) es un par $(V,E)$ formado por un conjunto finito $V \neq \emptyset$, a cuyos elementos denominaremos \textit{vértices} o \textit{nodos}, y $E$, un conjunto de pares (no ordenados y formados por distintos vértices) de elementos de $V$, a los que llamaremos \textit{aristas}.
+	
+	A los nodos $v_1$ y $v_2$ que forman una arista $e = (v_1, v_2)$ se les llama \textit{extremos} de $e$.
+\end{definition}
+
+
+\begin{definition}[Conceptos]
+	\hfil
+	
+	A dos nodos $v_1$ y $v_2$ que forman parte de una misma arista se les llama \textit{adyacentes}.
+	
+	Se llama \textit{orden} de un grafo a $\mid V \mid $.
+	
+	Se llama \textit{tamaño} de un grafo a $\mid E \mid $.
+	
+	Un grafo con $ \mid V \mid = 1$ (consecuentemente $\mid E \mid = 0$) se llama \textit{trivial}.
+	
+	Se dice que una arista es \textit{incidente} con un vértice $v$ cuando $v$ es uno de sus extremos.
+\end{definition}
+
+
+
+\begin{definition}
+	Dos grafos $G_1 = (V_1, E_1)$ y $G_2 = (V_2, E_2)$ se dice que son \textit{isomorfos}, lo cual denotaremos como $G_1 \simeq G_2$, si existe una aplicación biyectiva $\tau : V_1 \rightarrow V_2$ tal que $\forall u,v \in V_1$
+	
+	\begin{center}
+		$(u,v) \in E_1 \Leftrightarrow (\tau(u), \tau(v)) \in E_2 $.
+	\end{center}
+	
+	Tal aplicación recibe el nombre de \textit{isomorfismo}. Si $G_1 = G_2$, llamaremos a $\tau$ \textit{automorfismo}.
+\end{definition}
+
+En un abuso de notación, podemos escribir que $\tau(G_1) = G_2$.
+
+% TODO: proposición que diga que un isomorfismo de grafos con mismo V es una permutación de sus nodos.
+
+\hfil
+
+Dados dos grafos $G_1 = (V, E_1)$ y $G_2 = (V, E_2)$ isomorfos, con el mismo conjunto de vértices, $V=\{v_1,\dots v_n\}$, vemos que el isomorfismo entre $G_1$ y $G_2$ puede denotarse como una permutación en el índice de sus nodos.
+
+Utilizaremos la notación $Sym(V)$ para denotar los automorfismos de $G=(V,E)$, que será el grupo simétrico $S_n$ de las permutaciones de los vértices, cuando $\mid V \mid=n$. Por lo visto en los preliminares de álgebra, tenemos que $\mid Sym(V) \mid = n!$ .
+
+
+\hfil
+
+\paragraph{Representación de grafos}
+%TODO: si no implementamos nada de grafos, no hace falta
+
+\hfil
+
+Dado $G=(V,E)$ con $V=\{v_1,\dots v_n\}$ y $E=\{e_1,\dots e_m\}$, podemos representarla por:
+
+\begin{itemize}
+	\item  La \textit{matriz de adyacencia} $M_{nxn} = (m_{ij})$, que se construye mediante:
+	\[
+		m_{ij} =
+		\begin{cases}
+		1 & si\ (v_i,v_j) \in E \quad ( \Leftrightarrow (v_j,v_i)\in E ), \\
+		0 & en\ otro\ caso.
+		\end{cases}
+	\]
+	
+	\item La \textit{matriz de incidencia} (vértice-arista) $M_{nxm} = (m_{ij})$ con
+	\[
+	m_{ij} =
+	\begin{cases}
+	1 & si\ v_i\ es\ extremo\ de\ e_j, \\
+	0 & en\ otro\ caso.
+	\end{cases}
+	\]
+	
+	\item Una matriz de enteros $M_{mx2}$ cuyas filas contienen los índices de los extremos inicial y final de las aristas del grafo.
+	
+	\begin{example}
+		El grafo:
+		
+		\includegraphics[width=.2\linewidth]{gfx/exgraph}
+		\qquad se representaría como: \qquad
+		\begin{tabular}{|c|c|}
+			\hline	1 & 2 \\ \hline 1 & 3 \\ \hline 2 & 4 \\ \hline
+		\end{tabular}	
+	
+	\end{example}
+	
+\end{itemize}
+
+
+\hfil
+
+
+\paragraph{Problema del isomorfismo de grafos}
+
+%TODO
