@@ -149,7 +149,7 @@ Vamos a ver una prueba interactiva para demostrar que un entero $x$ con Símbolo
 
 \begin{tabular}{|ll}
 	\textit{Nombre:} & Problema QR. \\
-	\textit{Parámetros:} & Un entero $N$ compuesto, y el entero $x\in \mathbb{Z}^Q_N$. \\
+	\textit{Parámetros:} &Un entero compuesto impar $N$, y el entero $x\in \mathbb{Z}^Q_N$. \\
 	\textit{Pregunta:} & ¿Es $x$ un residuo cuadrático, $x \in \mathbb{Z}^{Q+}_N$? \\
 \end{tabular}
 \\
@@ -762,6 +762,18 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 	% Indicar lo que se dijo, es la seguridad del caso común, no del peor caso, o de un mínimo nº de casos
 \end{proof}
 
+
+
+
+
+
+
+
+\section{Otros tipos de pruebas de conocimiento cero}
+
+La propiedad de \textit{conocimiento cero} exige que exista un algoritmo probabilístico Simulador que pueda ejecutarse en tiempo polinomial, y cuyo ensamble sea idéntico al del protocolo. Esto limita mucho el número de pruebas interactivas de conocimiento cero, y por eso se definen condiciones menos restrictivas que en la práctica, con máquinas reales limitadas computacionalmente, pueden funcionar como las ZKP perfectas, e incluso ser más óptimas, al reducir el número de interacciones manteniendo el nivel de robustez.
+
+
 \paragraph{Pruebas de conocimiento cero estadísticas}
 
 
@@ -769,5 +781,6 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 \paragraph{Pruebas de conocimiento cero computacionales}
 
 
-% Hacerlas no interactivas
+\paragraph{Pruebas de conocimiento cero de verificador honesto}
 
+...

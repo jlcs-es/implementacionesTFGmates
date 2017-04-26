@@ -8,6 +8,7 @@ TODO : Párrafo de introducción al capítulo y referencias
 
 % ref
 % Handbook of applied
+% book:544293
 % A course in computational
 % A Classical Introduction to Modern Number Theory
 % Proofwifi ?
@@ -23,8 +24,6 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 % TODO: propiedad de los primos pq congruentes con 3 mod 4 que hace que el -1 es un no-residuo cuadrático mod n=pq, con símbolo de jacobi +1. n es un entero de Blum.
 
 \section{Primeras propiedades}
-
-% TODO: propiedad de que multiplicar dos no-residuos da un residuo
 
 \begin{definition}
 	Sea $a\in \mathbb{Z}^*_n$. Se dice que $a$ es un \textit{residuo cuadrático} módulo n, o un \textit{cuadrado} módulo n, si existe un $x \in \mathbb{Z}^*_n$ tal que $x^2 \equiv a \, mod \, n$.
@@ -44,7 +43,7 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 
 
 \begin{remark}
-	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ y $0 \notin \overline{Q_n}$.
+	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ ni $0 \notin \overline{Q_n}$.
 \end{remark}
 
 
@@ -81,6 +80,7 @@ Teoría de símbolos de Lebesgue, ..., residuos cuadráticos, cálculo de raíz 
 \end{example}
 
 \begin{proposition}
+	\label{numResCuadpq:prop}
 	Sea $n$ un producto de dos primos impares $p$ y $q$, $n = pq$. Entonces  $a \in \mathbb{Z}^*_p$ es un residuo cuadrático módulo $n$, $a \in Q_n$ si y solo si $a \in Q_p$ y $a \in Q_q$. Se sigue que $|Q_n| = |Q_p|\cdot |Q_q| = \frac{(p-1)(q-1)}{4}$, y por tanto  $\overline{|Q_n|} = |\mathbb{Z}^*_n| - |Q_n| = \frac{3(p-1)(q-1)}{4}$.
 \end{proposition}
 
@@ -139,7 +139,7 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	Sea $p$ un primo impar. Sea $a \not\equiv 0 \, mod \, p$. Entonces:
 	
  	\begin{center}
- 		$ a^{(p-1)/2} \equiv \left( \dfrac{a}{p} \right)  \, mod \, p$
+ 		$ \left( \dfrac{a}{p} \right)  \equiv a^{(p-1)/2}  \, mod \, p$
  	\end{center}
 	
 \end{theorem}
@@ -173,6 +173,23 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	
 \end{proof}
 
+
+\begin{example}
+	Sea $p=13$ y $a=5$, como $5^{11}\equiv -1 \, mod \, 23$, por el criterio de Euler, $\left( \frac{5}{23} \right) = -1$, por lo que $5$ es un no-residuo cuadrático de $23$.
+\end{example}
+
+
+\begin{proposition}
+	Sean $p$ un primo impar, $a,b\in \mathbb{Z}_p$.
+	Si $a\equiv b \, mod \, p$, entonces $\left( \frac{a}{p} \right) = \left( \frac{b}{p} \right)$.
+\end{proposition}
+
+
+\begin{proof}
+	Si $a$ es residuo cuadrático, entonces existe $x\in \mathbb{Z}_p^*$ tal que $x^2 \equiv a\equiv b \, mod \, p$, y $b$ es también residuo cuadrático. Análogo en el caso contrario.	
+\end{proof}
+
+
 \begin{proposition}[Propiedad multiplicativa del símbolo de Lebesgue]
 	Sean $a$ y $b$ enteros coprimos con $p$, un primo impar. Entonces:
 	
@@ -190,11 +207,18 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	Utilizando el Criterio de Euler:
 	
 	\[
-			\left( \dfrac{a}{p} \right) 	\left( \dfrac{b}{p} \right) =
-			a^{(p-1)/2} \cdot b^{(p-1)/2} = (ab)^{(p-1)/2} =
-			 	\left( \dfrac{ab}{p} \right) 
+			\left( \dfrac{a}{p} \right) 	\left( \dfrac{b}{p} \right) \equiv
+			a^{(p-1)/2} \cdot b^{(p-1)/2} \, mod \, p \equiv (ab)^{(p-1)/2} \, mod \, p \equiv	\left( \dfrac{ab}{p} \right) 
 	\]
 	
+\end{proof}
+
+\begin{corollary} Sea $p$ primo impar, $a \in \mathbb{Z}_p^*$, entonces
+	$\left( \dfrac{a^2}{p} \right) = 1$
+\end{corollary}
+
+\begin{proof}
+	Como $\left( \frac{a}{p} \right) = \pm 1$, $\left( \frac{a^2}{p} \right) = \left( \frac{a}{p} \right)\cdot \left( \frac{a}{p} \right) = 1$.
 \end{proof}
 
 % TODO : hace falta? -> sí, para Jacobi
@@ -213,9 +237,9 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 		$
 		\left({\dfrac p q}\right) = \begin{cases}
 		\quad \left({\dfrac q p}\right) & Si\quad p \equiv 1 \, mod \, 4 \quad  ó \quad  q \equiv 1 \, mod \, 4 \\
-		-\left({\dfrac q p}\right) & Si\quad p \equiv q \equiv 3 \, mod \, 4
+		-\left({\dfrac q p}\right) & Si\quad p \equiv q \equiv 3 \, mod \, 4.
 		\end{cases}
-		$.
+		$
 	\end{center}
 	
 	\label{quadRec:theo}
@@ -223,6 +247,87 @@ Veamos ahora algunas propiedades del símbolo de Legendre:
 	%TODO : las fórmulas extra del -1 y 2
 	
 \end{theorem}
+
+
+
+\begin{proposition}[Primera ley suplementaria]
+	Sea $p$ primo impar. Entonces:
+	
+	\begin{center}
+		$
+			\left( \dfrac{-1}{p}\right) = (-1)^{(p-1)/2}
+		$
+	\end{center}
+	
+	
+	O de otro modo:
+	
+	\begin{center}
+		$
+		\left(\dfrac{-1}{p}\right) = \begin{cases}
+		\quad 1 & Si\quad p \equiv 1 \, mod \, 4 \\
+		-1 & Si\quad p \equiv 3 \equiv -1 \, mod \, 4.
+		\end{cases}
+		$
+	\end{center}
+	
+\end{proposition}
+
+\begin{proof}
+	La primera expresión es inmediata por el criterio de Euler:
+	\begin{center}
+	$
+	\left( \dfrac{-1}{p}\right) = (-1)^{(p-1)/2} \, mod \, p
+	$
+	\end{center}	
+	y nos basta hacer un análisis de casos respecto a la congruencia de $p \, mod \, 4$.
+	
+	Como $p$ es primo impar, no será congruente con $\overline{0}$ ni $\overline{2}$.
+	
+	Si $p \equiv 1 \, mod \, 4$, podemos escribir $p = 4k+1$ para algún entero $k$. Entonces,
+	\begin{center}
+	$
+	(-1)^{(p-1)/2} = (-1)^{2k}  = 1,
+	$
+	\end{center}
+	por lo que $\left( \frac{-1}{p}\right) = 1$.
+
+	Y si $p \equiv 3 \, mod \, 4$, podemos escribir $p = 4k+3$ para algún entero $k$. Entonces,
+	\begin{center}
+		$
+		(-1)^{(p-1)/2} = (-1)^{2k+1}  = -1,
+		$
+	\end{center}
+	y tenemos que $\left( \frac{-1}{p}\right) = -1$.
+\end{proof}
+
+
+
+\begin{proposition}[Segunda ley suplementaria]
+	Sea $p$ primo impar. Entonces:
+	
+	\begin{center}
+		$
+		\left( \dfrac{2}{p}\right) = (-1)^{(p^2-1)/8}
+		$
+	\end{center}
+	
+	
+	O de otro modo:
+	
+	\begin{center}
+		$
+		\left(\dfrac{-1}{p}\right) = \begin{cases}
+		\quad 1 & Si\quad p \equiv \pm 1 \, mod \, 8 \\
+		-1 & Si\quad p \equiv \pm 3 \, mod \, 8.
+		\end{cases}
+		$
+	\end{center}
+	
+\end{proposition}
+% Pruebas por Lema de Gauss, análisis de casos, etc.
+
+
 
 
 
@@ -239,9 +344,11 @@ El símbolo de Legendre está definido para módulos un primo impar $p$. Ahora v
 	Sean $a,\,N\in \mathbb{Z}$, con $N = p_1 p_2 \cdots p_r$, donde los $p_i$ son primos impares, no necesariamente distintos.
 	
 	Definimos el \textit{Símbolo de Kronecker-Jacobi} $\left( \frac{a}{N} \right) $ como
-		\[
-		\left( \dfrac{a}{N} \right) = \prod_{i=1}^{r} \left( \dfrac{a}{p_i} \right)
-		\]
+		\begin{center}
+			$
+			\left( \dfrac{a}{N} \right) = \prod_{i=1}^{r} \left( \dfrac{a}{p_i} \right)
+			$
+		\end{center}
 		
 	donde $\left( \frac{a}{p_i} \right)$ es el Símbolo de Legendre.
 	 
@@ -268,6 +375,8 @@ Igual que antes, veamos algunas propiedades del Símbolo de Jacobi:
 	Propiedades del Símbolo de Jacobi:
 	
 	\begin{enumerate}[label=(\roman*)]
+		\item Si $a \equiv b \, mod \, N$, entonces $\left( \frac{a}{N} \right) = \left( \frac{b}{N} \right)$
+		
 		\item 	$\left( \frac{a}{N} \right) = 0$ si y sólo si $mcd(a, N) \neq 1$.
 		\item Para cada $a$, $b$ y $c$ enteros, tenemos: \\
 		
@@ -291,6 +400,31 @@ Igual que antes, veamos algunas propiedades del Símbolo de Jacobi:
 
 \section{El problema de residuosidad cuadrática}
 
+Podemos introducir ahora  el problema de decisión QR, donde dado un módulo $N$, compuesto e impar, decidir si un entero $x$ con símbolo de Jacobi $1$ respecto a $N$, es o no un residuo cuadrático:
 
-Indicar el problema, que es NP y que se puede reducir al de encontrar la factorización de N
+\hfil
 
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema de residuosidad cuadrática (QR). \\
+	\textit{Parámetros:} & Un entero compuesto impar $N$, y el entero $x\in \mathbb{Z}^Q_N$. \\
+	\textit{Pregunta:} & ¿Es $x$ un residuo cuadrático, $x \in \mathbb{Z}^{Q+}_N$? \\
+\end{tabular}
+\\
+
+\hfil
+
+Si $N$ fuera un número primo, el símbolo de Jacobi de $x$ coincidiría con el de Legendre, y la respuesta sería siempre $Verdadero$.
+
+Si conocieramos la descomposición en primos de $N$, el algoritmo polinomial que resolvería el problema es calcular el símbolo de Legendre de $x$ respecto de cada factor primo de $N$, hasta encontrar alguno que valga $-1$, y responder al problema con $Falso$, o bien comprobar que todos los símbolos valen $1$ y responder $Verdadero$.
+
+Con este algoritmo que utiliza la factorización de $N$, tenemos que el problema $QR$ puede \textbf{reducirse polinomialmente} (\ref{reducePoly:def}) al problema de factorización de $N$.
+
+\begin{proposition}
+	 $QR \leq_P FACTORIZACIÓN$
+\end{proposition}
+
+Si se desconoce la factorización de $N$, no se conoce a día de hoy ningún algoritmo eficiente para resolver el problema QR aparte del de intentar adivinar la respuesta. Por ejemplo, en el caso de $N=pq$, se tiene una probabilidad de acertar de $\frac{1}{2}$, por $\mid \mathbb{Z}_N^{Q+} \mid =$ $ \mid \mathbb{Z}_N^{Q-} \mid =$ $\frac{(p-1)(q-1)}{4}$ (\ref{numResCuadpq:prop}).
+
+Del mismo modo que no se sabe si \textbf{P}=\textbf{NP} (aunque se cree que no), aquí se cree que $QR$ es tan difícil como el problema de factorización, pero no se conoce ninguna demostración aún. Bajo esta suposición, se construyen muchas aplicaciones criptográficas, entre ellas el cifrado de clave pública probabilístico de Goldwasser-Micali, el generador de números pseudo-aleatorios de Blum-Blum-Shub, o una de las pruebas de conocimiento cero más características, y que veremos en el capítulo siguiente.
+
+%TODO : poner referencias a los ejemplos del párrafo anterior

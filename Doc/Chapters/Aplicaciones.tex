@@ -10,6 +10,73 @@
 Fiat-Shamir para QR, Schnorr para logaritmo discreto, ...
 Aplicación de ZKP en los certificados de Idemix. Analizar cómo realizan pruebas de AND, OR, etc.
 
+
+
+
+%TODO: mencionar, para que quede claro en las no interactivas, que los retos pueden no se 0,1
+
+
+% Hacerlas no interactivas
+
+
+\section{Firma digital basada en pruebas de conocimiento cero}
+
+Hemos visto que la interacción habitual en una prueba de conocimiento cero es enviar un \textit{testigo}, un \textit{reto} y una \textit{respuesta} en cada iteración.
+
+\begin{center}
+	\begin{tabular}{ll}
+		P y V & conocen información previa $\Upsilon$
+		\\
+		P $\rightarrow$ V :& \textit{testigo} $u$
+		\\
+		V $\rightarrow$ P :& \textit{reto} $b$
+		\\
+		P $\rightarrow$ V :& \textit{respuesta} $w = \xi(u,b,\Upsilon)$
+		\\
+		V verifica & $\vartheta(u,b,w,\Upsilon)$.
+	\end{tabular}
+\end{center}
+
+\hfil
+
+La desventaja de estos protocolos es sincronizar a P y V para comunicarse, por la necesidad de que el verificador debe generar el reto para estar seguro de la prueba (por la propiedad de conocimiento cero).
+
+Una técnica para convertir las pruebas en no interactivas es sustituir el reto por un resumen digital $h$, \textit{hash} en inglés, del testigo $u$, de modo que para un P computacionalmente limitado, V puede confiar en que P no ha elegido $u$ tal que con el reto calculado pueda falsear la prueba.
+
+Aprovechando la función del \textit{hash}, se puede convertir el protocolo en un esquema de firma digital de un mensaje $m$, realizando el \textit{hash} sobre el testigo y el mensaje a la vez (concatenándolos, por ejemplo).
+
+
+\begin{center}
+	\begin{tabular}{ll}
+		P calcula :& \textit{testigo} $u$, \textit{respuesta} $w = \xi(u, $\textbf{h(u|m)}$,\Upsilon)$
+		\\
+		P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \quad $(u,w)$
+		\\
+		V verifica & $\vartheta(u,h(u|m),w,\Upsilon)$.
+	\end{tabular}
+\end{center}
+
+Podemos construir así una firma digital, con un solo mensaje, por lo que es válido para cualquier V, y donde P no ha debido compartir ninguna clave o información extra aparte de los parámetros del sistema, $\Upsilon$.
+
+\hfil
+
+
+\begin{remark}
+	\hfil
+	
+	En las pruebas de conocimiento cero perfectas estudiadas, los retos consistían en un bit, por lo que los posibles valores son $0$ ó $1$ y un ataque a la función de \textit{hash} es muy fácil. Por ello, se utilizan versiones de ZKP donde el conjunto de los posibles valores del reto es suficientemente grande, por ejemplo, un entero representado en tantos bits como produce la firma digital, usualmente 256 o 512 bits.
+	
+	Al hacer este cambio, muchas veces perdemos la condición de perfecta en la prueba de conocimiento cero, rebajándola a otro de los tipos vistos, pero que en la práctica es perfectamente aceptable.
+	
+\end{remark}
+
+
+
+
+
+
+
+
 \section{Protocolos de identificación basados en ZKP}
 % Fiat-Shamir, FFS, GQ, Schnorr
 
