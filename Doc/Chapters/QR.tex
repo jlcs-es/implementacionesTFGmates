@@ -425,6 +425,8 @@ Con este algoritmo que utiliza la factorización de $N$, tenemos que el problema
 
 Si se desconoce la factorización de $N$, no se conoce a día de hoy ningún algoritmo eficiente para resolver el problema QR aparte del de intentar adivinar la respuesta. Por ejemplo, en el caso de $N=pq$, se tiene una probabilidad de acertar de $\frac{1}{2}$, por $\mid \mathbb{Z}_N^{Q+} \mid =$ $ \mid \mathbb{Z}_N^{Q-} \mid =$ $\frac{(p-1)(q-1)}{4}$ (\ref{numResCuadpq:prop}).
 
+% TODO: referenciar sección 6 https://groups.csail.mit.edu/cis/pubs/shafi/1984-jcss.pdf , que da más detalles del QRAssumption
+
 Del mismo modo que no se sabe si \textbf{P}=\textbf{NP} (aunque se cree que no), aquí se cree que $QR$ es tan difícil como el problema de factorización, pero no se conoce ninguna demostración aún. Bajo esta suposición, se construyen muchas aplicaciones criptográficas, entre ellas el cifrado de clave pública probabilístico de Goldwasser-Micali, el generador de números pseudo-aleatorios de Blum-Blum-Shub, o una de las pruebas de conocimiento cero más características, y que veremos en el capítulo siguiente.
 
 %TODO : poner referencias a los ejemplos del párrafo anterior

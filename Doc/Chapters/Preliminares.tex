@@ -126,8 +126,8 @@ Por esto, en criptografía se debe considerar el caso promedio sobre el caso má
 \end{definition}
 
 \begin{definition}
-	Se llama clase de complejidad \textbf{NP} al conjunto de problemas de decisión donde una respuesta que sea $Verdadero$ se puede verificar en tiempo polinomial, dada cierta información extra, que llamaremos \textit{certificado}.
 	\label{def:NP}
+	Se llama clase de complejidad \textbf{NP} al conjunto de problemas de decisión donde una respuesta que sea $Verdadero$ se puede verificar en tiempo polinomial, dada cierta información extra, que llamaremos \textit{certificado}.
 \end{definition}
 
 \begin{definition}
@@ -197,6 +197,7 @@ Los problemas \textbf{NPC} son los más difíciles entre los \textbf{NP} en el s
 O expresado de otra manera:
 
 \begin{theorem}
+	\label{redNPC:theo}
 	Todo problema $Q \in $ \textbf{NP} se puede reducir en tiempo polinomial al problema de satisfacibilidad booleana.
 	
 	$\forall Q \in $ \textbf{NP}, $Q \leq_P SAT$.
@@ -725,3 +726,6 @@ Dado $G=(V,E)$ con $V=\{v_1,\dots v_n\}$ y $E=\{e_1,\dots e_m\}$, podemos repres
 \paragraph{Problema del isomorfismo de grafos}
 
 %TODO
+
+
+% TODO y del de coloración

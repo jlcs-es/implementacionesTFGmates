@@ -41,7 +41,7 @@ Hemos visto que la interacción habitual en una prueba de conocimiento cero es e
 
 La desventaja de estos protocolos es sincronizar a P y V para comunicarse, por la necesidad de que el verificador debe generar el reto para estar seguro de la prueba (por la propiedad de conocimiento cero).
 
-Una técnica para convertir las pruebas en no interactivas es sustituir el reto por un resumen digital $h$, \textit{hash} en inglés, del testigo $u$, de modo que para un P computacionalmente limitado, V puede confiar en que P no ha elegido $u$ tal que con el reto calculado pueda falsear la prueba.
+Una técnica para convertir las pruebas en no interactivas es la \textit{heurística de Fiat-Shamir}, que consiste en sustituir el reto por un resumen digital $h$, \textit{hash} en inglés, del testigo $u$, de modo que para un P computacionalmente limitado, V puede confiar en que P no ha elegido $u$ tal que con el reto calculado pueda falsear la prueba.
 
 Aprovechando la función del \textit{hash}, se puede convertir el protocolo en un esquema de firma digital de un mensaje $m$, realizando el \textit{hash} sobre el testigo y el mensaje a la vez (concatenándolos, por ejemplo).
 

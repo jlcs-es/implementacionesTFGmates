@@ -292,10 +292,18 @@ Podemos describir, por fin, la tercera propiedad, además de la \textit{completi
 %\subsection{Pruebas de conocimiento cero perfectas}
 
 \begin{definition}[Propiedad de conocimiento cero]
-	Un sistema de prueba interactiva para un problema de decisión $Q$ es una \textit{prueba de conocimiento cero perfecta} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
+	\hfil
+	
+	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es \textit{perfecta de conocimiento cero} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
 \end{definition}
 
-La existencia de un Simulador $S_{V^*}(q,h)$, cuyos ensambles son iguales que los de una Vista generada entre un P y V honestos, implica que de la Vista no se puede obtener ninguna información que V no tuviera ya antes, pues V podía obtener con el Simulador cuantas Vistas quisiera, con el conocimiento que ya tenía.
+%La existencia de un Simulador $S_{V^*}(q,h)$, cuyos ensambles son iguales que los de una Vista generada entre un P y V honestos, implica que de la Vista no se puede obtener ninguna información que V no tuviera ya antes, pues V podía obtener con el Simulador cuantas Vistas quisiera, con el conocimiento que ya tenía.
+
+
+%%%%
+A primera vista, puede parecernos que nada tiene que ver la existencia de tal Simulador con no poder obtener información de P más allá de si la instancia es $Verdadera$. Pero es precisamente el hecho de que cualquier máquina M, que \textbf{no} conoce la solución, ni un certificado para comprobarla (\ref{def:NP}), pueda generar transcripciones del protocolo idénticas a las que podríamos interceptar a un P y V verídicos. Si M no conoce el secreto, de sus simulaciones nada podemos sacar, y por tanto, tampoco de la interacción entre P y V.
+
+%%%%
 
 
 \hfil
@@ -773,14 +781,48 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 
 La propiedad de \textit{conocimiento cero} exige que exista un algoritmo probabilístico Simulador que pueda ejecutarse en tiempo polinomial, y cuyo ensamble sea idéntico al del protocolo. Esto limita mucho el número de pruebas interactivas de conocimiento cero, y por eso se definen condiciones menos restrictivas que en la práctica, con máquinas reales limitadas computacionalmente, pueden funcionar como las ZKP perfectas, e incluso ser más óptimas, al reducir el número de interacciones manteniendo el nivel de robustez.
 
+\hfil
 
 \paragraph{Pruebas de conocimiento cero estadísticas}
 
+\hfil
+
+Se denominan así las pruebas interactivas con un Simulador que, en vez de tener ensamble idéntico a la Vista, convergen en $n$, el parámetro que define el tamaño del problema:
+
+\begin{center}
+	$$
+	\lim_{n\to\infty} Vista_{P,V^*}(q,h) =  \lim_{n\to\infty} S_{V^*}(q,h)
+	$$
+\end{center}
+
+para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instancia $q$, e historial $h$. 
+
+\hfil
 
 
 \paragraph{Pruebas de conocimiento cero computacionales}
 
+\hfil
 
-\paragraph{Pruebas de conocimiento cero de verificador honesto}
+Decimos que dos ensambles probabilísticos son\textit{indistinguibles polinomialmente} si no existe un algoritmo probabilístico en tiempo polinomial que puede distinguir uno de otro. Se puede consultar más sobre indistinguibilidad polinomial en \citep{book:856771}, donde se indica que, en particular, es un subconjunto disjunto de la indistinguibilidad estadística, que nos daba las ZKP estadísticas anteriores.
 
-...
+\hfil
+
+En esta clase de ZKP se encuentra el problema de 3-coloración del grafo (G3C):
+
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema G3C. \\
+	\textit{Parámetros:} &Un grafo $G=(V,E)$. \\
+	\textit{Pregunta:} & ¿Existe una función $\phi : V \to \{1,2,3\}$ tal que \\ & $\forall (u,v)\in E$, se cumple $\phi(u)\neq \phi(v)$? \\
+\end{tabular}
+\\
+
+\hfil
+
+% TODO: ref 208 de fundamentals
+Goldreich, micali y Wigdergon demostraron en [TODO] que el problema G3C tiene una prueba de conocimiento cero computacional. Para la prueba y su demostración se debe introducir la teoría cifrado probabilístico que permite ocultar a V la 3-coloración que P ha encontrado en el primer mensaje, el testigo. La idea es que el cifrado de todo el grafo coloreado no se puede deshacer sin conocer la clave, la cual se entrega como \textit{respuesta} para un solo vértice coloreado que elige aleatoriamente V en el \textit{reto}.
+
+Además se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se deduce que todo problema en \textbf{NPC} tiene una ZKP computacional.
