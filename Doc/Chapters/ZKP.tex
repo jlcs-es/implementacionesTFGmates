@@ -622,7 +622,6 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 	\hfil
 	
 	Siguiendo el protocolo, se generarán las v.a. $(H_i, B_i, \Phi_i)$ para la $i$-ésima ronda. Utilizando el Teorema de la probabilidad compuesta, y observando la dependencia de las variables durante la ejecución del protocolo, calculamos:
-	
 	\begin{align*}
 	& P(H_i=h, B_i=b, \Phi_i = \pi) = \\
 	& P(\Phi_i = \pi) \cdot P(B_i = b \mid \Phi_i = \pi) \cdot P(H_i = h \mid \Phi_i = \pi, B_i=b)
@@ -699,7 +698,7 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 		
 		\hfil
 		
-		\textit{Datos comunes}: Una instancia ($G$, $g$, $y$) del Problema DL. $n=o(g)=q$ es el tamaño del problema.
+		\textit{Datos comunes}: Una instancia ($G$, $q$, $g$, $y$) del Problema DL. $n=o(g)=q$ es el tamaño del problema.
 		
 		\textit{Protocolo}: Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
 		
@@ -755,24 +754,103 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 	\hfil
 	
 	Nos queda comprobar la propiedad de \textit{conocimiento cero}.
-	%TODO
+	
+	Como en casos anteriores, suponemos un algoritmo probabilístico polinomial $F$ que utiliza V$^*$ para enviar los retos. Si V fuera honesto, $F$ es un generador de números aleatorios con una distribución uniforme.
 	
 	
 	
+	\hfil 
+			
+	\rule{\textwidth}{1pt}
+	
+	\textbf{Simulador para el problema DL} $S_{V^*}(G, q, g, y, h)$.
+	
+	\hfil
+	
+	\textit{Datos}: \quad $(G, q, g, y)$, una instancia $Verdadera$ del problema DL; \quad $h$, transcripciones de ejecuciones previas del protocolo; \quad $v_i$, transcripción de la interacción actual ($i$ rondas).
+	
+	\textit{Ejecución}: Repetir para $i+1 \leq t(n)$:
+	
+	\begin{enumerate}
+		\item Elegir $b_{i+1} \in_R \{0,\,1\}$
+		
+		\item Elegir $w_{i+1} \in_R \mathbb{Z}_q^*$.
+		
+		\item \textbf{Si} $b_{i+1} = 0$, \textbf{entonces} calcular \qquad $a_{i+1} = g^w$ \\
+		\textbf{Si no}, \qquad \qquad \qquad \qquad \qquad \qquad \quad $a_{i+1} = g^w y^{-1} = g^{w-s}$
+		
+		\item \textbf{Si} $b_{i+1} = F(G, q, g, y,h,v_i,a_{i+1})$, \textbf{entonces} añadir la tupla \\ $(a_{i+1},\,b_{i+1},\,w_{i+1})$ a la transcripción. \\
+		\textbf{Si no}, volver al paso 1.
+		
+		\item $i = i+1$
+		
+	\end{enumerate}
+	
+	\rule{\textwidth}{1pt}
+	
+	\hfill
+	
+	Por la elección aleatoria de $b_{i+1}$ y $w_{i+1}$ el Simulador es un algoritmo probabilístico, y el tiempo de ejecución estimado es de dos iteraciones por ronda simulada, pues la probabilidad de que el $b_{i+1}$ elegido coincida con el indicado por $F$ es de $1/2$.
 	
 	
+	\hfil
 	
 	
-	%TODO: poca seguridad ante ataques:
-	% Si u = 0 -> a=1, se detecta fácil, b=1, nos da el secreto w=s
-	% Si u = 1 -> a=g, ", b=1, nos da el secreto s=w-1
-	% Si u = 2 -> a=g^2, por ser g primo su raíz es fácil, b=1, nos da el secreto s = w-2
-	% Indicar lo que se dijo, es la seguridad del caso común, no del peor caso, o de un mínimo nº de casos
+	Por inducción sobre $i$, el número de rondas realizadas, veamos que los ensambles $Vista_{P,V^*}$ y $S_{V^*}$ son iguales:
+	\begin{align*}
+		Vista_{P,V^*} =& (G,q,g,y,h,A_1,B_1,W_1, \dots , A_i,B_i,W_i) \\
+		S_{V^*} =& (G,q,g,y,h,A_1^`,B_1^`,W_1^`, \dots , A_i^`,B_i^`,W_i^`),
+	\end{align*}
+	donde las v.a. $A_i$, $A_i^`$ representan el testigo $a_i$ de la $i$-ésima ronda, las v.a. $B_i$, $B_i^`$ el bit del reto, y $W_i$, $W_i^`$ la respuesta de P.
+	
+	\hfil
+	
+	Para $i=0$, los ensambles $Vista_{P,V^*} = (G,q,g,y,h)$ y $S_{V^*} = (G,q,g,y,h)$ son constantes e iguales.
+	
+	Suponemos cierto para $i-1$.
+	
+	La tupla de las v.a. para la ronda $i$ en la Vista es: $(A_i,B_i,W_i)$.
+	
+	Su probabilidad se calcula como:
+	\begin{align*}
+	& P(A_i=a, B_i=b, W_i = w) = \\
+	& P(A_i = a) \cdot P(B_i = b \mid A_i = a) \cdot P(W_i = w \mid A_i = a, B_i=b)
+	\end{align*}
+	% 1/q-1 * p_b * 1
+	
+	Por construcción, $a$ depende de la elección de $u$, elegido de entre $q-1$ posibles valores, $P(A_i = a) = 1/(q-1)$.
+	
+	V$^*$ utiliza $F(G,q,g,y,a)$ para la elección de $b$, así que podemos escribir $P(B_i = b \mid A_i = a) = p_b$, dependiente de la $F$ empleada.
+	
+	Finalmente, en el protocolo $w$ depende para su cálculo de $a$ y $b$, así que la probabilidad dependiente de ambos valores dados, es 1.
+	
+	Concluimos que $P(A_i=a, B_i=b, W_i = w) = \dfrac{p_b}{q-1}$.
+	
+	\hfil
+	
+	Observando el orden en que se calculan los valores en el Simulador, la probabilidad de la $i$-ésima tupla del Simulador es:
+	\begin{align*}
+	& P(A_i^`=a, B_i^`=b, W_i^` = w) = \\
+	& P(W_i^` = w) \cdot P(B_i^` = b \mid W_i^` = w) \cdot P(A_i^` = a \mid W_i^` = w, B_i^`=b)
+	\end{align*}
+	% 1/q * p_b * 1
+	
+	El valor de $w_{i+1}$ se elige en $\mathbb{Z}_q^*$ independientemente de los demás. Así que $P(W_i^` = w) =  1/(q-1)$.
+	
+	Como antes, la elección del bit depende de $F$. $  P(B_i^` = b \mid W_i^` = w) = p_b $.
+	
+	Y siguiendo los pasos del Simulador, el valor de $a$ queda unívocamente determinado dados $w$ y $b$, así que $P(A_i^` = a \mid W_i^` = w, B_i^`=b) = 1$.
+	
+	Nos queda $ P(A_i^`=a, B_i^`=b, W_i^` = w) = \dfrac{p_b}{q-1}$, igual que la Vista, de modo que los ensambles son idénticos y queda demostrado el teorema.
+	
 \end{proof}
 
 
-
-
+%TODO: 
+¿poner?
+\begin{remark}
+	En la prueba se elige $u \in \mathbb{Z}_q^*$ para evitar el caso de que $u$ sea $0$ y V pueda obtener $s$ enviando $b=1$. Hay otros valores que son fáciles de atacar, como $u=1$, que se detecta viendo que $a=g$, y con $b=1$ podemos obtener $s=w-1$. La prueba se modificaría definiendo el conjunto de valores donde el testigo es seguro, y el Simulador se vería afectado por ese mismo conjunto donde elegir, de modo que las probabilidades de los ensambles cambiarían, pero seguirían siendo idénticos.
+\end{remark}
 
 
 
@@ -823,6 +901,14 @@ En esta clase de ZKP se encuentra el problema de 3-coloración del grafo (G3C):
 \hfil
 
 % TODO: ref 208 de fundamentals
-Goldreich, micali y Wigdergon demostraron en [TODO] que el problema G3C tiene una prueba de conocimiento cero computacional. Para la prueba y su demostración se debe introducir la teoría cifrado probabilístico que permite ocultar a V la 3-coloración que P ha encontrado en el primer mensaje, el testigo. La idea es que el cifrado de todo el grafo coloreado no se puede deshacer sin conocer la clave, la cual se entrega como \textit{respuesta} para un solo vértice coloreado que elige aleatoriamente V en el \textit{reto}.
+Goldreich, micali y Wigdergon demostraron en [TODO] que el problema G3C tiene una prueba de conocimiento cero computacional. Para la prueba interactiva y su demostración se debería introducir previamente la teoría cifrado probabilístico.
 
-Además se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se deduce que todo problema en \textbf{NPC} tiene una ZKP computacional.
+La idea de la prueba es que en cada iteración, P elige una permutación aleatoria de la 3-coloración, $\pi \in Sym(\{1,2,3\})$, y una clave de cifrado para cada vértice. El \textit{testigo} que enviará a V consistirá en el cifrado probabilístico de la permutación sobre la coloración de cada vértice, ocultando así la 3-coloración. V elegirá como \textit{reto} una arista aleatoria. Como \textit{respuesta}, P enviará la coloración permutada de esa arista, que deberá tener colores distintos en cada extremo, y las claves de cifrado de cada una, de modo que V podrá comprobar si corresponden al \textit{testigo} enviado.
+
+La completitud es inmediata, si P conoce la coloración, siempre podrá dar para $(u,v)$ colores distintos. Si P fuera tramposo, al menos hay una arista a la que P no puede dar colores distintos a sus vértices, y hay una probabilidad de $\frac{1}{\mid E \mid}$ de que V le rechace. Con $\mid E \mid ^2$ iteraciones, P puede conseguir engañar a v con una probabilidad $(1-\frac{1}{m})^{m^2} \leq e^{-m}$, por lo que la prueba es robusta.
+
+La propiedad de conocimiento cero se prueba con un simulador que funciona como los anteriores, primero se elige el \textit{reto} (arista) y la \textit{respuesta} (dos colores), se calcula el \textit{testigo} respecto de ambos y se comprueba si V hubiera elegido dicho \textit{reto}.
+
+\hfil
+
+Se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se deduce que todo problema en \textbf{NPC} tiene una ZKP computacional.
