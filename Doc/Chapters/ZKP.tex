@@ -670,7 +670,7 @@ Vamos a expresar el problema del logaritmo discreto como un problema de decisió
 
 \begin{tabular}{|ll}
 	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
-	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el cálculo del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
+	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el problema del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
 	\textit{Pregunta:} & ¿Conoce P el entero $s\in \mathbb{Z}_q$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = u$? \\
 \end{tabular}
 \\
@@ -847,11 +847,11 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 
 
 %TODO: 
-¿poner?
-\begin{remark}
-	En la prueba se elige $u \in \mathbb{Z}_q^*$ para evitar el caso de que $u$ sea $0$ y V pueda obtener $s$ enviando $b=1$. Hay otros valores que son fáciles de atacar, como $u=1$, que se detecta viendo que $a=g$, y con $b=1$ podemos obtener $s=w-1$. La prueba se modificaría definiendo el conjunto de valores donde el testigo es seguro, y el Simulador se vería afectado por ese mismo conjunto donde elegir, de modo que las probabilidades de los ensambles cambiarían, pero seguirían siendo idénticos.
-\end{remark}
-
+%TODO: ¿poner?
+%\begin{remark}
+%	En la prueba se elige $u \in \mathbb{Z}_q^*$ para evitar el caso de que $u$ sea $0$ y V pueda obtener $s$ enviando $b=1$. Hay otros valores que son fáciles de atacar, como $u=1$, que se detecta viendo que $a=g$, y con $b=1$ podemos obtener $s=w-1$. La prueba se modificaría definiendo el conjunto de valores donde el testigo es seguro, y el Simulador se vería afectado por ese mismo conjunto donde elegir, de modo que las probabilidades de los ensambles cambiarían, pero seguirían siendo idénticos.
+%\end{remark}
+% TODO: NO, ya se indica que el problema es difícil en G=<g>
 
 
 

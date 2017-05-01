@@ -3,9 +3,6 @@
 %************************************************
 
 
-% TODO poner cómo hacerlo de firma, o no interactivo, con un hash
-
-
 ?
 Fiat-Shamir para QR, Schnorr para logaritmo discreto, ...
 Aplicación de ZKP en los certificados de Idemix. Analizar cómo realizan pruebas de AND, OR, etc.
@@ -84,7 +81,7 @@ Podemos construir así una firma digital, con un solo mensaje, por lo que es vá
 Las pruebas de conocimiento cero tienen una gran aplicación en el campo de la seguridad informática, en particular en la \textbf{autenticación}. Tras la autenticación se aplicará autorización y control de acceso, por eso es importante un sistema de identificación fiable. Además, de entre las ventajas de las pruebas de conocimiento cero, un sistema de identificación basado en ZKP hereda privacidad, al no revelar información del usuario, y seguridad al no \textit{degradarse} con el uso, es decir, resiste al criptoanálisis por muchos mensajes que se intercepten, y ataques con mensajes elegidos. 
 
 %TODO
-TODO: poner mejor las ventajas.
+TODO: redactar mejor las ventajas.
 
 Estos protocolos de identificación se basan en una prueba de conocimiento cero de un problema $Q$, donde P (el usuario) tiene un \textit{secreto} que le permite demostrar una instancia $Verdadera$ de $Q$ al verificador V, y que además conocer dicho secreto le relaciona con una identidad, con la ventaja de no tener que revelar el secreto.
 
@@ -181,12 +178,12 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 % indicar que la seguridad es la probabilidad 2^-kt de adivinar en cada ronda el vector del reto
 
 
+\textbf{TODO: análisis del algoritmo: seguridad 2$^-kt$, ...}
 
 
 
 
-
-
+\textbf{TODO: Schnorr: con retos en Z/Zq, no en \{0,1\}}
 
 
 %
