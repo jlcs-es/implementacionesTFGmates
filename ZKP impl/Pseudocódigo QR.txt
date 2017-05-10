@@ -1,0 +1,125 @@
+QR
+---
+
+Instancia (x,N) tal que x = s^2 mod N
+
+
+Prueba QR & Simulador QR
+-------------------------
+
+Prueba QR:
+-----------
+
+P conoce s. V sólo conoce x.
+
+5 funciones:
+1. Prover_FirstProtocolStep(s,N) -> r aleatorio, u=r^2(N) residuo cuadrático.
+2. Verifier_SecondProtocolStep(x,N,u) -> b un bit aleatorio. [Aquí la función podría no recibir parámetros]
+3. Prover_ThirdProtocolStep(s,N,r,b) -> w = r * (s^b) (N)
+4. Verifier_CheckProof(x,N,u,b,w) -> Bool
+5. QR_Protocol(s,N) -> Vista de interacción entre P y V honestos.
+
+
+1.
+Prover_FirstProtocolStep(s,N):
+BEGIN
+    Elegir aleatoriamente r entre 1 y N-1.
+*   Calcular u = r*r mod N.
+    Devolver (r,u).
+END
+
+
+2.
+Verifier_SecondProtocolStep(x,N,u):
+BEGIN
+    Elegir b aleatoriamente entre 0 y 1.
+    Devolver b.
+END
+
+
+3.
+Prover_ThirdProtocolStep(s,N,r,b):
+BEGIN
+    SI b=0
+    ENTONCES
+        Devolver w=r.
+    SI NO
+*       Calcular w = r * s mod N.
+        Devolver w.
+    FIN_SI
+END
+
+
+4.
+Verifier_CheckProof(x,N,u,b,w):
+BEGIN
+*   Calcular w2 = w*w mod N
+    SI b=1
+    ENTONCES
+*       Calcular v = u*x mod N
+    SI NO
+*       Calcular v = u mod N
+    FIN_SI
+    Devolver si w2 == v.
+END
+
+
+5.
+QR_Protocol(s,N):
+BEGIN
+*   Calcular x = s*s mod N
+    Vista = nueva lista.
+    REPETIR t VECES:
+        (r,u) = Prover_FirstProtocolStep(s,N)
+        b = Verifier_SecondProtocolStep(x,N,u)
+        w = Prover_ThirdProtocolStep(s,N,r,b)
+        SI Verifier_CheckProof(x,N,u,b,w) == TRUE
+        ENTONCES
+            Añadir (u,b,w) a Vista // o imprimir los valores
+        SI NO
+            Devolver FALSE.
+        FIN_SI
+    FIN_REPETIR
+    Devolver TRUE.
+END
+
+
+
+
+
+
+
+
+
+
+Simulador QR:
+--------------
+
+El simulador conoce s.
+
+1 función:
+1. QR_Simulator(s,N) -> Transcripción de simulación entre P y V.
+
+
+QR_Simulator(s,N):
+BEGIN
+*   Calcular x = s*s mod N
+*   Calcular inv_x = x^-1 mod N (¿Euclides extendido?)
+    i = 1
+    REPETIR HASTA i == t:
+        Elegir b aleatoriamente entre 0 y 1.
+        Elegir w aleatoriamente entre 1 y N-1.
+        SI b=0
+        ENTONCES
+*           Calcular u = w*w  mod N
+        SI NO
+*           Calcular u = w * inv_x mod N.
+        FIN_SI
+        SI b == Verifier_SecondProtocolStep(x,N,u)      // Si no utilizamos la función F del cheating Verifier, esto podríamos omitirlo
+        ENTONCES
+            Añadir (u,b,w) a la transcrición.
+            i = i+1
+        FIN_SI
+    FIN_REPETIR
+END
+

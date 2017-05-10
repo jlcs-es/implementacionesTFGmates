@@ -1,0 +1,125 @@
+DL
+---
+
+Instancia (g,q,y) tal que G = <g>, |G|=q, y = g^s mod q
+
+
+Prueba DL & Simulador DL
+-------------------------
+
+Prueba DL:
+-----------
+
+P conoce s. V sólo conoce y.
+
+5 funciones:
+1. Prover_FirstProtocolStep(g,s,q) -> u aleatorio, a=g^u (q)
+2. Verifier_SecondProtocolStep(g,y,q,a) -> b un bit aleatorio. [Aquí la función podría no recibir parámetros]
+3. Prover_ThirdProtocolStep(g,s,q,u,b) -> w = (u + s*b) mod q.
+4. Verifier_CheckProof(g,y,q,a,b,w) -> Bool
+5. DL_Protocol(g,s,q) -> Vista de interacción entre P y V honestos.
+
+
+1.
+Prover_FirstProtocolStep(g,s,q):
+BEGIN
+    Elegir aleatoriamente q entre 1 y q-1.
+*   Calcular a = g^u mod q.
+    Devolver (u,a).
+END
+
+
+2.
+Verifier_SecondProtocolStep(g,y,q,a):
+BEGIN
+    Elegir b aleatoriamente entre 0 y 1.
+    Devolver b.
+END
+
+
+3.
+Prover_ThirdProtocolStep(g,s,q,u,b):
+BEGIN
+    SI b=0
+    ENTONCES
+        w=u.
+    SI NO
+*       Calcular w = u + s mod q.
+    FIN_SI
+    Devolver w.
+END
+
+
+4.
+Verifier_CheckProof(g,y,q,a,b,w):
+BEGIN
+*   Calcular gw = g^w mod q
+    SI b=1
+    ENTONCES
+*       Calcular v = a*y mod q
+    SI NO
+*       Calcular v = a mod q
+    FIN_SI
+    Devolver si gw == v.
+END
+
+
+5.
+DL_Protocol(g,s,q):
+BEGIN
+*   Calcular y = g^s mod q
+    Vista = nueva lista.
+    REPETIR t VECES:
+        (u,a) = Prover_FirstProtocolStep(g,s,q)
+        b = Verifier_SecondProtocolStep(g,y,q,a)
+        w = Prover_ThirdProtocolStep(g,s,q,u,b)
+        SI Verifier_CheckProof(g,y,q,a,b,w) == TRUE
+        ENTONCES
+            Añadir (u,b,w) a Vista // o imprimir los valores
+        SI NO
+            Devolver FALSE.
+        FIN_SI
+    FIN_REPETIR
+    Devolver TRUE.
+END
+
+
+
+
+
+
+
+
+
+
+Simulador DL:
+--------------
+
+El simulador conoce s.
+
+1 función:
+1. DL_Simulator(g,s,q) -> Transcripción de simulación entre P y V.
+
+
+DL_Simulator(g,s,q):
+BEGIN
+*   Calcular y = g^s mod N
+*   Calcular inv_x = x^-1 mod N (¿Euclides extendido?)
+    i = 1
+    REPETIR HASTA i == t:
+        Elegir b aleatoriamente entre 0 y 1.
+        Elegir w aleatoriamente entre 1 y q-1.
+        SI b=0
+        ENTONCES
+*           Calcular a = g^w  mod q
+        SI NO
+*           Calcular a = g^(w-s) mod N.
+        FIN_SI
+        SI b == Verifier_SecondProtocolStep(g,y,q,a)      // Si no utilizamos la función F del cheating Verifier, esto podríamos omitirlo
+        ENTONCES
+            Añadir (a,b,w) a la transcrición.
+            i = i+1
+        FIN_SI
+    FIN_REPETIR
+END
+

@@ -1,5 +1,6 @@
-.directory 
-
+.directory
+cmake-build-debug/
+.idea
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
