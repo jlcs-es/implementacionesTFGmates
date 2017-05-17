@@ -808,7 +808,7 @@ La propiedad de \textit{conocimiento cero} exige que exista un algoritmo probabi
 
 \hfil
 
-\paragraph{Pruebas de conocimiento cero estadísticas}
+\subsection{Pruebas de conocimiento cero estadísticas}
 
 \hfil
 
@@ -823,9 +823,9 @@ Se denominan así las pruebas interactivas con un Simulador que, en vez de tener
 para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instancia $q$, e historial $h$. 
 
 \hfil
+% TODO: ejemplo
 
-
-\paragraph{Pruebas de conocimiento cero computacionales}
+\subsection{Pruebas de conocimiento cero computacionales}
 
 \hfil
 
@@ -859,3 +859,51 @@ La propiedad de conocimiento cero se prueba con un simulador que funciona como l
 \hfil
 
 Se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se deduce que todo problema en \textbf{NPC} tiene una ZKP computacional.
+
+
+\subsection{Esquemas de compromiso}
+
+En las pruebas de conocimiento cero vistas hasta ahora, el primer mensaje del Probador consistía en un \textit{compromiso} con el Verificador, de modo que en la respuesta al reto no pudiera engañarle, con cierta probabilidad.
+
+Nos interesan en particular sistemas como el del problema de la 3-coloración, donde la solución se escondía tras $n$ criptogramas, que podemos ver como cajas negras, que sólo se pueden abrir si se tiene la llave. El Probador, al enviar todas las cajas negras, se compromete con la permutación, no puede cambiar los valores escondidos, y el Verificador en su reto pide a P que abra cajas al azar para revelar el color, peor no la 3-coloración completa.
+
+Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas de conocimiento cero computacionales de todos los problemas \textbf{NPC}. Esconde la estructura de una instancia $Verdadera$ y P se compromete con su \textit{testigo} antes de conocer el \textit{reto} de V. En la última \textit{respuesta} de P, se revelará una pequeña parte de la estructura de la instancia $Verdadera$, de la cual V no puede aprender nada.
+
+\begin{definition}
+	Un esquema de compromiso de un \textit{bit} es un par de funciones $(f,v)$ de tiempo polinomial. La función
+	
+	$
+	f:\{0,1\}\, x\, \Upsilon \to \chi
+	$
+	\\transforma el bit $b\in \{0,1\}$ con una clave aleatoria $y\in \Upsilon$. El valor $x=f(b,y)$ se llama \textit{blob}. La función de verificación
+	
+	$
+	v:\chi \, x \, \Upsilon \to \{0,1,\bullet\}
+	$
+	\\abre el blob revelando el bit $b$, o indicando que no es un par (blob,clave) válido.
+	
+	El par $(f,v)$ debe cumplir la siguientes condiciones:
+	\begin{enumerate}
+		\item \textit{Vinculación}: Para todo blob $x=f(b,y)$, P no es capaz de encontrar un valor $y' \neq y$ tal que el blob se puede abrir con otro valor, es decir, $v(x,y) \neq v(x,y')$.
+		
+		\item \textit{Secreto}: Los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son indistinguibles.
+	\end{enumerate}
+	
+\end{definition}
+
+
+Con la primera propiedad, una vez P se compromete con un bit, al presentar el blob  $x=f(b,y)$ a V, no puede cambiarlo, e influye en la robustez del protocolo. La segunda condición, asegura que no se filtra información de los bits que P no proporciona la clave, consiguiendo conocimiento cero.
+
+Podemos clasificar los esquemas de compromiso de bit en dos tipos: vinculación incondicional y secreto incondicional.
+
+
+\paragraph{Esquemas de compromiso con vinculación incondicional}
+\hfil
+
+Partiendo del problema del residuo cuadrático, para $N=pq$, los conjuntos $\mathbb{Z}_N^{Q+}$ y $\mathbb{Z}_N^{Q-}$ son polinomialmente indistinguibles. Podemos utilizar esta propiedad para diseñar un sistema de compromiso de bit.
+
+P elige 2 primos aleatorios suficientemente grandes, $p$ y $q$, y un no-residuo cuadrático $s\in \mathbb{Z}_N^{Q-}$.
+
+
+\paragraph{Esquemas de compromiso con secreto incondicional}
+\hfil
