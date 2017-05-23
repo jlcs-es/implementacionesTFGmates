@@ -6,7 +6,7 @@
 % Fundamentals
 % https://es.wikipedia.org/wiki/Prueba_de_conocimiento_cero
 % https://en.wikipedia.org/wiki/Interactive_proof_system
-% 
+% How to Prove a Theorem So No One Else Can Claim It, Manuel Blum
 
 
 % Intro
@@ -465,11 +465,11 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 		
 		\textit{Datos comunes}: Una instancia ($G_0=(V_0,E_0)$, $G_1=(V_1,E_1)$) del Problema GI. $\mid V_0 \mid = \mid V_1 \mid = n$ es el tamaño de la instancia.
 		
-		\textit{Protocolo}: Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
+		\textit{Protocolo}: P calcula el isomorfismo $\tau$ entre $G_1$ y $G_0$, es decir, $\tau(G_1)=G_0$.
+		
+		Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
 		
 		\begin{enumerate}
-			
-			\item P calcula el isomorfismo $\tau$ entre $G_1$ y $G_0$, es decir, $\tau(G_1)=G_0$.
 			
 			\item P $\rightarrow$ V :\quad $h = \pi (G_0)$, donde $\pi \in_R Sym(V_0)$.
 			
@@ -813,7 +813,6 @@ La propiedad de \textit{conocimiento cero} exige que exista un algoritmo probabi
 \hfil
 
 Se denominan así las pruebas interactivas con un Simulador que, en vez de tener ensamble idéntico a la Vista, convergen en $n$, el parámetro que define el tamaño del problema:
-
 \begin{center}
 	$$
 	\lim_{n\to\infty} Vista_{P,V^*}(q,h) =  \lim_{n\to\infty} S_{V^*}(q,h)
@@ -829,11 +828,82 @@ para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instanci
 
 \hfil
 
-Decimos que dos ensambles probabilísticos son\textit{indistinguibles polinomialmente} si no existe un algoritmo probabilístico en tiempo polinomial que puede distinguir uno de otro. Se puede consultar más sobre indistinguibilidad polinomial en \citep{book:856771}, donde se indica que, en particular, es un subconjunto disjunto de la indistinguibilidad estadística, que nos daba las ZKP estadísticas anteriores.
+Decimos que dos ensambles probabilísticos son\textit{indistinguibles polinomialmente} si no existe un \textit{algoritmo probabilístico en tiempo polinomial} que puede distinguir uno de otro. Se puede consultar más sobre indistinguibilidad polinomial en \citep{book:856771}, donde se indica que, en particular, es un subconjunto propio de la \textit{indistinguibilidad estadística}, que nos daba las Pruebas de Conocimiento Cero Estadísticas del apartado anterior.
+
+En esta clase de pruebas interactivas, el probador P ya no se considera como una máquina de ilimitado poder computacional, sino que está restringida como la máquina V, a algoritmos eficientes, a lo sumo probabilísticos en tiempo polinomial.
 
 \hfil
 
-En esta clase de ZKP se encuentra el problema de 3-coloración del grafo (G3C):
+En esta clase de ZKP se encuentran problemas como el de la 3-coloración del grafo (G3C), o el del camino hamiltoniano (HC).
+
+
+\subsubsection{Prueba de conocimiento cero para un grafo hamiltoniano}
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema HC. \\
+	\textit{Parámetros:} &Un grafo $G=(V,E)$. \\
+	\textit{Pregunta:} & ¿Existe un ciclo en G que recorre pasa por cada vértice en V una única vez? \\
+\end{tabular}
+\\
+
+\hfil
+
+\citeauthor{blum} en \citetitle{blum} \citep{blum} muestra una prueba de conocimiento cero para este problema bajo la suposición de que el concepto de \textit{caja negra} existe, de modo que P puede ocultar el contenido de la caja hasta que da la llave para abrirla. En la sección \ref{bitcommitment} estudiaremos más en profundidad esta herramienta común a la gran parte de pruebas de conocimiento cero computacionales.
+
+\hfil
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Prueba interactiva para HC]
+	
+	\hfil
+	
+	\textit{Datos comunes}: Una instancia $G=(V,E)$ del Problema HC. $\mid V \mid = n$ es el tamaño del problema.
+	
+	P conoce un ciclo hamiltoniano de G.
+	
+	\textit{Protocolo}: Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
+	
+	\begin{enumerate}
+		
+		\item P oculta $G$ en cajas negras: asocia, de manera uniformemente aleatoria, los vértices $v_1, v_2, \dots v_n$ a las cajas $C_1, C_2, \dots C_n$; además, para cada par de cajas $(C_i,C_j)$ prepara otra caja llamada $C_{ij}$ que guardará un $1$ si los vértices ocultos en $C_i$ y $C_j$ son adyacentes, o $0$ en caso contrario.
+		
+		\item P $\rightarrow$ V :\quad $n + \binom{n}{2}$ cajas negras: $C_1, C_2, \dots C_n, C_{1,2},\dots, C_{n-1,n}$
+		
+		\item V $\rightarrow$ P :\quad $b \in_R \{0,\,1\}$.
+		
+		\item Si $b=0$, P envía las llaves para abrir todas las cajas.
+		
+		Si $b=1$, P abre exactamente $n$ cajas, $C_{ij}, C_{jk}, C_{kl}, \dots C_{l^`i}$, que corresponden al ciclo hamiltoniano escondido por los vértices escondidos en las cajas $C_1, C_2, \dots C_n$.
+		
+		\item Si $b=0$, V comprueba que el grafo descubierto por las cajas sea G.
+		
+		Si $b=1$, V comprueba que los índices de las cajas  $C_{ij}, C_{jk}, \dots C_{l^`i}$ forman un ciclo y que todas contienen un $1$.
+		
+		Si la comprobación falla, V termina en rechazo. En caso contrario, vuelve al paso 1.
+		
+		
+	\end{enumerate}
+	
+	Tras $t(n)$ rondas, V termina y acepta la instancia como $Verdadera$, P conoce un camino hamiltoniano en $G$.
+	\label{HCinteractive:alg}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+
+El protocolo es \textit{completo}, pues si P conoce un ciclo hamiltoniano de G, siempre podrá descubrir G o el ciclo cuando V lo pida.
+
+Si un P$^*$ no conoce el ciclo hamiltoniano, puede intentar adivinar cuándo V pedirá descubrir el grafo o el ciclo. En el primer caso, seguirá el protocolo, ocultando G en las cajas negras. En el segundo, P$^*$ sólo debe elegir un ciclo de cajas  $C_{ij}, C_{jk}, \dots C_{l^`i}$ donde introducirá el valor $1$ haya o no una arista uniendo los vértices. Si V pide descubrir el ciclo, P$^*$ revelará un ciclo hamiltoniano, pero no de G.
+
+Si P$^*$ no acierta correctamente qué bit enviará V, en cada ronda hay una probabilidad de $1/2$ de que V pille a P$^*$ en una mentira. Ejecutando el protocolo $t(n)$ veces, la probabilidad de que un P$^*$ tramposo engañe a V es de $2^{-t(n)}$, por tanto, la prueba es \textit{robusta}.
+
+%TODO
+
+
+\subsubsection{Prueba de conocimiento cero para la 3-coloración de un grafo}
 
 
 \hfil
@@ -861,13 +931,14 @@ La propiedad de conocimiento cero se prueba con un simulador que funciona como l
 Se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se deduce que todo problema en \textbf{NPC} tiene una ZKP computacional.
 
 
-\subsection{Esquemas de compromiso}
+\subsection{Esquemas de compromiso}\label{bitcommitment}
 
 En las pruebas de conocimiento cero vistas hasta ahora, el primer mensaje del Probador consistía en un \textit{compromiso} con el Verificador, de modo que en la respuesta al reto no pudiera engañarle, con cierta probabilidad.
 
-Nos interesan en particular sistemas como el del problema de la 3-coloración, donde la solución se escondía tras $n$ criptogramas, que podemos ver como cajas negras, que sólo se pueden abrir si se tiene la llave. El Probador, al enviar todas las cajas negras, se compromete con la permutación, no puede cambiar los valores escondidos, y el Verificador en su reto pide a P que abra cajas al azar para revelar el color, peor no la 3-coloración completa.
+Nos interesan en particular sistemas como el del problema de la 3-coloración, o del ciclo hamiltoniano, donde la solución se escondía tras $N$ criptogramas, que podemos ver como cajas negras, que sólo se pueden abrir si se tiene la llave. El Probador, al enviar todas las cajas negras, se compromete, no puede cambiar los valores escondidos, y el Verificador en su reto pide a P que abra ciertas cajas al azar para comprobar que dice la verdad, sin revelar el secreto.
 
-Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas de conocimiento cero computacionales de todos los problemas \textbf{NPC}. Esconde la estructura de una instancia $Verdadera$ y P se compromete con su \textit{testigo} antes de conocer el \textit{reto} de V. En la última \textit{respuesta} de P, se revelará una pequeña parte de la estructura de la instancia $Verdadera$, de la cual V no puede aprender nada.
+Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas de conocimiento cero computacionales de todos los problemas \textbf{NPC}, como se indica al final de \citep{blum}. Estos esquemas esconden la estructura de una instancia $Verdadera$, donde P se compromete con su \textit{testigo} antes de conocer el \textit{reto} de V. En la última \textit{respuesta} de P, se revelará una pequeña parte de la estructura de la instancia $Verdadera$, de la cual V no podrá aprender nada.
+
 
 \begin{definition}
 	Un esquema de compromiso de un \textit{bit} es un par de funciones $(f,v)$ de tiempo polinomial. La función
