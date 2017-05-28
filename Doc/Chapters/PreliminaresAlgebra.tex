@@ -1,0 +1,343 @@
+%*****************************************
+\chapter{Preliminares de Álgebra}\label{ch:preliminaresAlgebra}
+%*****************************************
+
+% Sin demostraciones, solo resultados que se necesiten para secciones posteriores
+
+%Para poder comprender los resultados de los siguientes capítulos necesitaremos recordar ciertas definiciones y propiedades de álgebra y grafos que se cursan durante el grado, e introducir otros preliminares de computación que formalizarán el estudio. No incluiremos demostraciones, pues son conceptos básicos de donde partiremos para desarrollar el resto del trabajo, pero el lector que quiera conocerlas puede consultar las referencias en \textbf{TODO: cite} \citep{gruposYanillos}.
+% Mejorar párrafo de las referencias e incluir que para probabilidad el cap de intro de JL... y elementos de Zoroa
+
+% handbook of applied
+% apuntes algebra conmutativa
+
+
+%https://en.wikipedia.org/wiki/Schnorr_group
+
+
+\section{Grupos y Anillos}
+
+Vamos a recordar los conceptos más básicos de la teoría de grupos, empezando con la definición de operación binaria:
+
+\begin{definition}
+	Una \textit{operación binaria} en un conjunto $A$ es una aplicación $* : AxA \rightarrow A$.
+\end{definition}
+
+Según una operación binaria cumpla ciertas propiedades, diremos que:
+
+\begin{itemize}
+	\item La operación es \textit{asociativa} si $a*(b*c) = (a*b)*c \quad \forall a,b,c\in A$.
+	\item La operación es \textit{conmutativa} si $a*b=b*a\quad \forall a,b\in A$.
+	\item El elemento $e\in A$ es un \textit{elemento neutro} para $*$ si $a*e = e*a = a \quad \forall a\in A$. Además es único cuando existe neutro.
+	\item Cuando existe el neutro $e$, el elemento $b$ es el \textit{simétrico} de $a$ si $a*b=b*a=e$.
+\end{itemize}
+
+Podemos ahora dar formalmente la definición de grupo:
+
+\begin{definition}
+	Un \textit{grupo} es un conjunto $G$ con una operación asociativa, con elemento neutro y con simétrico para cada elemento. Si la operación es además conmutativa, se dice que $G$ es un \textit{grupo abeliano}.
+\end{definition}
+
+Con la operación suma $+$ habitual, los conjuntos $\mathbb{Z}$, $\mathbb{Q}$ y $\mathbb{R}$ son grupos abelianos aditivos. Dado un conjunto $A$ con una operación multiplicativa $\cdot$, $A^*$ denotará el \textit{conjunto de los elementos invertibles en A}. Así, con la multiplicación usual, $Q^* = Q \setminus \{0\}$, y $\mathbb{Z}^* = \{-1,1\}$.
+
+\hfil
+
+\begin{definition}
+	Un \textit{anillo} es un conjunto $A$ con dos operaciones, $+$ y $\cdot$ (suma y producto), tales que:
+	\begin{itemize}
+		\item $(A,+)$ es un grupo abeliano aditivo; con neutro $0$.
+		\item El producto es asociativo y tiene neutro $1$, distinto del neutro aditivo ($1\neq 0$).
+		\item El producto es distributivo con respecto a la suma, es decir, $\forall a,b,c \in A$ se tiene $a\cdot(b+c)=a\cdot b + a\cdot c$ y $(b+c)\cdot a = b\cdot a + c\cdot a$.
+	\end{itemize}
+
+	El anillo es \textit{conmutativo} si lo es el producto. Un anillo conmutativo donde todo elemento $\neq 0$ tiene \textit{inverso} (simétrico para el producto), se dice que es un \textit{cuerpo}.
+	
+\end{definition}
+
+
+\hfil
+
+
+\section{Aritmética en $\mathbb{Z}$}
+
+\begin{definition}
+	Un entero $d$ se dice que es el \textbf{máximo común divisor} de dos enteros $a$ y $b$ si es el mayor entero que divide a ambos. Lo denotaremos como $d=mcd(a,b)$.
+\end{definition}
+
+\hfil
+
+Euclides describió en su obra \textit{Los Elementos} un método para calcular el $mcd$ de dos enteros, que hoy en día se conoce como \textit{Algoritmo de Euclides}. La propiedad que utiliza el algoritmo para calcular el $mcd$ es la siguiente:
+
+
+
+\begin{proposition}
+	Sean $a$, $b$ $\in \mathbb{Z}$. Entonces, para todo $\alpha \in \mathbb{Z}$ se tiene:
+	\begin{center}
+		$mcd(a,b) = mcd(a, b-\alpha a) = mcd(a-\alpha b, b).$
+	\end{center}
+	En particular, cuando $b \neq 0$ y la división entera de $a$ entre $b$ es $a = bq + r$, tenemos que $mcd(a,b) = mcd(b, r)$.
+\end{proposition}
+
+\hfil
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Euclides]
+	Encuentra el $mcd$ de $a$, $b \in \mathbb{Z}$:
+	
+	\begin{enumerate}
+		\item Inicializa $r_0 = a$ y $r_1 = b$.
+		
+		\item Calcula las siguientes divisiones euclídeas
+		
+		\begin{tabular}{rcl}
+			$r_0$ & $=$ & $q_1 r_1 + r_2$ \\
+			$r_1$ & $=$ & $q_2 r_2 + r_3$ \\
+			& \dots & \\
+			$r_{n-3}$ & $=$ & $q_{n-2} r_{n-2} + r_{n-1}$ \\
+			$r_{n-2}$ & $=$ & $q_{n-1} r_{n-1} + r_{n}$ \\
+		\end{tabular}
+		
+		hasta que se obtenga un $r_n = 0$, con $r_{n-1} \neq 0$.
+		
+		\item Como $b = r_1 > r_2 > ... \geq 0$ y cada $r_i$ es entero, para $i = 1, 2, ...$, se obtiene $r_n = 0$ en un número finito de pasos y acaba el algoritmo con $mcd(a,b) = r_{n-1}$.
+		
+	\end{enumerate}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+A partir del \textit{Algoritmo de Euclides} se puede expresar $d$ como una ``combinación $\mathbb{Z}$-lineal'' de $a$ y $b$:
+\begin{center}
+	$d = as + bt$
+\end{center}
+conocida como la \textit{Identidad de Bézout}.
+
+\hfil
+
+El algoritmo se conoce como \textit{Algoritmo de Euclides extendido}:
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Euclides extendido]
+	Encuentra el $d = mcd$ de $a$, $b \in \mathbb{Z}$ y valores $s$, $t$ $\in \mathbb{Z}$ tal que $d = as + bt$.
+	\begin{enumerate}
+		\item Inicializa ${\displaystyle r_{0}\gets a,r_{1}\gets b,s_{0}\gets 1,t_{0}\gets 0,s_{1}\gets 0,t_{1}\gets 1}$
+		
+		$i\gets 1$
+		
+		\item Mientras $r_i \neq 0$:
+		\subitem Calcule la división euclídea $r_{i-1} = q_i r_i + r_{i+1}$
+		\subitem ${\displaystyle s_{i+1}\gets s_{i-1}-q_{i}s_{i}}$
+		\subitem ${\displaystyle t_{i+1}\gets t_{i-1}-q_{i}t_{i}}$
+		\subitem $i \gets i+1$
+		
+		\item $d = r_{i-1}$	\quad	$s = s_{i-1}$ \quad  $t = t_{i-1}$
+	\end{enumerate}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+\begin{remark}
+	Los valores de $s$ y $t$ no tienen por qué ser únicos:
+	
+	${\displaystyle a(s-kb)+b(t+ka)=as-kba+bt+kba=as+bt = d}$
+\end{remark}
+
+\hfil
+
+Utilizaremos la Identidad de Bézout para calcular los inversos en aritmética modular más adelante.
+
+\hfil
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Congruencias: el anillo $\mathbb{Z}_n$}
+
+\begin{definition}
+	Sean $a,\,b,\,n\,\in \mathbb{Z}$, $n \neq 0$, diremos que $a$ y $b$ son \textbf{congruentes módulo $n$}, y lo escribiremos $a \equiv b \, mod \, n$, si la diferencia $a - b$ es múltiplo de $n$.
+\end{definition}
+
+Cuando $a \equiv b \, mod \, n$ decimos que b es un \textit{\textbf{residuo} de $a$ módulo $n$}.
+
+\begin{proposition}
+	La relación de \textbf{congruencia módulo $n$} es una relación de equivalencia, es decir, es reflexiva, simétrica y transitiva.
+\end{proposition}
+
+Esto establece una relación de equivalencia en $\mathbb{Z}$, en la que la \textbf{clase} de un entero $a$ módulo $n$ es $\overline{a} = \{ a + kn \}_{k \in \mathbb{Z}}$. Cuando no exista confusión, escribiremos la clase de equivalencia $\overline{a}$ como $a$.
+El correspondiente conjunto cociente, de las \textit{clases de resto módulo $n$}, es $\mathbb{Z}_n = \{\overline{0},\,\overline{1},\,\dots\overline{n-1}\}$, y hereda la suma y producto de $\mathbb{Z}$ convirtiéndose en un anillo conmutativo con neutros $\overline{0}$ para la suma y $\overline{1}$ para el producto.
+
+\begin{proposition}
+	El conjunto $\mathbb{Z}_n^*$ de los elementos invertibles, con el producto, de $\mathbb{Z}_n$, es un grupo abeliano.
+\end{proposition}
+
+
+\begin{theorem}
+	El anillo $\mathbb{Z}_n$ es un cuerpo cuando $n$ es un número primo.
+\end{theorem}
+
+Sea $\varphi$ la \textit{función de Euler}, tal que a cada entero $n=\pm p_1^{m_1}p_2^{m_2}\cdots p_k^{m_k}$, expresado como producto de primos, le asigna el valor:
+
+$\varphi(n)=p_1^{m_1-1} p_2^{m_2-1} \cdots p_k^{m_k-1} (p_1 -1) (p_2 -1) \cdots (p_k -1)$.
+
+La función de Euler indica el número de enteros entre $1$ y $n-1$ coprimos con $n$.
+
+\begin{proposition}
+	$\mid \mathbb{Z}^*_n \mid = \varphi(n)$, donde $\varphi$ es la función de Euler.
+\end{proposition}
+
+\begin{theorem}[Euler]
+	Si $x$ es coprimo con $n$, entonces $x^{\varphi(n)} \equiv 1 \, mod \, n$.
+\end{theorem}
+
+\hfil
+
+Si tenemos ahora dos enteros $a$ y $b$ coprimos, es decir, $mcd(a,\,b) = 1$, usando el \textit{algoritmo de Euclides extendido} podemos encontrar $r$ y $s$ de la \textit{Identidad de Bézout} tales que:
+\begin{center}
+	$ as + bt = 1 $
+\end{center}
+
+Si a esta igualdad le aplicamos módulo $b$, obtenemos el inverso de $a$ en $\mathbb{Z}_b$:
+\begin{center}
+	\begin{tabular}{ccccc}
+	$  ( as + bt ) \, mod \, b $ & $\equiv $ & $as \, mod \, b $ & $ \equiv$ & $1 \, mod \, b $ \\
+	$ \overline{as+bt} $ & $=$ & $\overline{as} $ & $=$ & $\overline{1} $
+\end{tabular}
+\end{center}
+
+Así hemos demostrado el siguiente resultado:
+
+\begin{proposition}
+	Si $mcd(a,\,n) = 1$, entonces el elemento inverso $a^{-1}$, $0<a^{-1}<n$, existe y $a a^{-1} \equiv 1 \, mod \, n$.
+\end{proposition}
+
+
+\hfil
+
+
+\begin{theorem}[Teorema Chino de los restos]
+	
+	\hfil 
+	
+	Supongamos que $n_1,\, n_2, …, n_k$
+	son enteros positivos coprimos dos a dos. Entonces, para enteros dados $a_1,\, a_2, …, a_k$, existe un
+	entero $x$ que resuelve el sistema de congruencias simultáneas
+	
+	\begin{align*}
+	x &\equiv a_1 \pmod{n_1} \\
+	x &\equiv a_2 \pmod{n_2} \\
+	&\vdots \\
+	x &\equiv a_k \pmod{n_k}
+	\end{align*}
+	
+	Más aún, todas las soluciones $x$ de este sistema son congruentes módulo el
+	producto $N = n_1 n_2 ... n_k$.
+	
+	Otra interpretación del teorema es: para cada entero positivo con factorización en números primos:
+	
+	$n = p_1^{r_1}\cdots p_k^{r_k}$
+	
+	se tiene un isomorfismo entre un anillo y la suma directa de sus potencias primas:
+	
+	$\mathbf{Z}_n \cong \mathbf{Z}_{p_1^{r_1}} \oplus \cdots \oplus \mathbf{Z}{p_k^{r_k}}$
+
+\end{theorem}
+
+
+\hfil
+
+\begin{definition}
+	El \textit{orden} de un elemento $a \in \mathbb{Z}^*_n$, denotado $o(a)$, es el menor entero positivo $t$ tal que $a^t \equiv 1 \, mod \, n$.
+\end{definition}
+
+\begin{proposition}
+	Si el orden de $a \in \mathbb{Z}^*_n$ es $o(a)=t$, y ocurre que $a^2 \equiv 1 \, mod \, n$, entonces $t \mid s$. En particular, $t\mid \varphi(n)$.
+\end{proposition}
+
+
+\begin{definition}
+	Sea $\alpha \in \mathbb{Z}^*_n$. Si el orden de $\alpha$ es $\varphi(n)$, entonces se dice que $\alpha$ es un \textit{generador} de $\mathbb{Z}^*_n$. Se indica como $\mathbb{Z}^*_n = \langle \alpha \rangle $. Si $\mathbb{Z}^*_n$ tiene un generador, se dice que es \textit{cíclico}.
+\end{definition}
+
+\begin{proposition}[Propiedades de los generadores de $\mathbb{Z}^*_n$]
+	\hfil
+	
+	\begin{itemize}
+		\item $\mathbb{Z}^*_n$ tiene un generador si y solo si $n=2,4,p^k\ ó\ 2p^k$, con $p$ primo y $k\geq 1$.
+		\item Si $\alpha$ es un generador de $\mathbb{Z}^*_n$, entonces $\mathbb{Z}^*_n = \{\alpha^i \, mod \, n \, \mid \, 0 \leq i \leq \varphi(n)-1 \}$.
+	\end{itemize}
+\end{proposition}
+
+
+\hfil
+
+% Grupos simétricos
+\section{El grupo simétrico $S_n$: permutaciones}
+
+\begin{definition}
+	Denotamos con $S_n$ al \textit{grupo simétrico} de las biyecciones o \textit{permutaciones} del conjunto
+	\begin{center}
+		$\mathbb{N}_n = \{1,2,3,\dots n\}$
+	\end{center}
+	con la operación composición $\circ$.
+\end{definition}
+
+
+Se dice que una permutación $\sigma \in S_n$ \textit{fija} al elemento $i\in \mathbb{N}_n$ si $\sigma(i)=i$, y en caso contrario lo \textit{mueve}.
+
+La composición siempre es asociativa, y el elemento neutro es la aplicación identidad, que deja fijos a todos los elementos.
+
+\begin{example}
+	Una permutación $\sigma \in S_n$ puede describirse poniendo los elementos $1,2,\dots,n$ y debajo sus imágenes $\sigma(1), \sigma(2),\dots, \sigma(n)$. Por ejemplo, en $S_6$ tenemos la permutación:
+	\[
+		\sigma =  \left( 
+			\begin{tabular}{cccccc}
+				1 & 2 & 3 & 4 & 5 & 6 \\
+				3 & 6 & 4 & 1 & 5 & 2
+			\end{tabular}
+		\right),
+	\] que fija al 5, intercambia al 2 con el 6, y con el resto hace un \textit{ciclo} $1\mapsto 3\mapsto 4\mapsto 1$.
+	
+\end{example}
+
+\begin{remark}
+	El grupo $S_n$ tiene $n!$ elementos, $\mid S_n \mid = n!$, pues son las posibles formas de ordenar $n$ elementos: $n$ opciones para el primero, $n-1$ para el segundo, etc.
+\end{remark}
+
+
+
+\hfil
+
+\section{Problema del logaritmo discreto}
+
+
+% TODO Introducir aquí el problema del logaritmo discreto, poner ejemplo donde haya un generador, referenciar a los otros TFG y los algoritmos más conocimos, junto con sus complejidades O(?)
+%Index-Calculus, las diapositivas de la charla en mates.
+
+
+\textbf{TODO Introducir aquí el problema del logaritmo discreto}
+%
+%
+%
+%
+%
+%
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
+	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el problema del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
+	\textit{Pregunta:} & ¿Conoce P el entero $s\in \mathbb{Z}_q$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = s$? \\
+\end{tabular}
+\\
+
+\hfil
