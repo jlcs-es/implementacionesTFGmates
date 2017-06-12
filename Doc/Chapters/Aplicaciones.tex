@@ -30,7 +30,7 @@ Hemos visto que la interacción habitual en una prueba de conocimiento cero es e
 		\\
 		P $\rightarrow$ V :& \textit{respuesta} $w = \xi(u,b,\Upsilon)$
 		\\
-		V verifica & $\vartheta(u,b,w,\Upsilon)$.
+		V verifica & $u=\vartheta(b,w,\Upsilon)$.
 	\end{tabular}
 \end{center}
 
@@ -45,11 +45,11 @@ Aprovechando la función del \textit{hash}, se puede convertir el protocolo en u
 
 \begin{center}
 	\begin{tabular}{ll}
-		P calcula :& \textit{testigo} $u$, \textit{respuesta} $w = \xi(u, $\textbf{h(u|m)}$,\Upsilon)$
+		P calcula :& \textit{testigo} $u$, \textit{respuesta} $w = \xi(u, h,\Upsilon)$, donde $h=$\textbf{hash(u|m)}
 		\\
-		P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \quad $(u,w)$
+		P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \quad $(h,w)$
 		\\
-		V verifica & $\vartheta(u,h(u|m),w,\Upsilon)$.
+		V verifica & $h=hash(\vartheta(h,w,\Upsilon)|m)$.
 	\end{tabular}
 \end{center}
 
@@ -169,7 +169,7 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 		\item $P \rightarrow V$:\quad $u \equiv (-1)^b \cdot r^2 \, mod \, N$, el \textit{testigo}.
 		\item $V \rightarrow P$:\quad $(b_1,\dots ,b_k)$, con cada $b_i \in_R \{0,1\}$, el \textit{reto}.
 		\item $P \rightarrow V$:\quad $w \equiv r\cdot \prod_{j=1}^{k} s_j^{b_j} \, mod \, N$, la \textit{respuesta}.
-		\item V verifica si \quad $ u \equiv \pm \, y^2 \cdot \prod_{j=1}^{k} v_j^{b_i} \, mod \, N$.
+		\item V verifica si \quad $ u \equiv \pm \, w^2 \cdot \prod_{j=1}^{k} v_j^{b_i} \, mod \, N$.
 	\end{enumerate}
 	
 \end{algorithm}
@@ -178,12 +178,44 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 % indicar que la seguridad es la probabilidad 2^-kt de adivinar en cada ronda el vector del reto
 
 
-\textbf{TODO: análisis del algoritmo: seguridad 2$^-kt$, ...}
+La probabilidad de que un atacante pueda engañar a V es la de acertar el reto de $k$ bits en cada una de las $t$ rondas, es decir, $2^{-kt}$. Como vemos, aumentando el número de retos por ronda, podemos reducir el número de mensajes intercambiados para conseguir una robustez equivalente a Fiat-Shamir.
 
 
 
+%TODO GQ
 
+\subsection{Protocolo de identificación de Schnorr}
+
+
+
+%TODO
 \textbf{TODO: Schnorr: con retos en Z/Zq, no en \{0,1\}}
+
+
+\subsection{Probar el conocimiento de una representación}
+
+Una generalización de Schnorr es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G = <g>$, un grupo de orden $o(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{k} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ es:
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}
+	P y V conocen $y$, $g_1, \dots, g_l$, $q$ y el parámetro del sistema $k$.
+	
+	\hfil
+	
+	Repetir $t$ rondas:
+	\begin{enumerate}
+		\item P escoge aleatoriamente $l$ enteros $r_i \in_R \mathbb{Z_q}$.
+		\item $P \rightarrow V$:\quad $t=\prod_{i=1}^{l}g_i^{r_i}$.
+		\item $V \rightarrow P$:\quad $c \in_R \{0,1\}^k$, un entero aleatorio de $k$ bits.
+		\item $P \rightarrow V$:\quad $s_i = r_i - c\cdot x_i \, mod \, q$, para $i=1,\dots,l$.
+		\item V verifica si \quad $t = y^c \prod_{i=1}^{l} g_i^{s_i}$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+La probabilidad de que un P malicioso adivine los $k$ bits aleatorios del reto $c$ es de $2^{-k}$. Este tipo de prueba se utiliza en Idemix, del cual hablaremos en la siguiente sección.
 
 
 %
@@ -196,9 +228,125 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 % Si en los preliminares de QR ampliamos a la dificultad de solucionar una raíz n-ésima, podemos meter Guillou-Quisquater (GQ), y dejar caer que es ZKP al ser una extensión de Fiat-Shamir, o demostrar formalmente que es ZKP (~).
 
 
-% Si metemos preliminares del logaritmo discreto y demostramos que es ZKP, ponemos Schnorr.
-
 
 % https://crypto.stackexchange.com/questions/9997/perfect-zero-knowledge-for-the-schnorr-protocol
 
 % Indican que demostrar que Schnorr es ZKP con un challenge grande no se puede, porque no se conoce un simulador eficiente
+
+
+
+
+\section{Pruebas de conocimiento cero en Identity Mixer}
+
+Identity Mixer, o Idemix, es un protocolo desarrollado por IBM\footnote{Identity Mixer - \url{https://www.research.ibm.com/labs/zurich/idemix/}} para crear certificados digitales basados en atributos, donde se preserva la privacidad. Este protocolo no solo permite la autenticación sin revelar un valor secreto, también permite realizar pruebas sobre los atributos del certificado de un usuario, sin revelar los valores, como por ejemplo, ``\texttt{año\_actual - año\_nacimiento $\geq$ 18}''.
+
+Los protocolos criptográficos en los que se especifican en Idemix \citep{idemixSpec} han sido desarrollados durante años por expertos en el área, donde destacan Jan Camenisch y Anna Lysyanskaya con el desarrollo de la firma CL \citep{camenisch2002signature} \citep{camenisch2001efficient} que se utiliza para firmar certificados sin tener que conocer los valores de todos los atributos, y que permite posteriormente al usuario demostrar que posee dicha firma, sin desvelarla. Esto permite poder utilizar múltiples veces un certificado de manera anónima sin que se relacionen los diferentes usos con la misma persona.
+
+
+
+
+
+\subsection{Notación para ZKP}
+
+Como hemos visto, cualquier problema de decisión posee una prueba de conocimiento cero, y de entre esas pruebas, las pruebas de conocimiento de un secreto son las que se utilizan en los certificados. Utilizaremos la siguiente notación de Camenisch y Stadler \citep{camenisch1997efficient} para denotar una prueba de conocimiento cero de conocimiento de un secreto.
+
+\begin{center}
+	$ZKPoK\{ (w) : \mathcal{L}(w,x) \}$
+\end{center}
+donde $w$ es un testigo, normalmente el secreto, $x$ es información conocida por ambas partes, y $\mathcal{L}(w,x)$ es un predicado que representa una condición sobre $w$ y $x$. Se puede leer como ``conozco un testigo $w$ tal que el predicado $\mathcal{L}(w,x)$ se cumple para $w$ y $x$''. Para abreviar, en vez de ZKPoK (\textit{Zero-Knowledge Proof of Knowledge}), usaremos ZKP o PK.
+
+\hfil
+
+Por ejemplo,
+\begin{center}
+	$PK\{ (\alpha) : y=g^\alpha \}$
+\end{center}
+donde $y\in G = <g>$, un grupo de orden $q$ primo, denota el protocolo de identificación de Schnorr.
+
+
+\subsection{Combinar diferentes pruebas de conocimiento}
+
+Cuando leamos pruebas de conocimiento con varias condiciones, como
+\begin{center}
+	$$
+	PK\{ (\alpha_1,\dots,\alpha_l,\beta_1,\dots,\beta_{l`}) : y=\prod_{i=1}^{l}g_i^{\alpha_i} \wedge z=\prod_{i=1}^{l`}h_i^{\beta_i} \}
+	$$
+\end{center}
+con $g_i,h_i,y,z\in G$, será equivalente a realizar de manera paralela e independiente cada protocolo:
+\begin{center}
+	$$
+	PK\{ (\alpha_1,\dots,\alpha_l) : y=\prod_{i=1}^{l}g_i^{\alpha_i} \}
+	$$
+	y
+	$$
+	PK\{ (\beta_1,\dots,\beta_{l`}) : z=\prod_{i=1}^{l`}h_i^{\beta_i} \}
+	$$
+\end{center}
+
+
+En el primer mensaje, P envía los testigos de cada uno de los protocolos. Entonces, V envía un único reto, el mismo para cada protocolo. Finalmente, P responde al reto con la respuesta de cada prueba, y V las verifica.
+
+
+
+\subsection{Firma Camenisch-Lysyanskaya}
+
+El esquema de firma de Camenisch-Lysyanskaya, o firma CL, es la base de los certificados Idemix. 
+
+Sean $p`$ y $q`$ dos primos, tal que $p=2p`+1$ y $q=2q`+1$ también lo son, llamados \textit{primos seguros}. Los parámetros del sistema, conocidos por el firmante y quien comprueba la firma son: el entero $n=pq$, $Z,S,R\in QR_n$ (grupo multiplicativo de los residuos cuadráticos módulo $n$). La clave secreta del firmante es $(p,q)$ y el mensaje lo denominaremos $m$. La firma CL sobre $m$ es la tupla $(A,e,v)$ tal que
+\begin{center}
+	$A \equiv \left( \dfrac{Z}{S^v R^m} \right) ^{1/e} \, mod \, n$
+\end{center}
+donde $e,v$ son aleatorios, $e$ primo y $\frac{1}{e}\cdot e \equiv 1 \, mod \, \varphi(n)$.
+
+
+Para comprobar que una firma $(A,e,v)$ es correcta, basta comprobar si
+\begin{center}
+	$Z \overset{?}{\equiv} A^e S^v R^m \, mod \, n$.
+\end{center}
+
+\hfil
+
+La ventaja de esta firma es que se puede aplicar sobre múltiples mensajes a la vez, que en el caso de un certificado, serán los diferentes atributos a firmar. En este caso los parámetros del sistema se mantienen, $n=pq$, $Z,S\in QR_n$, pero debemos calcular un residuo cuadrático por cada mensaje a firmar, $R_0,\dots,R_l\in QR_n$. La clave secreta sigue siendo $(p,q)$, y la firma de los mensajes $m_0,m_1,\dots,m_l$ es $(A,e,v)$ tal que
+\begin{center}
+	$A \equiv \left( \dfrac{Z}{S^v \prod_{i=0}^{l} R_i^{m_i} } \right) ^{1/e} \, mod \, n$
+\end{center}
+
+\hfil
+
+Para verificar la firma, comprobamos que
+\begin{center}
+	$Z \overset{?}{\equiv} A^e S^v \prod_{i=0}^{l} R_i^{m_i} \, mod \, n$
+\end{center}.
+
+
+\hfil
+
+La firma CL se basa en la \textit{suposición RSA fuerte}, donde tanto el problema RSA y el del logaritmo discreto son difíciles de resolver:
+
+% TODO: strong RSA assumption
+
+
+
+Como el firmante conoce los factores primos $p$ y $q$ de $n$, puede calcular, utilizando el Teorema Chino de los Restos, la firma fácilmente, pero quien no la conoce, se enfrenta al problema anterior para deshacer los cálculos.
+
+
+\subsection{Firma Camenisch-Lysyanskaya aleatorizada}
+
+Dada una firma CL $(A,e,v)$, sobre los mensajes  $m_0,m_1,\dots,m_l$, podemos obtener una firma $(\acute{A},e,\hat{v})$ distinta de la anterior, excepto por $e$, y todavía válida. Esta nueva firma la puede generar cualquier usuario, pues no precisa del secreto $(p,q)$ de la firma original.
+
+La nueva firma se calcula a partir de un entero aleatorio $r$, tal que $\acute{A}= A\cdot S^{-r}\, mod\, n$ y $\hat{v}=v+er$.
+
+La verificación de $(\acute{A},e,\hat{v})$ se realiza igual que en la original, ya que:
+
+\begin{center}
+	$
+	\acute{A}^e S^{\hat{v}} \prod_{i=0}^{l} R_i^{m_i} \equiv A^e S^{-er} S^v S^{er} \prod_{i=0}^{l} R_i^{m_i} \equiv A^e S^v \prod_{i=0}^{l} R_i^{m_i} \equiv Z \, mod \, n
+	$
+\end{center}
+
+
+\subsection{Firma de credenciales Idemix}
+
+
+
+\subsection{Revelación selectiva de atributos Idemix}
