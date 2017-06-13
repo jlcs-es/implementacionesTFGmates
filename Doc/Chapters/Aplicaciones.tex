@@ -175,24 +175,62 @@ Una variación del protocolo de Fiat-Shamir para disminuir el número de mensaje
 \end{algorithm}
 \rule{\textwidth}{1pt}
 
-% indicar que la seguridad es la probabilidad 2^-kt de adivinar en cada ronda el vector del reto
-
-
 La probabilidad de que un atacante pueda engañar a V es la de acertar el reto de $k$ bits en cada una de las $t$ rondas, es decir, $2^{-kt}$. Como vemos, aumentando el número de retos por ronda, podemos reducir el número de mensajes intercambiados para conseguir una robustez equivalente a Fiat-Shamir.
 
 
 
 %TODO GQ
+% TODO:
+% Si en los preliminares de QR ampliamos a la dificultad de solucionar una raíz n-ésima, podemos meter Guillou-Quisquater (GQ), y dejar caer que es ZKP al ser una extensión de Fiat-Shamir, o demostrar formalmente que es ZKP (~).
+
 
 \subsection{Protocolo de identificación de Schnorr}
 
+% https://crypto.stackexchange.com/questions/9997/perfect-zero-knowledge-for-the-schnorr-protocol
+
+% Indican que demostrar que Schnorr es ZKP con un challenge grande no se puede, porque no se conoce un simulador eficiente
+
+Este protocolo se basa en el problema del logaritmo discreto
 
 
-%TODO
-\textbf{TODO: Schnorr: con retos en Z/Zq, no en \{0,1\}}
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Protocolo de identificación Schnorr]
+	\hfil
+	
+	\textit{Configuración de la identidad}:
+	\begin{enumerate}
+		\item \textit{Parámetros del sistema}: La entidad de confianza publica los parámetros $(p,q,\beta)$ donde $p$ y $q$ son primos tal que $q\mid (p-1)$, y $\beta$ es un elemento con orden multiplicativo $q$ (por ejemplo, para $\alpha$ un generador $mod\,p$, $\beta=\alpha^{(p-1)/q}\,\mod\,p$). Además se escoge un $t$, $2^t < q$, que definirá el nivel de seguridad.
+		
+				
+		\item \textit{Selección del secreto}: Cada usuario P:
+		
+		\subitem (a) Recibe una identidad única $I_P$.
+		
+		\subitem (b) Escoge una clave privada $a$, $0\leq a \leq q-1$, y calcula $v = \beta^{-a}\, mod\, p$.
+		
+		\subitem (c) La entidad certificadora vincula la identidad $I_P$ y el valor $v$ firmando, con cualquier método de firma $S()$, el certificado $cert_A = (I_P, v, S_T(I_P|v))$.
+		
+	\end{enumerate}
+	
+	
+	\textit{Protocolo}:
+	\begin{enumerate}
+		\item P escoge aleatoriamente $r$, $0\leq r\leq q-1$, y un calcula $x=\beta^r\,mod\,p$.
+		\item $P \rightarrow V$:\quad $x$, el \textit{testigo}, y $cert_P$.
+		\item $V \rightarrow P$:\quad $e$ aleatorio, $1\leq e\leq 2^t<q$, el \textit{reto}, y verifica la firma del certificado.
+		\item $P \rightarrow V$:\quad $y=ae+r\, mod\, q$, la \textit{respuesta}.
+		\item V verifica si \quad $ x = \beta^y v^e \, mod \, p$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+Un P malicioso tiene una probabilidad de $2^-t$ de adivinar el reto, pero esta prueba no es una prueba de conocimiento cero perfecta, pues como vimos en el capítulo anterior, el simulador en tiempo polinomial existe si los retos $e$ tienen un dominio pequeño. Como se menciona en \citep{idemixSpec}, esta prueba es de conocimiento cero con verificador honesto (el que sigue el protocolo eligiendo el reto aleatoriamente), pero eligiendo un reto en un espacio de valores menor logarítmico respecto el parámetro $t$, y realizando múltiples iteraciones, se puede conseguir la condición de \textit{perfecta}, a cambio de perder eficiencia. También se indica que de \citep{Dam00} se pueden tomar construcciones para transformarlo en una prueba de conocimiento cero manteniendo eficiencia.
 
 
-\subsection{Probar el conocimiento de una representación}
+\subsubsection{Probar el conocimiento de una representación}\label{reprKP}
 
 Una generalización de Schnorr es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G = <g>$, un grupo de orden $o(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{k} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ es:
 
@@ -224,14 +262,6 @@ La probabilidad de que un P malicioso adivine los $k$ bits aleatorios del reto $
 %
 %
 
-% TODO:
-% Si en los preliminares de QR ampliamos a la dificultad de solucionar una raíz n-ésima, podemos meter Guillou-Quisquater (GQ), y dejar caer que es ZKP al ser una extensión de Fiat-Shamir, o demostrar formalmente que es ZKP (~).
-
-
-
-% https://crypto.stackexchange.com/questions/9997/perfect-zero-knowledge-for-the-schnorr-protocol
-
-% Indican que demostrar que Schnorr es ZKP con un challenge grande no se puede, porque no se conoce un simulador eficiente
 
 
 
@@ -315,22 +345,18 @@ La ventaja de esta firma es que se puede aplicar sobre múltiples mensajes a la 
 
 Para verificar la firma, comprobamos que
 \begin{center}
-	$Z \overset{?}{\equiv} A^e S^v \prod_{i=0}^{l} R_i^{m_i} \, mod \, n$
-\end{center}.
+	$Z \overset{?}{\equiv} A^e S^v \prod_{i=0}^{l} R_i^{m_i} \, mod \, n$.
+\end{center}
 
 
-\hfil
-
-La firma CL se basa en la \textit{suposición RSA fuerte}, donde tanto el problema RSA y el del logaritmo discreto son difíciles de resolver:
-
-% TODO: strong RSA assumption
+La firma CL se basa en la \textit{suposición RSA fuerte}, donde tanto el problema RSA y el del logaritmo discreto son difíciles de resolver a la vez, es decir, dado un módulo RSA $n$, y un valor $u\in \mathbb{Z}_n^*$, es difícil calcular una pareja de valores $(e,v)$, tal que $v^e \equiv u \, mod \, n$.
 
 
 
 Como el firmante conoce los factores primos $p$ y $q$ de $n$, puede calcular, utilizando el Teorema Chino de los Restos, la firma fácilmente, pero quien no la conoce, se enfrenta al problema anterior para deshacer los cálculos.
 
 
-\subsection{Firma Camenisch-Lysyanskaya aleatorizada}
+\subsection{Firma Camenisch-Lysyanskaya aleatorizada}\label{CLrandomized}
 
 Dada una firma CL $(A,e,v)$, sobre los mensajes  $m_0,m_1,\dots,m_l$, podemos obtener una firma $(\acute{A},e,\hat{v})$ distinta de la anterior, excepto por $e$, y todavía válida. Esta nueva firma la puede generar cualquier usuario, pues no precisa del secreto $(p,q)$ de la firma original.
 
@@ -347,6 +373,206 @@ La verificación de $(\acute{A},e,\hat{v})$ se realiza igual que en la original,
 
 \subsection{Firma de credenciales Idemix}
 
+En la expedición del certificado intervienen el Usuario y el Emisor (por ej., una compañía o gobierno). Durante el protocolo de emisión, el Usuario y el Emisor calculan interactivamente una firma CL, es decir, entre los dos generarán la firma CL, porque ninguno tendrá toda la información necesaria para generar la firma por sí mismo. En cada paso, una prueba de conocimiento cero asegurará que cada parte ha seguido el protocolo.
+
+El Emisor conocerá la factorización de $n$, mientras que el Usuario guardará su clave secreta, $m_0$ y, opcionalmente, los atributos del certificado, $m_1,\dots,m_l$. Al final de la firma, el Usuario conocerá una representación, $(m_1,\dots,m_l)$ de $\frac{Z}{A^eS^v}$ con respecto a la base $(R_0,\dots,R_l)$, y como ya hemos visto, podrá demostrar con una prueba de conocimiento cero que conoce dicha representación sin revelar ninguno, o solo un subconjunto. Además, el Emisor no conocerá la firma $(A,e,v)$ final, pues $v$ se calculará también de manera conjunta de modo que sólo el Usuario conocerá el valor final.
+
+\hfil
+
+A continuación presentamos una versión simplificada del protocolo, donde los atributos son conocidos por el Emisor. En otras versiones el Usuario puede enviar pruebas sobre alguna propiedad del atributo, o pseudónimos, sin revelar el verdadero valor al Emisor. Es importante notar que el número de residuos cuadráticos generados por el emisor, $R_0,\dots,R_{l'}$ determina el máximo de atributos que puede llevar un certificado.
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Emisión de certificado Idemix]
+	\hfil
+	
+	\textit{Conocimiento común}: $n,Z,S,R_0,\dots,R_{l'},m_1,\dots,m_l$, donde $l'\geq l$
+	
+	\textit{Conocimiento del Emisor}: $p,q$ tal que $n=pq$.
+	
+	\textit{Conocimiento del Usuario}: $m_0$, su clave secreta.
+	
+	\hfil
+	
+	\textit{Protocolo}:
+	\begin{enumerate}
+		\item Ronda 1: Emisor
+		\begin{enumerate}[label*=\arabic*.]
+			\item El Emisor escoge un valor aleatorio $n_1$ y lo envía al Usuario.
+		\end{enumerate}
+		
+		\item Ronda 2: Usuario
+		\begin{enumerate}[label*=\arabic*.]
+		
+			\item El Usuario elige un valor $v'$ aleatorio (primer paso para calcular el $v$ de la firma).
+			
+			\item Calcula el valor $U = S^{v'} \cdot R_0^{m_0} \, mod \, n$.
+			
+			\item Calcula* la prueba $P_1 := ZKP\{(\nu',\mu_0) : U \equiv S^{\nu'}R_0^{\mu_0} \, mod \, n \}(n_1)$, no interactiva, dependiente de $n_1$.
+			
+			\item Envía $U,P_1,n_2$, donde $n_2$ es un valor aleatorio elegido por el Usuario.
+
+		\end{enumerate}
+
+		\item Ronda 3: Emisor firma CL
+		\begin{enumerate}[label*=\arabic*.]
+			\item Verifica* la prueba $P_1$ del Usuario.
+			
+			\item Elige un valor un $e$ primo y $v''$ aleatorios (segundo paso para calcular el $v$ de la firma).
+			
+			\item Calcula el valor $A = \left(  \dfrac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{1/e} \, mod \, n$.
+			
+			\item Calcula* $P_2 := ZKP\{(\delta) : A \equiv \left( \dfrac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{\delta} \, mod \, n \}(n_2)$, no interactiva, dependiente de $n_2$.
+			
+			\item Envía $(A,e,v'')$ y $P_2$ al Usuario.
+		\end{enumerate}
+		
+		
+		\item Ronda 4: Usuario
+		\begin{enumerate}[label*=\arabic*.]
+			\item Calcula $v=v'+v''$.
+			\item Verifica $P_2$ y la firma CL $(A,e,v)$.
+		\end{enumerate}
+
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+
+\begin{flushleft}
+	*A continuación mostramos las pruebas y verificaciones correspondientes.
+\end{flushleft}
+
+\begin{figure}[bth]
+	\begin{center}
+		\includegraphics[width=\linewidth]{gfx/issuanceIdemix}
+	\end{center}
+	\caption{Idemix: firma de credenciales simplificada.}
+	\label{fig:issuanceIdemix}
+\end{figure}
+
+\hfil
+
+
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[$KP\{(v',m_0) : U \equiv S^{v'}R_0^{m_0} \, mod \, n \}(n_1)$]
+	\hfil
+	
+	\begin{enumerate}
+		\item Elegir $\tilde{m}_0$ y $\tilde{v}'$ aleatorios.
+		\item Calcular $\tilde{U} = S^{\tilde{v}'}\cdot R_0^{\tilde{m}_0} \, mod \, n$.
+		\item Reto por heurística Fiat-Shamir: $c = H(U||\tilde{U}||n_1)$.
+		\item Respuestas al \textit{reto}: $\hat{v}' = \tilde{v}' + c v'$, $\hat{m}_0 = \tilde{m}_0 + c m_0$.
+		\item $P_1 := (c, \hat{v}', \hat{m}_0)$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+
+
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Verificar $P_1 := (c, \hat{v}', \hat{m}_0)(n_1)$]
+	\hfil
+	
+	\begin{enumerate}
+		\item Calcular $\hat{U} = U^{-c}\cdot S^{\hat{v}'} R_0^{\hat{m}_0} \, mod \, n$.
+		\item Aceptar si $c = H(U||\hat{U}||n_1)$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[$KP\{(e^{-1}) : A \equiv \left( \frac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{e^{-1}} \, mod \, n \}(n_2)$]
+	\hfil
+	
+	Llamemos $Q:=\frac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}}$.
+	\begin{enumerate}
+		\item Elegir $r$ aleatorio.
+		\item Calcular $\tilde{A} = Q^r \, mod \, n$.
+		\item Calcular el reto por Fiat-Shamir $c' = H(Q||A||n_2||\tilde{A})$.
+		\item Calcular la respuesta $s_e = r-c'e^{-1}$.
+		\item $P_2 := (s_e, c')$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Verificar $P_2 := (s_e, c')(n_2)$]
+	\hfil
+	
+	\begin{enumerate}
+		\item Calcular $\hat{A} = A^{c'+s_e\cdot e} \equiv A^{c'}Q^{s_e} \, mod \, n$.
+		\item Aceptar si $c' = H(Q||A||n_2||\hat{A})$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
 
 
 \subsection{Revelación selectiva de atributos Idemix}
+
+Partiendo de un certificado con la clave secreta $m_0$, los atributos $m_1,\dots,m_l$ y la firma CL $(A,e,v)$, vamos a revelar a un Verificador todos nuestros atributos, excepto los dos primeros, $m_1$ y $m_2$, y por supuesto, tampoco la clave privada $m_0$.
+
+Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} y realizaremos una prueba no interactiva de que conocemos la representación $(m_0,m_1,m_2)$ (\ref{reprKP}) de un cierto valor en una cierta base.
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Revelación selectiva]
+	\hfil
+	
+	\textit{Conocimiento común}: $n,Z,S,R_0,\dots,R_{l},m_3,\dots,m_l$.
+	
+	\textit{Conocimiento del Usuario}: $m_0$, su clave secreta, $m_1$ y $m_2$, sus atributos ocultos, $(A,e,v)$ su firma CL.
+	
+	\hfil
+	
+	\textit{Protocolo}:
+	\begin{enumerate}
+		\item V$\rightarrow$ P : valor aleatorio $n_1$.
+		
+		\item Usuario aleatoriza la firma CL:
+		\begin{enumerate}[label*=\arabic*.]
+			
+			\item 
+			
+		\end{enumerate}
+		
+		\item Usuario calcula la prueba de conocimiento no interactiva:
+		
+		$PK\{ (e,\hat{v}, m_0, m_1, m_2) :  \frac{Z}{\prod_{3}^{l}R_i^{-m_i}} \equiv A'^e S^{\hat{v}}\prod_{i=0}^{2} R_i^{m_i} \, mod \, n  \}(n_1)$
+		
+		\begin{enumerate}[label*=\arabic*.]
+			\item 
+		\end{enumerate}
+		
+		\item U $\rightarrow$ V : $A'$ y $()$.
+		
+		\item Verificador comprueba:
+		 \begin{enumerate}[label*=\arabic*.]
+		 	\item 
+		 \end{enumerate}
+		
+	\end{enumerate}
+	
+
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+
+
+\section{Pruebas de conocimiento cero en criptomonedas}
+% O blockchain
