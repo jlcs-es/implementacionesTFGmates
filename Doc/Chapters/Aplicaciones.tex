@@ -44,7 +44,7 @@ Aprovechando la función del \textit{hash}, se puede convertir el protocolo en u
 
 
 \begin{center}
-	\begin{tabular}{ll}
+	\begin{tabular}{ll}\label{fiat-shamir-heur}
 		P calcula :& \textit{testigo} $u$, \textit{respuesta} $w = \xi(u, h,\Upsilon)$, donde $h=$\textbf{hash(u|m)}
 		\\
 		P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \quad $(h,w)$
@@ -455,9 +455,8 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 \hfil
 
 
+La prueba de conocimiento $P_1$ indica que conocemos un $v'$, primera parte del $v$ final de la firma CL, y un $m_0$, nuestra clave secreta, tales que $U$ se representa como $(v', m_0)$ en la \textit{base} $(S,R_0)$. Utilizando la heurística de Fiat-Shamir, en vez de pedir varios retos al Emisor para conseguir robustez, utilizamos una función de hash junto a un reto $n_1$ del emisor, llamado en inglés \textit{nonce}. La prueba que se envía consiste en el reto obtenido con el hash, y las respuestas a dicho reto.
 
-
-\rule{\textwidth}{1pt}
 \begin{algorithm}[$KP\{(v',m_0) : U \equiv S^{v'}R_0^{m_0} \, mod \, n \}(n_1)$]
 	\hfil
 	
@@ -470,14 +469,11 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 	\end{enumerate}
 	
 \end{algorithm}
-\rule{\textwidth}{1pt}
 
+\hfil
 
+Para verificar la prueba anterior, por la heurística de Fiat-Shamir (\ref{fiat-shamir-heur}), debemos \textit{recuperar} el valor de $U$ calculado por el Usuario, y comparar los hashes generados.
 
-
-
-
-\rule{\textwidth}{1pt}
 \begin{algorithm}[Verificar $P_1 := (c, \hat{v}', \hat{m}_0)(n_1)$]
 	\hfil
 	
@@ -487,12 +483,12 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 	\end{enumerate}
 	
 \end{algorithm}
-\rule{\textwidth}{1pt}
+
+\hfil
 
 
+En la prueba de conocimiento del Verificador, demostramos que conocemos la inversa del $e$ de la firma CL, pero sin desvelar su valor, que solo el Emisor, conocedor de $p$ y $q$, puede calcular.
 
-
-\rule{\textwidth}{1pt}
 \begin{algorithm}[$KP\{(e^{-1}) : A \equiv \left( \frac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{e^{-1}} \, mod \, n \}(n_2)$]
 	\hfil
 	
@@ -506,10 +502,11 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 	\end{enumerate}
 	
 \end{algorithm}
-\rule{\textwidth}{1pt}
 
+\hfil
 
-\rule{\textwidth}{1pt}
+Como antes, \textit{recuperamos} el valor calculado $\tilde{A}$ y comparamos los hashes.
+
 \begin{algorithm}[Verificar $P_2 := (s_e, c')(n_2)$]
 	\hfil
 	
@@ -519,7 +516,6 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 	\end{enumerate}
 	
 \end{algorithm}
-\rule{\textwidth}{1pt}
 
 
 
@@ -546,23 +542,32 @@ Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} 
 		\item Usuario aleatoriza la firma CL:
 		\begin{enumerate}[label*=\arabic*.]
 			
-			\item 
+			\item $r$ aleatorio, $(A':=AS^{r} (mod\, n),\, e,\, v':=v-er)$
 			
 		\end{enumerate}
 		
 		\item Usuario calcula la prueba de conocimiento no interactiva:
 		
-		$PK\{ (e,\hat{v}, m_0, m_1, m_2) :  \frac{Z}{\prod_{3}^{l}R_i^{-m_i}} \equiv A'^e S^{\hat{v}}\prod_{i=0}^{2} R_i^{m_i} \, mod \, n  \}(n_1)$
+		$PK\{ (\hat{e},\hat{v}, m_0, m_1, m_2) :  \frac{Z}{\prod_{3}^{l}R_i^{m_i}} \equiv A'^{\hat{e}} S^{\hat{v}}\prod_{i=0}^{2} R_i^{m_i} \, mod \, n  \}(n_1)$
 		
 		\begin{enumerate}[label*=\arabic*.]
-			\item 
+			\item Elige valores aleatorio $\tilde{e}$ y $\tilde{v}'$.
+			\item Elige valores aleatorios $\tilde{m}_0$, $\tilde{m}_1$ y $\tilde{m}_2$.
+			\item Calcula $\tilde{Z}:=(A')^{\tilde{e}} \left( \prod_{i=0}^3 R_i^{\tilde{m}_i} \right) S^{\tilde{v}'} \, mod \, n $.
+			\item Genera el reto por Fiat-Shamir $c:=Hash(A'||\tilde{Z}||n_1)$.
+			\item Calcula:
+			\subitem $\hat{e}:=\tilde{e}+ce$
+			\subitem $\hat{v}':=\tilde{v}+cv'$
+			\subitem $\hat{m}_i:=\tilde{m}_i+cm_i$, para $i=0,1,2$.
+			\item $P_1:=(c, \hat{e}, \hat{v}', \hat{m}_0, \hat{m}_1, \hat{m}_2)$.			
 		\end{enumerate}
 		
-		\item U $\rightarrow$ V : $A'$ y $()$.
+		\item U $\rightarrow$ V : $A'$ y $P_1$.
 		
 		\item Verificador comprueba:
 		 \begin{enumerate}[label*=\arabic*.]
-		 	\item 
+		 	\item Calcula $\hat{Z}:= \left( \frac{Z}{\prod_{i=3}^{l} R_i^{m_i}} \right)^{-c} (A')^{\hat{e}} \left( \prod_{i=0}^{3} R_i^{\hat{m}_i} \right)  S^{\hat{v}'} \, mod \, n$.
+		 	\item Acepta si $c=Hash(A'||\hat{Z}||n_1)$.
 		 \end{enumerate}
 		
 	\end{enumerate}
@@ -572,6 +577,13 @@ Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} 
 \rule{\textwidth}{1pt}
 
 
+Tras la ejecución del protocolo anterior, el Verificador conoce algunos de nuestros atributos, y una prueba de que el Emisor nos los firmó, junto a nuestra clave secreta, $m_0$, y otros atributos que hemos ocultado. El Verificador tampoco conoce la firma CL original $(A,e,v)$, sólo $A'$ de la firma aleatorizada, y dos testigos, $\hat{e}$ y $\hat{v}'$ de la misma firma aleatorizada.
+
+Un ejemplo cercano de uso de este protocolo podría ser las encuestas anónimas de asignaturas. Actualmente, si queremos asegurar al alumno que la encuesta es totalmente anónima, sin repercusiones, debemos dejarla \textit{abierta}, pudiendo cualquier persona rellenarla. Si queremos asegurar que sólo los alumnos matriculados puedan acceder a la encuesta, tendrían que iniciar sesión con su correo electrónico, y que confíen en que nadie accederá a sus comentarios.
+
+Con un certificado Idemix, un atributo podría ser ``Alumno de la asignatura X'', otro sus datos de identificación. La Universidad firmó su certificado, que puede llevar en la tarjeta inteligente, por lo que disponemos de una firma CL. Al iniciar sesión en la encuesta, bastaría con mostrar que se es alumno de la asignatura, y generar la prueba no interactiva de que posee un certificado firmado por la Universidad. Sólo los verdaderos alumnos podrán acceder, y ningún registro puede relacionar una opinión con su autor.
+
+Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger la transmisión, que el mensaje no pudiera ser interceptado. Con las pruebas de conocimiento cero hemos conseguido protegernos ante un interlocutor en quien no confiamos.
 
 
 \section{Pruebas de conocimiento cero en criptomonedas}
