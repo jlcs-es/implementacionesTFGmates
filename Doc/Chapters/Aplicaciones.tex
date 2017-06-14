@@ -588,3 +588,26 @@ Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger 
 
 \section{Pruebas de conocimiento cero en criptomonedas}
 % O blockchain
+
+% No dependes de los peers para asegurar tu privacidad, ni de una tercera entidad, ni de aplicar otras técnicas sobrela tecnología blockchain, las propias operaciones criptográficas aseguran la privacidad.
+
+% Basecoin <-> Zerocoin : breaks link between new and original Basecoin
+
+% Zerocoin := proof that you owned a Basecoin and made it unspendable
+% Miners verify the proofs
+% ZKP{ (m) : c==H(m) }  ;  ZKP{ (m) : c1==H(m) OR c2==H(m) OR c3==H(m) }
+
+
+% Double spending: 
+% Obtienes zerocoin: gastas un Basecoin por un zerocoin identificado por H(S,r), S y r secretos.
+% ZKP{ (r) : H(S,r) == alguno de los zerocoins en la cadena } + verificar S no gastado antes (S se hace público, r se mantiene secreto).
+% Al gastar el zerocoin, no se sabe a cual de los hashes era igual, como todos valen igual, se toma uno cualquiera
+
+% N número de zerocoins en la cadena: tamaño de la prueba es logarítmico respecto N
+
+
+% Zerocash: zerocoin sin Basecoin, y más eficiente
+% No va y vuelve de basecoin a zerocoin, se puede trabajar todo el rato en zerocash
+% All transactions are zerocoin
+% Splitting and merging are supported. Put transaction value inside the envelope.
+% Ledger merely records existence of transactions.
