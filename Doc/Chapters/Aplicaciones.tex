@@ -230,6 +230,9 @@ Este protocolo se basa en el problema del logaritmo discreto
 Un P malicioso tiene una probabilidad de $2^-t$ de adivinar el reto, pero esta prueba no es una prueba de conocimiento cero perfecta, pues como vimos en el capítulo anterior, el simulador en tiempo polinomial existe si los retos $e$ tienen un dominio pequeño. Como se menciona en \citep{idemixSpec}, esta prueba es de conocimiento cero con verificador honesto (el que sigue el protocolo eligiendo el reto aleatoriamente), pero eligiendo un reto en un espacio de valores menor logarítmico respecto el parámetro $t$, y realizando múltiples iteraciones, se puede conseguir la condición de \textit{perfecta}, a cambio de perder eficiencia. También se indica que de \citep{Dam00} se pueden tomar construcciones para transformarlo en una prueba de conocimiento cero manteniendo eficiencia.
 
 
+% TODO : ejemplo
+
+
 \subsubsection{Probar el conocimiento de una representación}\label{reprKP}
 
 Una generalización de Schnorr es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G = <g>$, un grupo de orden $o(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{k} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ es:

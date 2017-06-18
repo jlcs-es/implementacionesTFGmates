@@ -9,80 +9,9 @@ La ventaja de esta herramienta es la facilidad para manejar estructuras de datos
 
 \section{Prueba Interactiva: Problema del Residuo Cuadrático}
 
-\begin{lstlisting}[language=Python,frame=tb,caption={QR},label=lst:QR]
-s = 0
-t = 0
+\lstinputlisting[language=Python,frame=tb,caption={QR},label=lst:QR]{code/QR.sage}
 
-def Setup():
-	global s
-	p = random_prime(2^100)
-	q = random_prime(2^100)
-	N = p*q
-	s = Zmod(N).random_element()
-	x = s^2
-	return x,N  
-
-def elegir_u(x,N):
-	global t
-	t = Zmod(N).random_element()
-	return t^2
-
-def enviar_prueba(x,N,u,b):
-	if b == 0:
-		return t
-	else:
-		return Zmod(N)(t*s)
-
-x,N = Setup()
-u = elegir_u(x,N)
-w = enviar_prueba(x,N,u,1)
-
-print "Comprobar"
-print Zmod(N)(w^2)
-print Zmod(N)(u*x)
-
-\end{lstlisting}
-
-
-
-
-\begin{lstlisting}[language=Python,frame=tb,caption={QR2},label=lst:QR2]
-p = 0
-q = 0
-
-def Setup():
-	global p,q
-	p = random_prime(2^100)
-	q = random_prime(2^100)
-	N = p*q
-	s = Zmod(N).random_element()
-	x = s^2
-	return x,N  
-
-def elegir_u(x,N):
-	t = Zmod(N).random_element()
-	return t^2
-
-def enviar_prueba(x,N,u,b):
-	if b == 0:
-		z = u
-	else:
-		z = x*u
-	zp = Zmod(p)(z)
-	zq = Zmod(q)(z)
-	w = crt([ZZ(sqrt(zp)),ZZ(sqrt(zq))],[p,q])
-	return w
-
-x,N = Setup()
-u = elegir_u(x,N)
-w = enviar_prueba(x,N,u,1)
-
-print "Comprobar"
-print Zmod(N)(w^2)
-print Zmod(N)(u*x)
-
-\end{lstlisting}
-
+\lstinputlisting[language=Python,frame=tb,caption={QR2},label=lst:QR2]{code/QR2.sage}
 
 El algoritmo representa...
 
@@ -102,8 +31,4 @@ La optimización de operaciones utilizando la factorización de $N$ y el TCR es 
 
 
 
-
-
-\begin{lstlisting}[language=Python,frame=tb,caption={AUX},label=lst:AUX]
-s = 0
-\end{lstlisting}
+\lstinputlisting[language=Python,frame=tb,caption={QT},label=lst:QT]{code/QT.sage}

@@ -7,7 +7,7 @@
 % https://es.wikipedia.org/wiki/Prueba_de_conocimiento_cero
 % https://en.wikipedia.org/wiki/Interactive_proof_system
 % How to Prove a Theorem So No One Else Can Claim It, Manuel Blum
-
+% rosen2007discrete
 
 % Intro
 % Ejemplo intuitivo del laberinto
@@ -608,7 +608,7 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 
 
 
-\subsection{Logaritmo discreto}
+\subsection{Logaritmo discreto}\label{perfectDL}
 
 
 Vamos a expresar el problema del logaritmo discreto como un problema de decisión, donde podamos mantener cierta información secreta que no se revele en la prueba de conocimiento cero, y que permita solucionar el problema:
@@ -808,7 +808,7 @@ La propiedad de \textit{conocimiento cero} exige que exista un algoritmo probabi
 
 \hfil
 
-\subsection{Pruebas de conocimiento cero estadísticas}
+\section{Pruebas de conocimiento cero estadísticas}
 
 \hfil
 
@@ -824,9 +824,191 @@ para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instanci
 \hfil
 % TODO: ejemplo
 
-\subsection{Pruebas de conocimiento cero computacionales}
+
+
+
+
+\section{Pruebas de conocimiento cero de Verificador Honesto}
+
+%TODO
+
+% rosen2007discrete
+
+En esta sección veremos un tipo de pruebas de conocimiento cero, utilizadas en la práctica, que derivan de las ZKP perfectas al añadir una condición al Verificador, que cumpla el protocolo indicado.
+
+En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de una función $F$ que un Verificador tramposo V$^*$ utilizaría para elegir los retos, en un intento de obtener más información de P. Sin embargo, si el conjunto de posibles retos es demasiado grande, el Simulador diseñado perdería la propiedad de ser de \textit{tiempo polinomial}.
+
+Veremos es este apartado una variación de la ZKP perfecta basada en el problema del Logaritmo Discreto (\ref{perfectDL}), llamado \textit{Protocolo de Identificación de Schnorr}.
 
 \hfil
+
+Primero han de definirse parámetros comunes conocidos por P y V. Elegimos dos valores primos, $p$ y $q$ tal que $p\equiv 1 \, mod \, q$, es decir, $q\mid (p-1)$, y el problema del logaritmo discreto es difícil. Sea $\alpha$ un generador del subgrupo de orden $q$ de $\mathbb{Z}_p^*$. Además debemos elegir un valor $t$ que definirá la robustez del protocolo. En resumen tenemos:
+
+\begin{itemize}
+	\item $p$ primo.
+	\item $q$ primo divisor de $(p-1)$.
+	\item $\alpha \in \mathbb{Z}_p^*$ de orden $q$.
+	\item $t$ un \textit{parámetro de seguridad}, tal que $2^t < q$. La robustez del protocolo, es decir, la probabilidad de que un P$^*$ tramposo engañe a V, será de $2^{-t}$.
+\end{itemize}
+
+
+El secreto de P será el valor $a$, tal que $0\leq a \leq q-1$. La prueba consistirá en demostrar que P conoce dicho valor. P calcula entonces el valor $v = \alpha ^{-a} \, mod \, p$. Éste valor se puede calcular como la inversa $\left( \alpha ^{a} \right) ^{-1} \, mod \, p$, o de manera más eficiente como $\alpha ^{q-a} \, mod \, p$.
+
+Tanto P como V conocerán los valores $p$, $q$, $\alpha$, $t$ y $v$.
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Schnorr]
+	
+	\hfil
+	
+	\textit{Datos comunes}: $p$, $q$, $\alpha$, $t$ y $v$.
+	
+	\textit{Protocolo}: Realizar una vez:
+	
+	\begin{enumerate}
+		
+		\item P elige aleatoriamente $k \in_R \mathbb{Z}_q$.
+		
+		\item P $\rightarrow$ V :\quad $\gamma = \alpha^k \, mod \, p$ (el \textit{testigo}).
+		
+		\item V $\rightarrow$ P :\quad $r$ aleatorio, tal que $1\leq r\leq 2^t < q $ (el \textit{reto}).
+		
+		\item P $\rightarrow$ V :\quad $y = k + ar \, mod \, q$ (la \textit{respuesta}).
+		
+		\item V comprueba si $\gamma \overset{?}{\equiv} \alpha^y v^r \, mod \, p$
+		
+		Si la comparación falla, V termina en rechazo. En caso contrario, acepta la prueba.
+		
+		
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+Este algoritmo en particular se diseñó con el objetivo de minimizar la cantidad de mensajes intercambiados manteniendo una robustez que lo hiciera seguro. Como veremos, una sola interacción nos dará una probabilidad de $2^{-t}$ de que un atacante consiga engañar al Verificador.
+
+
+Pero primero comprobemos la \textit{completitud}. Veamos con las siguientes congruencias que que si P conoce $a$, siempre podrá responder correctamente al reto:
+\[
+\alpha^y v^r \equiv \alpha ^{k+ar} v^r \equiv \alpha^{k+ar} \alpha ^{-a r} \equiv \alpha ^k \equiv \gamma \, mod \, p
+\]
+
+Por tanto, un P y V honestos finalizarán el protocolo en aceptación siempre, la prueba es \textit{completa}.
+
+\hfil
+
+El \textit{parámetro de seguridad} $t$ define la dificultad de adivinar el reto de V. Si P$^*$ adivinara el valor $r$ aleatorio de V, podría superar la prueba eligiendo un valor $y$ aleatorio y calculando $\gamma = \alpha ^y v ^r \, mod \, p$, con lo que enviando primero el $y$ y respondiendo al reto con $\gamma$ pasaría la prueba. La probabilidad de adivinar correctamente un reto $1\leq r\leq 2^t$ elegido aleatoriamente es de $\frac{1}{2^t}$.
+
+
+Supongamos que P$^*$ puede adivinar el reto de V con una probabilidad mayor a $2^{-t}$, entonces P$^*$ conocería para un valor $\gamma$ de su elección, al menos dos respuestas posibles para dos retos distintos de V, es decir, si antes el P$^*$ tramposo podía precalcular un testigo y una respuesta para un reto de V, ahora puede calcular, para el mismo testigo (pues solo puede enviar uno antes de recibir el reto), P$^*$ conoce la respuesta de al menos dos retos.
+
+Sea $\gamma$ el testigo para el que P$^*$ conoce los valores $r_1$, $y_1$ y $r_2$, $y_2$, un par de posibles retos y respuestas válidas, que cumplen
+\[
+	\gamma \equiv \alpha^{y_1} v^{r_1} \equiv \alpha^{y_2} v^{r_2} \, mod \, p
+\]
+
+Se sigue que
+\[
+	\alpha^{y_1 - y_2} \equiv v ^{r_2 - r_1}  \, mod \, p
+\]
+
+Como la \textit{clave pública} $v$ se calculaba como $v\equiv \alpha^{-a} \, mod \, p$, con $a$ el secreto de P, podemos sustituir:
+\[
+	\alpha^{y_1 - y_2} \equiv \alpha ^{-a(r_2 - r_1)}  \, mod \, p
+\]
+
+Como $\alpha$ tiene orden $q$, podemos trabajar con los exponentes como:
+\[
+	y_1 - y_2 \equiv a(r_1 - r_2) \, mod \, q
+\]
+
+Por la condición sobre los retos $1\leq r \leq 2^t < q$, sabemos que $0 < \mid r_2 - r_1 \mid < 2^t < q$, y como $q$ es primo, $mcd(r_2-r_1,q)=1$, de modo que existe el inverso $(r_1 - r_2)^{-1} \, mod \, q$, y el P$^*$ puede calcular el secreto $a$ como:
+\[
+	a = (y_1-y_2)(r_1-r_2)^{-1}\, mod \, q
+\]
+
+A partir de este análisis, vemos que cualquiera que pueda superar la prueba frente a V con una probabilidad mayor a $2^{-t}$ puede calcular el secreto de P.
+
+
+
+
+\hfil
+
+
+
+Después de ver la \textit{completitud} y \textit{robustez} del protocolo, veamos la propiedad de \textit{conocimiento cero con Verificador Honesto}.
+
+Una transcripción o vista del protocolo es simplemente el ensamble probabilístico con una tupla:
+\[
+Vista_{P,V} =(\gamma, r, y)
+\]
+
+Calculamos la probabilidad 
+\[
+	P(\gamma=g, r=b, y=c) = P(\gamma=g)P(r=b\mid \gamma =a)P(y=c\mid \gamma=a, r=b)
+\]
+
+
+P calcula $\gamma$ a partir de un valor $k$ aleatorio entre $0$ y $q-1$, y elevando $\alpha$, de orden $q$ a dicho valor, de modo que la probabilidad de que $\gamma$ tome el valor $g$ es igual a la de elegir el $k$ que genera $a$: $P(\gamma=g)=\frac{1}{q}$.
+
+Bajo el supuesto de Verificador Honesto, $P(r=b\mid \gamma =g)=P(r=b)=\frac{1}{2^t}$, pues V seguirá el protocolo, eligiendo el reto aleatoriamente, sin usar la función $F$ del apartado anterior.
+
+Finalmente, $y=k+ar$ depende del $k$ que genera $\gamma=g$, del secreto $a$ de P y del reto $r=b$ de V. La probabilidad condicionada $P(y=c\mid \gamma=a, r=b)=1$.
+
+Tenemos que la probabilidad de obtener la Vista $(\gamma, r, y)$ es de $\frac{1}{q\cdot 2^{t}}$.
+
+\hfil
+
+Ahora definimos el Simulador de la prueba, con la restricción de Verificador Honesto:
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}
+	
+	\hfil
+	
+	\textit{Datos}: $p$, $q$, $\alpha$, $t$ y $v$.
+	
+	\textit{Protocolo}: Realizar una vez:
+	
+	\begin{enumerate}
+		
+		\item Elegir $r$ aleatorio tal que $1\leq r \leq 2^t$.
+		\item Elegir $y$ aleatorio tal que $0\leq y \leq q-1$.
+		\item Calcular $\gamma = \alpha ^y v^r \, mod \, p$.		
+		
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+
+El ensamble del Simulador se puede escribir como el conjunto:
+\[
+S_{V} = \{ (\gamma', r', y') : 1\leq r' \leq 2^t,\, 0\leq y'\leq q-1,\, \gamma' \equiv \alpha^y v^r \, mod \, p \}
+\]
+
+Como $\gamma'$ depende totalmente de $r'$ e $y'$, $\mid S_V \mid = q\cdot 2^t$, es decir, $P(\gamma'=g, r'=b, y'=c)=\frac{1}{q\cdot 2^t}$, la misma que la de la Vista. 
+
+
+Tenemos, por tanto, que el protocolo de Schnorr es una Prueba de Conocimiento Cero con Verificador Honesto.
+
+\hfil
+
+A día de hoy, para probar que Schnorr es ZKP perfecta, donde un Verificador utiliza la función $F$ que elige los retos no uniformemente entre $1$ y $2^t$, no se conoce ningún simulador que sea probabilístico en tiempo polinomial, condición indispensable para probar que es perfecta.
+
+
+%%%%%%%%
+Aún así, Schnorr es utilizado ampliamente en la práctica, pues tampoco se conoce ningún ataque a partir de la elección de retos no aleatorios. Para probar que el protocolo es una ZKP perfecta hay que añadir nuevas restricciones, como reducir el espacio de retos, a cambio de incrementar las rondas para mantener el nivel de robustez. Con un bit por reto y $t$ rondas, en la sección anterior demostramos que el protocolo era una ZKP perfecta, pero en la práctica es poco eficiente por la cantidad de mensajes necesarios.
+%%%%%%%%%
+
+
+\hfil
+
+
+\section{Pruebas de conocimiento cero computacionales}
 
 Decimos que dos ensambles probabilísticos son\textit{indistinguibles polinomialmente} si no existe un \textit{algoritmo probabilístico en tiempo polinomial} que puede distinguir uno de otro. Se puede consultar más sobre indistinguibilidad polinomial en \citep{book:856771}, donde se indica que, en particular, es un subconjunto propio de la \textit{indistinguibilidad estadística}, que nos daba las Pruebas de Conocimiento Cero Estadísticas del apartado anterior.
 
@@ -837,7 +1019,7 @@ En esta clase de pruebas interactivas, el probador P ya no se considera como una
 En esta clase de ZKP se encuentran problemas como el de la 3-coloración del grafo (G3C), o el del camino hamiltoniano (HC).
 
 
-\subsubsection{Prueba de conocimiento cero para un grafo hamiltoniano}
+\subsection{Prueba de conocimiento cero para un grafo hamiltoniano}
 
 \hfil
 
@@ -903,7 +1085,7 @@ Si P$^*$ no acierta correctamente qué bit enviará V, en cada ronda hay una pro
 %TODO
 TODO
 
-\subsubsection{Prueba de conocimiento cero para la 3-coloración de un grafo}
+\subsection{Prueba de conocimiento cero para la 3-coloración de un grafo}
 
 
 \hfil
@@ -933,7 +1115,7 @@ La propiedad de conocimiento cero se prueba con un simulador que funciona como l
 Se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se deduce que todo problema en \textbf{NPC} tiene una ZKP computacional.
 
 
-\subsection{Esquemas de compromiso}\label{bitcommitment}
+\section{Esquemas de compromiso}\label{bitcommitment}
 
 En las pruebas de conocimiento cero vistas hasta ahora, el primer mensaje del Probador consistía en un \textit{compromiso} con el Verificador, de modo que en la respuesta al reto no pudiera engañarle, con cierta probabilidad.
 
