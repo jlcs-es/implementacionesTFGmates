@@ -248,7 +248,7 @@ Podemos describir, por fin, la tercera propiedad, además de la \textit{completi
 
 
 %%%%
-A primera vista, puede parecernos que nada tiene que ver la existencia de tal Simulador con no poder obtener información de P más allá de si la instancia es $Verdadera$. Pero es precisamente el hecho de que cualquier máquina M, que \textbf{no} conoce la solución, ni un certificado para comprobarla (\ref{def:NP}), pueda generar transcripciones del protocolo idénticas a las que podríamos interceptar a un P y V verídicos. Si M no conoce el secreto, de sus simulaciones nada podemos sacar, y por tanto, tampoco de la interacción entre P y V.
+A primera vista, puede parecernos que nada tiene que ver la existencia de tal Simulador con no poder obtener información de P más allá de si la instancia es $Verdadera$. Pero es precisamente el hecho de que cualquier máquina M, que \textbf{no} conoce la solución (ni un certificado para comprobarla (\ref{def:NP})) pueda generar transcripciones del protocolo \textit{idénticas} a las que podríamos interceptar a un P y V verídicos. Si M no conoce el secreto, de sus simulaciones nada podemos sacar, y por tanto, tampoco de la interacción entre P y V.
 
 %%%%
 
@@ -793,37 +793,13 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 \end{proof}
 
 
-%TODO: 
-%TODO: ¿poner?
-%\begin{remark}
-%	En la prueba se elige $u \in \mathbb{Z}_q^*$ para evitar el caso de que $u$ sea $0$ y V pueda obtener $s$ enviando $b=1$. Hay otros valores que son fáciles de atacar, como $u=1$, que se detecta viendo que $a=g$, y con $b=1$ podemos obtener $s=w-1$. La prueba se modificaría definiendo el conjunto de valores donde el testigo es seguro, y el Simulador se vería afectado por ese mismo conjunto donde elegir, de modo que las probabilidades de los ensambles cambiarían, pero seguirían siendo idénticos.
-%\end{remark}
-% TODO: NO, ya se indica que el problema es difícil en G=<g>
-
-
-
-\section{Otros tipos de pruebas de conocimiento cero}
-
-La propiedad de \textit{conocimiento cero} exige que exista un algoritmo probabilístico Simulador que pueda ejecutarse en tiempo polinomial, y cuyo ensamble sea idéntico al del protocolo. Esto limita mucho el número de pruebas interactivas de conocimiento cero, y por eso se definen condiciones menos restrictivas que en la práctica, con máquinas reales limitadas computacionalmente, pueden funcionar como las ZKP perfectas, e incluso ser más óptimas, al reducir el número de interacciones manteniendo el nivel de robustez.
-
 \hfil
 
-\section{Pruebas de conocimiento cero estadísticas}
+\paragraph{Otros tipos de pruebas de conocimiento cero}
+
+La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Esto limita la cantidad de pruebas de conocimiento cero conocidas, y por eso se definen pruebas con menos restricciones, que en la práctica pueden funcionar como las ZKP perfectas, en muchos casos más óptimas al reducir el número de interacciones manteniendo el nivel de robustez.
 
 \hfil
-
-Se denominan así las pruebas interactivas con un Simulador que, en vez de tener ensamble idéntico a la Vista, convergen en $n$, el parámetro que define el tamaño del problema:
-\begin{center}
-	$$
-	\lim_{n\to\infty} Vista_{P,V^*}(q,h) =  \lim_{n\to\infty} S_{V^*}(q,h)
-	$$
-\end{center}
-
-para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instancia $q$, e historial $h$. 
-
-\hfil
-% TODO: ejemplo
-
 
 
 
@@ -837,6 +813,15 @@ para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instanci
 En esta sección veremos un tipo de pruebas de conocimiento cero, utilizadas en la práctica, que derivan de las ZKP perfectas al añadir una condición al Verificador, que cumpla el protocolo indicado.
 
 En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de una función $F$ que un Verificador tramposo V$^*$ utilizaría para elegir los retos, en un intento de obtener más información de P. Sin embargo, si el conjunto de posibles retos es demasiado grande, el Simulador diseñado perdería la propiedad de ser de \textit{tiempo polinomial}.
+
+
+\begin{definition}[Propiedad de conocimiento cero con Verificador Honesto]
+	\hfil
+	
+	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es \textit{perfecta de conocimiento cero con Verificador Honesto} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V}(q,h)$, donde el Verificador V sigue los pasos del protocolo, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
+\end{definition}
+
+\hfil
 
 Veremos es este apartado una variación de la ZKP perfecta basada en el problema del Logaritmo Discreto (\ref{perfectDL}), llamado \textit{Protocolo de Identificación de Schnorr}.
 
@@ -1007,6 +992,23 @@ Aún así, Schnorr es utilizado ampliamente en la práctica, pues tampoco se con
 
 \hfil
 
+\section{Pruebas de conocimiento cero estadísticas}
+
+\hfil
+
+Se denominan así las pruebas interactivas con un Simulador que, en vez de tener ensamble idéntico a la Vista, convergen en $n$, el parámetro que define el tamaño del problema:
+\begin{center}
+	$$
+	\lim_{n\to\infty} Vista_{P,V^*}(q,h) =  \lim_{n\to\infty} S_{V^*}(q,h)
+	$$
+\end{center}
+
+para toda instancia $Verdadera$ $q\in Q$, donde $n$ es el tamaño de la instancia $q$, e historial $h$. 
+
+\hfil
+% TODO: ejemplo, referenciar textos de transformar estadísticas o algo
+
+
 
 \section{Pruebas de conocimiento cero computacionales}
 
@@ -1019,7 +1021,7 @@ En esta clase de pruebas interactivas, el probador P ya no se considera como una
 En esta clase de ZKP se encuentran problemas como el de la 3-coloración del grafo (G3C), o el del camino hamiltoniano (HC).
 
 
-\subsection{Prueba de conocimiento cero para un grafo hamiltoniano}
+\paragraph{Prueba de conocimiento cero para un grafo hamiltoniano}
 
 \hfil
 
