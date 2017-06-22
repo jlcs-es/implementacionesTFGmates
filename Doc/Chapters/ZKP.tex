@@ -8,6 +8,7 @@
 % https://en.wikipedia.org/wiki/Interactive_proof_system
 % How to Prove a Theorem So No One Else Can Claim It, Manuel Blum
 % rosen2007discrete
+% damgardcommitment
 
 % Intro
 % Ejemplo intuitivo del laberinto
@@ -1119,11 +1120,11 @@ Se sabe que G3C pertenece a \textbf{NPC} (\ref{redNPC:theo}), por lo que se dedu
 
 \section{Esquemas de compromiso}\label{bitcommitment}
 
-En las pruebas de conocimiento cero vistas hasta ahora, el primer mensaje del Probador consistía en un \textit{compromiso} con el Verificador, de modo que en la respuesta al reto no pudiera engañarle, con cierta probabilidad.
+En las pruebas de conocimiento cero vistas hasta ahora, el primer mensaje del Probador consistía en un \textit{compromiso} con el Verificador, al que llamamos \textit{testigo}, de modo que en la respuesta al reto no pudiera engañarle, con cierta probabilidad.
 
 Nos interesan en particular sistemas como el del problema de la 3-coloración, o del ciclo hamiltoniano, donde la solución se escondía tras $N$ criptogramas, que podemos ver como cajas negras, que sólo se pueden abrir si se tiene la llave. El Probador, al enviar todas las cajas negras, se compromete, no puede cambiar los valores escondidos, y el Verificador en su reto pide a P que abra ciertas cajas al azar para comprobar que dice la verdad, sin revelar el secreto.
 
-Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas de conocimiento cero computacionales de todos los problemas \textbf{NPC}, como se indica al final de \citep{blum}. Estos esquemas esconden la estructura de una instancia $Verdadera$, donde P se compromete con su \textit{testigo} antes de conocer el \textit{reto} de V. En la última \textit{respuesta} de P, se revelará una pequeña parte de la estructura de la instancia $Verdadera$, de la cual V no podrá aprender nada.
+Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas de conocimiento cero computacionales de todos los problemas \textbf{NPC}, como indica Manuel Blum en \citetitle{blum} \citep{blum}. Estos esquemas esconden la estructura de una instancia $Verdadera$, donde P se compromete con su \textit{testigo} antes de conocer el \textit{reto} de V. En la última \textit{respuesta} de P, se revelará una pequeña parte de la estructura de la instancia $Verdadera$, de la cual V no podrá aprender nada.
 
 
 \begin{definition}
@@ -1132,7 +1133,7 @@ Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas
 	$
 	f:\{0,1\}\, x\, \Upsilon \to \chi
 	$
-	\\transforma el bit $b\in \{0,1\}$ con una clave aleatoria $y\in \Upsilon$. El valor $x=f(b,y)$ se llama \textit{blob}. La función de verificación
+	\\transforma el bit $b\in \{0,1\}$ con una clave aleatoria $y\in \Upsilon$. El valor $x=f(b,y)$ lo llamaremos \textit{blob} o \textit{testigo} de $b$. La función de verificación
 	
 	$
 	v:\chi \, x \, \Upsilon \to \{0,1,\bullet\}
@@ -1149,18 +1150,188 @@ Los \textit{esquemas de compromiso} son una herramienta necesaria en las pruebas
 \end{definition}
 
 
-Con la primera propiedad, una vez P se compromete con un bit, al presentar el blob  $x=f(b,y)$ a V, no puede cambiarlo, e influye en la robustez del protocolo. La segunda condición, asegura que no se filtra información de los bits que P no proporciona la clave, consiguiendo conocimiento cero.
+Podemos clasificar los esquemas de compromiso de bit en dos tipos:
 
-Podemos clasificar los esquemas de compromiso de bit en dos tipos: vinculación incondicional y secreto incondicional.
+\begin{itemize}
+	\item \textbf{Vinculación incondicional}: significa que incluso un P con una capacidad computacional ilimitada (como en las pruebas interactivas) no puede cambiar el bit comprometido en el \textit{testigo} enviado.
+	
+	\item \textbf{Secreto incondicional}: dado un V con capacidad computacional ilimitada, no es capaz de obtener información alguna del testigo, es decir, no es capaz de distinguir los ensambles con mayor probabilidad que eligiendo al azar el posible valor de $b$.
+	
+\end{itemize}
 
 
-\paragraph{Esquemas de compromiso con vinculación incondicional}
+En un entorno donde tenemos dos interlocutores, P y V, que ven todo lo que el otro les envía, es imposible tener vinculación y secreto incondicionales a la vez. Supongamos que tenemos vinculación incondicional, P no puede encontrar un valor $y'$ que abra $x$ con un bit diferente. Entonces V podría distinguir a qué $b$ corresponde el testigo $x$ recibido, siendo el algoritmo más fácil probar todos los valores $y'\in \Upsilon$ hasta encontrar el que hace $ v(x,y') \neq \bullet$. Aunque una máquina convencional podría tardar demasiado tiempo, estamos suponiendo que V puede ser computacionalmente ilimitado para considerar secreto incondicional, y por tanto, queda demostrado que no podemos tener ambas propiedades a la vez.
+
+Sin embargo, se puede conseguir vinculación o secreto computacional. Al igual que en las pruebas de conocimiento cero computacionales, aquí cambiamos la condición de máquinas computacionalmente ilimitadas por máquinas convencionales, y consideramos que no existe ningún algoritmo probabilístico en tiempo polinomial que pueda, o bien encontrar un $y'$ que permita a P cambiar el bit comprometido (vinculación), o bien que permita a V obtener el valor de $b$ sin la clave $y$ (secreto).
+
+Para conseguir vinculación y secreto incondicionales a la vez, han de utilizarse otras técnicas de comunicación, como canales con ruido o múltiples participantes \citep{damgardcommitment, crepeau1997efficient, ben1988completeness, chaum1988multiparty, crepeau1988achieving}.
+
 \hfil
 
-Partiendo del problema del residuo cuadrático, para $N=pq$, los conjuntos $\mathbb{Z}_N^{Q+}$ y $\mathbb{Z}_N^{Q-}$ son polinomialmente indistinguibles. Podemos utilizar esta propiedad para diseñar un sistema de compromiso de bit.
 
-P elige 2 primos aleatorios suficientemente grandes, $p$ y $q$, y un no-residuo cuadrático $s\in \mathbb{Z}_N^{Q-}$.
+\subsection{Esquemas de compromiso con secreto incondicional}
 
+En este apartado vamos a mostrar ejemplos de esquemas de compromiso de bit que consiguen secreto incondicional y vinculación computacional, basándose en los mismos problemas vistos para las pruebas de conocimiento perfectas: residuos cuadráticos, logaritmo discreto e isomorfismo de grafos.
 
-\paragraph{Esquemas de compromiso con secreto incondicional}
 \hfil
+
+El esquema basado en residuos cuadráticos lo inicia V, eligiendo el módulo $n=pq$ producto de dos primos, de modo que el problema QR módulo $n$ es impracticable para P. V además elige un $t\in_R \mathbb{Z}_n^*$ para calcular el residuo $s=t^2\,mod\,n$. El par $(s,n)$ se hace público para que P lo utilice. Utilizaremos como conjunto de \textit{claves} $\Upsilon = \mathbb{Z}_n^*$ y como conjunto de los posibles blobs o testigos $\chi = \mathbb{Z}_n^{Q+}$, los residuos cuadráticos.
+
+El algoritmo de compromiso es como sigue:
+
+
+
+\hfil
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Compromiso de bit basado en residuos cuadráticos]
+	\hfil
+	
+	\textit{Ocultación}: P elige al azar $y\in \mathbb{Z}_n^*$ y oculta el bit $b$ como:
+	\[x = f(b,y) = s^b y^2 \, mod \, n \]
+	
+	\textit{Apertura}: P envía a V el valor $y$. V calcula el bit $b$:
+	\[ b = v(x,y) = 
+		\begin{cases}
+			0  & si\ x\equiv y^2 \, mod \, n  \\
+			1 & si\ x\equiv s\cdot y^2 \, mod \, n\\
+			\bullet & en\ otro\ caso.
+		\end{cases}
+	 \]
+	\label{bitcommitQR:alg}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+
+La ocultación consiste en enviar como testigo un residuo cuadrático módulo $n$, y a la hora de desvelar el valor del bit, P debe desvelar una raíz cuadrada de $x$. Si P es una máquina limitada polinomialmente, al no conocer la factorización de $n$, no podrá calcular la raíz cuadrada de $x$. Si pudiera calcular dicha raíz, un ataque consistiría en seguir el protocolo para el bit $b=1$, de modo que conocemos el $y$ para abrirlo como $1$, y cuando P quiera cambiar el bit oculto a $0$, calculará la raíz cuadrada módulo $n$ de $s\cdot y^2$, de modo que V obtendrá en la \textit{apertura} $b=0$. De este modo, tenemos \textbf{vinculación computacional}.
+
+Por otro lado, si P elige de modo aleatorio $y\in \mathbb{Z}_n^*$, como los ensambles probabilísticos $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, tenemos \textbf{secreto incondicional}. Un V \textit{todopoderoso} computacionalmente no podría distinguirlos, ni al calcular todas las raíces modulares del testigo $x$ recibido, pues o bien una de esas raíces es el $y$ escogido por P, o bien una de ellas corresponde al valor $t\cdot y \, mod \, n$.
+
+
+\hfil
+
+
+A continuación, presentamos otro esquema de compromiso basado en el logaritmo discreto. Para llevarlo a cabo, P y V deben primero decidir un $p$ primo suficientemente grande y un generador $g\in \mathbb{Z}_p^*$ donde el problema del logaritmo discreto es \textit{difícil}. V además elige un valor $s\in \mathbb{Z}_{p-1}$ y lo envía a P. Los conjuntos del esquema de compromiso son $\Upsilon = \{0,1,\dots,p-2\}$ para las \textit{claves} y $\chi= \mathbb{Z}_p^*$ para los blobs.
+
+
+
+
+
+\hfil
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Compromiso de bit basado en logaritmo discreto]
+	\hfil
+	
+	\textit{Ocultación}: P elige al azar $y\in \Upsilon$ y oculta el bit $b$ como:
+	\[x = f(b,y) = s^b g^y \, mod \, p \]
+	
+	\textit{Apertura}: P envía a V el valor $y$. V calcula el bit $b$:
+	\[ b = v(x,y) = 
+	\begin{cases}
+		0  & si\ x\equiv g^y \, mod \, p  \\
+		1 & si\ x\equiv s g^y \, mod \, p \\
+		\bullet & en\ otro\ caso.
+	\end{cases}
+	\]
+	\label{bitcommitDL:alg}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+El posible ataque a este esquema de compromiso consistiría en calcular el logaritmo discreto de $s$ módulo $p$, llamémoslo $t$, $g^=s\,mod\,p$. Si P oculta $b=0$, enviará $x=g^y\,mod\,p$, y para poder abrir al valor $b=1$ puede enviar a V $y-t$, de modo que V calculará $sg^{y-t}\equiv g^t g^{y-t} \equiv g^y \equiv x \, mod \, p$, obteniendo $b=1$. En el caso contrario, donde P oculta $b=1$, enviará $x=sg^y\,mod\, p$ a V como testigo, y para abrir el bit como $b=0$ basta con enviar $y+t$, tal que V calculará $g^{y+t}\equiv g^t g^y \equiv s g^y\, mod\, p$, creyendo entonces que $b=1$.
+
+Como antes, si P es computacionalmente limitado, no podrá resolver el problema del logaritmo discreto y obtenemos una \textbf{vinculación computacional}. También tenemos como antes que los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son iguales, y por tanto el esquema es de \textbf{secreto incondicional}.
+
+
+
+\hfil
+
+Finalmente utilizamos el problema del isomorfismo de grafos para mostrar otro esquema de secreto incondicional. En este caso P y V escogen un grafo $G=(V,E)$ ($n=\mid V \mid $). V escoge al azar una permutación $\pi \in_R Sym(V)$ del grafo y calcula $H=\pi(G)$. El par de grafos $(G,H)$ lo conocerán tanto P como V, pero la permutación $\pi$ la mantendrá en secreto V. Los conjuntos del esquema de compromiso son $\Upsilon = Sym(V)$ y $\chi = \{ H \mid H=\pi(G),\, \pi\in_R Sym(V) \}$.
+
+
+\hfil
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Compromiso de bit basado en isomorfismo de grafos]
+	\hfil
+	
+	\textit{Ocultación}: P elige al azar $\gamma \in \Upsilon$ y oculta el bit $b$ como:
+	\[X = f(b,\gamma) = 
+		\begin{cases}
+				\gamma(G) & si\ b=0 \\
+				\gamma(H) & si\ b=1 \\
+		\end{cases}
+	 \]
+	
+	\textit{Apertura}: P envía a V el valor $\gamma$. V calcula el bit $b$:
+	\[ b = v(X,\gamma) = 
+		\begin{cases}
+			0  & si\ \gamma(G)=X \\
+			1 & si\ \gamma(H)=X \\
+			\bullet & en\ otro\ caso.
+		\end{cases}
+	\]
+	\label{bitcommitGI:alg}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+P podría atacar el esquema si conociera el isomorfismo de $G$ a $H$, componiéndolo con $\gamma$ para cambiar el bit que V abriría. Como suponemos que P es una máquina limitada computacionalmente, no puede resolver el problema del isomorfismo de grafos y por tanto el esquema de compromiso es de \textbf{vinculación computacional}. Además, como los posibles $\gamma$ para abrir un bit son permutaciones aleatorias de $G$, compuestas o no con $\pi$, los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, de modo que tenemos \textbf{secreto incondicional}.
+
+
+
+\subsection{Esquemas de compromiso con vinculación incondicional}
+
+En este apartado presentaremos dos esquemas de compromiso que consiguen \textit{vinculación incondicional}, al contrario que los casos anteriores. El primero utilizará, de nuevo, los residuos cuadráticos, y el segundo el problema del logaritmo discreto.
+
+\hfil
+
+Partiendo del problema del residuo cuadrático, para $N=pq$, los conjuntos $\mathbb{Z}_N^{Q+}$ y $\mathbb{Z}_N^{Q-}$ son polinomialmente indistinguibles. En este caso, P inicia el esquema 
+eligiendo 2 primos aleatorios suficientemente grandes, $p$ y $q$, y un \textbf{no}-residuo cuadrático $s\in \mathbb{Z}_N^{Q-}$, es decir, con símbolo de Jacobi $1$. El par $(s,N)$ se hace público para V. El conjunto de \textit{claves} del esquema es $\Upsilon = \mathbb{Z}_N^*$, y el de posibles valores de los blobs es $\chi = \mathbb{Z}_N^Q$, los valores con símbolo de Jacobi $1$, sea o no residuo cuadrático.
+
+
+
+\hfil
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}[Compromiso de bit basado en residuos cuadráticos]
+	\hfil
+	
+	\textit{Ocultación}: P elige al azar $y\in \mathbb{Z}_N^*$ y oculta el bit $b$ como:
+	\[x = f(b,y) = s^b y^2 \, mod \, N \]
+	
+	\textit{Apertura}: P envía a V el valor $y$. V calcula el bit $b$:
+	\[ b = v(x,y) = 
+	\begin{cases}
+	0  & si\ x\equiv y^2 \, mod \, N  \\
+	1 & si\ x\equiv s\cdot y^2 \, mod \, N \\
+	\bullet & en\ otro\ caso.
+	\end{cases}
+	\]
+	\label{bitcommitQR2:alg}
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+\hfil
+
+
+El valor del testigo $x$ será un residuo cuadrático si $b=0$, o un no-residuo cuadrático si $b=1$, y como $ \mathbb{Z}_N^{Q+} \cap \mathbb{Z}_N^{Q-} = \emptyset $, P es incapaz de abrir el testigo con otro valor de $b$, aunque sea computacionalmente ilimitado. Tenemos por tanto \textbf{vinculación incondicional}.
+
+Sin embargo, los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son sólo polinomialmente indistinguibles, bajo la suposición de que el problema QR es \textit{difícil}, de modo que obtenemos sólo \textbf{secreto computacional}.
+
+Este esquema es casi idéntico al \ref{bitcommitQR:alg}, pero la diferencia radica en que en el esquema con secreto incondicional, sólo usamos residuos cuadráticos, de modo que no se podía distinguir una apertura de otra hasta que la enviara P, y en este caso utilizamos un no-residuo cuadrático con símbolo de Jacobi $1$, y en vez de secreto incondicional, conseguimos vinculación incondicional.
+
+
+\hfil
+
+% TODO: DL unconditional binding
+
+
+% TODO : mulivalued blobs, commit strings
+
+% TODO  : párrafo/s de cierre relacionando con ZKP
