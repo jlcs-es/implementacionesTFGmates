@@ -9,26 +9,46 @@ La ventaja de esta herramienta es la facilidad para manejar estructuras de datos
 
 \section{Prueba Interactiva: Problema del Residuo Cuadrático}
 
-\lstinputlisting[language=Python,frame=tb,caption={QR},label=lst:QR]{code/QR.sage}
 
-\lstinputlisting[language=Python,frame=tb,caption={QR2},label=lst:QR2]{code/QR2.sage}
+En el capítulo de Pruebas de Conocimiento Cero, la primera prueba interactiva que vimos fue aquella basada en el problema del residuo cuadrático, donde se demuestra que un elemento $x$ es un cuadrado módulo $N$. Aquí mostramos dos versiones, una donde P conoce una raíz cuadrada de $x$, y otra versión donde conoce la factorización de $N$, pues ya vimos que el problema QR es equivalente al problema de la factorización.
 
-El algoritmo representa...
+
+\lstinputlisting[language=Python,frame=tb,caption={ZKP QR almacenando la raíz modular},label=lst:QR]{code/QR.sage}
+
+
 
 Durante la etapa de \texttt{Setup} se eligen dos primos aleatorios, $p$ y $q$, con una magnitud de hasta $2^{100}$. El módulo del problema QR será $N=pq$, un número compuesto donde resolver una instancia del problema es difícil. Por último, se elige un valor aleatorio $s$ (de \textbf{s}ecreto) en $\mathbb{Z}_N$, cuyo cuadrado será el residuo cuadrático $x$ de la instancia actual del problema. Los valores de $p$, $q$ y $s$ sólo los conocerá P, mientras que la información común a P y V es $N$ y $x$, la instancia del problema QR.
 
-A continuación, siguiendo el protocolo, P elige su \textit{compromiso} $u$, un residuo cuadrático de $\mathbb{Z}_N$ al azar. Lo calculamos como $x$ antes, eligiendo un $t$ al azar, y elevando al cuadrado. El valor de $t$ será una de sus raíces cuadradas módulo $N$.
+A continuación, siguiendo el protocolo \ref{QRinteractive:alg} , P elige su \textit{compromiso} $u$, un residuo cuadrático de $\mathbb{Z}_N$ al azar. Lo calculamos como $x$ antes, eligiendo un $t$ al azar, y elevando al cuadrado. El valor de $t$ será una de sus raíces cuadradas módulo $N$.
 
 Por último, \texttt{enviar\_prueba} recibe como parámetro el \textit{reto} $b$ de V. Según el protocolo, P debe devolver una raíz cuadrada módulo $N$ de $u$ o de $x\cdot u$.
 
 En \autoref{lst:QR}, gracias a que P guarda los valores de $s$ y $t$, raíces de $x$ y $u$, respectivamente, le basta con enviar $t$ o $s\cdot t$ $mod$ $N$.
 
-En cambio, como vimos en el capítulo de los residuos cuadráticos, la raíz módulo un número primo es fácil de calcular. Por eso, si conocemos la factorización de $N$, podemos utilizar el Teorema Chino de los Restos para calcular una raíz de $u\cdot x^b \, mod \, N$ a partir de las raíces módulo $p$ y $q$. La versión de \autoref{lst:QR2} aplica esta idea, utilizando herramientas de \texttt{Sage} muy útiles, cómo la raíz modular, \texttt{ZZ(sqrt(zp))} o el Teorema Chino de los Restos, \texttt{crt()} (Chinese Remainder Theorem).
+En cambio, como vimos en el capítulo de los residuos cuadráticos, la raíz módulo un número primo es fácil de calcular. Por eso, si conocemos la factorización de $N$, podemos utilizar el Teorema Chino de los Restos para calcular una raíz de $u\cdot x^b \, mod \, N$ a partir de las raíces módulo $p$ y $q$. La versión de \autoref{lst:QR2} aplica esta idea, utilizando herramientas de \texttt{Sage}, cómo la raíz modular, \texttt{ZZ(sqrt(zp))}, o el Teorema Chino de los Restos, \texttt{crt()} (Chinese Remainder Theorem).
+
+
+\lstinputlisting[language=Python,frame=tb,caption={ZKP QR utilizando TCR},label=lst:QR2]{code/QR2.sage}
 
 \hfil
 
-La optimización de operaciones utilizando la factorización de $N$ y el TCR es una técnica conocida y utilizada en otros protocolos criptográficos conocidos, como RSA \citep{book:1210287}, pero el hecho de almacenar $p$ y $q$ como claves privadas, además del secreto $s$, obliga a tener que aplicar medidas de seguridad a más de un valor, existiendo más puntos de ataque a un usuario.
+La optimización de operaciones utilizando la factorización de $N$ y el TCR es una técnica utilizada en otros protocolos criptográficos conocidos, como RSA \citep{book:1210287}, pero el hecho de almacenar $p$ y $q$, además de la clave privada $s$, obliga a tener que aplicar medidas de seguridad a más de un valor, existiendo más puntos de ataque a un usuario.
 
 
 
-\lstinputlisting[language=Python,frame=tb,caption={QT},label=lst:QT]{code/QT.sage}
+
+\section{Compromiso de bit: Problema del Residuo Cuadrático}
+
+Como herramienta para las Pruebas de Conocimiento Cero Computacionales, vimos los esquemas de compromiso basados en distintos problemas. Mostramos aquí una implementación del esquema de compromiso con vinculación incondicional basado en residuos cuadráticos \ref{commitQRbind:alg}.
+
+
+\lstinputlisting[language=Python,frame=tb,caption={Compromiso de bit con QR},label=lst:QT]{code/QT.sage}
+
+En la etapa de \texttt{Setup} elegimos el módulo compuesto $N=pq$, y construimos el no-residuo cuadrático con símbolo de Jacobi 1, $s\in \mathbb{Z}_N^{Q-}$, encontrando primero dos no-residuo cuadráticos módulo $p$ y $q$ respectivamente (símbolo de Legendre -1), y los combinamos utilizando el Teorema Chino de los Restos.
+
+En la etapa de \textit{ocultamiento}, elegimos el valor aleatorio $y \in \mathbb{Z}_N^*$, y calculamos el blob $x=s^b y^2 \, mod \, N$.
+
+En la \textit{apertura}, la función $v$ recibe como parámetro el valor aleatorio $y$ que abre el blob $x$.
+
+
+

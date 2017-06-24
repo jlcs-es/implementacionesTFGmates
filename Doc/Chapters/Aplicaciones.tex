@@ -3,20 +3,13 @@
 %************************************************
 
 
-?
-Fiat-Shamir para QR, Schnorr para logaritmo discreto, ...
-Aplicación de ZKP en los certificados de Idemix. Analizar cómo realizan pruebas de AND, OR, etc.
+En este capítulo nos alejamos del estudio teórico de las pruebas de conocimiento cero para introducirnos en sus aplicaciones prácticas. La primera técnica que veremos consiste en transformar una prueba interactiva en no interactiva, minimizando el número de mensajes necesarios para llevarla a cabo, bajo el supuesto de que una función \textit{hash} es difícil de predecir. A continuación veremos cómo aplicar pruebas de conocimiento cero en un esquema de identificación de usuarios. Finalmente, como evolución de esos esquemas de identificación, estudiaremos cómo funcionan los certificados digitales de Identity Mixer diseñados por IBM y basados en pruebas de conocimiento cero. Se puede consultar la bibliografía de este capítulo en \citep{menezes1996handbook,stinson2005cryptography,idemixSpec}.
 
-
-
-
-%TODO: mencionar, para que quede claro en las no interactivas, que los retos pueden no se 0,1
-
-
+% menezes1996handbook
 % Hacerlas no interactivas
 
 
-\section{Firma digital basada en pruebas de conocimiento cero}
+\section{Pruebas de conocimiento cero no interactivas}
 
 Hemos visto que la interacción habitual en una prueba de conocimiento cero es enviar un \textit{testigo}, un \textit{reto} y una \textit{respuesta} en cada iteración.
 
@@ -186,11 +179,7 @@ La probabilidad de que un atacante pueda engañar a V es la de acertar el reto d
 
 \subsection{Protocolo de identificación de Schnorr}
 
-% https://crypto.stackexchange.com/questions/9997/perfect-zero-knowledge-for-the-schnorr-protocol
-
-% Indican que demostrar que Schnorr es ZKP con un challenge grande no se puede, porque no se conoce un simulador eficiente
-
-Este protocolo se basa en el problema del logaritmo discreto
+Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el logaritmo discreto, era una prueba de conocimiento cero con verificador honesto. Aquí damos una variación del protocolo donde se indica cómo la entidad de confianza genera los certificados y cómo a partir de la prueba de Schnorr un usuario P se autentica ante V con su certificado y clave privada: 
 
 
 \rule{\textwidth}{1pt}
@@ -227,36 +216,6 @@ Este protocolo se basa en el problema del logaritmo discreto
 
 \hfil
 
-Un P malicioso tiene una probabilidad de $2^-t$ de adivinar el reto, pero esta prueba no es una prueba de conocimiento cero perfecta, pues como vimos en el capítulo anterior, el simulador en tiempo polinomial existe si los retos $e$ tienen un dominio pequeño. Como se menciona en \citep{idemixSpec}, esta prueba es de conocimiento cero con verificador honesto (el que sigue el protocolo eligiendo el reto aleatoriamente), pero eligiendo un reto en un espacio de valores menor logarítmico respecto el parámetro $t$, y realizando múltiples iteraciones, se puede conseguir la condición de \textit{perfecta}, a cambio de perder eficiencia. También se indica que de \citep{Dam00} se pueden tomar construcciones para transformarlo en una prueba de conocimiento cero manteniendo eficiencia.
-
-
-% TODO : ejemplo
-
-
-\subsubsection{Probar el conocimiento de una representación}\label{reprKP}
-
-Una generalización de Schnorr es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G = <g>$, un grupo de orden $o(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{k} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ es:
-
-
-\rule{\textwidth}{1pt}
-\begin{algorithm}
-	P y V conocen $y$, $g_1, \dots, g_l$, $q$ y el parámetro del sistema $k$.
-	
-	\hfil
-	
-	Repetir $t$ rondas:
-	\begin{enumerate}
-		\item P escoge aleatoriamente $l$ enteros $r_i \in_R \mathbb{Z_q}$.
-		\item $P \rightarrow V$:\quad $t=\prod_{i=1}^{l}g_i^{r_i}$.
-		\item $V \rightarrow P$:\quad $c \in_R \{0,1\}^k$, un entero aleatorio de $k$ bits.
-		\item $P \rightarrow V$:\quad $s_i = r_i - c\cdot x_i \, mod \, q$, para $i=1,\dots,l$.
-		\item V verifica si \quad $t = y^c \prod_{i=1}^{l} g_i^{s_i}$.
-	\end{enumerate}
-	
-\end{algorithm}
-\rule{\textwidth}{1pt}
-
-La probabilidad de que un P malicioso adivine los $k$ bits aleatorios del reto $c$ es de $2^{-k}$. Este tipo de prueba se utiliza en Idemix, del cual hablaremos en la siguiente sección.
 
 
 %
@@ -318,6 +277,35 @@ con $g_i,h_i,y,z\in G$, será equivalente a realizar de manera paralela e indepe
 
 
 En el primer mensaje, P envía los testigos de cada uno de los protocolos. Entonces, V envía un único reto, el mismo para cada protocolo. Finalmente, P responde al reto con la respuesta de cada prueba, y V las verifica.
+
+
+\subsection{Probar el conocimiento de una representación}\label{reprKP}
+
+Una generalización de Schnorr utilizada en Idemix es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G$, siendo $g$ un generador de $G$ con orden $o(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{l} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ consiste en:
+
+
+\rule{\textwidth}{1pt}
+\begin{algorithm}
+	\hfil
+	
+	P y V conocen $y$, $g_1, \dots, g_l$, $q$ y el parámetro del sistema $k$.
+	
+	\begin{enumerate}
+		\item P escoge aleatoriamente $l$ enteros $r_i \in_R \mathbb{Z_q}$.
+		\item $P \rightarrow V$:\quad $t=\prod_{i=1}^{l}g_i^{r_i}$.
+		\item $V \rightarrow P$:\quad $c \in_R \{0,1\}^k$, un entero aleatorio de $k$ bits.
+		\item $P \rightarrow V$:\quad $s_i = r_i - c\cdot x_i \, mod \, q$, para $i=1,\dots,l$.
+		\item V verifica si \quad $t = y^c \prod_{i=1}^{l} g_i^{s_i}$.
+	\end{enumerate}
+	
+\end{algorithm}
+\rule{\textwidth}{1pt}
+
+La probabilidad de que un P malicioso adivine los $k$ bits aleatorios del reto $c$ es de $2^{-k}$. Comprobamos que el protocolo funciona pues
+\[
+	y^c  \prod_{i=1}^{l} g_i^{s_i} =  \left( \prod_{i=1}^{l} g_i^{x_i} \right) ^c \prod_{i=1}^{l} g_i^{s_i} = \prod_{i=1}^{l} g_i^{c x_i + r_i -c x_i} = \prod_{i=1}^{l} g_i^{r_i} = t
+\]
+
 
 
 
