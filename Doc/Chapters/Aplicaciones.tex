@@ -71,19 +71,16 @@ Podemos construir así una firma digital, con un solo mensaje, por lo que es vá
 % Fiat-Shamir, FFS, GQ, Schnorr
 
 
-Las pruebas de conocimiento cero tienen una gran aplicación en el campo de la seguridad informática, en particular en la \textbf{autenticación}. Tras la autenticación se aplicará autorización y control de acceso, por eso es importante un sistema de identificación fiable. Además, de entre las ventajas de las pruebas de conocimiento cero, un sistema de identificación basado en ZKP hereda privacidad, al no revelar información del usuario, y seguridad al no \textit{degradarse} con el uso, es decir, resiste al criptoanálisis por muchos mensajes que se intercepten, y ataques con mensajes elegidos. 
+Las pruebas de conocimiento cero tienen una gran aplicación en el campo de la seguridad informática, en particular en la \textbf{autenticación}. Además, un sistema de identificación basado en pruebas de conocimiento cero consigue privacidad, al no revelar información del usuario, y seguridad al no \textit{degradarse} con el uso, es decir, resiste al criptoanálisis por muchos mensajes que se intercepten. 
 
-%TODO
-TODO: redactar mejor las ventajas.
-
-Estos protocolos de identificación se basan en una prueba de conocimiento cero de un problema $Q$, donde P (el usuario) tiene un \textit{secreto} que le permite demostrar una instancia $Verdadera$ de $Q$ al verificador V, y que además conocer dicho secreto le relaciona con una identidad, con la ventaja de no tener que revelar el secreto.
+Estos protocolos de identificación se basan en una prueba de conocimiento cero de un cierto problema $Q$, donde P (el usuario) tiene un \textit{secreto} que le permite demostrar una instancia $Verdadera$ de $Q$ al verificador V, y que además conocer dicho secreto le relaciona con una identidad de un certificado en el que P y V confían.
 
 
 \subsection{Protocolo de identificación de Fiat-Shamir}
 
-El protocolo  de identificación más característico basado en ZKP y el problema QR es el de Fiat-Shamir.
+El protocolo de identificación de Fiat-Shamir es el más característico basado en pruebas de conocimiento cero del problema QR.
 
-Como hemos visto, el problema QR es \textbf{NP}, de modo que obtener una raíz cuadrada módulo un $N$ compuesto, es computacionalmente inviable, equivalente a factorizar $N$. Bajo esta suposición, podemos utilizar como información pública un residuo cuadrático módulo $N$, que llamaremos $v$, y asociarlo a una identidad, de modo que el usuario que conozca una de sus raíces cuadradas, el secreto $s$, podrá demostrar que $v$ es un residuo cuadrático por medio de una prueba de conocimiento cero.
+Como hemos visto, el problema QR es \textbf{NP}, de modo que obtener una raíz cuadrada módulo un $N$ compuesto, es computacionalmente inviable, equivalente a factorizar $N$. Bajo esta suposición, podemos utilizar como información pública un residuo cuadrático módulo $N$, que llamaremos $v$, y asociarlo a una identidad, de modo que el usuario que conozca una de sus raíces cuadradas, el secreto $s$, podrá demostrar que $v$ es un residuo cuadrático:
 
 
 \rule{\textwidth}{1pt}
@@ -126,8 +123,9 @@ Como en la prueba interactiva, un atacante tiene una probabilidad de $1/2$ de en
 
 \hfil
 
+%%%%%%%%%%%%
 Un detalle importante a tener en cuenta es que, considerando ordenadores reales para el caso práctico, si P no utiliza un buen generador de números aleatorios para sus $r$ del paso 1, un atacante podría adivinar cuándo repetirá el $r$, mandar $b=0$ y $b=1$, y así calcular el secreto $s$.
-
+%%%%%%%%%%%%%%
 
 
 
@@ -197,7 +195,7 @@ Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el lo
 		
 		\subitem (b) Escoge una clave privada $a$, $0\leq a \leq q-1$, y calcula $v = \beta^{-a}\, mod\, p$.
 		
-		\subitem (c) La entidad certificadora vincula la identidad $I_P$ y el valor $v$ firmando, con cualquier método de firma $S()$, el certificado $cert_A = (I_P, v, S_T(I_P|v))$.
+		\subitem (c) La entidad certificadora vincula la identidad $I_P$ y el valor $v$ firmando, con cualquier método de firma $S(\cdot)$, el certificado $cert_A = (I_P, v, S_T(I_P|v))$.
 		
 	\end{enumerate}
 	
@@ -281,7 +279,7 @@ En el primer mensaje, P envía los testigos de cada uno de los protocolos. Enton
 
 \subsection{Probar el conocimiento de una representación}\label{reprKP}
 
-Una generalización de Schnorr utilizada en Idemix es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G$, siendo $g$ un generador de $G$ con orden $o(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{l} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ consiste en:
+Una generalización de Schnorr utilizada en Idemix es utilizar $l$ bases $g_1, \dots, g_l$ con $g_i \in G$, siendo $g$ un generador de $G$ con orden $ord(g)=q$ primo. Sea $y\in G$ tal que conocemos los valores $x_1,\dots,x_l$ que cumplen $y = \prod_{i=1}^{l} g_i^{x_i}$. Una prueba de conocimiento cero de que conocemos la representación de $y$ con respecto a las bases $g_1, \dots, g_l$ consiste en:
 
 
 \rule{\textwidth}{1pt}

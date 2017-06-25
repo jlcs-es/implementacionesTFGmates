@@ -36,7 +36,7 @@ Las referencias utilizadas para este capítulo se pueden encontrar en \citep{pie
 
 \section{Sistemas de Pruebas Interactivas}
 
-Un \textit{sistema de prueba interactivo} es un concepto de la teoría computacional que modela el intercambio de un número finito de mensajes entre dos partes, el probador P y el verificador V, con el objetivo de que P demuestre a V que una instancia de un problema de decisión es $Verdadera$. V tiene una capacidad de cómputo limitada, a lo sumo un algoritmo probabilístico de tiempo de cómputo polinomial. P es computacionalmente todopoderoso. Al final del intercambio de mensajes, o bien V acepta que la instancia es $Verdadera$, o bien la rechaza por ser $Falsa$.
+Un \textit{sistema de prueba interactivo} es un concepto perteneciente a la teoría computacional, que modela el intercambio de un número finito de mensajes entre dos partes, el probador P y el verificador V, con el objetivo de que P demuestre a V que una instancia de un cierto problema de decisión es $Verdadera$. V es una máquina con una capacidad de cómputo limitada, a lo sumo probabilístico de tiempo de polinomial. P es computacionalmente \textit{todopoderoso}. Al final del intercambio de mensajes, o bien V acepta que la instancia es $Verdadera$, o bien la rechaza por ser $Falsa$.
 
 \begin{definition}
 
@@ -44,9 +44,7 @@ Un \textit{sistema de prueba interactivo} es un concepto de la teoría computaci
 	Se dice que un problema de decisión $Q$, no necesariamente en \textbf{NP},  tiene un \textit{sistema de prueba interactivo} si tiene un protocolo de interacción polinomialmente acotado en número de mensajes que cumple:
 	
 	\begin{itemize}
-		\item \textit{Completitud} Para toda instancia $q$ $Verdadera$, del problema $Q$, V acepta $q$ como $Verdadera$. 
-		\item  \textit{Robustez} Para cada instancia $q$ $Falsa$, ningún P, incluso si no sigue el protocolo, puede convencer a V de que $q$ es $Verdadera$, excepto con una pequeña probabilidad.
-		\item Alternativa:
+		\item \textit{Completitud} Para toda instancia $q$ $Verdadera$, del problema $Q$, V acepta $q$ como $Verdadera$.
 		\item \textit{Robustez} Para cada instancia $q$ $Falsa$, V rechaza la prueba de $q$ con una probabilidad no menor que $\epsilon = 1-n^{-c}$, para cualquier constante $c>0$ y donde $n$ es el tamaño de la instancia.
 	\end{itemize}
 
@@ -54,7 +52,8 @@ Un \textit{sistema de prueba interactivo} es un concepto de la teoría computaci
 
 En resumen, si la instancia del problema $Q$ que P quiere demostrar es $Verdadera$, el protocolo siempre funciona, no hay falsos negativos, pero si la instancia es $Falsa$, hay una pequeña probabilidad de que $V$ la acepte como $Verdadera$, pueden haber falsos positivos una probabilidad casi despreciable.
 
-Un P o un V que no siguen el protocolo e intentan romper estas propiedades, los llamaremos un P o V \textit{tramposos}.
+
+Un P o un V que no siguen el protocolo e intentan romper estas propiedades, los llamaremos un P$^*$ o V$^*$ \textit{tramposos}.
 
 
 \begin{definition}
@@ -73,18 +72,13 @@ Un P o un V que no siguen el protocolo e intentan romper estas propiedades, los 
 		\item  V recibe y puede verificar el certificado en tiempo polinomial. Si es válido, V acepta como $Verdadera$ la instancia. Si no, rechaza la prueba.
 	\end{enumerate}
 
-	El protocolo es completo y robusto, con probabilidad nula de falso positivo, pues si la instancia es $Falsa$, ningún P, honesto o tramposo, puede generar un certificado que no existe.
+	El protocolo es completo y robusto, con probabilidad nula de falso positivo, pues si la instancia es $Falsa$, ningún P puede generar un certificado que no existe.
 
 \end{proof}
 
 
-\hfil
 
-\paragraph{Prueba Interactiva para el Problema QR}
-
-\hfil
-
-\hfil
+\subsection{Prueba Interactiva para el Problema QR}
 
 Vamos a ver una prueba interactiva para demostrar que un entero $x$ con Símbolo de Jacobi 1 respecto a $n$, $x \in \mathbb{Z}^Q_n$, es un residuo cuadrático, $x \in \mathbb{Z}^{Q+}_n$.
 
@@ -150,10 +144,8 @@ Una instancia $Verdadera$ del problema es un $x$ residuo cuadrático módulo $N$
 
 \begin{proof}
 	
-	El protocolo se ejecuta $t(n)$ veces, un número de iteraciones polinomialmente asociado al tamaño $n$ de la entrada, por lo que hay un número finito de mensajes que V, computacionalmente limitado, puede llevar a cabo. 
-	
-	\hfil 
-	
+	El protocolo \ref{QRinteractive:alg} se ejecuta $t(n)$ veces, un número de iteraciones polinomialmente asociado al tamaño $n$ de la entrada, por lo que hay un número finito de mensajes que V, computacionalmente limitado, puede llevar a cabo. 
+		
 	Queda ver que el protocolo anterior es completo y robusto.
 	
 	La prueba es \textit{completa}, pues para cualquier instancia $Verdadera$ de QR, $x \in \mathbb{Z}^{Q+}_N$, V acepta la prueba de P. En cada iteración, como P es computacionalmente todopoderoso, puede calcular $w$, una raíz cuadrada módulo $N$ de $x$ o $xu$, según el valor de $b$, ambos en $\mathbb{Z}^{Q+}_N$.
@@ -184,20 +176,20 @@ Antes de ver una definición más formal de una prueba de conocimiento cero, nec
 
 
 \begin{definition}
-	Llamamos \textit{Vista} a una transcripción de los mensajes intercambiados entre P y V durante la ejecución de una prueba interactiva.
+	Llamamos \textit{Vista} a la transcripción de los mensajes intercambiados entre P y V durante la ejecución de una prueba interactiva.
 \end{definition}
 
 % Notación de una Vista
 
-Pensemos en un protocolo con 3 mensajes por iteración. En la $i$-ésima ronda, P envía a V el valor $A_i$ como \textit{compromiso}, V responde con el \textit{reto} aleatorio $B_i$, y P termina enviando la \textit{prueba} $C_i$. La tupla $(A_i,\,B_i,\,C_i)$ son variables aleatorias de los posibles valores que se pueden intercambiar en una iteración. La Vista de la prueba interactiva sería
-\[(A_1,\,B_1,\,C_1,\,A_2,\,B_2,\,C_2,\dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)})\],
-la secuencia de los $t(n)$ mensajes intercambiados entre P y V.
+Pensemos en un protocolo con 3 mensajes por iteración. En la $i$-ésima ronda, P envía a V el valor $A_i$ como \textit{compromiso}, V responde con el \textit{reto} aleatorio $B_i$, y P termina enviando la \textit{prueba} $C_i$. La tupla $(A_i,\,B_i,\,C_i)$ son variables aleatorias de los posibles valores que se pueden intercambiar en una iteración. La Vista de la prueba interactiva sería la secuencia de los $t(n)$ mensajes intercambiados entre P y V:
+\[(A_1,\,B_1,\,C_1,\,A_2,\,B_2,\,C_2,\dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)})\]
 
-Una Vista sólo es de interés para una instancia $Verdadera$, donde P realmente conoce si es $Verdad$. Para una instancia cuya prueba falla, o bien es realmente una instancia $Falsa$ o P no puede probarla, por ser tramposo y no conocer una prueba o \textit{secreto} que le permita pasar la prueba exitosamente con mayor probabilidad que la de los falsos positivos.
+
+Una Vista sólo es de interés para una instancia $Verdadera$, donde P realmente conoce si es $Verdadera$. Para una instancia cuya prueba falla, o bien es una instancia $Falsa$ o P no puede probarla, por ser tramposo.
 
 
 \begin{definition}
-	Llamamos ensamble probabilístico, o \textit{ensemble} en inglés, a una familia numerable de variables aleatorias: $\{X_i\}_{i\in I}$, con $I$ numerable.
+	Llamamos ensamble probabilístico (\textit{ensemble} en inglés) a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable.
 \end{definition}
 
 Podemos estudiar entonces una Vista como un ensamble probabilístico. Dos Vistas serán iguales cuando las distribuciones de sus variables aleatorias sean idénticas.
@@ -205,20 +197,15 @@ Podemos estudiar entonces una Vista como un ensamble probabilístico. Dos Vistas
 
 \hfil
 
-Denotaremos con V$^*$ a un verificador tramposo. Éste podría no generar los retos $B_i$ anteriores de manera independiente, podría incluso utilizar información previa de otras Vistas para generar los $B_i$ en un intento de extraer información extra de P. A esta información previa la llamaremos $h$ (historial).
+Cuando tratamos con V$^*$, un verificador tramposo, éste podría no generar los retos $B_i$ anteriores de manera independiente, podría incluso utilizar información previa de otras Vistas para generar los $B_i$ en un intento de obtener información extra de P. A esta información previa la llamaremos $h$ (historial).
 
-Para una instancia $q$ y un verificador cualquiera V$^*$, escribimos la Vista de una prueba como:
+Para una instancia $q$ y un verificador cualquiera V$^*$, escribimos la Vista de una prueba interactiva como:
+\[ Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)}). \]
 
-\begin{center}
-	$Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)})$.
-\end{center}
+El verificador tramposo V$^*$ generará los retos $B_i$ con un algoritmo probabilístico de tiempo polinomial $F$ tal que
+\[ B_i = F(q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{i-1},\,B_{i-1},\,C_{i-1},\,A_i). \]
 
-El verificador tramposo V$^*$ generará los retos $B_i$ con una función probabilística de tiempo polinomial $F$ tal que
-\marginpar{Para un verificador honesto $F$ sería un generador de números aleatorios que no utiliza ninguno de los parámetros de entrada.}
-
-\begin{center}
-	$B_i = F(q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{i-1},\,B_{i-1},\,C_{i-1},\,A_i)$.
-\end{center}
+Para un verificador honesto, $F$ se puede considerar como un generador de números aleatorios que no utiliza ninguno de los parámetros de entrada.
 
 
 
@@ -226,36 +213,32 @@ El verificador tramposo V$^*$ generará los retos $B_i$ con una función probabi
 	Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible (el historial $h$ y la función $F$), para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P.
 \end{definition}
 
-Un Simulador se puede ver como un generador de ensambles probabilísticos, las Vistas de una prueba.
+Un Simulador se puede ver como un generador de ensambles probabilísticos, la Vista de una prueba. La diferencia es que una transcripción de la Vista se genera a partir de dos máquinas, P y V, a diferencia del Simulador, que se ejecuta en una única máquina.
 
 
 \hfil
 
-Podemos describir, por fin, la tercera propiedad, además de la \textit{completitud} y \textit{robustez}, que debe tener una prueba de conocimiento cero. Se dice también que son ZKP perfectas porque en la práctica se pueden considerar otras definiciones menos restrictivas, las ZKP estadísticas y computacionales.
+Podemos describir, por fin, la tercera propiedad de las pruebas de conocimiento cero, que acompaña a la \textit{completitud} y la \textit{robustez}.
 
 
 %\subsection{Pruebas de conocimiento cero perfectas}
 
-\begin{definition}[Propiedad de conocimiento cero]
-	\hfil
-	
-	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es \textit{perfecta de conocimiento cero} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
+\begin{definition}[Propiedad de conocimiento cero]	
+	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es de \textit{conocimiento cero} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
 \end{definition}
+
+A las pruebas de conocimiento cero que cumplen la definición anterior también se les llama de \textit{conocimiento cero perfectas}, y veremos en futuras secciones otras definiciones menos restrictivas.
 
 %La existencia de un Simulador $S_{V^*}(q,h)$, cuyos ensambles son iguales que los de una Vista generada entre un P y V honestos, implica que de la Vista no se puede obtener ninguna información que V no tuviera ya antes, pues V podía obtener con el Simulador cuantas Vistas quisiera, con el conocimiento que ya tenía.
 
 
-%%%%
-A primera vista, puede parecernos que nada tiene que ver la existencia de tal Simulador con no poder obtener información de P más allá de si la instancia es $Verdadera$. Pero es precisamente el hecho de que cualquier máquina M, que \textbf{no} conoce la solución (ni un certificado para comprobarla (\ref{def:NP})) pueda generar transcripciones del protocolo \textit{idénticas} a las que podríamos interceptar a un P y V verídicos. Si M no conoce el secreto, de sus simulaciones nada podemos sacar, y por tanto, tampoco de la interacción entre P y V.
-
-%%%%
+De manera informal, el hecho de existir un simulador de conversaciones entre P y V que es idéntico a las interacciones reales, y que puede ejecutar cualquier máquina limitada computacionalmente, significa que de las transcripciones reales podemos sacar la misma información que ejecutando nosotros el simulador, y por tanto no aprenderíamos nada nuevo de ellas.
 
 
-\hfil
 
-\subsection{Residuos cuadráticos}
+\subsection{Prueba de conocimiento cero para el problema QR}
 
-Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que su prueba interactiva cumplía \textit{completitud} y \textit{robustez}.
+Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} y cuya prueba interactiva cumplía \textit{completitud} y \textit{robustez}.
 
 \begin{theorem}
 	La prueba interactiva (\ref{QRinteractive:alg}) del problema QR es de conocimiento cero.
@@ -269,21 +252,14 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que
 		
 		\item $B_i$, un bit aleatorio generado por V, $b \in_R \{0,\,1\}$.
 		
-		\item $W_i$, una \textit{prueba} de P, $w \in_R \Omega_u$ o bien $w \in_R \Omega_{xu}$, según el valor de $B_i$, es decir, una raíz cuadrada aleatoria módulo $N$ de $u$ o $xu$, donde $\Omega_u$ y $ \Omega_{xu}$ son el conjunto de raíces cuadradas módulo $N$ de $u$ y $xu$, respectivamente.
+		\item $W_i$, una \textit{prueba} de P, $w \in_R \Omega_u$ o bien $w \in_R \Omega_{xu}$, según el valor de $B_i$, es decir, una raíz cuadrada aleatoria módulo $N$ de $u$ ó $xu$, donde $\Omega_u$ y $ \Omega_{xu}$ son el conjunto de raíces cuadradas módulo $N$ de $u$ y $xu$, respectivamente.
 	\end{enumerate}
 	
-	\hfil
 	
 	La Vista de una prueba para un verificador V$^*$ cualquiera es:
+	\[Vista_{P,V^*}(x,N,h) = (x,\,N,\,h,\,U_1,\,B_1,\,W_1, \dots ,\,U_{t(n)},\,B_{t(n)},\,W_{t(n)}).\]
 	
-	\begin{center}
-		$Vista_{P,V^*}(x,N,h) = (x,\,N,\,h,\,U_1,\,B_1,\,W_1, \dots ,\,U_{t(n)},\,B_{t(n)},\,W_{t(n)})$.
-	\end{center}
-	
-	
-	Para simplificar la notación, escribiremos la variable aleatoria 
-	
-	$V_i=(U_1,\,B_1,\,W_1, \dots ,\,U_i,\,B_i,\,W_i)$.
+	%Para simplificar la notación, escribiremos $V_i=(U_1,\,B_1,\,W_1, \dots ,\,U_i,\,B_i,\,W_i)$.
 	
 	Para un V honesto, todos los $B_i$ son variables aleatorias independientes, uniformes en $\{0,1\}$. Para un V tramposo, la función $F$, probabilística en tiempo polinomial, genera los valores $b_{i+1} = F(x,N,h,v_i,u_{i+1})$, cuando $V_i = v_i$. Unimos el estudio de ambos casos suponiendo, para un V honesto, $F$ como un generador de bits aleatorio, un lanzamiento de moneda.
 	
@@ -326,45 +302,27 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que
 	\hfil
 	
 	Tenemos una prueba interactiva (\ref{QRinteractive:alg}) que genera las vistas:
-	
-	 \begin{center}
-	 	$Vista_{P,V^*}(x,N,h) = (x,N,h,U_1,B_1,W_1,\dots , U_{t(n)}, B_{t(n)}, W_{t(n)})$,
-	 \end{center}
-	 
-	  y un Simulador que genera las transcripciones:
-	  
-	  \begin{center}
-	  	$S_{V^*}(x,N,h)= (x,N,h,U_1^`,B_1^`,W_1^`,\dots , U_{t(n)}^`, B_{t(n)}^`, W_{t(n)}^`)$.
-	  \end{center}
+	\[ Vista_{P,V^*}(x,N,h) = (x,N,h,U_1,B_1,W_1,\dots , U_{t(n)}, B_{t(n)}, W_{t(n)}), \]
+	y un Simulador que genera las transcripciones:
+	\[ S_{V^*}(x,N,h)= (x,N,h,U_1^`,B_1^`,W_1^`,\dots , U_{t(n)}^`, B_{t(n)}^`, W_{t(n)}^`).\]
 	
 	Para terminar la demostración, veamos por inducción en $i$ que son iguales, es decir, cumplen la propiedad de \textit{conocimiento cero}.
 	
-	\hfil
-	
 	Para el caso $i=0$ ambos ensambles son constantes, $(x,N,h)=(x,N,h)$, tenemos la misma instancia e historial.
 	
-	\hfil
-	
 	Suponemos cierto el caso $i-1$, es decir, el ensamble de la Vista:
-	
-	 \begin{center}
-		$Vista_{P,V^*}(x,N,h) = (x,N,h,U_1,B_1,W_1,\dots , U_{i-1}, B_{i-1}, W_{i-1})$,
-	\end{center}
-	
+	\[ Vista_{P,V^*}(x,N,h) = (x,N,h,U_1,B_1,W_1,\dots , U_{i-1}, B_{i-1}, W_{i-1}), \]
 	es igual al del Simulador:
-	
-	\begin{center}
-		$S_{V^*}(x,N,h)= (x,N,h,U_1^`,B_1^`,W_1^`,\dots , U_{i-1}^`, B_{i-1}^`, W_{i-1}^`)$.
-	\end{center}
+	\[ S_{V^*}(x,N,h)= (x,N,h,U_1^`,B_1^`,W_1^`,\dots , U_{i-1}^`, B_{i-1}^`, W_{i-1}^`). \]
 	
 	\hfill
 
 	Siguiendo el protocolo de la prueba interactiva, se generará la siguiente tupla de la Vista, $(U_i, B_i, W_i)$. La variable $U_i$ se elige al inicio aleatoriamente, por lo que es independiente. La v.a. $B_i$ se calcula con $F$, por lo que depende de $U_i$, $V_{i-1}$ y $h$. $W_i$ depende de ambos. La probabilidad de la tupla nos queda:
+	\[
+	P(U_i=u, B_i=b, W_i=w) = 
+	\]
+	\[ P(U_i=u)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
 	
-	\begin{flushleft}
-		$P(U_i=u, B_i=b, W_i=w) = $ 	$P(U_i=u)\cdot$ \\ 
-	 	$ \cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b)$
-	\end{flushleft}
 	
 	\hfil
 	
@@ -372,27 +330,27 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que
 	
 	Denotamos $ P(B_i=b \mid V_{i-1}=v, U_i=u,h)=p_b$, que dependerá de la $F$ utilizada.
 	
-	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. Entonces, $P(W_i=w \mid U_i=u, B_i=0) = \frac{1}{\beta}$, $\forall w \in \Omega_u$, y $P(W_i=w \mid U_i=u, B_i=1) = \frac{1}{\beta}$, $\forall w \in \Omega_{xu}$.
+	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. Entonces:
+	\[P(W_i=w \mid U_i=u, B_i=0) = \frac{1}{\beta},\ \forall w \in \Omega_u\]
+	\[P(W_i=w \mid U_i=u, B_i=1) = \frac{1}{\beta},\ \forall w \in \Omega_{xu}\]
 	
-	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
+	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \dfrac{p_b}{\alpha \beta}$.
 	
 	
 	
 	\hfil
 	
-	Ahora veamos la tupla generada por el Simulador, $(U_i^`, B_i^`, W_i^`)$. La v.a. $U_i^`$ se calcula a partir de $B_i^`$ y $W_i^`$. La variable $B_i^`$ depende de $U_i^`$, $V_{i-1}$ y $h$ por $F$ en el paso 4. Y la v.a. $W_i^`$ se elige aleatoriamente.
+	Ahora veamos la tupla generada por el Simulador, $(U_i^`, B_i^`, W_i^`)$. La v.a. $U_i^`$ se calcula a partir de $B_i^`$ y $W_i^`$. La variable $B_i^`$ depende de $U_i^`$, $V_{i-1}$ y $h$ por $F$ en el paso 4. Y la v.a. $W_i^`$ se elige de manera uniforme en $\mathbb{Z}_N^*$.
 	
 	La probabilidad de la tupla es:
 	
-	\begin{flushleft}
-		$P(U_i^`=u, B_i^`=b, W_i^`=w) = $ 	$P(W_i^`=w)\cdot$ \\ 
-		$ \cdot P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) \cdot P(U_i^`=u \mid W_i^`=w, B_i^`=b)$
-	\end{flushleft}
+	\[P(U_i^`=u, B_i^`=b, W_i^`=w) = \]
+	\[P(W_i^`=w)\cdot P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) \cdot P(U_i^`=u \mid W_i^`=w, B_i^`=b)\]
 	
 	Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i^`=w) = \frac{1}{\alpha \beta}$.
 	
 	La probabilidad
-	\marginpar{-$w\in \Omega_u \Leftrightarrow b=0$ \\-$w\in \Omega_{xu} \Leftrightarrow b=1$ \\ -$W_i^`$, $B_i^`$ indep.}
+	\marginpar{$w\in \Omega_u \Leftrightarrow b=0$ \\$w\in \Omega_{xu} \Leftrightarrow b=1$ \\ $W_i^`$, $B_i^`$ indep.}
 	\begin{align*}
 	P(U_i^`=u)  & = P(U_i^`=u, W_i^`\in \Omega_u \cup \Omega_{xu}, B_i^` \in \{0,1\}) = \\
 				&= \sum_{w\in \Omega_u} P(U_i^`=u, W_i^`=w, B_i^` = 0) + \\
@@ -406,31 +364,29 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} que
 	$P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) = p_b$, es decir, $B_i^`$ tiene la misma distribución que $B_i$.
 	
 	
-	Por construcción, dados $w$ y $b$, en el simulador $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i^`$ tenga el valor $u$ condicionado a que $ B_i^`=b$ y que $W_i^`=w$, es 1:
+	Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i^`$ tenga el valor $u$ condicionado a que $ B_i^`=b$ y que $W_i^`=w$, es 1:
+	\[P(U_i^`=u \mid W_i^`=w, B_i^`=b) = 1\]
 	
-	$P(U_i^`=u \mid W_i^`=w, B_i^`=b) = 1$
-	
-	
-	\hfil
-	
-	En total, tenemos que $P(U_i^`=u, B_i^`=b, W_i^`=w) = \frac{p_b}{\alpha \beta}$.
 	
 	\hfil
+	
+	En total, tenemos que $P(U_i^`=u, B_i^`=b, W_i^`=w) = \dfrac{p_b}{\alpha \beta}$.
+	
 	
 	Terminamos así la inducción en $i$ y los ensambles de la Vista y el Simulador son idénticos.
 	
 	\hfil
 	
-	Concluimos que la prueba \ref{QRinteractive:alg} del problema QR es perfecta de conocimiento cero.
+	Concluimos que la prueba interactiva \ref{QRinteractive:alg} del problema QR es perfecta de conocimiento cero.
 	
 \end{proof}
 
 
 
-\subsection{Isomorfismo de grafos}
+\subsection{Prueba de conocimiento cero para el problema de isomorfismo de grafos}
 
 
-Otro problema de decisión del que podemos dar una prueba interactiva de conocimiento cero es el de encontrar un isomorfismo entre grafos:
+Otro problema de decisión del que podemos dar una prueba interactiva de conocimiento cero es el de determinar si dos grafos dados son isomorfo:
 
 
 
@@ -515,16 +471,13 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 	\hfil
 	
 	Sea $(G_0, G_1)$ una instancia $Verdadera$ del problema GI. La Vista entre P y V es el ensamble
-	
-	\begin{align*}
-		Vista_{P,V^*}(G_0, G_1, h) = (G_0, G_1, h,H_1,B_1,\Phi_1,\dots , H_{t(n)}, B_{t(n)}, \Phi_{t(n)}),
-	\end{align*}
+	\[ Vista_{P,V^*}(G_0, G_1, h) = (G_0, G_1, h,H_1,B_1,\Phi_1,\dots , H_{t(n)}, B_{t(n)}, \Phi_{t(n)}),\]
 
 	donde la variable aleatoria $H_i$ representa el grafo isomorfo $h_i$ de la $i$-ésima ronda, la v.a. $B_i$ el reto $b_i$ de V a P, y $\Phi_i$ es el isomorfismo que envía P como respuesta al final de la ronda. El historial de anteriores transcripciones se representa con $h$.
 	
 	Como en el problema QR, V$^*$ podría utilizar un algoritmo probabilístico $F$, de tiempo polinomial, al calcular los retos $b_i$, para intentar obtener información de P. $F$ utilizará toda la información accesible a V$^*$ en el momento de enviar el reto.
 	
-	El Simulador para la prueba interactiva anterior, que utilizará el mismo algoritmo $F$, es el siguiente:
+	Construimos ahora el Simulador para la prueba interactiva:
 	
 	
 	\hfil 
@@ -556,17 +509,17 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 	\hfill
 	
 	
-	La probabilidad de que el $b_{i+1}$ elegido coincida con el de la función $F$ es $1/2$, por lo que en promedio se necesitarán dos rondas por tupla. El Simulador es un algoritmo probabilístico que se ejecuta en un tiempo estimado polinomial.
+	La probabilidad de que el bit $b_{i+1}$ elegido coincida con el de la función $F$ es $1/2$, por lo que en promedio se necesitarán dos rondas por tupla. El Simulador es un algoritmo probabilístico que se ejecuta en un tiempo estimado polinomial.
 	
 	\hfil
 	
 	Veamos ahora que el ensamble de la $Vista_{P,V^*}(G_0, G_1 ,h)$, es igual al del Simulador, $S_{V^*}(G_0, G_1 ,h)$. Procedemos por inducción sobre $i$, el número de rondas.
 	
-	Para $i=0$, ambos ensambles son constantes, $Vista_{P,V^*}(G_0, G_1 ,h)$ $=$ $S_{V^*}(G_0, G_1 ,h)$ $=$ $(G_0, G_1, h)$, por lo que sus distribuciones de probabilidad son idénticas y los ensambles coinciden.
+	Para $i=0$, ambos ensambles son constantes,
+	\[Vista_{P,V^*}(G_0, G_1 ,h)=S_{V^*}(G_0, G_1 ,h)=(G_0, G_1, h),\]
+	por lo que sus distribuciones de probabilidad son idénticas y los ensambles coinciden.
 	
 	Suponemos cierto para $i-1$ rondas, $P(Vista_{P,V^*}=v_{i-1}) = P(S_{V^*}=v_{i-1})$.
-	
-	\hfil
 	
 	Siguiendo el protocolo, se generarán las v.a. $(H_i, B_i, \Phi_i)$ para la $i$-ésima ronda. Utilizando el Teorema de la probabilidad compuesta, y observando la dependencia de las variables durante la ejecución del protocolo, calculamos:
 	\begin{align*}
@@ -608,10 +561,10 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 
 
 
-\subsection{Logaritmo discreto}\label{perfectDL}
+\subsection{Prueba de conocimiento cero para el problema del logaritmo discreto}\label{perfectDL}
 
 
-Vamos a expresar el problema del logaritmo discreto como un problema de decisión, donde podamos mantener cierta información secreta que no se revele en la prueba de conocimiento cero, y que permita solucionar el problema:
+Vamos a expresar el problema del logaritmo discreto como una prueba de conocimiento de la potencia $s$, donde podamos mantener dicha información en secreto y que no se revele durante la interacción:
 
 \hfil
 
@@ -623,8 +576,6 @@ Vamos a expresar el problema del logaritmo discreto como un problema de decisió
 \\
 
 \hfil
-
-A la prueba interactiva asociada a este problema se les llama \textit{pruebas de conocimiento}. Veremos una prueba de conocimiento  cero de conocimiento del secreto $s$, en inglés llamadas \textit{Zero-Knowledge Proof of Knowledge}. A pesar de la verbosidad del término, se diferencian poco de las ya vistas, como vamos a ver enseguida.
 
 
 \begin{theorem}
@@ -645,7 +596,7 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 		
 		\hfil
 		
-		\textit{Datos comunes}: Una instancia ($G$, $q$, $g$, $y$) del Problema DL. $n=o(g)=q$ es el tamaño del problema.
+		\textit{Datos comunes}: Una instancia ($G$, $q$, $g$, $y$) del Problema DL. $n=ord(g)=q$ es el tamaño del problema.
 		
 		\textit{Protocolo}: Sea $t(n)$ un polinomio en $n$. P y V repiten $t(n)$ veces los siguientes pasos.
 		
@@ -797,7 +748,7 @@ A la prueba interactiva asociada a este problema se les llama \textit{pruebas de
 
 \paragraph{Otros tipos de pruebas de conocimiento cero}
 
-La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Esto limita la cantidad de pruebas de conocimiento cero conocidas, y por eso se definen pruebas con menos restricciones, que en la práctica pueden funcionar como las ZKP perfectas, en muchos casos más óptimas al reducir el número de interacciones manteniendo el nivel de robustez.
+La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Esto limita la cantidad de pruebas de conocimiento cero conocidas, y por eso se definen pruebas con menos restricciones, que en la práctica pueden funcionar como las ZKP perfectas, y en ocasiones de forma más óptima.
 
 \hfil
 
@@ -809,9 +760,9 @@ La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulado
 
 % rosen2007discrete
 
-En esta sección veremos un tipo de pruebas de conocimiento cero, utilizadas en la práctica, que derivan de las ZKP perfectas al añadir una condición al Verificador, que cumpla el protocolo indicado.
+En esta sección veremos un tipo de pruebas de conocimiento cero, utilizadas en la práctica, que derivan de las ZKP perfectas al añadir una condición al Verificador: que siempre cumpla el protocolo indicado.
 
-En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de una función $F$ que un Verificador tramposo V$^*$ utilizaría para elegir los retos, en un intento de obtener más información de P. Sin embargo, si el conjunto de posibles retos es demasiado grande, el Simulador diseñado perdería la propiedad de ser de \textit{tiempo polinomial}.
+En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de un algoritmo $F$ que un Verificador tramposo, V$^*$, utilizaría para elegir los retos, en un intento de obtener más información de P. En este tipo de de pruebas V no dispondrá de $F$ para elegir los retos.
 
 
 \begin{definition}[Propiedad de conocimiento cero con Verificador Honesto]
@@ -823,8 +774,6 @@ En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores e
 \hfil
 
 Veremos es este apartado una variación de la ZKP perfecta basada en el problema del Logaritmo Discreto (\ref{perfectDL}), llamado \textit{Protocolo de Identificación de Schnorr}.
-
-\hfil
 
 Primero han de definirse parámetros comunes conocidos por P y V. Elegimos dos valores primos, $p$ y $q$ tal que $p\equiv 1 \, mod \, q$, es decir, $q\mid (p-1)$, y el problema del logaritmo discreto es difícil. Sea $\alpha$ un generador del subgrupo de orden $q$ de $\mathbb{Z}_p^*$. Además debemos elegir un valor $t$ que definirá la robustez del protocolo. En resumen tenemos:
 
@@ -841,7 +790,7 @@ El secreto de P será el valor $a$, tal que $0\leq a \leq q-1$. La prueba consis
 Tanto P como V conocerán los valores $p$, $q$, $\alpha$, $t$ y $v$.
 
 \rule{\textwidth}{1pt}
-\begin{algorithm}[Schnorr]
+\begin{algorithm}[Schnorr]\label{schnorr:algint}
 	
 	\hfil
 	
@@ -874,46 +823,57 @@ Tanto P como V conocerán los valores $p$, $q$, $\alpha$, $t$ y $v$.
 Este algoritmo en particular se diseñó con el objetivo de minimizar la cantidad de mensajes intercambiados manteniendo una robustez que lo hiciera seguro. Como veremos, una sola interacción nos dará una probabilidad de $2^{-t}$ de que un atacante consiga engañar al Verificador.
 
 
-Pero primero comprobemos la \textit{completitud}. Veamos con las siguientes congruencias que que si P conoce $a$, siempre podrá responder correctamente al reto:
-\[
-\alpha^y v^r \equiv \alpha ^{k+ar} v^r \equiv \alpha^{k+ar} \alpha ^{-a r} \equiv \alpha ^k \equiv \gamma \, mod \, p
-\]
+\begin{theorem}
+	El algoritmo de Schnorr \ref{schnorr:algint} es una prueba interactiva.
+\end{theorem}
 
-Por tanto, un P y V honestos finalizarán el protocolo en aceptación siempre, la prueba es \textit{completa}.
-
-\hfil
-
-El \textit{parámetro de seguridad} $t$ define la dificultad de adivinar el reto de V. Si P$^*$ adivinara el valor $r$ aleatorio de V, podría superar la prueba eligiendo un valor $y$ aleatorio y calculando $\gamma = \alpha ^y v ^r \, mod \, p$, con lo que enviando primero el $y$ y respondiendo al reto con $\gamma$ pasaría la prueba. La probabilidad de adivinar correctamente un reto $1\leq r\leq 2^t$ elegido aleatoriamente es de $\frac{1}{2^t}$.
-
-
-Supongamos que P$^*$ puede adivinar el reto de V con una probabilidad mayor a $2^{-t}$, entonces P$^*$ conocería para un valor $\gamma$ de su elección, al menos dos respuestas posibles para dos retos distintos de V, es decir, si antes el P$^*$ tramposo podía precalcular un testigo y una respuesta para un reto de V, ahora puede calcular, para el mismo testigo (pues solo puede enviar uno antes de recibir el reto), P$^*$ conoce la respuesta de al menos dos retos.
-
-Sea $\gamma$ el testigo para el que P$^*$ conoce los valores $r_1$, $y_1$ y $r_2$, $y_2$, un par de posibles retos y respuestas válidas, que cumplen
-\[
+\begin{proof}
+	Como sólo existe una ronda de 3 mensajes, el algoritmo es probabilístico de tiempo polinomial.
+	
+	
+	Veamos ahora la \textit{completitud}. Veamos con las siguientes congruencias que que si P conoce $a$, siempre podrá responder correctamente al reto:
+	\[
+	\alpha^y v^r \equiv \alpha ^{k+ar} v^r \equiv \alpha^{k+ar} \alpha ^{-a r} \equiv \alpha ^k \equiv \gamma \, mod \, p
+	\]
+	
+	Por tanto, un P y V honestos finalizarán el protocolo en aceptación siempre, la prueba es \textit{completa}.
+	
+	Finalizamos con el análisis de la \textit{robustez}. El \textit{parámetro de seguridad} $t$ define la dificultad de adivinar el reto de V. Si P$^*$ adivinara el valor $r$ aleatorio de V, podría superar la prueba eligiendo un valor $y$ aleatorio y calculando $\gamma = \alpha ^y v ^r \, mod \, p$, con lo que enviando primero el $y$ y respondiendo al reto con $\gamma$ pasaría la prueba. La probabilidad de adivinar correctamente un reto $1\leq r\leq 2^t$ elegido aleatoriamente es de $\frac{1}{2^t}$.
+	
+	
+	Supongamos que P$^*$ puede adivinar el reto de V con una probabilidad mayor a $2^{-t}$, entonces P$^*$ conocería para un valor $\gamma$ de su elección, al menos dos respuestas posibles para dos retos distintos de V, es decir, si antes el P$^*$ tramposo podía precalcular un testigo y una respuesta para un reto de V, ahora puede calcular, para el mismo testigo (pues solo puede enviar uno antes de recibir el reto), P$^*$ conoce la respuesta de al menos dos retos.
+	
+	Sea $\gamma$ el testigo para el que P$^*$ conoce los valores $r_1$, $y_1$ y $r_2$, $y_2$, un par de posibles retos y respuestas válidas, que cumplen
+	\[
 	\gamma \equiv \alpha^{y_1} v^{r_1} \equiv \alpha^{y_2} v^{r_2} \, mod \, p
-\]
-
-Se sigue que
-\[
+	\]
+	
+	Se sigue que
+	\[
 	\alpha^{y_1 - y_2} \equiv v ^{r_2 - r_1}  \, mod \, p
-\]
-
-Como la \textit{clave pública} $v$ se calculaba como $v\equiv \alpha^{-a} \, mod \, p$, con $a$ el secreto de P, podemos sustituir:
-\[
+	\]
+	
+	Como la \textit{clave pública} $v$ se calculaba como $v\equiv \alpha^{-a} \, mod \, p$, con $a$ el secreto de P, podemos sustituir:
+	\[
 	\alpha^{y_1 - y_2} \equiv \alpha ^{-a(r_2 - r_1)}  \, mod \, p
-\]
-
-Como $\alpha$ tiene orden $q$, podemos trabajar con los exponentes como:
-\[
+	\]
+	
+	Como $\alpha$ tiene orden $q$, podemos trabajar con los exponentes como:
+	\[
 	y_1 - y_2 \equiv a(r_1 - r_2) \, mod \, q
-\]
-
-Por la condición sobre los retos $1\leq r \leq 2^t < q$, sabemos que $0 < \mid r_2 - r_1 \mid < 2^t < q$, y como $q$ es primo, $mcd(r_2-r_1,q)=1$, de modo que existe el inverso $(r_1 - r_2)^{-1} \, mod \, q$, y el P$^*$ puede calcular el secreto $a$ como:
-\[
+	\]
+	
+	Por la condición sobre los retos $1\leq r \leq 2^t < q$, sabemos que $0 < \mid r_2 - r_1 \mid < 2^t < q$, y como $q$ es primo, $mcd(r_2-r_1,q)=1$, de modo que existe el inverso $(r_1 - r_2)^{-1} \, mod \, q$, y el P$^*$ puede calcular el secreto $a$ como:
+	\[
 	a = (y_1-y_2)(r_1-r_2)^{-1}\, mod \, q
-\]
+	\]
+	
+	A partir de este análisis, vemos que cualquiera que pueda superar la prueba frente a V con una probabilidad mayor a $2^{-t}$ puede calcular el secreto de P, y sería una instancia $Verdadera$ del problema.
+	
+	
+	
+\end{proof}
 
-A partir de este análisis, vemos que cualquiera que pueda superar la prueba frente a V con una probabilidad mayor a $2^{-t}$ puede calcular el secreto de P.
 
 
 
@@ -922,7 +882,14 @@ A partir de este análisis, vemos que cualquiera que pueda superar la prueba fre
 
 
 
-Después de ver la \textit{completitud} y \textit{robustez} del protocolo, veamos la propiedad de \textit{conocimiento cero con Verificador Honesto}.
+Después de ver la \textit{completitud} y \textit{robustez} del protocolo, tenemos una prueba interactiva, pero nos falta comprobar la propiedad de \textit{conocimiento cero con verificador honesto}.
+
+\begin{theorem}
+	La prueba interactiva de Schnorr \ref{schnorr:algint} es de conocimiento cero con verificador honesto.
+\end{theorem}
+
+\begin{proof}
+
 
 Una transcripción o vista del protocolo es simplemente el ensamble probabilístico con una tupla:
 \[
@@ -931,7 +898,7 @@ Vista_{P,V} =(\gamma, r, y)
 
 Calculamos la probabilidad 
 \[
-	P(\gamma=g, r=b, y=c) = P(\gamma=g)P(r=b\mid \gamma =a)P(y=c\mid \gamma=a, r=b)
+P(\gamma=g, r=b, y=c) = P(\gamma=g)P(r=b\mid \gamma =a)P(y=c\mid \gamma=a, r=b)
 \]
 
 
@@ -979,21 +946,21 @@ Como $\gamma'$ depende totalmente de $r'$ e $y'$, $\mid S_V \mid = q\cdot 2^t$, 
 
 Tenemos, por tanto, que el protocolo de Schnorr es una Prueba de Conocimiento Cero con Verificador Honesto.
 
+\end{proof}
+
 \hfil
 
-A día de hoy, para probar que Schnorr es ZKP perfecta, donde un Verificador utiliza la función $F$ que elige los retos no uniformemente entre $1$ y $2^t$, no se conoce ningún simulador que sea probabilístico en tiempo polinomial, condición indispensable para probar que es perfecta.
+A día de hoy, para probar que Schnorr es de conocimiento cero perfecta, donde un Verificador utilizaría la función $F$ que elige los retos no uniformemente entre $1$ y $2^t$, no se conoce ningún simulador que sea probabilístico en tiempo polinomial, condición indispensable para probar que es perfecta.
 
 
 %%%%%%%%
-Aún así, Schnorr es utilizado ampliamente en la práctica, pues tampoco se conoce ningún ataque a partir de la elección de retos no aleatorios. Para probar que el protocolo es una ZKP perfecta hay que añadir nuevas restricciones, como reducir el espacio de retos, a cambio de incrementar las rondas para mantener el nivel de robustez. Con un bit por reto y $t$ rondas, en la sección anterior demostramos que el protocolo era una ZKP perfecta, pero en la práctica es poco eficiente por la cantidad de mensajes necesarios.
+Aún así, Schnorr es utilizado ampliamente en la práctica, pues tampoco se conoce ningún ataque a partir de la elección de retos no aleatorios. Se puede demostrar que algunas variaciones del protocolo son pruebas de conocimiento cero perfectas, para ello hay que añadir ciertas condiciones, como reducir el espacio de retos, a cambio de incrementar las rondas para mantener el nivel de robustez. Con un bit por reto y $t$ rondas, en la sección anterior demostramos que el protocolo era una ZKP perfecta, pero en la práctica es muy poco eficiente por la cantidad de mensajes intercambiados.
 %%%%%%%%%
 
 
-\hfil
+
 
 \section{Pruebas de conocimiento cero estadísticas}
-
-\hfil
 
 Se denominan así las pruebas interactivas con un Simulador que, en vez de tener ensamble idéntico a la Vista, convergen en $n$, el parámetro que define el tamaño del problema:
 \begin{center}
@@ -1046,21 +1013,35 @@ Empecemos definiendo un esquema de compromiso para un bit:
 
 Podemos clasificar los esquemas de compromiso de bit en dos tipos:
 
-\begin{itemize}
-	\item \textbf{Vinculación incondicional}: significa que incluso un P con una capacidad computacional ilimitada (como en las pruebas interactivas) no puede cambiar el bit comprometido en el \textit{testigo} enviado.
-	
-	\item \textbf{Secreto incondicional}: dado un V con capacidad computacional ilimitada, no es capaz de obtener información alguna del testigo, es decir, no es capaz de distinguir los ensambles con mayor probabilidad que eligiendo al azar el posible valor de $b$.
-	
-\end{itemize}
+\begin{definition}[Vinculación incondicional]
+	Una máquina P con una capacidad computacional ilimitada (como en las pruebas interactivas) no puede cambiar el bit comprometido en el \textit{testigo} enviado.
+\end{definition}
 
+\begin{definition}[Secreto incondicional]
+	Los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos. Es decir, dada una máquina V con capacidad computacional ilimitada, no es capaz de distinguir los ensambles con mayor probabilidad que eligiendo al azar el posible valor de $b$.
+\end{definition}
 
-En un entorno donde tenemos dos interlocutores, P y V, que ven todo lo que el otro les envía, es imposible tener vinculación y secreto incondicionales a la vez. Supongamos que tenemos vinculación incondicional, P no puede encontrar un valor $y'$ que abra $x$ con un bit diferente. Entonces V podría distinguir a qué $b$ corresponde el testigo $x$ recibido, siendo el algoritmo más fácil probar todos los valores $y'\in \Upsilon$ hasta encontrar el que hace $ v(x,y') \neq \bullet$. Aunque una máquina convencional podría tardar demasiado tiempo, estamos suponiendo que V puede ser computacionalmente ilimitado para considerar secreto incondicional, y por tanto, queda demostrado que no podemos tener ambas propiedades a la vez.
+\begin{proposition}
+	En un entorno donde tenemos dos interlocutores, P y V, que ven todo lo que el otro les envía, no existe ningún esquema de compromiso con vinculación y secreto incondicionales a la vez.
+\end{proposition}
 
-Sin embargo, se puede conseguir vinculación o secreto computacional. Al igual que en las pruebas de conocimiento cero computacionales, aquí cambiamos la condición de máquinas computacionalmente ilimitadas por máquinas convencionales, y consideramos que no existe ningún algoritmo probabilístico en tiempo polinomial que pueda, o bien encontrar un $y'$ que permita a P cambiar el bit comprometido (vinculación), o bien que permita a V obtener el valor de $b$ sin la clave $y$ (secreto).
+\begin{proof}
+	Supongamos que tenemos vinculación incondicional, P no puede encontrar un valor $y'$ que abra $x$ con un bit diferente. Entonces V podría distinguir a qué $b$ corresponde el testigo $x$ recibido, siendo un posible algoritmo probar todos los valores $y'\in \Upsilon$ hasta encontrar el que hace $ v(x,y') \neq \bullet$. Aunque una máquina convencional podría tardar demasiado tiempo, estamos suponiendo que V puede ser computacionalmente ilimitado para el caso de secreto incondicional, y por tanto, no podemos tener ambas propiedades incondicionales a la vez.
+\end{proof}
+
+Sin embargo, se puede conseguir una condición menos restrictiva, pero equivalentes en la práctica:
+
+\begin{definition}[Vinculación computacional]
+	No existe ningún algoritmo probabilístico en tiempo polinomial que permita encontrar un $y'$ tal que P puede cambiar el bit comprometido.
+\end{definition}
+
+\begin{definition}[Secreto computacional]
+	No existe ningún algoritmo probabilístico en tiempo polinomial que permita distinguir los ensambles probabilísticos $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$. Se dice que los ensambles son \textit{indistinguibles polinomialmente}.
+\end{definition}
+
 
 Para conseguir vinculación y secreto incondicionales a la vez, han de utilizarse otras técnicas de comunicación, como canales con ruido o múltiples participantes \citep{damgardcommitment, crepeau1997efficient, ben1988completeness, chaum1988multiparty, crepeau1988achieving}.
 
-\hfil
 
 
 \subsection{Esquemas de compromiso con secreto incondicional}
@@ -1099,9 +1080,19 @@ El algoritmo de compromiso es como sigue:
 \hfil
 
 
-La ocultación consiste en enviar como testigo un residuo cuadrático módulo $n$, y a la hora de desvelar el valor del bit, P debe desvelar una raíz cuadrada de $x$. Si P es una máquina limitada polinomialmente, al no conocer la factorización de $n$, no podrá calcular la raíz cuadrada de $x$. Si pudiera calcular dicha raíz, un ataque consistiría en seguir el protocolo para el bit $b=1$, de modo que conocemos el $y$ para abrirlo como $1$, y cuando P quiera cambiar el bit oculto a $0$, calculará la raíz cuadrada módulo $n$ de $s\cdot y^2$, de modo que V obtendrá en la \textit{apertura} $b=0$. De este modo, tenemos \textbf{vinculación computacional}.
+\begin{proposition}
+	El algoritmo \ref{bitcommitQR:alg} es un esquema de compromiso de bit con vinculación computacional y secreto incondicional.
+\end{proposition}
 
-Por otro lado, si P elige de modo aleatorio $y\in \mathbb{Z}_n^*$, como los ensambles probabilísticos $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, tenemos \textbf{secreto incondicional}. Un V \textit{todopoderoso} computacionalmente no podría distinguirlos, ni al calcular todas las raíces modulares del testigo $x$ recibido, pues o bien una de esas raíces es el $y$ escogido por P, o bien una de ellas corresponde al valor $t\cdot y \, mod \, n$.
+\begin{proof}
+	La ocultación consiste en enviar como testigo un residuo cuadrático módulo $n$, y a la hora de desvelar el valor del bit, P debe desvelar una raíz cuadrada de $x$. Si P es una máquina limitada polinomialmente, al no conocer la factorización de $n$, no podrá calcular la raíz cuadrada de $x$. Si pudiera calcular dicha raíz, el ataque consistiría en seguir el protocolo para el bit $b=1$, de modo que conocemos el $y$ para abrirlo como $1$, y cuando P quiera cambiar el bit oculto a $0$, calculará la raíz cuadrada módulo $n$ de $s\cdot y^2$, de modo que V obtendrá en la \textit{apertura} $b=0$. Suponiendo que el problema de la factorización es intratable, tenemos \textbf{vinculación computacional}.
+	
+	%Por otro lado, si P elige de modo aleatorio $y\in \mathbb{Z}_n^*$, como los ensambles probabilísticos $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, tenemos \textbf{secreto incondicional}. Un V \textit{todopoderoso} computacionalmente no podría distinguirlos mejor que eligiendo un $y$ al azar, ni al calcular todas las raíces modulares del testigo $x$ recibido, pues o bien una de esas raíces es el $y$ escogido por P, o bien una de ellas corresponde al valor $t\cdot y \, mod \, n$, para el $y$ adecuado.
+	
+	Por otro lado, sea $\beta=\mid \Omega_x \mid$ con $\Omega_x$ el conjunto de raíces modulares de $x$, que un V \textit{todopoderoso} es capaz de calcular.
+	Sea $r \in \Omega_x$ la raíz modular de $x$ usada por P en el protocolo, e $Y$ la variable aleatoria que representa la clave $y$. Si $b=0$ tenemos que $P(Y=y)=P(r=y)=1/\beta$, pues alguna de las raíces será igual a $y$. Si $b=1$, la raíz utilizada para generar $x$ será $r=t y\, mod\, n$, y como $t$ es un valor prefijado, $y$ está unívocamente determinada por $r$, entonces $P(Y=y)=P(r=ty)=1/\beta$. Por tanto, los ensambles probabilísticos $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, y tenemos \textbf{secreto incondicional}.
+	
+\end{proof}
 
 
 \hfil
@@ -1136,10 +1127,18 @@ A continuación, presentamos otro esquema de compromiso basado en el logaritmo d
 
 \hfil
 
-El posible ataque a este esquema de compromiso consistiría en calcular el logaritmo discreto de $s$ módulo $p$, llamémoslo $t$, $g^t=s\,mod\,p$. Si P oculta $b=0$, enviará $x=g^y\,mod\,p$, y para poder abrir al valor $b=1$ puede enviar a V $y-t$, de modo que V calculará $sg^{y-t}\equiv g^t g^{y-t} \equiv g^y \equiv x \, mod \, p$, obteniendo $b=1$. En el caso contrario, donde P oculta $b=1$, enviará $x=sg^y\,mod\, p$ a V como testigo, y para abrir el bit como $b=0$ basta con enviar $y+t$, tal que V calculará $g^{y+t}\equiv g^t g^y \equiv s g^y\, mod\, p$, creyendo entonces que $b=1$.
+\begin{proposition}
+	El algoritmo \ref{bitcommitDL:alg} es un esquema de compromiso de bit con vinculación computacional y secreto incondicional.
+\end{proposition}
 
-Como antes, si P es computacionalmente limitado, no podrá resolver el problema del logaritmo discreto y obtenemos una \textbf{vinculación computacional}. También tenemos como antes que los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son iguales, pues los exponentes se distribuyen uniformemente en $\mathbb{Z}_{p-1}$, y por tanto el esquema es de \textbf{secreto incondicional}.
-
+\begin{proof}
+	
+	El ataque a este esquema de compromiso consistiría en calcular el logaritmo discreto de $s$ módulo $p$, llamémoslo $t$, tal que $g^t=s\,mod\,p$. Si P oculta $b=0$, enviará $x=g^y\,mod\,p$, y para poder abrir al valor $b=1$ puede enviar a V  $(y-t)$, de modo que V calculará $sg^{y-t}\equiv g^t g^{y-t} \equiv g^y \equiv x \, mod \, p$, obteniendo $b=1$. En el caso contrario, donde P oculta $b=1$, enviará $x=sg^y\,mod\, p$ a V como testigo, y para abrir el bit como $b=0$ basta con enviar $y+t$, tal que V calculará $g^{y+t}\equiv g^t g^y \equiv s g^y\, mod\, p$, creyendo entonces que $b=1$. Si P es computacionalmente limitado, no podrá resolver el problema del logaritmo discreto y obtenemos una \textbf{vinculación computacional}.
+	
+	Suponiendo un V computacionalmente ilimitado, éste podría calcular el logaritmo discreto de $x$ módulo $p$, llamémoslo $u$, tal que $x\equiv g^u\,mod\,p$, además del valor $t$ que genera $s$, $s\equiv g^t\,mod\,p$. Una vez conocidos $u$ y $t$, la probabilidad de que $y$ valga $u$ ó $(u-t)$, según sea $b=0$  $(x\equiv g^u \equiv g^y \,mod\,p)$ ó $b=1$ $(x\equiv g^t g^{u-t} \equiv sg^y \,mod\,p)$ respectivamente, es la misma, $1/2$.
+	Tenemos entonces que los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos y el esquema es de \textbf{secreto incondicional}.
+	
+\end{proof}
 
 
 \hfil
@@ -1175,9 +1174,15 @@ Finalmente utilizamos el problema del isomorfismo de grafos para mostrar otro es
 
 \hfil
 
-P podría atacar el esquema si conociera el isomorfismo de $G$ a $H$, componiéndolo con $\gamma$ para cambiar el bit que V abriría. Como suponemos que P es una máquina limitada computacionalmente, no puede resolver el problema del isomorfismo de grafos y por tanto el esquema de compromiso es de \textbf{vinculación computacional}. Además, como los posibles $\gamma$ para abrir un bit son permutaciones aleatorias de $G$, compuestas o no con $\pi$, los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, de modo que tenemos \textbf{secreto incondicional}.
+\begin{proposition}
+	El algoritmo \ref{bitcommitGI:alg} es un esquema de compromiso de bit con vinculación computacional y secreto incondicional.
+\end{proposition}
 
-
+\begin{proof}
+	P podría atacar el esquema si conociera el isomorfismo de $G$ a $H$, componiéndolo con $\gamma$ para cambiar el bit que V abriría. Como suponemos que P es una máquina limitada computacionalmente, no puede resolver el problema del isomorfismo de grafos y por tanto el esquema de compromiso es de \textbf{vinculación computacional}.
+	
+	Además, como los posibles $\gamma$ para abrir un bit son permutaciones aleatorias de $G$, compuestas o no con $\pi$, la probabilidad de que dado un $X$ el bit $b$ sea $0$ ó $1$ es $1/2$ en ambos casos, de modo que los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos, y tenemos \textbf{secreto incondicional}.
+\end{proof}
 
 \subsection{Esquemas de compromiso con vinculación incondicional}
 
@@ -1214,9 +1219,16 @@ eligiendo 2 primos aleatorios suficientemente grandes, $p$ y $q$, y un \textbf{n
 \hfil
 
 
-El valor del testigo $x$ será un residuo cuadrático si $b=0$, o un no-residuo cuadrático si $b=1$, y como $ \mathbb{Z}_N^{Q+} \cap \mathbb{Z}_N^{Q-} = \emptyset $, P es incapaz de abrir el testigo con otro valor de $b$, aunque sea computacionalmente ilimitado. Tenemos por tanto \textbf{vinculación incondicional}.
+\begin{proposition}
+	El algoritmo \ref{bitcommitQR2:alg} es un esquema de compromiso de bit con secreto computacional y vinculación incondicional.
+\end{proposition}
 
-Sin embargo, los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son sólo polinomialmente indistinguibles, bajo la suposición de que el problema QR es \textit{difícil}, de modo que obtenemos sólo \textbf{secreto computacional}.
+\begin{proof}
+	El valor del testigo $x$ será un residuo cuadrático si $b=0$, o un no-residuo cuadrático si $b=1$, y como $ \mathbb{Z}_N^{Q+} \cap \mathbb{Z}_N^{Q-} = \emptyset $, P es incapaz de abrir el testigo con otro valor de $b$, aunque sea computacionalmente ilimitado. Tenemos por tanto \textbf{vinculación incondicional}.
+	
+	Sin embargo, los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son sólo polinomialmente indistinguibles, bajo la suposición de que el problema QR es \textit{difícil}, de modo que obtenemos sólo \textbf{secreto computacional}.
+\end{proof}
+
 
 Este esquema es casi idéntico al \ref{bitcommitQR:alg}, pero la diferencia radica en que en el esquema con secreto incondicional, sólo usamos residuos cuadráticos, de modo que no se podía distinguir una apertura de otra hasta que la enviara P, y en este caso utilizamos un no-residuo cuadrático con símbolo de Jacobi $1$, y en vez de secreto incondicional, conseguimos vinculación incondicional.
 
@@ -1275,18 +1287,26 @@ Comencemos por el compromiso de Pedersen. Como antes, P y V deben elegir un prim
 
 \hfil
 
-Para poder romper la propiedad de vinculación, haría falta encontrar los pares $(s_0,y_0)$ y $(s_1,y_1)$, con $s_0\neq s_1$, tal que
-\[
-g^{s_0}h^{y_0} \equiv g^{s_1}h^{y_1}\, mod \, p
-\]
-operando obtenemos $g^{s_0-s_1}\equiv h^{y_1-y_0}\, mod \, p$, y podemos despejar 
-\[
-h \equiv g^{ (s_0-s_1) (y_1-y_0)^{-1} \, mod\, p-1 } \, mod \, p
-\]
-y habríamos calculado el logaritmo discreto de $h$ en base $g$, pero para un P computacionalmente limitado, y suponiendo el problema del logaritmo discreto, esto no es posible, por lo que obtenemos \textbf{vinculación computacional}.
 
 
-Por otra parte, el exponente aleatorio $y$ se elige uniformemente en $\mathbb{Z}_{p-1}$, de modo que el valor $g^s h^y \, mod \, p$ también se distribuye uniformemente en $\mathbb{Z}_p^*$. Se puede ver que dado cualquier par $(s,y)$ y cualquier posible valor $s'$, existe $y'$ tal que $g^s h^y \equiv g^{s'} h^{y'}\, mod \, p$: si $h\equiv g^t\, mod \, p$, tenemos que cualquier $s'$ se puede abrir con la \textit{clave} $y' = \frac{s-s'}{t} + y$. Tenemos entonces que el esquema es de \textbf{secreto incondicional}.
+\begin{proposition}
+	El algoritmo \ref{bitscommitDL:alg} es un esquema de compromiso de cadena de bits con vinculación computacional y secreto incondicional.
+\end{proposition}
+
+\begin{proof}
+	Para poder romper la propiedad de vinculación, haría falta encontrar los pares $(s_0,y_0)$ y $(s_1,y_1)$, con $s_0\neq s_1$, tal que
+	\[
+	g^{s_0}h^{y_0} \equiv g^{s_1}h^{y_1}\, mod \, p
+	\]
+	operando obtenemos $g^{s_0-s_1}\equiv h^{y_1-y_0}\, mod \, p$, y podemos despejar 
+	\[
+	h \equiv g^{ (s_0-s_1) (y_1-y_0)^{-1} \, mod\, p-1 } \, mod \, p
+	\]
+	y habríamos calculado el logaritmo discreto de $h$ en base $g$, pero para un P computacionalmente limitado, y suponiendo que el problema del logaritmo discreto es impracticable, esto no es posible, por lo que obtenemos \textbf{vinculación computacional}.
+	
+	Por otra parte, para cualquier par $(s,y)$ y $t$ tal que $h\equiv g^t\, mod \, p$, para cualquier posible valor $s'$ tenemos que $y'=\frac{s-s'}{t} + y$ cumple $g^s h^y \equiv g^{s'} h^{y'}\, mod \, p$. Es decir, $s'$ se puede abrir con la \textit{clave} $y' = \frac{s-s'}{t} + y$, donde $y$ se elige uniformemente en $\mathbb{Z}_p^*$. Tenemos entonces que el esquema es de \textbf{secreto incondicional}.
+	
+\end{proof}
 
 
 \hfil
@@ -1316,16 +1336,17 @@ Ahora veamos el segundo ejemplo de compromiso de cadenas de bits. La inicializac
 \hfil
 
 
-En este caso, el valor de $x_1 = g^y \, mod \, p$ determina unívocamente el valor de $y$ elegido por P, y de este modo se fija el posible valor de $s$ en $g^s h^y\, mod\, p$. Obtenemos así \textbf{vinculación incondicional}.
+\begin{proposition}
+	El algoritmo \ref{bitscommitDL:alg} es un esquema de compromiso de cadena de bits con vinculación computacional y secreto incondicional.
+\end{proposition}
 
-A cambio, siguiendo el mismo razonamiento que en el algoritmo anterior para su secreto incondicional, como ahora el posible valor de $y$ es único, un V con suficiente capacidad computacional podría resolver el logaritmo discreto y obtener $y$ y $s$ antes de que P realice la apertura. Sin embargo, ante un V limitado, y suponiendo que el problema del logaritmo discreto es \textit{difícil}, obtenemos \textbf{secreto computacional}.
+\begin{proof}
+	En este caso, el valor de $x_1 = g^y \, mod \, p$ determina unívocamente el valor de $y$ elegido por P, y de este modo se fija el posible valor de $s$ en $g^s h^y\, mod\, p$. Obtenemos así \textbf{vinculación incondicional}.
+	
+	A cambio, como ahora el posible valor de $y$ es único, un V con suficiente capacidad computacional podría resolver el logaritmo discreto de $x_1$, obtener $y$, y entonces despejar $s$ de $x_2$, antes de que P realice la apertura. Sin embargo, ante un V limitado, y suponiendo que el problema del logaritmo discreto es \textit{difícil}, obtenemos \textbf{secreto computacional}.
+\end{proof}
 
-
-Una ventaja de este esquema frente al anterior, es que P puede elegir el valor de $h$ por su cuenta, sin que V desconfíe de si conoce o no su logaritmo discreto. En el caso anterior, si P calcula maliciosamente $h$ como $h=g^t\,mod\,p$, hemos visto que puede abrir un blob con el valor que quiera. En este esquema, gracias a la vinculación incondicional, aunque P conozca $t$, no puede romper el esquema de compromiso. 
-
-\hfil
-
-
+Una ventaja de este esquema frente al anterior, es que P puede elegir el valor de $h$ por su cuenta, sin que V desconfíe de si conoce o no su logaritmo discreto. En el caso anterior, si P calcula maliciosamente $h$ como $h=g^t\,mod\,p$, hemos visto que puede abrir un blob con el valor que quiera. En este esquema, gracias a la vinculación incondicional, aunque P conozca $t$, no puede romper el esquema de compromiso. 	
 
 \hfil
 
@@ -1342,11 +1363,8 @@ Por otro lado, si utilizamos esquemas de compromiso con secreto incondicional, P
 
 \section{Pruebas de conocimiento cero computacionales}
 
-% TODO revisar con computational
-Decimos que dos ensambles probabilísticos son \textit{indistinguibles polinomialmente} si no existe un \textit{algoritmo probabilístico en tiempo polinomial} que puede distinguir uno de otro. Se puede consultar más sobre indistinguibilidad polinomial en \citep{book:856771}, donde se indica que, en particular, es un subconjunto propio de la \textit{indistinguibilidad estadística}, que nos daba las Pruebas de Conocimiento Cero Estadísticas del apartado anterior.
 
-\hfil
-
+Introducimos ahora la última variedad de pruebas de conocimiento cero que veremos en este capítulo. La definición parte de la de conocimiento cero perfecta, pero considerando que los ensambles de la Vista y Simulador son indistinguibles sólo de manera computacional, sin necesidad de ser idénticos.
 
 
 \begin{definition}[Propiedad de conocimiento cero computacional]
@@ -1358,15 +1376,18 @@ Decimos que dos ensambles probabilísticos son \textit{indistinguibles polinomia
 \hfil
 
 
-Para las pruebas que veremos en esta sección utilizaremos esquemas de compromiso con vinculación incondicional, y por tanto, secreto computacional. El esquema en particular utilizado en cada algoritmo es arbitrario mientras cumpla la propiedad, de modo que denominaremos a un blob como una \textit{caja negra} $C$ que oculta un cierto valor, y lo desvela entregando su \textit{llave} a V.
+Para las pruebas que veremos en esta sección utilizaremos esquemas de compromiso con vinculación incondicional y secreto computacional, pues ante un P \textit{todopoderoso}, debemos asegurarnos que no puede cambiar su compromiso. El esquema utilizado en cada algoritmo es arbitrario mientras cumpla la propiedad, de modo que denotaremos a un blob como una \textit{caja negra} $C$ que oculta un cierto valor, y lo desvela entregando su \textit{llave} a V.
 
 
-En esta clase de ZKP se encuentran problemas como el del camino hamiltoniano (HC), o el de la 3-coloración del grafo (G3C).
+En esta clase de pruebas de conocimiento cero se encuentran problemas como el del camino hamiltoniano (HC), o el de la 3-coloración del grafo (G3C).
 
 
 \subsection{Prueba de conocimiento cero para un grafo hamiltoniano}
 
 Dado el problema de decisión del grafo hamiltoniano, mostramos el algoritmo descrito por \citeauthor{blum} en \citep{blum}:
+
+
+\hfil
 
 \begin{tabular}{|ll}
 	\textit{Nombre:} & Problema HC. \\
@@ -1378,7 +1399,7 @@ Dado el problema de decisión del grafo hamiltoniano, mostramos el algoritmo des
 \hfil
 
 \rule{\textwidth}{1pt}
-\begin{algorithm}[Prueba interactiva para HC]
+\begin{algorithm}[Prueba interactiva para HC]\label{HCinteractive:alg}
 	
 	\hfil
 	
@@ -1412,74 +1433,91 @@ Dado el problema de decisión del grafo hamiltoniano, mostramos el algoritmo des
 	\end{enumerate}
 	
 	Tras $t(n)$ rondas, V termina y acepta la instancia como $Verdadera$, $G$ es hamiltoniano.
-	\label{HCinteractive:alg}
+	
 \end{algorithm}
 \rule{\textwidth}{1pt}
 
 \hfil
 
+\begin{theorem}
+	El protocolo \ref{HCinteractive:alg} es una prueba interactiva.
+\end{theorem}
 
-El protocolo es \textit{completo}, pues si el grafo es en verdad hamiltoniano, P todopoderoso computacionalmente podrá encontrar un ciclo, y siguiendo el algoritmo, siempre podrá descubrir G o el ciclo elegido, cuando V lo pida.
-
-Si un P$^*$ tramposo no conoce un ciclo hamiltoniano de $G$, puede intentar adivinar cuándo V pedirá descubrir el grafo o el ciclo. En el primer caso, seguirá el protocolo, ocultando $G$ en las cajas negras. En el segundo caso, P$^*$ sólo debe elegir un ciclo de cajas  $C_{ij}, C_{jk}, \dots C_{l^`i}$ donde introducirá el valor $1$, haya o no una arista uniendo los vértices en $G$. Si V pide descubrir el ciclo, P$^*$ revelará un ciclo hamiltoniano, pero no del grafo $G$.
-
-Si P$^*$ no acierta correctamente qué bit enviará V, en cada ronda hay una probabilidad de $1/2$ de que V pille a P$^*$ en su mentira. Ejecutando el protocolo $t(n)$ veces, la probabilidad de que un P$^*$ tramposo engañe a V es de $2^{-t(n)}$, por tanto, la prueba es \textit{robusta}.
-
-Veamos ahora un simulador para el protocolo anterior. Como en las pruebas anteriores, suponemos que V$^*$ utiliza una función probabilística en tiempo polinomial $F$ que con la información disponible elige el bit $b$ del reto de manera no uniforme.
-
-\hfil 
-
-\rule{\textwidth}{1pt}
-
-\textbf{Simulador para el problema HC} $S_{V^*}(G=(V,E), h)$.
-
-\hfil
-
-\textit{Datos}: \quad $G$, una instancia $Verdadera$ del problema HC; $h$, transcripciones de ejecuciones previas del protocolo; $v_i$, transcripción de la interacción actual ($i$ rondas).
-
-\textit{Ejecución}: Repetir para $i+1 \leq t(n)$:
-
-\begin{enumerate}
-	\item Elegir $b_{i+1} \in_R \{0,\,1\}$
+\begin{proof}
+	El protocolo se ejecuta en $t(n)$ iteraciones, de modo que es probabilístico en tiempo polinomial. Ahora debemos comprobar la completitud y robustez.
 	
-	\item \textbf{Si} $b_{i+1} = 0$, \textbf{entonces} oculta $G$ en una permutación aleatoria de cajas negras. \\
-	\textbf{Si no}, oculta un n-ciclo cualquiera en cajas negras.\\
-	En ambos casos produce las cajas negras $C_1^{i+1}, \dots, C_{n-1,n}^{i+1}$.\\
+	El protocolo es \textit{completo}, pues si el grafo es en verdad hamiltoniano, una instancia $Verdadera$, P todopoderoso computacionalmente podrá encontrar un ciclo, y siguiendo el algoritmo, siempre podrá descubrir ante V el grafo $G$ o el ciclo elegido, según el bit del reto.
 	
-	\item \textbf{Si} $b_{i+1} = F(G,h,v_i,C_1^{i+1}, \dots, C_{n-1,n}^{i+1})$, \textbf{entonces} añadir la tupla \\ $(C_1^{i+1}, \dots, C_{n-1,n}^{i+1},b_{i+1},K_{i+1})$ a la transcripción, donde $K_{i+1}$ es el conjunto de claves para abrir las cajas, según el valor $b_{i+1}$. \\
-	\textbf{Si no}, volver al paso 1.
+	Si un P$^*$ tramposo no conoce un ciclo hamiltoniano de $G$, puede intentar adivinar cuándo V pedirá descubrir el grafo o el ciclo. En el primer caso, seguirá el protocolo, ocultando $G$ en las cajas negras. En el segundo caso, P$^*$ sólo debe elegir un ciclo de cajas  $C_{ij}, C_{jk}, \dots C_{l^`i}$ donde introducirá el valor $1$, haya o no una arista uniendo los vértices en $G$. Si V pide descubrir el ciclo, P$^*$ revelará un ciclo hamiltoniano, pero no del grafo $G$.
 	
-	\item $i = i+1$
+	Si P$^*$ no acierta correctamente qué bit enviará V, en cada ronda hay una probabilidad de $1/2$ de que V pille a P$^*$ en su mentira. Ejecutando el protocolo $t(n)$ veces, la probabilidad de que un P$^*$ tramposo engañe a V es de $2^{-t(n)}$, por tanto, la prueba es \textit{robusta}.
+\end{proof}
+
+
+
+
+\begin{theorem}
+	La prueba interactiva \ref{HCinteractive:alg} es de conocimiento cero computacional.
+\end{theorem}
+
+\begin{proof}
+	Debemos construir un simulador para el protocolo anterior. Como en las pruebas anteriores, suponemos que V$^*$ utiliza una función probabilística en tiempo polinomial $F$ que con la información disponible elige el bit $b$ del reto de manera no uniforme.
 	
-\end{enumerate}
+	\hfil 
+	
+	\rule{\textwidth}{1pt}
+	
+	\textbf{Simulador para el problema HC} $S_{V^*}(G=(V,E), h)$.
+	
+	\hfil
+	
+	\textit{Datos}: \quad $G$, una instancia $Verdadera$ del problema HC; $h$, transcripciones de ejecuciones previas del protocolo; $v_i$, transcripción de la interacción actual ($i$ rondas).
+	
+	\textit{Ejecución}: Repetir para $i+1 \leq t(n)$:
+	
+	\begin{enumerate}
+		\item Elegir $b_{i+1} \in_R \{0,\,1\}$
+		
+		\item \textbf{Si} $b_{i+1} = 0$, \textbf{entonces} oculta $G$ en una permutación aleatoria de cajas negras. \\
+		\textbf{Si no}, oculta un n-ciclo cualquiera en cajas negras.\\
+		En ambos casos produce las cajas negras $C_1^{i+1}, \dots, C_{n-1,n}^{i+1}$.\\
+		
+		\item \textbf{Si} $b_{i+1} = F(G,h,v_i,C_1^{i+1}, \dots, C_{n-1,n}^{i+1})$, \textbf{entonces} añadir la tupla \\ $(C_1^{i+1}, \dots, C_{n-1,n}^{i+1},b_{i+1},K_{i+1})$ a la transcripción, donde $K_{i+1}$ es el conjunto de claves para abrir las cajas, según el valor $b_{i+1}$. \\
+		\textbf{Si no}, volver al paso 1.
+		
+		\item $i = i+1$
+		
+	\end{enumerate}
+	
+	\rule{\textwidth}{1pt}
+	
+	\hfill
+	
+	Al haber una probabilidad de $1/2$ de que el bit $b_{i+1}$ coincida con el valor de la función $F$, el simulador es probabilístico, con un tiempo estimado de ejecución de 2 iteraciones por cada una de las $t(n)$ rondas, de modo que es de tiempo polinomial.
+	
+	Tenemos los ensambles probabilísticos 
+	\begin{center}
+		$Vista_{P,V^*}(G,h) = (G,h,E_1,B_1,K_1,\dots , E_{t(n)}, B_{t(n)}, K_{t(n)})$,
+	\end{center}
+	y 
+	\begin{center}
+		$S_{V^*}(G,h) = (G,h,E_1',B_1',K_1',\dots , E_{t(n)}', B_{t(n)}', K_{t(n)}')$.
+	\end{center}
+	donde $E_i$ y $E_i'$ son las variables aleatorias que representan las cajas negras del compromiso, $B_i$ y $B_i'$ las v.a. de los bits elegidos por V en el reto, y $K_i$ y $K_i'$ las v.a. de las llaves reveladas.
+	
+	Por inducción sobre $i$, cuando $i=0$, los ensambles corresponden a la misma tupla $(G,h)$, de modo que son idénticos.
+	
+	Continuamos la inducción suponiendo que para $i-1$ los ensambles son indistinguibles computacionalmente. 
+	
+	Analizando la prueba interactiva \ref{HCinteractive:alg}, en la interacción $i$, cuando V elige $b_{i}=0$, éste obtiene de P una de las $n!$ posibles permutaciones del grafo $G$, y si V eligiera $b_i=1$, obtendría un $n$-ciclo aleatorio, de los $n!$ posibles también, pues P forma dicho $n$-ciclo de cajas negras a partir de un ciclo hamiltoniano prefijado y la permutación aleatoria aplicada a $G$. La probabilidad de descubrir todo $G$ o un $n$-ciclo depende de la elección de $b_i$, cuya probabilidad viene determinada por $F$.
+	
+	Del mismo modo, analizando el simulador,  $F$ determinará la probabilidad de que en la transcripción aparezca un $0$ o un $1$ en el bit $b_i$. Según el valor de $b_i$, el simulador escogerá una de las $n!$ permutaciones posibles de $G$ para ocultar el grafo en cajas negras, o bien uno de los $n!$ posibles $n$-ciclos, forme o no un ciclo hamiltoniano en $G$.
+	
+	Ahora bien, suponíamos que las cajas negras eran en realidad la aplicación de un esquema de compromiso con vinculación incondicional, para proteger a V frente a un P \textit{todopoderoso} que pudiese cambiar los valores comprometidos. Vimos en la sección anterior que al tener vinculación incondicional, sólo podemos aspirar a secreto computacional, en nuestro modelo de comunicación donde P y V ven todo lo que se les envía. Esto significa que la única manera de diferenciar los ensambles anteriores es rompiendo el secreto del esquema de compromiso, y suponemos que no existe ningún algoritmo probabilístico polinomial que pueda hacerlo.
+	
+	Tenemos por tanto que los ensambles son computacionalmente indistinguibles, y la prueba interactiva es de conocimiento cero computacional.
+\end{proof}
 
-\rule{\textwidth}{1pt}
-
-\hfill
-
-Al haber una probabilidad de $1/2$ de que el bit $b_{i+1}$ coincida con el valor de la función $F$, el simulador es probabilístico, con un tiempo estimado de ejecución de 2 iteraciones por cada una de las $t(n)$ rondas, de modo que es de tiempo polinomial.
-
-Tenemos los ensambles probabilísticos 
-\begin{center}
-	$Vista_{P,V^*}(G,h) = (G,h,E_1,B_1,K_1,\dots , E_{t(n)}, B_{t(n)}, K_{t(n)})$,
-\end{center}
-y 
-\begin{center}
-	$S_{V^*}(G,h) = (G,h,E_1',B_1',K_1',\dots , E_{t(n)}', B_{t(n)}', K_{t(n)}')$.
-\end{center}
-donde $E_i$ y $E_i'$ son las variables aleatorias que representan las cajas negras del compromiso, $B_i$ y $B_i'$ las v.a. de los bits elegidos por V en el reto, y $K_i$ y $K_i'$ las v.a. de las llaves reveladas.
-
-Por inducción sobre $i$, cuando $i=0$, los ensambles corresponden a la misma tupla $(G,h)$, de modo que son idénticos.
-
-Continuamos la inducción suponiendo que para $i-1$ los ensambles son indistinguibles computacionalmente. 
-
-Analizando la prueba interactiva \ref{HCinteractive:alg}, en la interacción $i$, cuando V elige $b_{i}=0$, éste obtiene de P una de las $n!$ posibles permutaciones del grafo $G$, y si V eligiera $b_i=1$, obtendría un $n$-ciclo aleatorio, de los $n!$ posibles también, pues P forma dicho $n$-ciclo de cajas negras a partir de un ciclo hamiltoniano prefijado y la permutación aleatoria aplicada a $G$. La probabilidad de descubrir todo $G$ o un $n$-ciclo depende de la elección de $b_i$, cuya probabilidad viene determinada por $F$.
-
-Del mismo modo, analizando el simulador,  $F$ determinará la probabilidad de que en la transcripción aparezca un $0$ o un $1$ en el bit $b_i$. Según el valor de $b_i$, el simulador escogerá una de las $n!$ permutaciones posibles de $G$ para ocultar el grafo en cajas negras, o bien uno de los $n!$ posibles $n$-ciclos, forme o no un ciclo hamiltoniano en $G$.
-
-Ahora bien, suponíamos que las cajas negras eran en realidad la aplicación de un esquema de compromiso con vinculación incondicional, para proteger a V frente a un P \textit{todopoderoso} que pudiese cambiar los valores comprometidos. Vimos en la sección anterior que al tener vinculación incondicional, sólo podemos aspirar a secreto computacional, en nuestro modelo de comunicación donde P y V ven todo lo que se les envía. Esto significa que la única manera de diferenciar los ensambles anteriores es rompiendo el secreto del esquema de compromiso, y suponemos que no existe ningún algoritmo probabilístico polinomial que pueda hacerlo.
-
-Tenemos por tanto que los ensambles son computacionalmente indistinguibles, y la prueba interactiva es de conocimiento cero computacional.
 
 
 
@@ -1487,6 +1525,7 @@ Tenemos por tanto que los ensambles son computacionalmente indistinguibles, y la
 
 Otra prueba interactiva de conocimiento cero computacional es la de demostrar que un grafo $G$ posee una 3-coloración de sus nodos:
 
+\hfil
 
 \begin{tabular}{|ll}
 	\textit{Nombre:} & Problema G3C. \\
@@ -1546,78 +1585,94 @@ La idea de esta prueba es que en cada iteración, P elige una permutación aleat
 \hfil
 
 
-La completitud es inmediata, pues si existe 3-coloración, un P ilimatado computacionalmente la podrá calcular, y podrá dar para $(u,v)$ colores distintos en cada ronda.
 
-Si P$^*$ no conoce la 3-coloración, al menos hay una arista a la que P no puede dar colores distintos a sus vértices, y hay una probabilidad de $\frac{1}{\mid E \mid}$ de que V le rechace, es decir, una probabilidad $1-\frac{1}{\mid E \mid}$ de que P$^*$ triunfe. Tras $t(n)\mid E \mid$ rondas, P$^*$ sólo engañaría a V con una probabilidad $(1-\frac{1}{\mid E \mid})^{t(n)\mid E \mid} \approx e^{-t(n)}$, por lo que la prueba es robusta.
+\begin{theorem}
+	El protocolo \ref{G3Cinteractive:alg} es una prueba interactiva.
+\end{theorem}
+
+\begin{proof}
+	La completitud es inmediata, pues si existe 3-coloración, un P ilimatado computacionalmente la podrá calcular, y podrá dar para cada $(u,v)\in E$ colores distintos en cada ronda.
+	
+	Si P$^*$ no conoce la 3-coloración, al menos hay una arista a la que P no puede dar colores distintos a sus vértices, y hay una probabilidad de $\frac{1}{\mid E \mid}$ de que V le rechace, es decir, una probabilidad $1-\frac{1}{\mid E \mid}$ de que P$^*$ triunfe. Tras $t(n)\mid E \mid$ rondas, P$^*$ sólo engañaría a V con una probabilidad $(1-\frac{1}{\mid E \mid})^{t(n)\mid E \mid} \approx e^{-t(n)}$, por lo que la prueba es robusta.
+	
+\end{proof}
+
 
 \hfil
 
-La propiedad de conocimiento cero se prueba con un simulador que funciona como los anteriores, primero se elige el \textit{reto} (arista) y la \textit{respuesta} (dos colores), se calcula el \textit{testigo} respecto de ambos y se comprueba si V hubiera elegido dicho \textit{reto} a partir de un algoritmo probabilístico polinomial $F$:
+\begin{theorem}
+	La prueba interactiva \ref{G3Cinteractive:alg} es de conocimiento cero computacional.
+\end{theorem}
 
-
-\hfil 
-
-\rule{\textwidth}{1pt}
-
-\textbf{Simulador para el problema G3C} $S_{V^*}(G=(V,E), h)$.
-
-\hfil
-
-\textit{Datos}: \quad $G$, una instancia $Verdadera$ del problema G3C; $h$, transcripciones de ejecuciones previas del protocolo; $v_{i-1}$, transcripción de la interacción actual ($i-1$ rondas).
-
-\textit{Ejecución}: Repetir para $i+1 \leq t(n)$:
-
-\begin{enumerate}
-	\item Elegir $e=(u,v)\in_R E$ una arista, y sus colores $(a,b)\in_R \{ (\alpha,\beta) \mid \alpha \neq \beta ;\ \alpha,\beta \in \{1,2,3\}  \}$ de manera aleatoria.
-	
-	\item Generar las cajas negras $C_j$ para $j=1,\dots n$ del siguiente modo:
-	\[
-			C_j \, oculta \, \begin{cases}
-				a & si\ v_j=u,\\
-				b & si\ v_j=v,\\
-				0 & en\ otro\ caso.\\
-			\end{cases}
-	\] donde $v_j$ es un vértice de $G$.
+\begin{proof}
+	La propiedad de conocimiento cero se prueba con un simulador que funciona como los anteriores, primero se elige el \textit{reto} (arista) y la \textit{respuesta} (dos colores), se calcula el \textit{testigo} respecto de ambos y se comprueba si V hubiera elegido dicho \textit{reto} a partir de un algoritmo probabilístico polinomial $F$:
 	
 	
-	\item \textbf{Si} $e = F(G,h,v_{i-1},C_1, \dots, C_{n})$, \textbf{entonces} añadir la tupla \\ 
-	$(C_1, \dots, C_{n},e=(u,v),k_u,k_v)$ a la transcripción, donde $K_{i+1}$ es el conjunto de claves para abrir las cajas, según el valor $b_{i+1}$. \\
-	\textbf{Si no}, volver al paso 1.
+	\hfil 
 	
-	\item $i = i+1$
+	\rule{\textwidth}{1pt}
 	
-\end{enumerate}
+	\textbf{Simulador para el problema G3C} $S_{V^*}(G=(V,E), h)$.
+	
+	\hfil
+	
+	\textit{Datos}: \quad $G$, una instancia $Verdadera$ del problema G3C; $h$, transcripciones de ejecuciones previas del protocolo; $v_{i-1}$, transcripción de la interacción actual ($i-1$ rondas).
+	
+	\textit{Ejecución}: Repetir para $i+1 \leq t(n)$:
+	
+	\begin{enumerate}
+		\item Elegir $e=(u,v)\in_R E$ una arista, y sus colores $(a,b)\in_R \{ (\alpha,\beta) \mid \alpha \neq \beta ;\ \alpha,\beta \in \{1,2,3\}  \}$ de manera aleatoria.
+		
+		\item Generar las cajas negras $C_j$ para $j=1,\dots n$ del siguiente modo:
+		\[
+		C_j \, oculta \, \begin{cases}
+		a & si\ v_j=u,\\
+		b & si\ v_j=v,\\
+		0 & en\ otro\ caso.\\
+		\end{cases}
+		\] donde $v_j$ es un vértice de $G$.
+		
+		
+		\item \textbf{Si} $e = F(G,h,v_{i-1},C_1, \dots, C_{n})$, \textbf{entonces} añadir la tupla \\ 
+		$(C_1, \dots, C_{n},e=(u,v),k_u,k_v)$ a la transcripción, donde $K_{i+1}$ es el conjunto de claves para abrir las cajas, según el valor $b_{i+1}$. \\
+		\textbf{Si no}, volver al paso 1.
+		
+		\item $i = i+1$
+		
+	\end{enumerate}
+	
+	\rule{\textwidth}{1pt}
+	
+	\hfill
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	Durante una ronda del simulador tenemos una probabilidad de $\frac{1}{\mid E \mid}$ de que la arista escogida en el primer paso coincida con la que el algoritmo $F$ elegiría, de modo que el número esperado de rondas para generar las $t(n)$ rondas es polinomial.
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	Veamos ahora los ensambles de la Vista y la Simulación.
+	\begin{center}
+		$Vista_{P,V^*}(G,h) = (G,h,C_1,E_1,K_1,\dots , C_{t(n)}, E_{t(n)}, K_{t(n)})$,
+	\end{center}
+	y 
+	\begin{center}
+		$S_{V^*}(G,h) = (G,h,C_1',E_1',K_1',\dots , C_{t(n)}', E_{t(n)}', K_{t(n)}')$.
+	\end{center}
+	
+	Donde la v.a. $C_i$ representa el conjunto de $n$ cajas negras que oculta la permutación de la coloración, la v.a. $E_i$ representa la arista $(u,v)$ elegida como reto por V en la ronda $i$, y la v.a. $K_i$ representa el par de llaves $(k_u,k_v)$ enviado como respuesta.
+	
+	Por inducción sobre $i$, cuando $i=0$, los ensambles de la Vista y Simulador son idénticos, $(G,h)$. Suponemos cierto para $i-1$, en la $i$-ésima iteración tendremos:
+	
+	
+	En la Vista y el Simulador, las variables aleatorias $C_i$ y $C_i'$ corresponden a $n$ cajas negras, que cumplen un esquema de compromiso con vinculación incondicional y secreto computacional, de modo que a partir de estas $n$ cajas negras suponemos que no existe ningún algoritmo probabilístico en tiempo polinomial que las distinga de cualquier otra caja negra. Por tanto, la probabilidad de que aparezcan unas cajas negras u otras en la Vista y Simulador es computacionalmente indistinguible e independiente de las otras variables.
+	
+	Respecto a las v.a. $E_i$ y $E_i'$, ambas dependen de la probabilidad de elegir un nodo de $F$, que podemos supones es $p_F$, idéntica para ambas.
+	
+	En la apertura de las cajas negras con las claves de $K_i$ y $K_i'$ se desvelan dos colores distintos aleatorios, en la Vista porque la 3-coloración implica que ambos son distintos y después se le aplica una permutación aleatoria de entre las $3!$ posibles, por lo que dos colores distintos tienen una probabilidad uniforme de ser revelados, y por tanto, la misma probabilidad que la elección de colores aleatoria del Simulador.
+	
+	Tal como ocurría en la prueba del grafo hamiltoniano, la condición de conocimiento cero computacional proviene de utilizar un esquema de compromiso con vinculación incondicional, y secreto computacional.
+\end{proof}
 
-\rule{\textwidth}{1pt}
-
-\hfill
-
-
-
-
-Durante una ronda del simulador tenemos una probabilidad de $\frac{1}{\mid E \mid}$ de que la arista escogida en el primer paso coincida con la que el algoritmo $F$ elegiría, de modo que el número esperado de rondas para generar las $t(n)$ rondas es polinomial.
-
-Veamos ahora los ensambles de la Vista y la Simulación.
-\begin{center}
-	$Vista_{P,V^*}(G,h) = (G,h,C_1,E_1,K_1,\dots , C_{t(n)}, E_{t(n)}, K_{t(n)})$,
-\end{center}
-y 
-\begin{center}
-	$S_{V^*}(G,h) = (G,h,C_1',E_1',K_1',\dots , C_{t(n)}', E_{t(n)}', K_{t(n)}')$.
-\end{center}
-
-Donde la v.a. $C_i$ representa el conjunto de $n$ cajas negras que oculta la permutación de la coloración, la v.a. $E_i$ representa la arista $(u,v)$ elegida como reto por V en la ronda $i$, y la v.a. $K_i$ representa el par de llaves $(k_u,k_v)$ enviado como respuesta.
-
-Por inducción sobre $i$, cuando $i=0$, los ensambles de la Vista y Simulador son idénticos, $(G,h)$. Suponemos cierto para $i-1$, en la $i$-ésima iteración tendremos:
-
-
-En la Vista y el Simulador, las variables aleatorias $C_i$ y $C_i'$ corresponden a $n$ cajas negras, que cumplen un esquema de compromiso con vinculación incondicional y secreto computacional, de modo que a partir de estas $n$ cajas negras suponemos que no existe ningún algoritmo probabilístico en tiempo polinomial que las distinga de cualquier otra caja negra. Por tanto, la probabilidad de que aparezcan unas cajas negras u otras en la Vista y Simulador es computacionalmente indistinguible e independiente de las otras variables.
-
-Respecto a las v.a. $E_i$ y $E_i'$, ambas dependen de la probabilidad de elegir un nodo de $F$, que podemos supones es $p_F$, idéntica para ambas.
-
-En la apertura de las cajas negras con las claves de $K_i$ y $K_i'$ se desvelan dos colores distintos aleatorios, en la Vista porque la 3-coloración implica que ambos son distintos y después se le aplica una permutación aleatoria de entre las $3!$ posibles, por lo que dos colores distintos tienen una probabilidad uniforme de ser revelados, y por tanto, la misma probabilidad que la elección de colores aleatoria del Simulador.
-
-Tal como ocurría en la prueba del grafo hamiltoniano, la condición de conocimiento cero computacional proviene de utilizar un esquema de compromiso con vinculación incondicional, y secreto computacional. 
 
 
 \hfil
