@@ -1,222 +1,219 @@
 %*****************************************
-\chapter{Preliminares de Grafos}\label{ch:preliminaresGrafos}
+\chapter{Problemas Basados en Grafos}\label{ch:preliminaresGrafos}
 %*****************************************
 
-TODO : introducción del capítulo
-La teoría necesaria para comprender las aplicaciones de ZKP con grafos es muy básica, los resultados de esta sección se pueden consultar en \citep{grafosyOD}.
-% TODO añadir bibliografía si falta
-
-\hfil
-
-\section{Teoría de grafos}
+\section{Introducci\'on a la Teoría de Grafos}
 
 \begin{definition}
-	Un \textit{grafo} (simple no dirigido) es un par $(V,E)$ formado por un conjunto finito $V \neq \emptyset$, a cuyos elementos denominaremos \textit{vértices} o \textit{nodos}, y $E$, un conjunto de pares (no ordenados y formados por distintos vértices) de elementos de $V$, a los que llamaremos \textit{aristas}.
-	
-	A los nodos $v_1$ y $v_2$ que forman una arista $e = (v_1, v_2)$ se les llama \textit{extremos} de $e$.
+	Un \textit{grafo} (simple no dirigido) es un par $(V,E)$ formado por un conjunto
+	finito $V \neq \emptyset$, a cuyos elementos denominaremos \textit{vértices} o
+	\textit{nodos}, y $E$, un conjunto de pares (no ordenados y formados por distintos
+	vértices) de elementos de $V$, a los que llamaremos \textit{aristas}.
+
+	A los nodos $v_1$ y $v_2$ que forman una arista $e = (v_1, v_2)$ se les llama
+	\textit{extremos} de $e$.
 \end{definition}
 
 
 \begin{definition}[Conceptos]
-	\hfil
-	
-	A dos nodos $v_1$ y $v_2$ que forman parte de una misma arista se les llama \textit{adyacentes}.
-	
-	Se llama \textit{orden} de un grafo a $\mid V \mid $.
-	
-	Se llama \textit{tamaño} de un grafo a $\mid E \mid $.
-	
-	Un grafo con $ \mid V \mid = 1$ (consecuentemente $\mid E \mid = 0$) se llama \textit{trivial}.
-	
-	Se dice que una arista es \textit{incidente} con un vértice $v$ cuando $v$ es uno de sus extremos.
-\end{definition}
-
-
-
-\begin{definition}
-	Dos grafos $G_1 = (V_1, E_1)$ y $G_2 = (V_2, E_2)$ se dice que son \textit{isomorfos}, lo cual denotaremos como $G_1 \simeq G_2$, si existe una aplicación biyectiva $\tau : V_1 \rightarrow V_2$ tal que $\forall u,v \in V_1$
-	
-	\begin{center}
-		$(u,v) \in E_1 \Leftrightarrow (\tau(u), \tau(v)) \in E_2 $.
-	\end{center}
-	
-	Tal aplicación recibe el nombre de \textit{isomorfismo}. Si $G_1 = G_2$, llamaremos a $\tau$ \textit{automorfismo}.
-\end{definition}
-
-En un abuso de notación, podemos escribir que $\tau(G_1) = G_2$.
-
-
-\hfil
-
-Dados dos grafos $G_1 = (V, E_1)$ y $G_2 = (V, E_2)$ isomorfos, con el mismo conjunto de vértices, $V=\{v_1,\dots v_n\}$, vemos que el isomorfismo entre $G_1$ y $G_2$ puede denotarse como una permutación en el índice de sus nodos.
-
-Utilizaremos la notación $Sym(V)$ para denotar los automorfismos de $G=(V,E)$, que será el grupo simétrico $S_n$ de las permutaciones de los vértices, cuando $\mid V \mid=n$. Por lo visto en los preliminares de álgebra, tenemos que $\mid Sym(V) \mid = n!$ .
-
-
-
-
-
-\hfil
-
-
-\paragraph{Coloración de grafos}
-\hfil
-
-\begin{definition}
-	Una \textit{coloración} de un grafo $G=(V,E)$ es una aplicación $c:V\rightarrow \{1,2,\dots , l\}$.
-
-	El valor $c(v_i)$ es el \textit{color} correspondiente al nodo $v_i$.
-\end{definition}
-
-\begin{definition}
-	Una \textit{coloración propia} de un grafo es una coloración que hace corresponder colores diferentes a vértices adyacentes:
-
-	$\forall (u,v)\in E \to c(u)\neq c(v)$.
-\end{definition}
-
-
-\begin{definition}
-	Llamaremos \textit{número cromático} del grafo $G$, $\chi(G)$, al mínimo valor de $l$ que permite una coloración propia de $G$, es decir, al mínimo número de colores necesarios para colorear los vértices de forma que los extremos de cada arista tengan colores distintos.
-\end{definition}
-
-
-\begin{definition}
-	Un \textit{grafo plano} es $(V,E)$, un par de conjuntos finitos llamados \textit{vértices} y \textit{aristas} que satisfacen:
 	\begin{itemize}
-		\item $V \subset \mathbb{R}^2$.
-		\item Cada arista de $E$ es un arco entre dos vértices distintos.
-		\item Aristas diferentes tienen extremos diferentes.
-		\item El interior de una arista no contiene ni vértices ni puntos de otra arista.
-	\end{itemize}
-
-	Para cada grafo plano $G$, el conjunto $\mathbb{R}^2\setminus (V\cup E) $ es abierto. Sus regiones se llaman \textit{caras}.
+	\item A dos nodos $v_1$ y $v_2$ que forman parte de una misma arista se les llama \textit{adyacentes}.
+  \item Se dice que una arista es \textit{incidente} con un vértice $v$ cuando $v$ es uno de sus extremos.
+	\item El grado de un nodo $v \in V$ es el n\'umero de aristas incidentes en \'el.
+  \item Un camino es una sucesi\'on de nodos $(v_1,v_2,\cdots,v_k)$ tales que
+	para todo $i \in \{1,\cdots,k-1\}$ se tiene que $(v_i,v_{i+1}) \in V$.
+	\item La longitud de un camino se define como el n\'umero de aristas que lo forman,
+	en el caso del camino $(v_1,v_2,\cdots,v_k)$ la longitud es $k-1$.
+	\item Un camino $(v_1,v_2,\cdots,v_k)$ se dir\'a un ciclo si $v_1 = v_k$ y no
+	se repite ning\'un otro nodo del grafo, es decir, para todo $i,j \in
+	\{1,\cdots,k-1\}$, si $i\not= j$ entonces $v_i \not= v_j$.
+	\item Un ciclo $(v_1,v_2,\cdots,v_k)$ se dir\'a un ciclo hamiltoniano si contiene
+	a todos los nodos.
+	\item Un grafo diremos que es hamiltoniano si tiene un ciclo hamiltoniano.
+\end{itemize}
 \end{definition}
 
 \begin{definition}
-	Un grafo isomorfo a un grafo plano, se denomina \textit{grafo planar}.
-	
-	Cada representación de un grafo planar como un grafo plano se llama un \textit{embutido}.
+	Dos grafos $G_1 = (V_1, E_1)$ y $G_2 = (V_2, E_2)$ se dice que son \textit{isomorfos},
+	lo cual denotaremos como $G_1 \simeq G_2$, si existe una aplicación biyectiva
+	$\tau : V_1 \rightarrow V_2$ tal que $\forall u,v \in V_1$
+	$(u,v) \in E_1 \Leftrightarrow (\tau(u), \tau(v)) \in E_2 $.
+	Tal aplicación recibe el nombre de \textit{isomorfismo}.
 \end{definition}
 
-\begin{theorem}
-	Si $G$ es un grafo planar, entonces $\chi(G) \leq 4$.
-\end{theorem}
+\begin{proposition}
+Dados dos grafos isomorfos $G_1 = (V_1,E_1)$ y $G_2 = (V_2,E_2)$, entonces $G_1$
+tiene un ciclo hamiltoniano si y s\'olo si $G_2$ tiene un ciclo hamiltoniano. Es
+decir, la propiedad de ser un grafo hamiltoniano se conserva por isomorfismos.
+\end{proposition}
+\begin{proof}
+Sea $\tau : V_1 \to V_2$ el isomorfismo y sea $(v_1,v_2,\cdots,v_k)$ el ciclo
+hamiltoniano de $V_1$. Entonces $(\tau(v_1),\tau(v_2),\cdots,\tau(v_k))$ el el
+ciclo hamiltoniano de $G_2$ ya que, por un lado es un ciclo puesto que
+$(v_i,v_{i+1}) \in E_1$ implica que $(\tau(v_i),\tau(v_{i+1}))\in E_2$,
+y por otro, al ser $\tau$ biyectiva, el ciclo contiene a todos los nodos
+sin repetir ninguno (salvo los extremos).
+\end{proof}
 
-Este último resultado es el conocido como Teorema de los cuatro colores, que en una versión menos técnica dice:
+\begin{definition}
+	Una \textit{coloración} de un grafo $G=(V,E)$ es una aplicación $c:V\rightarrow
+	\{1,2,\dots , l\}$. El valor $c(v_i)$ es el \textit{color} correspondiente al
+	nodo $v_i$.
+\end{definition}
 
-\begin{theorem}
-	Dado cualquier mapa geográfico con regiones continuas, este puede ser coloreado con cuatro colores diferentes, de forma que no queden regiones adyacentes con el mismo color.
-\end{theorem}
-
-
-\hfil
-
-
-
-
-\paragraph{Caminos hamiltonianos}
-\hfil
-
-
-TODO
-
-%%%%%%%%%%%%%%
-%%%draft
-
-
-\paragraph{Representación de grafos}
-\hfil
-
-%TODO: si no implementamos nada de grafos, no hace falta
-\textbf{TODO: si no implementamos nada de grafos, no hace falta}
-
-\hfil
-
-Dado $G=(V,E)$ con $V=\{v_1,\dots v_n\}$ y $E=\{e_1,\dots e_m\}$, podemos representarla por:
-
-\begin{itemize}
-	\item  La \textit{matriz de adyacencia} $M_{nxn} = (m_{ij})$, que se construye mediante:
-	\[
-	m_{ij} =
-	\begin{cases}
-	1 & si\ (v_i,v_j) \in E \quad ( \Leftrightarrow (v_j,v_i)\in E ), \\
-	0 & en\ otro\ caso.
-	\end{cases}
-	\]
-	
-	\item La \textit{matriz de incidencia} (vértice-arista) $M_{nxm} = (m_{ij})$ con
-	\[
-	m_{ij} =
-	\begin{cases}
-	1 & si\ v_i\ es\ extremo\ de\ e_j, \\
-	0 & en\ otro\ caso.
-	\end{cases}
-	\]
-	
-	\item Una matriz de enteros $M_{mx2}$ cuyas filas contienen los índices de los extremos inicial y final de las aristas del grafo.
-	
-	\begin{example}
-		El grafo:
-		
-		\includegraphics[width=.2\linewidth]{gfx/exgraph}
-		\qquad se representaría como: \qquad
-		\begin{tabular}{|c|c|}
-			\hline	1 & 2 \\ \hline 1 & 3 \\ \hline 2 & 4 \\ \hline
-		\end{tabular}	
-		
-	\end{example}
-	
-\end{itemize}
+\begin{definition}
+	Una \textit{coloración propia} de un grafo es una coloración que hace corresponder
+	colores diferentes a vértices adyacentes, es decir
+	$\forall (u,v)\in E$ se tiene que $c(u)\neq c(v)$.
+\end{definition}
 
 
+\begin{definition}
+	Llamaremos \textit{número cromático} del grafo $G$, $\chi(G)$, al mínimo valor
+	de $l$ que permite una coloración propia de $G$, es decir, al mínimo número de
+	colores necesarios para colorear los vértices de forma que los extremos de cada
+	arista tengan colores distintos.
+\end{definition}
 
-\section{Problemas de decisión basados en grafos}
+En las siguientes secciones de este cap\'itulo,
+introducimos los enunciados de los problemas de grafos
+utilizados en pruebas de conocimiento cero.
 
-A continuación, introducimos los enunciados de los problemas de grafos utilizados en pruebas de conocimiento cero, y referencias donde se estudian sus órdenes de complejidad.
-
-\subsection{Problema del isomorfismo de grafos}
+\section{El Problema del Isomorfismo de Grafos}
 
 \hfil
 
 \begin{tabular}{|ll}
-	\textit{Nombre:} & Problema GI (\textit{Graph Isomorphism}). \\
-	\textit{Parámetros:} & Dos grafos $G_0 = (V_0, E_0)$ y $G_1 = (V_1, E_1)$, \\ & del mismo orden $\mid V_0 \mid = \mid V_1 \mid = n$. \\
-	\textit{Pregunta:} & ¿Existe un isomorfismo $\pi : V_0 \rightarrow V_1$ tal que \\ & una arista $(u,v)\in E_0$ si y solo si $(\pi (u),\pi (v)) \in E_1$? \\
+	\textit{Nombre:} & Problema GI ({\em Graph Isomorphism}). \\
+	\textit{Parámetros:} & Dos grafos $G_1 = (V_1, E_1)$ y $G_2 = (V_2, E_2)$,
+	\\ & del mismo orden $\mid V_1 \mid = \mid V_2 \mid = n$. \\
+	\textit{Pregunta:} & ¿Existe un isomorfismo $\tau : V_1 \rightarrow V_2$
+	tal que \\ & una arista $(u,v)\in E_1$ si y solo si $(\tau (u),\tau (v))
+	\in E_2$? \\
 \end{tabular}
 \\
 
 \hfil
 
-%TODO
-TODO
+Una forma de tratar este problema por fuerza bruta consistir\'ia en calcular
+todas las posibles premutaciones de $n$ elementos para ver si una de ellas
+cumple las concidiones requeridas para el isomorfismo de grafos. Puesto que el
+n\'umero de permutaciones de $n$ elementos es $n!$, esta aproximaci\'on ser\'ia
+claramente polin\'omica e intratable para valores de $n$ m\'inimamente grandes.
 
-\subsection{Problema del camino hamiltoniano}
+Sin embargo, el problema puede tener casos en los cuales la soluci\'on sea
+relativamente sencilla ya que los isomorfismos de grafos conservan muchas de las
+propiedades del grafo. Por ejemplo, podemos calcular de forma muy r\'apida los
+grados de todos los nodos y dado un isomorfismo $\tau$ tenemos que el grado de
+$u$ es siempre el mismo que el grado de $\tau(u)$ para cualquier nodo $u$.
+
+Esto nos puede restringir el problema a las permutaciones que se puedan construir
+manteniendo los grados. Es algo parecido a lo que sucede con el algoritmo de la factorizaci\'on de enteros,
+que en casos particulares puede tener una soluci\'on sencilla, pero debemos considerar
+el caso peor para la utilizaci\'on de este problema como base de la seguridad de otros algoritmos.
+
+El problema del isomorfismo de grafos se sabe desde hace tiempo que no es puramente
+exponencial y que existen cotas subexponenciales, diferentes para algunos casos particulares,
+pero ciertamente mejores que la exponencial.
+
+Muy recientemente se han producido novedades en relaci\'on con este problema. Concretamente
+en el a\~no 2015 el profesor László Babai present\'o un algoritmo quasi-polin\'omico para
+el problema del isomorfismo de grafos. Esta publicaci\'on se puede consultar por ejemplo en \cite{babai}.
+Sin embargo el 4 de enero de 2017, el propio autor se retractaba de su propio resultado al haber sido
+detectado un error en la demostraci\'on. Poco despu\'es, el 9 de enero de 2017, anunciaba una versi\'on
+corregida del problema que parece que se ha confirmado como correcta.
+
+La complejidad que presenta este algoritmo es $e^{(\ln n)^{O(1)}}$. Las consecuencias que esto puede
+tener en la utilizaci\'on del problema del isomorfismo de grafos en algoritmos de seguridad criptogr\'afica
+es algo que escapa a nuestros conocimientos aunque no parece que se haya producido ninguna reacci\'on
+importante en relaci\'on con este resultado. En cualquier caso, conviene estar atentos a los avances
+en este sentido por si es conveniente usar t\'ecnicas alternativas.
+
+La historia de este descubrimiento se puede consultar en la revista Investigaci\'on y Ciencia,
+edici\'on espa\~nola de la
+revista Scientific American que est\'a disponible online en
+\url{http://www.investigacionyciencia.es/noticias/resuelto-el-problema-del-isomorfismo-de-grafos-otra-vez-14910}.
+
+\hfil
+
+\section{El Problema del Ciclo Hamiltoniano}
 
 \hfil
 
 \begin{tabular}{|ll}
-	\textit{Nombre:} & Problema CH. \\
-	\textit{Parámetros:} &Un grafo $G=(V,E)$. \\
-	\textit{Pregunta:} & ¿Existe un ciclo en G que recorre pasa por\\& cada vértice en V una única vez? \\
+	\textit{Nombre:} & Problema HC ({\em Hamiltonial Cycle}). \\
+	\textit{Parámetros:} & Un grafo $G=(V,E)$. \\
+	\textit{Pregunta:} & ¿Existe un ciclo hamiltoniano en G? \\
 \end{tabular}
 \\
 
 \hfil
 
-TODO
+De nuevo nos encontramos con un problema que podemos resolver considerando todas
+las permutaciones de los nodos, ya que si existe una de ellas que nos proporcione
+un ciclo hamiltoniano, habr\'iamos resuelto el problema. Pero este algoritmo es
+claramente ineficiente puesto que requiere un an\'alisis de $n!$ permutaciones de los
+$n$ nodos.
 
-\subsection{Problema de la 3-coloración}
+Una forma algo m\'as inteligente ser\'ia partir de un nodo cualquiera y crear una rama con cada uno de los nodos
+adyacentes. Para cada uno de ellos, tratamos de expandir de nuevo con todos los nodos adyacentes siempre que
+no repitamos el nodo. De esta forma podr\'iamos recorrer todas las opciones, pero volvemos a
+encontrar un n\'umero de casos exponencial.
+
+Este problema, sin embargo, est\'a en una situaci\'on muy distinta del problema anterior,
+de hecho, el problema del ciclo hamiltoniano es un problema ${\bf NPC}$ por lo que si existiera un algoritmo
+polin\'omico para resolverlo, tendr\'iamos que ${\bf P} = {\bf NP}$ y se habr\'ia resuelto uno de los problemas
+del milenio.
+
+La demostraci\'on de que este problema es ${\bf NPC}$ se puede ver en
+\cite[Section 34.5.3]{algoBB}. El valor que nos sirve de certificado o testigo es precisamente el ciclo hamiltoniano, puesto que
+comprobar que un ciclo concreto cumple las condiciones de ciclo hamiltoniano es trivial desde el punto de vista computacional.
+
+\section{El Problema de la 3-coloración}
 
 \hfil
 
 \begin{tabular}{|ll}
 	\textit{Nombre:} & Problema G3C. \\
 	\textit{Parámetros:} &Un grafo $G=(V,E)$. \\
-	\textit{Pregunta:} & ¿Existe una función $\phi : V \to \{1,2,3\}$ tal que \\ & $\forall (u,v)\in E$, se cumple $\phi(u)\neq \phi(v)$? \\
+	\textit{Pregunta:} & ¿Existe una función
+	$c : V \to \{1,2,3\}$ tal que \\ & $\forall (u,v)\in E$, se cumple $c(u)\neq c(v)$? \\
 \end{tabular}
 \\
 
 \hfil
 
-TODO
+Determinar si un grafo puede tener una coloraci\'on dada por dos colores es
+computacionalmente muy sencillo, puesto que no tenemos
+mas que dar un color cualquiera al primer nodo, por ejemplo $1$, y todos los
+que est\'en conectados con \'el le asignaremos el color $2$.
+Ahora tomamos todos los nodos con el color $2$ y para cada uno de los nodos
+adyacentes asignamos el color $1$. Si el grafo se puede colorear
+con dos colores, este procedimiento nos ir\'a coloreando cada trozo del grafo
+(en caso de que haya zonas desconectadas, cada vez que terminemos de colorear una zona,
+tendremos que  partir aleatoriamente de nuevo de uno de los nodos de una nueva
+zona para extender la coloraci\'on). Si el grafo no se puede colorear con dos colores
+llegaremos necesariamente a un nodo coloreado con un color que est\'a unido con
+otro del mismo color, en cuyo caso podemos responder
+que el grafo necesita m\'as de dos colores para obtener una coloraci\'on.
 
+Dado un grafo, este algoritmo nos responde de forma eficiente al problema de
+si se puede colorear con dos colores, o bien devolviendo una coloraci\'on, o bien
+diciendo que dicha coloraci\'on es imposible.
+
+El problema es totalmente diferente en el caso de que dispongamos de tres colores.
+Dado un nodo cualquiera con un color asignado, por ejemplo $1$, nos da dos opciones
+para la coloraci\'on de los nodos adyacentes, o bien $2$ o bien $3$. Podemos tratar
+de probar todas las opciones, con lo que obtendr\'iamos un gran n\'umero de opciones
+cuando tratamos con un caso gen\'erico (por supuesto casos particulares pueden tener
+soluciones sencillas).
+
+De hecho es conocido que este problema tambi\'en pertenece a la clase {\bf NPC}. Una coloraci\'on
+concreta usando $3$ colores servir\'ia de certificado de que la respuesta puede ser afirmativa puesto
+que commprobar que todas las aristas tienen extremos con colores diferentes es sencillo
+computacionalmente, sin embargo, encontrar la coloraci\'on requiere algoritmos exponenciales.
+
+Una demostraci\'on de que el problema de la 3-coloraci\'on es {\bf NPC} se puede encontrar
+en \cite[Problem 34-3]{algoBB}.
+
+\hfil

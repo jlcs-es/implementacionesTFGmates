@@ -319,7 +319,7 @@ Este algoritmo se puede extender para calcular tambi\'en los coeficientes $r$ y 
 
 \begin{algorithm}[Algoritmo de Euclides Extendido]
 Dados dos enteros $a$ y $b$ entonces podemos encontrar el m\'aximo com\'un divisor
-$d = mcd(a,b)$ y valores enteros $s$ y $t$ tales que $d = su+tv$ mediante el siguiente algoritmo:
+$d = mcd(a,b)$ y valores enteros $s$ y $t$ tales que $d = sa+tb$ mediante el siguiente algoritmo:
 \begin{enumerate}
 \item Inicializar la matriz $M := \left(\begin{array}{cc} 1 & 0 \\ 0 & 1 \\ a & b \end{array}\right)$
 \item Mientras que $M_{3,2} \not= 0$ asignar $q := \lfloor \frac{M_{3,1}}{M_{3,2}} \rfloor$ y $M := M \left( \begin{array}{cc} 0 & 1 \\ 1 & -q
@@ -703,7 +703,6 @@ completamente usando los factores de la base de factores ${\mathcal B}$.
 Los distintos tipos de factorizaci\'on intentan buscar n\'umeros ${\mathcal B}$-smooth
 de forma que podamos conseguir una cantidad suficiente de ellos. Cada n\'umero ${\mathcal B}$-smooth nos
 proporciona una relaci\'on como sigue:
-
 \[ x_t^2 \equiv z_t = p_0^{e_{t0}} p_1^{e_{t1}} \cdots p_k^{e_{tk}} \]
 
 Esta relaci\'on la almacenaremos con sus exponentes $e(z_t) = (e_{t0},e_{t1},\cdots,e_{tk})$ y llamaremos
@@ -717,7 +716,6 @@ Sean $\alpha_t \{0,1\}$ los coeficientes de una posible relaci\'on de dependenci
 vectores, es decir, $\sum_{t} \alpha_t d(z_t) = 0 \in {\mathbb Z}_2^{k+1}$. Puesto que los $d(z_t)$ eran las reducciones m\'odulo $2$ de los vectores $e(z_t)$, si
 aplicamos estas mismas relaciones a los vectores originales lo que obtenemos es $\sum_t \alpha_t e(z_t) = (2u_0, 2u_1, \cdots, 2u_k)$ con lo que podemos
 tomar $y= (-1)^{u_0} p_1 ^ {u_1} \cdots p_k^{u_k}$ con lo que obtenemos
-
 \[
 y^2 =  p_0^{2u_0} p_1 ^ {2u_1} \cdots p_k^{2u_k} = \prod_{i} p_i^{2u_i} = \prod_i p_i^{\sum_t \alpha_t e_{ti}} =
 \prod_i \prod_t \left(p_i^{e_{ti}}\right)^{\alpha_t} = \] \[\prod_t \prod_i \left(p_i^{e_{ti}}\right)^{\alpha_t} = \prod_t \left(\prod_i p_i^{e_{ti}}\right)^{\alpha_t} = \prod_t z_t^{\alpha_t} \equiv
@@ -865,4 +863,4 @@ Sin embargo, en grupos sin esa estructura adicional tendr\'iamos que recurrir a 
 exponencial del orden de la raz\'iz cuadrada de $n$ con algunos factores adicionales logar\'itmicos.
 
 A la vista de esta situaci\'on, en el caso de utilizar grupos del tipo ${\mathbb Z}_p^*$ ser\'a necesario aumentar el tama\~no del grupo para evitar el efecto de los algoritmos
-como el Idex Calculus.
+como el Index Calculus.
