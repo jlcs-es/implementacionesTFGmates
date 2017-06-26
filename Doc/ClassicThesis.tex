@@ -32,6 +32,17 @@
                 BCOR=5mm,paper=a4,fontsize=11pt,%11pt,a4paper,%
                 ngerman,american,spanish%
                 ]{scrreprt}
+                
+
+\makeatletter
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\makeatother
 
 %********************************************************************
 % Note: Make all your adjustments in here
@@ -88,8 +99,8 @@
 \include{Chapters/PreliminaresGrafos}
 \cleardoublepage
 \include{Chapters/PreliminaresAlgebra}
-\cleardoublepage
-\include{Chapters/QR}
+%\cleardoublepage
+%\include{Chapters/QR}
 \cleardoublepage
 \include{Chapters/ZKP}
 \cleardoublepage

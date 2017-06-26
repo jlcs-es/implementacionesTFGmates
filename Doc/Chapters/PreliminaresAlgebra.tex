@@ -1,5 +1,5 @@
 %*****************************************
-\chapter{Preliminares de Álgebra}\label{ch:preliminaresAlgebra}
+\chapter{Problemas Basados en Teor\'ia de N\'umeros}\label{ch:preliminaresAlgebra}
 %*****************************************
 
 % Sin demostraciones, solo resultados que se necesiten para secciones posteriores
@@ -13,323 +13,825 @@
 
 %https://en.wikipedia.org/wiki/Schnorr_group
 
+En este cap\'itulo vamos a hacer un repaso de las cuestiones b\'asicas de
+aritm\'etica entera y modular en las que se basan los problemas utilizados
+para las pruebas de conocimiento cero que desarrollaremos en los siguientes
+cap\'itulos.
 
-\section{Grupos y Anillos}
+Aunque para muchos de estos problemas se han desarrollado t\'ecnicas muy
+avanzadas, como por ejemplo para la factorizaci\'on de enteros o para el
+problema del logaritmo discreto, son en general problemas sencillos de
+plantear desde el punto de vista matem\'atico y resolubles de forma
+eficiente cuando se dispone de informaci\'on adicional, es decir, del
+secreto.
 
-Vamos a recordar los conceptos más básicos de la teoría de grupos, empezando con la definición de operación binaria:
+Llamar a estos problemas {\em Teor\'ia de N\'umeros} podr\'ia considerarse
+excesivo, podr\'iamos simplemente llamarlos problemas artim\'eticos, pero
+hemos preferido la terminolog\'ia de {\em Teor\'ia de N\'umeros} para ser
+coherente con muchos textos que incluyen estos m\'etodos dentro del
+ep\'igrafe de {\em Introducci\'on a la Teor\'ia de N\'umeros}.
+
+\section{Aritm\'etica Entera y Modular}
+
+Vamos a recordar los conceptos más básicos de la teoría de grupos,
+empezando con la definición de operación binaria:
 
 \begin{definition}
-	Una \textit{operación binaria} en un conjunto $A$ es una aplicación $* : AxA \rightarrow A$.
+Una \textit{operación binaria} en un conjunto $A$ es una aplicación
+$\circ : A\times A \rightarrow A$.
 \end{definition}
 
 Según una operación binaria cumpla ciertas propiedades, diremos que:
 
 \begin{itemize}
-	\item La operación es \textit{asociativa} si $a*(b*c) = (a*b)*c \quad \forall a,b,c\in A$.
-	\item La operación es \textit{conmutativa} si $a*b=b*a\quad \forall a,b\in A$.
-	\item El elemento $e\in A$ es un \textit{elemento neutro} para $*$ si $a*e = e*a = a \quad \forall a\in A$. Además es único cuando existe neutro.
-	\item Cuando existe el neutro $e$, el elemento $b$ es el \textit{simétrico} de $a$ si $a*b=b*a=e$.
+	\item La operación es \textit{asociativa} si $a\circ (b\circ c) =
+(a\circ b)\circ c \quad \forall a,b,c\in A$.
+	\item La operación es \textit{conmutativa} si $a\circ b=b\circ a
+\quad \forall a,b\in A$.
+	\item El elemento $e\in A$ es un \textit{elemento neutro} para
+$\circ $ si $a\circ e = e\circ a = a \quad \forall a\in A$.
+	\item Cuando existe el neutro $e$, el elemento
+$b$ es el \textit{inverso} de $a$ si $a\circ b=b\circ a=e$.
 \end{itemize}
 
 Podemos ahora dar formalmente la definición de grupo:
 
 \begin{definition}
-	Un \textit{grupo} es un conjunto $G$ con una operación asociativa, con elemento neutro y con simétrico para cada elemento. Si la operación es además conmutativa, se dice que $G$ es un \textit{grupo abeliano}.
+	Un \textit{grupo} es un conjunto $G$ con una operación asociativa,
+con elemento neutro y con inverso para cada elemento. Si la operación es
+además conmutativa, se dice que $G$ es un \textit{grupo abeliano}.
 \end{definition}
 
-Con la operación suma $+$ habitual, los conjuntos $\mathbb{Z}$, $\mathbb{Q}$ y $\mathbb{R}$ son grupos abelianos aditivos. Dado un conjunto $A$ con una operación multiplicativa $\cdot$, $A^*$ denotará el \textit{conjunto de los elementos invertibles en A}. Así, con la multiplicación usual, $Q^* = Q \setminus \{0\}$, y $\mathbb{Z}^* = \{-1,1\}$.
+Existen dos notaciones fundamentales para la representaci\'on de los grupos, que
+son la notaci\'on aditiva (la operaci\'on de grupo se denota $+$, el elemento
+neutro se denota como $0$ y el inverso de $a$ se denota $-a$) y la notaci\'on
+multiplicativa (la operaci\'on de grupo se denota $\cdot$, el elemento neutro
+se denota como $1$ y el inverso de $a$ se denota $a^{-1}$).
+Es habitual utilizar la notaci\'on aditiva para grupos conmutativos y la
+multiplicativa para los no conmutativos. Todos los grupos que vamos a tratar en
+los problemas relacionados con la Teor\'ia de N\'umeros
+ser\'an conmutativos, pero utilizaremos la notaci\'on
+aditiva o multiplicativa seg\'un resulte m\'as natural una u otra.
+
+
+Con la operación suma $+$ habitual, los conjuntos $\mathbb{Z}$, $\mathbb{Q}$ y
+$\mathbb{R}$ son grupos abelianos aditivos.
+
+\begin{definition}
+Sea $G$ un grupo conmutativo finito y $g \in G$. Llamaremos orden de $g$ y lo denotaremos
+$ord(g)$ al menor entero $t$ positivo tal que $g^t = 1$.
+\end{definition}
+
+\begin{proposition}
+\label{propLagrange1}
+Sea $G$ un grupo conmutativo finito con $n$ elementos, entonces para todo
+$g \in G$ se tiene que $g^n = 1$.
+\end{proposition}
+\begin{proof}
+Sean $g_1,g_2,\cdots,g_n$ los elementos de $G$. Est\'a claro que si $g_i \not= g_j$ entonces $gg_i \not= gg_j$ puesto que si fueran iguales tendr\'iamos que $g_i = g^{-1}gg_i = g^{-1}gg_j = g_j$, lo cual es una contradicci\'on.
+Esto nos garantiza que el conjunto $\{gg_1,gg_2,\cdots,gg_n\}$ tiene que tener $n$ elementos y por lo tanto ser todo $G$, es decir, que como conjuntos tenemos que
+$\{g_1,g_2,\cdots,g_n\} = \{gg_1,gg_2,\cdots,gg_n\}$ puesto que solo hay una reordenaci\'on. Como el producto es conmutativo, si multiplicamos todos los elementos tenemos que
+$g_1g_2\cdots g_n = g^n g_1g_2\cdots g_n$ y multiplicando por el inverso de $g_1g_2\cdots g_n$ obtenemos el resultado que buscamos.
+\end{proof}
+
+Este resultado es tambi\'en cierto para grupos no conmutativos, pero la demostraci\'on no es tan elemental como en este caso, que es el que vamos a necesitar en esta memoria, por
+eso hemos hecho una demostraci\'on directa. Esta proposici\'on nos garantiza que el orden de un elemento en un grupo finito tiene que ser menor o igual que el n\'umero de elementos del grupo.
+
+\begin{definition}
+Un grupo abeliano finito $G$ diremos que es c\'iclico cuando exista alg\'un elemento
+$g$ tal que $ord(g) = |G|$. En caso de existir, un elemento $g$ que cumpla dichas
+propiedades se llamar\'a un generador del grupo $G$.
+\end{definition}
 
 \hfil
 
 \begin{definition}
 	Un \textit{anillo} es un conjunto $A$ con dos operaciones, $+$ y $\cdot$ (suma y producto), tales que:
 	\begin{itemize}
-		\item $(A,+)$ es un grupo abeliano aditivo; con neutro $0$.
-		\item El producto es asociativo y tiene neutro $1$, distinto del neutro aditivo ($1\neq 0$).
-		\item El producto es distributivo con respecto a la suma, es decir, $\forall a,b,c \in A$ se tiene $a\cdot(b+c)=a\cdot b + a\cdot c$ y $(b+c)\cdot a = b\cdot a + c\cdot a$.
+		\item $(A,+)$ es un grupo abeliano con elemento neutro $0$.
+		\item El producto es asociativo y tiene elemento neutro que
+se denota por $1$. Este elemento consideraremos que es distinto del neutro aditivo ($1\neq 0$).
+		\item El producto es distributivo con respecto a la suma, es decir,
+$\forall a,b,c \in A$ se tiene $a\cdot(b+c)=a\cdot b + a\cdot c$ y $(b+c)\cdot a = b\cdot a + c\cdot a$.
 	\end{itemize}
 
-	El anillo es \textit{conmutativo} si lo es el producto. Un anillo conmutativo donde todo elemento $\neq 0$ tiene \textit{inverso} (simétrico para el producto), se dice que es un \textit{cuerpo}.
-	
+El anillo es \textit{conmutativo} si lo es el producto. En general, no todos los
+elementos de un anillo son invertibles (es decir, tienen inverso para la multiplicaci\'on),
+por ejemplo el elemento $0$ nunca no es. Un anillo conmutativo donde todo elemento
+distinto de cero es invertible, se dice que es un \textit{cuerpo}.
 \end{definition}
-
-
-\hfil
-
-
-\section{Aritmética en $\mathbb{Z}$}
 
 \begin{definition}
-	Un entero $d$ se dice que es el \textbf{máximo común divisor} de dos enteros $a$ y $b$ si es el mayor entero que divide a ambos. Lo denotaremos como $d=mcd(a,b)$.
+Sea $A$ un anillo conmutativo, $A^*$ denotará el
+{\em conjunto de los elementos invertibles en A}. Así, con la
+multiplicación usual $\mathbb{Z}^* = \{-1,1\}$.
+
+Los elementos invertibles tambi\'en los llamaremos {\em unidades} del anillo $A$.
+
+Si $A$ es un cuerpo, por definici\'on $A^* = A \setminus \{0\}$, por ejemplo
+${\mathbb Q}^* = {\mathbb Q} \setminus \{0\}$ o ${\mathbb R}^* = {\mathbb R}\setminus \{0\}$.
 \end{definition}
 
-\hfil
+\begin{proposition}
+El conjunto de las unidades de un anillo conmutativo $A$ forma un grupo
+conmutativo con la multiplicaci\'on.
+\end{proposition}
+\begin{proof}
+La multiplicaci\'on de dos unidades $a,b \in A^*$ es una unidad puesto que
+si $c$ es inverso de $a$ y $d$ inverso de $b$, $(ab)(dc) = a(bd)c = a\cdot
+1\cdot c = ac = 1$. La operaci\'on de multiplicaci\'on es asociativa y
+conmutativa por serlo en $A$, el $1$ est\'a en $A$ y todo elemento tiene inverso por
+definici\'on de $A^*$.
+\end{proof}
 
-Euclides describió en su obra \textit{Los Elementos} un método para calcular el $mcd$ de dos enteros, que hoy en día se conoce como \textit{Algoritmo de Euclides}. La propiedad que utiliza el algoritmo para calcular el $mcd$ es la siguiente:
-
-
+\begin{definition}
+Sean $A$ y $B$ dos anillos conmutativos y $f:A \to B$ una aplicaci\'on.
+Diremos que es un homomorfismo de anillos si $f(a_1 + a_2) = f(a_1) +
+f(a_2)$, $f(a_1 a_2) = f(a_1) f(a_2)$, $f(0) = 0$ y $f(1) = 1$. Si la
+aplicaci\'on $f$ es biyectiva diremos que $f$ es un isomorfismo y que los
+anillos $A$ y $B$ son isomorfos.
+\end{definition}
 
 \begin{proposition}
-	Sean $a$, $b$ $\in \mathbb{Z}$. Entonces, para todo $\alpha \in \mathbb{Z}$ se tiene:
-	\begin{center}
-		$mcd(a,b) = mcd(a, b-\alpha a) = mcd(a-\alpha b, b).$
-	\end{center}
-	En particular, cuando $b \neq 0$ y la división entera de $a$ entre $b$ es $a = bq + r$, tenemos que $mcd(a,b) = mcd(b, r)$.
+Sea $f:A \to B$ un isomorfismo de anillos conmutativos. Entonces para todo
+elemento invertible $a$ de $A$, $f(a)$ es un elemento invertible de $B$, la
+aplicaci\'on $f$ restringida a los conjuntos $A^*$ y $B^*$ es un isomorfismo
+de grupos abelianos.
 \end{proposition}
+\begin{proof}
+Si $a$ es invertible con inverso $c$ tenemos que $1 = f(1) = f(ac) =
+f(a)f(c)$ por lo que $f(c)$ es inverso de $f(a)$ y por lo tanto $f(a) \in
+B^*$. Por otro lado, si $b$ es un elemento invertible de $B$ con inverso
+$d$, al ser $f$ biyectiva podemos encontrar unos valores $a$ y $c$ \'unicos
+tales que $f(a) = b$ y $f(c) = d$, por lo tanto $f(ac) = f(a)f(c) = bd = 1 =
+f(1)$, pero al ser $f$ biyectiva deducimos que $ab = 1$ y por lo tanto $f$
+es suprayectiva considerada como aplicaci\'on entre $A^*$ y $B^*$. Eso
+prueba que la restricci\'on de $f$ es un isomorfismo de grupos abelianos puesto que
+evidentemente conserva el producto y el elemento neutro al conservarlo $f$.
+\end{proof}
+
+\begin{definition}
+Sean $A$ y $B$ dos anillos conmutativos, denotaremos $A \times B$ al anillo
+cuyos elementos son los pares ordenados $(a,b)$ con $a \in A$ y $b \in B$,
+junto con la suma y el producto componente a componente. El elemento neutro
+para la suma en $A \times B$ ser\'a $(0,0)$ y para el producto $(1,1)$.
+\end{definition}
+
+\begin{proposition}
+Sean $A$ y $B$ dos anillos conmutativos, entonces $(A\times B)^*$ es el
+subconjunto de $A \times B$ formado por los pares $A^* \times B^*$.
+\end{proposition}
+\begin{proof}
+Si $a$ es invertible con inverso $c$ y $b$ es invertible con inverso $d$
+entonces $(a,b)\cdot(c,d) = (ac,bd) = (1,1)$. Rec\'iprocamente si $(a,b)$ es
+un elemento invertible de $A \times B$ tenemos un elemento $(c,d)$ tal que
+$(a,b)\cdot(c,d) = (1,1)$, pero eso implica que $ac = 1$ y $bd = 1$ por lo
+que $a \in A^*$ y $b \in B^*$.
+\end{proof}
 
 \hfil
 
+\begin{definition}
+Un entero $d$ se dice un {\em divisor} de un entero $a$ si existe un entero $c$ tal
+que $dc = a$. Tambi\'en se dice que $d$ divide a $a$ o que $a$ es un m\'ultiplo
+de $d$.
+\end{definition}
 
-\rule{\textwidth}{1pt}
-\begin{algorithm}[Euclides]
-	Encuentra el $mcd$ de $a$, $b \in \mathbb{Z}$:
-	
-	\begin{enumerate}
-		\item Inicializa $r_0 = a$ y $r_1 = b$.
-		
-		\item Calcula las siguientes divisiones euclídeas
-		
-		\begin{tabular}{rcl}
-			$r_0$ & $=$ & $q_1 r_1 + r_2$ \\
-			$r_1$ & $=$ & $q_2 r_2 + r_3$ \\
-			& \dots & \\
-			$r_{n-3}$ & $=$ & $q_{n-2} r_{n-2} + r_{n-1}$ \\
-			$r_{n-2}$ & $=$ & $q_{n-1} r_{n-1} + r_{n}$ \\
-		\end{tabular}
-		
-		hasta que se obtenga un $r_n = 0$, con $r_{n-1} \neq 0$.
-		
-		\item Como $b = r_1 > r_2 > ... \geq 0$ y cada $r_i$ es entero, para $i = 1, 2, ...$, se obtiene $r_n = 0$ en un número finito de pasos y acaba el algoritmo con $mcd(a,b) = r_{n-1}$.
-		
-	\end{enumerate}
+\begin{definition}
+Dados dos enteros $a$ y $b$ y otro entero $n>1$, diremos que $a$ y $b$ son {\bf
+congruentes m\'odulo $n$} si $a-b$ es un m\'ultiplo de $n$. Esta relaci\'on se
+denotar\'a por $a \equiv b ~(mod~n)$ o simplemente $a \equiv b~mod~n$.
+\end{definition}
+
+La relaci\'on de congruencia m\'odulo $n$ es una relaci\'on de equivalencia que
+divide al conjunto de los n\'umeros enteros en $n$ clases de equivalencia
+distintas. Al conjunto cociente formado por estas clases de equivalencia
+se denotar\'a ${\mathbb Z}_n$.
+
+Una posible elecci\'on de representantes para las clases de
+equivalencia m\'odulo $n$ son los valores $\{0,1,2,\cdots,n-1\}$.
+Si fijamos este conjunto de representantes denotaremos
+$- ~ mod ~ n : {\mathbb Z} \to \{0,1,\cdots,n-1\} $
+a la aplicaci\'on que dado un elemento $a \in {\mathbb Z}$ nos da el representante
+de su clase de equivalencia m\'odulo $n$, lo llamaremos el reducido m\'odulo $n$
+de $a$.
+
+Es habitual utilizar los valores $\{0,1,2,\cdots,n-1\}$ para representar tambi\'en
+las clases de equivalencia de ${\mathbb Z}_n$, por lo tanto podemos decir $3 \in {\mathbb Z}_7$
+para referirnos a la clase de equivalencia del $3$ en el conjunto cociente ${\mathbb Z}_n$.
+Esto en general simplifica las notaciones y no causa problemas de interpretaci\'on.
+
+La utilizaci\'on de $-~mod~n$ como un operador entre ${\mathbb Z}$ y $\{0,1,\cdots,n-1\}$
+no es del todo est\'andar, pero la utilizaremos en esta memoria por que resulta c\'omoda
+para trabajar en aritm\'etica modular y en la pr\'actica, casi todos los lenguajes de
+programaci\'on tienen el reducido m\'odulo $n$ como una funci\'on m\'as.
+
+Si $a \equiv b ~(mod~n)$ entonces para cualquier $c \in {\mathbb Z}$ tenemos que
+$a + c \equiv b + c ~(mod~n)$ (porque $(b+c)-(a+c) = b-a$ que es un m\'ultiplo de $n$)
+y tambi\'en $ac \equiv bc ~(mod~n)$ (porque $bc-ac=(b-a)c$ que es un m\'ultiplo de
+$n$ por serlo $b-a$). Esta propiedad nos permite probar que si $a \equiv b~(mod~n)$
+y $c \equiv d~(mod~n)$ entonces $a+c \equiv b+c \equiv b+d ~(mod~n)$ y tambi\'en
+$ac \equiv bc \equiv bd~(mod~n)$.
+
+Dicho de otra forma, la relaci\'on de congruencia m\'odulo $n$ respeta la suma y el
+producto por lo que podemos dotar a ${\mathbb Z}_n$ de estructura de anillo con la
+estructura heredada de ${\mathbb Z}$, es decir, dadas dos clases $a$ y $b$, la suma
+$a+b$ es la clase de la suma de cualquier representante de $a$ y cualquier
+representante de $b$, siendo esta definici\'on independiente del representante
+elegido puesto que la congruencia respeta la suma. Lo mismo sucede con el producto,
+el producto de las clases, es la clase del producto de dos representantes
+cualesquiera de las clases.
+
+Esta definici\'on que parece muy complicada, se simplifica mucho en la pr\'actica
+cuando tenemos elegidos unos representantes de las clases y un operador como $~mod~n$
+puesto que podemos partir del conjunto $\{0,1,\cdots,n-1\}$, hacer las operaciones de suma
+y producto con esos representante y si el resultado final se sale fuera del conjunto de
+representantes, aplicar el operador $~mod~n$ al resultado. De esta forma podemos decir
+que en en anillo ${\mathbb Z}_2$ se tiene que $1+1=0$ puesto que $1+1$ ser\'ia $2$
+pero al aplicar el operador $~mod~2$ obtenemos el resultado $0$.
+
+Para prodecer de esta forma, es fundamental tener un m\'etodo para calcular el reducido
+m\'odulo $n$ de cualquier n\'umero, pero eso nos lo va a proporcionar precisamente el
+algoritmo de la divisi\'on.
+
+\begin{proposition}
+Sean $a,n$ dos n\'umeros enteros con $n > 1$, $q = \lfloor \frac{a}{n} \rfloor$,
+entonces $a~mod~n = a-nq$. Estos valores $q$ y $a~mod~n$ son precisamente el
+cociente y resto de la divisi\'on entre $a$ y $n$.
+\end{proposition}
+\begin{proof}
+Por definici\'on de $q = \lfloor \frac{a}{n} \rfloor$ sabemos que $q$ es el mayor entero
+menor o igual que $\frac{a}{n}$, por lo tanto $q \leq \frac{a}{n} < q+1$ y de ah\'i se
+deduce que $qn \leq a < nq+n$ por lo que $0 \leq a-nq < n$, es decir, que el entero
+$a-nq$ est\'a en el conjunto $\{0,1,\cdots,n-1\}$ tal y como hab\'iamos exigido a
+$a~mod~n$. Adem\'as, con esta definici\'on $a-(a~mod~n) = nq$ por lo que
+$a \equiv a~mod~n$.
+\end{proof}
+
+\begin{definition}
+Dados dos enteros $a$ y $b$, llamaremos m\'aximo com\'un divisor de dichos n\'umeros
+(y lo denotaremos $mcd(a,b)$)
+al mayor entero no negativo $d$ tal que $d$ divide al mismo tiempo a $a$ y a $b$. Este
+n\'umero siempre existe puesto que $1$ es siempre divisor de ambos, por lo que el conjunto
+de los divisores comunes no es nunca vac\'io. En el caso particular en que este sea el
+\'unico divisor com\'un diremos que $a$ y $b$ son coprimos.
+\end{definition}
+
+Para el c\'alculo del m\'aximo com\'un divisor de dos n\'umeros, es muy \'util el
+siguiente resultado:
+
+\begin{lemma}
+Sean $a$ y $b$ dos enteros positivos. Entonces el conjunto de divisores comunes de
+$a$ y $b$ es el mismo que el de los divisores comunes de $b$ y $a~mod~b$.
+\end{lemma}
+\begin{proof}
+Por definici\'on $a~mod~b = a-bq$ donde $q = \lfloor \frac{a}{b} \rfloor$. Si $c$
+es divisor de $a$ y $b$, entonces $a = a'c$ y $b = b'c$ y por lo tanto $a-bq = c(a'-b'q)$,
+lo cual prueba que $c$ es divisor com\'un de $b$ y $a~mod~b$.
+
+Rec\'iprocamente, si $c$ es divisor com\'un de $b$ y $a~mod~b$ tenemos que $b = cb'$
+y $a-bq = cr'$ por lo que $a = c(b'q+r')$, lo cual prueba que $c$ es un divisor
+com\'un de $a$ y $b$.
+\end{proof}
+
+\begin{algorithm}[Algoritmo de Euclides]
+Dados dos enteros $a$ y $b$ entonces podemos encontrar el m\'aximo com\'un divisor
+$d = mcd(a,b)$ mediante el siguiente algoritmo:
+\begin{enumerate}
+\item Inicializar el vector fila $M :=  (a,b)$
+\item Mientras que $M_{2} \not= 0$ asignar $q := \lfloor \frac{M_{1}}{M_{2}} \rfloor$
+y $M := M \left( \begin{array}{cc} 0 & 1 \\ 1 & -q
+\end{array}  \right)$.
+\item Al terminar tendremos $d := M_{1}$.
+\end{enumerate}
 \end{algorithm}
-\rule{\textwidth}{1pt}
+\begin{proof}
+Fij\'emonos que en el primer paso tenemos que $q := \lfloor \frac{a}{b} \rfloor$ y por lo tanto al hacer
+$ (a,b) \left( \begin{array}{cc} 0 & 1 \\ 1 & -q
+\end{array}  \right)$ obtenemos $(b,a~mod~b)$ y utilizando el lema anterior, deducimos que los divisores comunes de los
+dos elementos del nuevo $M$ son los mismos que los divisores comunes de $a$ y $b$. El mismo razonamiento en todos los pasos nos prueba que esta propiedad se
+mantiene siempre, adem\'as los valores se van reduciendo porque $a~mod~b$ es estrictamente menor que $b$. La sucesi\'on tendr\'a que terminar en alg\'un momento
+y la \'unica posibilidad es que termine porque $M_{2}$ sea $0$. En ese caso los divisores comunes de $a$ y $b$ son los mismos que los de $M_{1}$ y $0$, pero los
+divisores de $M_{1}$ y $0$ son los divisores de $M_{1}$ y el m\'aximo de todos ellos es $M_{1}$ por lo que tiene que ser el m\'aximo com\'un divisor de $a$ y $b$.
+\end{proof}
 
-\hfil
+Este algoritmo se puede extender para calcular tambi\'en los coeficientes $r$ y $s$ que nos dan el m\'aximo com\'un divisor como combinaci\'on de $a$ y $b$.
 
-A partir del \textit{Algoritmo de Euclides} se puede expresar $d$ como una ``combinación $\mathbb{Z}$-lineal'' de $a$ y $b$:
-\begin{center}
-	$d = as + bt$
-\end{center}
-conocida como la \textit{Identidad de Bézout}.
-
-\hfil
-
-El algoritmo se conoce como \textit{Algoritmo de Euclides extendido}:
-
-\rule{\textwidth}{1pt}
-\begin{algorithm}[Euclides extendido]
-	Encuentra el $d = mcd$ de $a$, $b \in \mathbb{Z}$ y valores $s$, $t$ $\in \mathbb{Z}$ tal que $d = as + bt$.
-	\begin{enumerate}
-		\item Inicializa ${\displaystyle r_{0}\gets a,r_{1}\gets b,s_{0}\gets 1,t_{0}\gets 0,s_{1}\gets 0,t_{1}\gets 1}$
-		
-		$i\gets 1$
-		
-		\item Mientras $r_i \neq 0$:
-		\subitem Calcule la división euclídea $r_{i-1} = q_i r_i + r_{i+1}$
-		\subitem ${\displaystyle s_{i+1}\gets s_{i-1}-q_{i}s_{i}}$
-		\subitem ${\displaystyle t_{i+1}\gets t_{i-1}-q_{i}t_{i}}$
-		\subitem $i \gets i+1$
-		
-		\item $d = r_{i-1}$	\quad	$s = s_{i-1}$ \quad  $t = t_{i-1}$
-	\end{enumerate}
+\begin{algorithm}[Algoritmo de Euclides Extendido]
+Dados dos enteros $a$ y $b$ entonces podemos encontrar el m\'aximo com\'un divisor
+$d = mcd(a,b)$ y valores enteros $s$ y $t$ tales que $d = su+tv$ mediante el siguiente algoritmo:
+\begin{enumerate}
+\item Inicializar la matriz $M := \left(\begin{array}{cc} 1 & 0 \\ 0 & 1 \\ a & b \end{array}\right)$
+\item Mientras que $M_{3,2} \not= 0$ asignar $q := \lfloor \frac{M_{3,1}}{M_{3,2}} \rfloor$ y $M := M \left( \begin{array}{cc} 0 & 1 \\ 1 & -q
+\end{array}  \right)$.
+\item Al terminar tendremos $r := M_{1,1}$, $s := M_{2,1}$ y $d := M_{3,1}$.
+\end{enumerate}
 \end{algorithm}
-\rule{\textwidth}{1pt}
+\begin{proof}
+El comportamiento de la fila inferior de la matriz $M$ es precisamente la misma que ten\'iamos en el Algoritmo de Euclides, por lo que necesariamente la matriz $M$ terminar\'a teniendo
+$mcd(a,b)$ y $0$ en la fila inferior.
 
+Para completar la demostraci\'on fij\'emonos en que para los distintos valores de $M$ que aparecen en el algoritmo, el producto $\left( a,b,-1\right) M$ es constantemente igual a
+$\left(0,0\right)$. Para darse cuenta de eso, s\'implemente veamos que se cumple para la primera matriz ya que $a\cdot 1 + b \cdot 0 - 1 \cdot a = 0$ y
+$a\cdot 0 + b \cdot 1 - 1 \cdot b = 0$. En cada paso multiplicamos por la derecha por una matriz, pero como el producto de matrices es asociativo, la propiedad se mantiene puesto que
+\[(a,b,-1)\left(M \left(\begin{array}{cc} 1 & 0 \\ 0 & 1 \\ a & b \end{array}\right)\right) = \left((a,b,-1)M \right)\left(\begin{array}{cc} 1 & 0 \\ 0 & 1 \\ a & b \end{array}\right) =
+(0,0)\left(\begin{array}{cc} 1 & 0 \\ 0 & 1 \\ a & b \end{array}\right) = (0,0).\]
+
+Esto nos prueba que al terminar el algoritmo tendremos $a M_{1,1} + b M_{2,1} = M_{3,1}$ o lo que es lo mismo $a r + b s = d$.
+\end{proof}
+
+El algoritmo de Euclides extendido es muy \'util para el c\'alculo de los elementos invertibles o unidades de ${\mathbb Z}_n$.
+
+\begin{proposition}
+El conjunto de las unidades del anillo ${\mathbb Z}_n$ es precisamente el
+conjunto de las clases de equivalencia de $a$ para aquellos valores $a$ coprimos con $n$.
+\end{proposition}
+\begin{proof}
+Si $a$ es coprimo con $n$, por el algoritmo de Euclides extendido tenemos $r$ y
+$s$ tales que $ra+sn = 1$ pero entonces $ra \equiv 1 ~(mod~n)$ y por lo tanto
+$a$ es una unidad con inverso $r$.
+
+Rec\'iprocamente, si $a$ es una unidad con inverso $r$ tenemos que $ar \equiv
+1~(mod~n)$ y por lo tanto $ar = 1 + ns$ para alg\'un $s$. Si $d$ es el m\'aximo
+com\'un divisor de $n$ y $a$, en particular $d$ divide a $ar$ y a $nr$ por lo
+que divide a $ar-ns = 1$, lo cual prueba que $d$ necesariamente ha de ser $1$.
+\end{proof}
 
 \begin{remark}
-	Los valores de $s$ y $t$ no tienen por qué ser únicos:
-	
-	${\displaystyle a(s-kb)+b(t+ka)=as-kba+bt+kba=as+bt = d}$
+Tal y como hemos visto en la demostraci\'on de la proposici\'on anterior,
+dado $a$ un elemento invertible de ${\mathbb Z}_n$, el inverso de $a$ m\'odulo
+$n$ se puede calcular como el coeficiente $r$ que hace que $ra+sn=1$.
 \end{remark}
 
-\hfil
-
-Utilizaremos la Identidad de Bézout para calcular los inversos en aritmética modular más adelante.
-
-\hfil
-
-
-
-
-
-
-
-
-
-
-
-
-\section{Congruencias: el anillo $\mathbb{Z}_n$}
-
 \begin{definition}
-	Sean $a,\,b,\,n\,\in \mathbb{Z}$, $n \neq 0$, diremos que $a$ y $b$ son \textbf{congruentes módulo $n$}, y lo escribiremos $a \equiv b \, mod \, n$, si la diferencia $a - b$ es múltiplo de $n$.
+El n\'umero de unidades de ${\mathbb Z}_n$, es decir, el n\'umero de elementos de
+${\mathbb Z}_n^*$ se denota $\varphi(n)$ que se conoce como la funci\'on
+$\varphi$ de Euler. Esta funci\'on se define tambi\'en para el $1$ con el
+valor $\varphi(1) = 1$.
 \end{definition}
 
-Cuando $a \equiv b \, mod \, n$ decimos que b es un \textit{\textbf{residuo} de $a$ módulo $n$}.
-
 \begin{proposition}
-	La relación de \textbf{congruencia módulo $n$} es una relación de equivalencia, es decir, es reflexiva, simétrica y transitiva.
+Sea $p$ un n\'umero primo, entonces ${\mathbb Z}_p$ es un cuerpo.
 \end{proposition}
+\begin{proof}
+Tenemos que demostrar que todos los elementos distintos de $0$ son unidades,
+pero eso es claro porque si $p$ es primo, no puede tener un factor com\'un distinto de $1$ con ninguno de los elementos $\{1,2,3,\cdots,p-1\}$ porque ninguno de ellos es m\'ultiplo de $p$.
+\end{proof}
 
-Esto establece una relación de equivalencia en $\mathbb{Z}$, en la que la \textbf{clase} de un entero $a$ módulo $n$ es $\overline{a} = \{ a + kn \}_{k \in \mathbb{Z}}$. Cuando no exista confusión, escribiremos la clase de equivalencia $\overline{a}$ como $a$.
-El correspondiente conjunto cociente, de las \textit{clases de resto módulo $n$}, es $\mathbb{Z}_n = \{\overline{0},\,\overline{1},\,\dots\overline{n-1}\}$, y hereda la suma y producto de $\mathbb{Z}$ convirtiéndose en un anillo conmutativo con neutros $\overline{0}$ para la suma y $\overline{1}$ para el producto.
+\begin{remark}
+De la proposici\'on anterior, deducimos que $p$ es un n\'umero primo $\varphi(p) = p-1$.
+\end{remark}
 
-\begin{proposition}
-	El conjunto $\mathbb{Z}_n^*$ de los elementos invertibles, con el producto, de $\mathbb{Z}_n$, es un grupo abeliano.
-\end{proposition}
-
-
-\begin{theorem}
-	El anillo $\mathbb{Z}_n$ es un cuerpo cuando $n$ es un número primo.
+\begin{theorem}[de Euler]
+Para cualquier $a \in {\mathbb Z}_n^*$ se tiene que $a^{\varphi(n)} \equiv 1 ~(mod~n)$.
 \end{theorem}
-
-Sea $\varphi$ la \textit{función de Euler}, tal que a cada entero $n=\pm p_1^{m_1}p_2^{m_2}\cdots p_k^{m_k}$, expresado como producto de primos, le asigna el valor:
-
-$\varphi(n)=p_1^{m_1-1} p_2^{m_2-1} \cdots p_k^{m_k-1} (p_1 -1) (p_2 -1) \cdots (p_k -1)$.
-
-La función de Euler indica el número de enteros entre $1$ y $n-1$ coprimos con $n$.
+\begin{proof}
+Puesto que las unidades forman un grupo abeliano finito, esto es un caso particular
+de la Proposici\'on~\ref{profLagrange1}.
+\end{proof}
 
 \begin{proposition}
-	$\mid \mathbb{Z}^*_n \mid = \varphi(n)$, donde $\varphi$ es la función de Euler.
+Sea $G$ un grupo abeliano finito de $n$ elementos y $g \in G$, entonces $ord(g)$ divide a $n$.
 \end{proposition}
+\begin{proof}
+Supongamos por reducci\'on al absurdo que $ord(g)$ no divide a $n$ y por lo tanto tenemos $d = mcd(ord(g),n)$ estrictamente menor que $ord(g)$.
+El Algoritmo de Euclides Extendido nos permite encontrar $r$ y $s$ tales que $d = ord(g)r+ns$, por lo tanto $g^d = (g^{ord(g)})^r(g^n)^s = 1$, lo cual es una contradicci\'on con
+que $ord(g)$ sea el menor entero tal que $g^{ord(g)} = 1$.
+\end{proof}
 
-\begin{theorem}[Euler]
-	Si $x$ es coprimo con $n$, entonces $x^{\varphi(n)} \equiv 1 \, mod \, n$.
+\begin{corollary}
+Para todo $a \in {\mathbb Z}_n^*$ se tiene que $ord(a)$ divide a $\varphi(n)$.
+\end{corollary}
+
+\begin{theorem}[Teorema Chino de los Restos] Sean $m$ y $n$ dos n\'umeros enteros
+coprimos, entonces tenemos un isomorfismo de anillos
+\[ f : {\mathbb Z}_{mn} \to {\mathbb Z}_m \times {\mathbb Z}_n \] dado por
+$f(x) = (x~mod~m, x~mod~n)$.
 \end{theorem}
+\begin{proof}
+Los operadores $-~mod~m$ y $-~mod~n$ respetan la suma y el producto, por lo que
+$f$ respeta estas dos operaciones. El punto clave de la demostraci\'on es ver cual es
+la funci\'on inversa de $f$ y esta viene dada del siguiente modo: Utilizando el Algoritmo
+de Euclides Extendido tomemos $r$ y $s$ tales que $rm+sn =1$. Dado un para de elementos
+$a \in {\mathbb Z}_m$ y $b \in {\mathbb Z}_n$ podemos calcular $x = asn+brm$ y vemos que
+$a = a1 = arm+asn = x + (a-b)rm$ por lo que $a \equiv x~mod~m$. De forma similar se ve
+que $b \equiv x~mod~n$ por lo que concluimos que $f(x) = (a,b)$. Formalmente esto prueba que
+$f$ es suprayectiva, pero realmente es la inversa porque tambi\'en es inyectiva: Supongamos
+que $x$ cumple que $f(x) = (0,0)$. Esto significa que $x$ es un m\'ultiplo de $m$ y de $n$, es
+decir, $x = um = vn$ para ciertos valores $u$ y $v$, pero entonces $x = x1 = x(rm+sn) =
+xmr + xns = vnmr+umns = (vr+us)mn$, pero esto nos dice que $x$ es un m\'ultiplo de $mn$ y
+por lo tanto $0$ en ${\mathbb Z}_{mn}$.
+\end{proof}
 
-\hfil
+\begin{corollary}
+Seam $m$ y $n$ enteros coprimos, entonces $\varphi(mn)=\varphi(m)\varphi(n)$.
+\end{corollary}
+\begin{proof}
+El isomorfismo de anillos que nos da el Teorema Chino de los Restos nos proporciona una
+biyecci\'on entre los conjuntos de unidades ${\mathbb Z}_{mn}^*$ y ${\mathbb Z}_m^* \times
+{\mathbb Z}_n^*$, por lo que el n\'umero de elementos de estos dos conjuntos es
+el mismo, pero dicho n\'umero es el el primer caso $\varphi(mn)$ y en el segundo $\varphi(m)\varphi(n)$.
+\end{proof}
 
-Si tenemos ahora dos enteros $a$ y $b$ coprimos, es decir, $mcd(a,\,b) = 1$, usando el \textit{algoritmo de Euclides extendido} podemos encontrar $r$ y $s$ de la \textit{Identidad de Bézout} tales que:
-\begin{center}
-	$ as + bt = 1 $
-\end{center}
+\begin{corollary}
+Sean $p$ y $q$ dos primos distintos, entonces $\varphi(pq) = (p-1)(q-1)$.
+\end{corollary}
+\begin{proof}
+Por ser $p$ y $q$ primos distintos, est\'a claro que no tienen ning\'un factor
+com\'un distinto de $1$ y por lo tanto $\varphi(pq) = \varphi(p)\varphi(q) =
+(p-1)(q-1)$.
+\end{proof}
 
-Si a esta igualdad le aplicamos módulo $b$, obtenemos el inverso de $a$ en $\mathbb{Z}_b$:
-\begin{center}
-	\begin{tabular}{ccccc}
-	$  ( as + bt ) \, mod \, b $ & $\equiv $ & $as \, mod \, b $ & $ \equiv$ & $1 \, mod \, b $ \\
-	$ \overline{as+bt} $ & $=$ & $\overline{as} $ & $=$ & $\overline{1} $
-\end{tabular}
-\end{center}
-
-Así hemos demostrado el siguiente resultado:
-
-\begin{proposition}
-	Si $mcd(a,\,n) = 1$, entonces el elemento inverso $a^{-1}$, $0<a^{-1}<n$, existe y $a a^{-1} \equiv 1 \, mod \, n$.
-\end{proposition}
-
-
-\hfil
-
-
-\begin{theorem}[Teorema Chino de los restos]
-	
-	\hfil 
-	
-	Supongamos que $n_1,\, n_2, …, n_k$
-	son enteros positivos coprimos dos a dos. Entonces, para enteros dados $a_1,\, a_2, …, a_k$, existe un
-	entero $x$ que resuelve el sistema de congruencias simultáneas
-	
-	\begin{align*}
-	x &\equiv a_1 \pmod{n_1} \\
-	x &\equiv a_2 \pmod{n_2} \\
-	&\vdots \\
-	x &\equiv a_k \pmod{n_k}
-	\end{align*}
-	
-	Más aún, todas las soluciones $x$ de este sistema son congruentes módulo el
-	producto $N = n_1 n_2 ... n_k$.
-	
-	Otra interpretación del teorema es: para cada entero positivo con factorización en números primos:
-	
-	$n = p_1^{r_1}\cdots p_k^{r_k}$
-	
-	se tiene un isomorfismo entre un anillo y la suma directa de sus potencias primas:
-	
-	$\mathbf{Z}_n \cong \mathbf{Z}_{p_1^{r_1}} \oplus \cdots \oplus \mathbf{Z}{p_k^{r_k}}$
-
-\end{theorem}
-
-
-\hfil
+\begin{remark}
+Sea $n = pq$ el producto de dos primos distintos, entonces es
+equivalente conocer $p$ y $q$ o conocer $n$ y $\varphi(n)$.
+\end{remark}
+\begin{proof}
+Si conocemos $p$ y $q$ claramente conocemos $n = pq$ y $\varphi(n) = (p-1)(q-1)$
+haciendo unas simples multiplicaciones.
+Rec\'iprocamente, si conocemos $n$ y $\varphi(n) = (p-1)(q-1) = n - (p+q) + 1$
+podemos deducir el valor de $p+q = n -\varphi(n) + 1$ por lo que conocemos la suma y el
+producto de dos n\'umeros. Resolviendo en el conjunto de los n\'umeros enteros
+la ecuaci\'on de segundo grado $x^2 -(p+q)x + pq = 0$ podemos obtener los valores
+de $p$ y $q$ y eso se puede hacer con el c\'alculo de una ra\'iz cuadrada, que
+es un problema polin\'omico en ${\mathbb Z}$.
+\end{proof}
 
 \begin{definition}
-	El \textit{orden} de un elemento $a \in \mathbb{Z}^*_n$, denotado $o(a)$, es el menor entero positivo $t$ tal que $a^t \equiv 1 \, mod \, n$.
+	Sea $a\in \mathbb{Z}^*_n$. Se dice que $a$ es un \textit{residuo cuadrático}
+	módulo n, o un \textit{cuadrado} módulo n, si existe un $x \in \mathbb{Z}^*_n$
+	tal que $x^2 \equiv a \, mod \, n$.
+	Si no existe dicho $x$, entonces $a$ se llama un \textit{no-residuo cuadrático} módulo n.
+
+	Al conjunto de todos los residuos cuadráticos módulo n de $\mathbb{Z}^*_n$ los
+	denotaremos como $Q_n$ o bien como $\mathbb{Z}^{Q+}_n$.
+	Al conjunto de los no-residuos cuadráticos lo denotamos como $\overline{Q_n}$.
+	Esta notaci\'on no es muy habitual en Teor\'ia de N\'umeros, pero es habitual en el caso de las
+	pruebas de concimiento cero que veremos m\'as adelante.
 \end{definition}
-
-\begin{proposition}
-	Si el orden de $a \in \mathbb{Z}^*_n$ es $o(a)=t$, y ocurre que $a^2 \equiv 1 \, mod \, n$, entonces $t \mid s$. En particular, $t\mid \varphi(n)$.
-\end{proposition}
-
-
-\begin{definition}
-	Sea $\alpha \in \mathbb{Z}^*_n$. Si el orden de $\alpha$ es $\varphi(n)$, entonces se dice que $\alpha$ es un \textit{generador} de $\mathbb{Z}^*_n$. Se indica como $\mathbb{Z}^*_n = \langle \alpha \rangle $. Si $\mathbb{Z}^*_n$ tiene un generador, se dice que es \textit{cíclico}.
-\end{definition}
-
-\begin{proposition}[Propiedades de los generadores de $\mathbb{Z}^*_n$]
-	\hfil
-	
-	\begin{itemize}
-		\item $\mathbb{Z}^*_n$ tiene un generador si y solo si $n=2,4,p^k\ ó\ 2p^k$, con $p$ primo y $k\geq 1$.
-		\item Si $\alpha$ es un generador de $\mathbb{Z}^*_n$, entonces $\mathbb{Z}^*_n = \{\alpha^i \, mod \, n \, \mid \, 0 \leq i \leq \varphi(n)-1 \}$.
-	\end{itemize}
-\end{proposition}
-
-
-\hfil
-
-% Grupos simétricos
-\section{El grupo simétrico $S_n$: permutaciones}
-
-\begin{definition}
-	Denotamos con $S_n$ al \textit{grupo simétrico} de las biyecciones o \textit{permutaciones} del conjunto
-	\begin{center}
-		$\mathbb{N}_n = \{1,2,3,\dots n\}$
-	\end{center}
-	con la operación composición $\circ$.
-\end{definition}
-
-
-Se dice que una permutación $\sigma \in S_n$ \textit{fija} al elemento $i\in \mathbb{N}_n$ si $\sigma(i)=i$, y en caso contrario lo \textit{mueve}.
-
-La composición siempre es asociativa, y el elemento neutro es la aplicación identidad, que deja fijos a todos los elementos.
 
 \begin{example}
-	Una permutación $\sigma \in S_n$ puede describirse poniendo los elementos $1,2,\dots,n$ y debajo sus imágenes $\sigma(1), \sigma(2),\dots, \sigma(n)$. Por ejemplo, en $S_6$ tenemos la permutación:
-	\[
-		\sigma =  \left( 
-			\begin{tabular}{cccccc}
-				1 & 2 & 3 & 4 & 5 & 6 \\
-				3 & 6 & 4 & 1 & 5 & 2
-			\end{tabular}
-		\right),
-	\] que fija al 5, intercambia al 2 con el 6, y con el resto hace un \textit{ciclo} $1\mapsto 3\mapsto 4\mapsto 1$.
-	
+	Si tomamos $n=4$, los no-residuos cuadráticos son $2$ y $3$, y el único residuo cuadrático es $1$:
+	\begin{align*}
+		1^2 \equiv 1 \, mod \, 4 \qquad 2^2 \equiv 0 \, mod \, 4 \qquad  3^2 \equiv 1 \, mod \, 4
+	\end{align*}
 \end{example}
 
+
 \begin{remark}
-	El grupo $S_n$ tiene $n!$ elementos, $\mid S_n \mid = n!$, pues son las posibles formas de ordenar $n$ elementos: $n$ opciones para el primero, $n-1$ para el segundo, etc.
+	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ ni $0 \notin \overline{Q_n}$.
 \end{remark}
 
+\begin{definition}
+	Sea $a \in Q_n$. Si $x \in \mathbb{Z}^*_n$ satisface $ x^2 \equiv a \, mod \, n$,
+	entonces $x$ se llama \textit{raíz cuadrada} módulo n de $a$.
+\end{definition}
 
+Nuestro objetivo es estudiar el problema de cuando
+un elemento $a \in {\mathbb Z}_n^*$ es un residuo cuadr\'atico y en caso de serlo
+c\'omo calcular una ra\'iz cuadrada.
+
+Empecemos viendo que cuando $n$ es un primo impar, el n\'umero de residuos cuadr\'aticos y de no residuos es el mismo.
+
+\begin{proposition}
+Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
+\end{proposition}
+\begin{proof}
+Consideremos la funci\'on $s: {\mathbb Z}_p^* \to Q_p$ dada por $s(c) = c^2$. Por definici\'on de $Q_p$ esta funci\'on es suprayectiva y dado un elemento $a \in Q_p$ las antiim\'agenes por $s$ ser\'an sus ra\'ices cuadradas. Sabemos que tiene que tener al menos dos ra\'ices, puesto que si $a^2 \equiv c ~mod~p$ entonces $(-a)^2 \equiv c ~mod~p$ y $a\not=-a$ puesto que estamos suponiendo $a \not=0$ y $p$ primo impar.
+Lo importante es que no es posible que haya m\'as de dos ra\'ices, pero eso es cierto porque las ra\'ices cuadradas de $c$ son las que aparecen en la factorizaci\'on del polinomio
+$x^2-c$ y este polinomio no puede tener m\'as de dos ra\'ices por ser ${\mathbb Z}_p[x]$ un dominio de factorizaci\'on \'unica al ser ${\mathbb Z}_p$ un cuerpo.
+
+Con este razonamiento deducimos que el n\'umero de elementos de $Q_p$ ha de ser la mitad que el de ${\mathbb Z}_p^*$ que es precisamente $\varphi(p) = p-1$. La otra mitad de los
+valores ser\'an necesariamente no residuos, es decir, elementos de $\overline{Q_p}$.
+\end{proof}
+
+Cuando el n\'umero de elementos no es primo, en particular cuando podemos descomponerlo como producto de dos primos impares distintos (que ser\'a el ejemplo fundamental que
+necesitaremos a lo largo de la memoria), el problema se puede descomponer en dos problemas, uno para cada factor. Vamos a ver el resultado en general:
+
+\begin{proposition}
+\label{numResCuadpq:prop}
+Sea $n$ y $m$ dos n\'umeros enteros positivos coprimos. Entonces un elemento
+$x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
+y $x~mod~n$ son residuos cuadr\'aticos en ${\mathbb Z}_m$ y ${\mathbb Z}_n$
+respectivamente.
+
+Adem\'as, si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
+correspondientes anillos, podemos combinarlas mediante el Teorema Chino de los Restos
+para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
+
+En particular esto es cierto cuando queramos estudiar los residuos cuadr\'aticos en
+${\mathbb Z}_{pq}$ con $p$ y $q$ dos primos impares distintos, que son en particular coprimos.
+\end{proposition}
+\begin{proof}
+Esto es consecuencia directa del isomorfismo de anillos $f:{\mathbb Z}_{mn} \to {\mathbb Z}_m \times {\mathbb Z}_n$ dado por el Teorema Chino de los Restos, ya que si
+$c^2 \equiv x ~mod~mn$ entonces podemos tomar $a = c~mod~m$ y $b = c~mod~n$ de forma que $a^2 \equiv c^2 \equiv x ~mod~m$ y $b^2 \equiv c^2 \equiv x~mod~n$. El
+el sentido contrario, si tenemos $a$ y $b$ ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$, entonces podemos combinarlas a un $c \in {\mathbb Z}_{mn}$ tal que
+$x \equiv a \equiv c^2~mod~m$ y $x \equiv b \equiv c^2 ~mod~n$ por lo que $f(x-c^2) = 0$ y usando que $f$ es inyectiva, tenemos que $x \equiv c^2 ~mod~mn$.
+\end{proof}
+
+\begin{corollary}
+Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
+\end{corollary}
+\begin{proof}
+Hemos visto que un residuo cuadr\'atico m\'odulo $n$ es combinaci\'on de los residuos cuadr\'aticos de ${\mathbb Z}_p$ y ${\mathbb Z}_q$, pero hay $\frac{p-1}{2}$ formas
+de elegir uno en ${\mathbb Z}_p$ y $\frac{q-1}{2}$ formas de elegirlo en ${\mathbb Z}_q$, por lo que en total tendremos $\frac{(p-1)(q-1)}{4}$.
+\end{proof}
+
+Para identificar los residuos cuadráticos en el caso ${\mathbb Z}_p$ con $p$ primo, disponemos de una herramienta muy útil:
+
+\begin{definition}
+	Dados un primo impar $p$ y un entero $a$, se define el {\em Símbolo de Legendre} y se denota $\left( \frac{a}{p} \right) $ como
+
+	\begin{center}
+		$
+		\left( \dfrac{a}{p} \right) =
+		\begin{cases}
+			0, & si\ a \equiv 0 \, mod \, p\\
+			1, & si\ a \in Q_p  \\
+			-1, & si\ a \in \overline{Q_p} \\
+		\end{cases}
+		$
+	\end{center}
+\end{definition}
+
+La definici\'on de este s\'imbolo requiere que $p$ sea un n\'umero primo, pero se puede extender la definici\'on para el caso general obtiendo lo que se conoce
+como S\'imbolo de Jacobi (tambi\'en denominado S\'imbolo de Jacobi-Kronecker en algunos textos). La definici\'on es la siguiente:
+
+\begin{definition}
+Sea $n$ un entero impar positivo cuya descomposici\'on en factores primos es $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$ y sea $a$ un entero. Entonces definimos
+el s\'imbolo de Jacobi de $a$ y $n$ como
+\[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
+En la parte derecha de la igualdad, los s\'imbolos que aparecen son los de Legendre puesto que los $p_i$ son primos. En la parte izquierda tenemos el S\'imbolo de Jacobi
+que ser\'a igual al s\'imbolo de Legendre cuando tengamos el caso $n$ primo.
+\end{definition}
+
+Notemos que con esta definici\'on, cuando $n$ no es primo, podemos perder la propiedad de que $\left( \dfrac{a}{n} \right) = 1$ nos garantice que $a$ es un cuadrado m\'odulo $n$.
+Un ejemplo importante de este hecho es el caso en que $n$ sea el producto de dos primos impares $p$ y $q$.
+
+\begin{proposition}
+\label{propResiduosPQ}
+Sean $p$ y $q$ dos primos impares, $n = pq$ y $a \in {\mathbb Z}_n^*$, entonces $\left( \dfrac{a}{n} \right) = 1$ si y s\'olo si se cumple alguna de estas dos condiciones, o
+bien $a$ es un residuo cuadr\'atico m\'odulo $n$, o bien $a~mod~p$ y $a~mod~p$ son ambos no residuos cuadr\'aticos m\'odulo $n$.
+\end{proposition}
+\begin{proof}
+Por definici\'on $\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p} \right) \left( \dfrac{a}{q} \right)$ y como $\left( \dfrac{a}{p} \right) \left( \dfrac{a}{q} \right)$
+ha de ser $1$, pero estos valores s\'olo pueden ser $1$ \'o $-1$ tenemos que o bien los dos valen $1$ o los dos valen $-1$ que son las dos condiciones que hemos considerado.
+\end{proof}
+
+A pesar de perder esta propiedad en relaci\'on con los residuos cuadr\'aticos que estudiaremos m\'as adelante, la gran ventaja del S\'imbolo de Jacobi son las
+propiedades que tiene que permiten su c\'alculo sin necesidad de conocer la factorizaci\'on de los n\'umeros involucrados.
+
+\begin{proposition}
+Sean $a,b \in {\mathbb Z}$ y sean $m$, $n$ enteros positivos impares. Entonces se cumplen las siguientes propiedades del s\'imbolo de Jacobi:
+\begin{enumerate}
+\item Si $a\equiv b~mod~n$ entonces $\left( \dfrac{a}{n} \right) = \left( \dfrac{b}{n} \right)$.
+\item $\left( \dfrac{a^2}{n} \right) = 1$.
+\item $\left( \dfrac{ab}{n} \right) = \left( \dfrac{a}{n} \right)\left( \dfrac{b}{n} \right)$.
+\item $\left( \dfrac{-1}{n} \right) = (-1)^{(n-1)/2}$.
+\item $\left( \dfrac{2}{n} \right) = (-1)^{(n^2-1)/8}$.
+\item $\left( \dfrac{m}{n} \right) = (-1)^{(n-1)(m-1)/4} \left( \dfrac{n}{m} \right)$.
+\end{enumerate}
+Esta \'ultima propiedad se conoce como Ley de Reciprocidad Cuadr\'atica.
+\end{proposition}
+\begin{proof}
+Ver \cite[Proposition 2.13]{Pardo} y \cite[Theorem 2.24]{Pardo}.
+\end{proof}
+
+\begin{remark}
+Aunque se han utilizado aqu\'i las f\'ormulas con los valores $(-1)^t$, estos valores se pueden calcular conociendo simplemente si $t$ es par o impar, y eso se puede deducir
+de todas las f\'ormulas a partir del valor de $n$ y $m$ como sigue: $(n-1)/2$ es par si $n \equiv 1~mod~4$ e impar si $n \equiv 3~mod~4$. Por otro lado $(n^2-1)/8$ siempre ser\'a
+entero puesto que $n^2-1$ es el producto de dos n\'umeros pares consecutivos $(n-1)(n+1)$ y uno de los dos necesariamente es un m\'ultiplo de $4$. Adem\'as, si $n \equiv \pm 1~mod~8$
+tendremos que $(n^2-1)/8$ es par, y si $n \equiv \pm 3 ~mod~ 8$ entonces este n\'umero ser\'a impar. Por \'ultimo, en la Ley de Reciprocidad Cuadr\'atica, tendremos que $(n-1)(m-1)/4$ es
+par si y s\'olo si $m \equiv n \equiv 3 ~mod~4$, lo cual se puede comprobar con un operador l\'ogico sencillo, por ejemplo en C se podr\'ia programar como un simple \verb!if(m & n & 2)!.
+\end{remark}
+
+Para el c\'alculo efectivo de $\left( \dfrac{a}{b} \right)$ se proceder\'ia del siguiente modo:
+
+\begin{algorithm}[C\'alculo del S\'imbolo de Jacobi]
+\label{algoSimJacob}
+Dados dos enteros positivos $a$ y $b$ con $b$ impar, esta funci\'on ${\sf Jacobi}(a,b)$ devuelve
+el s\'imbolo de Jacobi de dichos valores de forma recursiva.
+\begin{enumerate}
+\item En caso de que $a$ sea mayor que $b$, reducirlo m\'odulo $b$, $a := a ~ mod ~b$.
+\item Si $a$ es $0$, devolver $0$.
+\item Si $a$ es $1$, devolver $1$.
+\item Dividir $a$ por $2$ para ponerlo en la forma $a = 2^e a'$ con $a'$ impar. Si $e$ es par o $b \equiv \pm 1 ~mod~8$ poner $s := 1$, en caso contrario poner $s := -1$.
+\item Finalmente si $a' \equiv 3 ~mod~4$ y $b \equiv 3~mod~4$ devolver $-s {\sf Jacobi}(b,a')$ y en caso contrario devolver $s {\sf Jacobi}(b,a')$.
+\end{enumerate}
+\end{algorithm}
+\begin{proof}
+El algoritmo simplemente usa las propiedades del S\'imbolo de Jacobi: primero
+reduce m\'oduo $b$ (propiedad 1), elimina casos extremos y
+luego quita los factores $2$ calcul\'andolos
+separadamente por las propiedades $2$, $3$ y $5$.
+Por \'ultimo da la vuelta al s\'imbolo por la Ley de Reciprocidad Cuadr\'atica
+para llamar recursivamente a la misma funci\'on con un valor del segundo
+par\'ametro estrictamente menor, lo cual garantiza que el algoritmo terminar\'a.
+\end{proof}
+
+\section{El Problema de la Factorizaci\'on}
+
+Aunque directamente este problema no est\'a entre los utilizados para las pruebas
+de conocimiento cero que vamos a estudiar en esta memoria, s\'i lo est\'a de forma
+indirecta y por su importancia merece un apartado especial.
 
 \hfil
 
-\section{Problema del logaritmo discreto}
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema de la factorizaci\'on. \\
+	\textit{Parámetros:} & Sea $N$ un entero positivo no primo. \\
+	\textit{Pregunta:} & Encontrar valores $a$ y $b$ distintos de $1$ tales que $N = ab$. \\
+\end{tabular}
+\\
+
+\hfil
+
+Existen muchos algoritmos que nos permiten encontrar factores peque\~nos de $N$,
+el m\'as evidente de todos ellos es probar directamente dichos factores, pero existen otros
+m\'as sofisticados que tambi\'en son muy efectivos con factores razonablemente
+peque\~nos. El caso m\'as complicado es cuando $N$ es producto de dos factores primos $p$ y $q$
+de gran tama\~no, $N = pq$. Ese es precisamente el caso que resultar\'a de
+inter\'es para las pruebas de conocimiento cero.
+
+Si pretendemos buscar un factor simplemente haciendo divisiones y calculando los
+restos, lo que podemos garantizar es que el factor aparecer\'a antes de llegar a
+la ra\'iz cuadrada de $N$, por lo que como m\'aximo tendremos que hacer $\sqrt{N}$
+divisiones. Esta aproximaci\'on al problema nos da una complejidad
+$O(\sqrt{N}) = O(e^{\frac{1}{2}\ln N})$ que es exponencial y totalmente imposible
+en el rango de valores en que nos movemos que son n\'umeros de cientos e incluso
+miles de cifras.
+
+Si nos centramos pues en los algoritmos que pueden resolver los casos del tipo
+$N = pq$ con $p$ y $q$ dos primos aproximadamente del mismo tama\~no, lo primero que tenemos que
+hacer es notar que hay un caso particular que permite factorizar $N$ cuando $p$
+y $q$ est\'an {\em demasiado} cercanos. Es el conocido como m\'etodo de factorizaci\'on
+de Fermat.
+
+Consiste en calcular $x_i = \lceil\sqrt{N}\rceil + i$ para valores de $i = 0,1,2,\cdots$
+y para cada uno de ellos calcular $x_i^2 - N$ que debe ser un valor relativamente peque\~no.
+Si para alguno de estos valores llegamos a un n\'umero que es un cuadrado perfecto,
+escribiremos $x_i^2 - N = y_i^2$ y por lo tanto $N = x_i^2 - y_i^2 =
+(x_i + y_i)(x_i - y_i)$, lo que nos da una factorizaci\'on de $N$.
+
+Este m\'etodo es muy efectivo si la diferencia entre $p$ y $q$ es muy peque\~na, pero no
+es efectivo en general.
+
+Sin embargo, nos permite introducir la t\'ecnica b\'asica en la que se basan casi
+todos los m\'etodos de factorizaci\'on, que es buscar valores $x$ e $y$ tales que
+$x^2 \equiv y^2 ~mod~N$, con lo que tendr\'iamos $(x-y)(x+y) = kN$ para alg\'un entero $k$.
+Esta relaci\'on puede dar una factorizaci\'on cuando $p$ y $q$ no se acumulan los dos en
+uno de los t\'erminos $x-y$ o $x+y$. Para extraer el factor simplemente tendr\'iamos que
+calcular $mcd(x-y,N)$. La posibilidad de que los dos factores est\'en juntos en $x-y$ o
+en $x+y$ existe, pero los m\'etodos de factorizaci\'on lo que nos proporcionan es
+varias relaciones de este tipo y la probabilidad de que encontremos el factor es alta.
+
+Para poder encontrar las relaciones del tipo $x^2 \equiv y^2 ~mod~N$ se utilizan
+los conceptos que vamos a introducir a continuaci\'on:
+
+\begin{definition}
+Sea $N$ un entero impar compuesto. Llamaremos una base de factores a un conjunto
+${\mathcal B} = \{ p_0 = -1, p_1, p_2, \cdots, p_k \}$ donde los valores $p_i$ con $i>0$ son
+n\'umeros primos peque\~nos. Se incluye normalmente a $-1$ como uno de los
+elementos de las bases de factores aunque no es primo.
+Dada una base de factores ${\mathcal B}$ y un entero n\'umero $x$, diremos
+que $x$ es ${\mathcal B}$-smooth\footnote{Se ha preferido la terminolog\'ia en
+ingl\'es porque la traducci\'on que podr\'ia ser ${\mathcal B}$-suave no se
+suele usar en los libros.} si $x^2~mod~N$ se puede factorizar
+completamente usando los factores de la base de factores ${\mathcal B}$.
+\end{definition}
+
+Los distintos tipos de factorizaci\'on intentan buscar n\'umeros ${\mathcal B}$-smooth
+de forma que podamos conseguir una cantidad suficiente de ellos. Cada n\'umero ${\mathcal B}$-smooth nos
+proporciona una relaci\'on como sigue:
+
+\[ x_t^2 \equiv z_t = p_0^{e_{t0}} p_1^{e_{t1}} \cdots p_k^{e_{tk}} \]
+
+Esta relaci\'on la almacenaremos con sus exponentes $e(z_t) = (e_{t0},e_{t1},\cdots,e_{tk})$ y llamaremos
+$d(z_t) = (d_{t0},d_{t1},\cdots,d_{tk}) = (e_{t0}~mod~2,e_{t1}~mod~2,\cdots,e_{tk}~mod~2) \in
+{\mathbb Z}_2^{k+1}$ el vector que resulta de reducir todas las coordenadas $e_{ij}$ m\'odulo $2$.
+Los elementos $d(z_t)$ son vectores en un espacio de dimensi\'on $k+1$, por lo tanto,
+si tenemos un n\'umero suficientemente grande de ellos (con seguridad si tenemos $k+2$), estos
+vectores ser\'an linealmente dependientes.
+
+Sean $\alpha_t \{0,1\}$ los coeficientes de una posible relaci\'on de dependencia lineal entre los
+vectores, es decir, $\sum_{t} \alpha_t d(z_t) = 0 \in {\mathbb Z}_2^{k+1}$. Puesto que los $d(z_t)$ eran las reducciones m\'odulo $2$ de los vectores $e(z_t)$, si
+aplicamos estas mismas relaciones a los vectores originales lo que obtenemos es $\sum_t \alpha_t e(z_t) = (2u_0, 2u_1, \cdots, 2u_k)$ con lo que podemos
+tomar $y= (-1)^{u_0} p_1 ^ {u_1} \cdots p_k^{u_k}$ con lo que obtenemos
+
+\[
+y^2 =  p_0^{2u_0} p_1 ^ {2u_1} \cdots p_k^{2u_k} = \prod_{i} p_i^{2u_i} = \prod_i p_i^{\sum_t \alpha_t e_{ti}} =
+\prod_i \prod_t \left(p_i^{e_{ti}}\right)^{\alpha_t} = \] \[\prod_t \prod_i \left(p_i^{e_{ti}}\right)^{\alpha_t} = \prod_t \left(\prod_i p_i^{e_{ti}}\right)^{\alpha_t} = \prod_t z_t^{\alpha_t} \equiv
+\prod_t x_t^{2\alpha_t} \equiv \left( \prod_t x_t^{\alpha_t}\right)^2~mod~N
+\]
+
+Con lo que, tomando $x = \prod_t x_t^{\alpha_t}$ hemos obtenido una relaci\'on del tipo $y^2 \equiv x^2~mod~N$ para cada una de las combinaciones lineales de los
+vectores que nos dan la dependencia lineal.
+
+Esta t\'ecnica se ha demostrado muy exitosa y los m\'etodos de factorizaci\'on la han ido perfeccionando para encontrar n\'umero ${\mathcal B}$-smooth de forma cada
+vez m\'as r\'apida. Los m\'etodos que usan esta t\'ecnica son el de las fracciones cont\'inuas (CFRAC), el de la criba cuadr\'atica multipolin\'omica (MPQS) y el del
+la criba de los cuerpos de n\'umeros (NFS).
+
+La complejidad de estos m\'etodos es subexponencial, concretamente la del NFS es $O(L_n[1/3,(64/9)^{1/3} + o(1)])$. Estos m\'etodos no permiten factorizar n\'umeros
+enormemente grandes (del orden de las 1000 cifras binarias), pero s\'i otros de moderada longitud (nos pocos cientos de cifras binarias).
+
+La situaci\'on del problema de la factorizaci\'on podr\'ia cambiar dram\'aticamente con la aparici\'on de los ordenadores cu\'anticos puesto que existen algoritmos
+eficientes para la factorizaci\'on con esta nueva tecnolog\'ia. Sin embargo, estos ordenadores est\'an todav\'ia en una fase experimental.
 
 
-% TODO Introducir aquí el problema del logaritmo discreto, poner ejemplo donde haya un generador, referenciar a los otros TFG y los algoritmos más conocimos, junto con sus complejidades O(?)
-%Index-Calculus, las diapositivas de la charla en mates.
+\section{El Problema de los Residuos Cuadr\'aticos}
+
+Podemos introducir ahora  el problema de decisión QR, donde dado un módulo $N$,
+compuesto e impar, decidir si un entero $x$ con símbolo de Jacobi $1$ respecto
+a $N$, es o no un residuo cuadrático:
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema de los residuos cuadr\'aticos (QR). \\
+	\textit{Parámetros:} & Un $N$ un entero impar tal que $N = pq$ para $p$ y \\
+	& $q$ primos, y el entero $x$ tal que $\left( \dfrac{x}{N} \right) = 1$. \\
+	\textit{Pregunta:} & ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N$? \\
+\end{tabular}
+\\
+
+\hfil
+
+Cuando un n\'umero $x$ es un residuo cuadr\'atico m\'odulo $N$, en particular lo
+es para $p$ y para $q$ por lo que el S\'imbolo de Jacobi va a ser $1$. La cantidad
+de valores para los que esto sucede es $\frac{(p-1)(q-1)}{4}$ tal y como vimos en
+la Proposici\'on~\ref{propResiduosPQ}. Tambi\'en podemos obtener que el S\'imbolo
+de Jacobi sea $1$ sin ser un residuo cuadr\'atico, eso sucede cuando $x$ no es residuo
+cuadr\'atico m\'odulo $p$ ni m\'odulo $q$. El n\'umero de valores para los que esto sucede
+es el mismo $\frac{(p-1)(q-1)}{4}$, por lo tanto, dado un n\'umero $x$ cuyo s\'imbolo
+de Jacobi sea $1$, tenemos una probabilidad de $\frac{1}{2}$ de que $x$ sea efectivamente
+un residuo cuadr\'atico en ${\mathbb Z}_{N}$, la misma que la de que no lo sea.
+
+Este problema es polin\'omicamente reducible (ver \ref{reducePoly:def}) al
+problema de la factorizaci\'on.
+
+\begin{proposition}
+	 $QR \leq_P FACTORIZACIÓN$
+\end{proposition}
+\begin{proof}
+Si conocieramos la descomposición en primos de $N = pq$, el algoritmo \ref{algoSimJacob} aplicado a cada uno de los factores,
+nos resuelve el problema es calcular el símbolo de Legendre de $x$ respecto de $p$ y de $q$ (que en este caso es el mismo que el S\'imbolo de Jacobi)
+por lo que podemos responder $Falso$ si alguno de estos s\'imbolos es $-1$ y $Verdadero$ si valen $1$.
+\end{proof}
+
+Si se desconoce la factorización de $N$, no se conoce a día de hoy ningún
+algoritmo eficiente para resolver el problema QR aparte del de intentar
+adivinar la respuesta, lo cual en nuestro caso se podr\'ia hacer con
+probabilidad $1/2$.
+
+Un problema asociado al de saber si un n\'umero es un residuo cuadr\'atico es el de encontrar efectivamente una ra\'iz cuadrada de dicho n\'umero.
+En el caso de que el m\'odulo sobre el que trabajemos sea primo, este problema se puede resolver de forma polin\'omica mediante el siguiente algoritmo:
+
+\begin{algorithm}[Tonelli]
+\label{algoTonelli}
+Sea $p$ un primo impar y $a$ un entero tal que $\left( \dfrac{a}{p} \right) = 1$.
+Este algoritmo nos devuelve una ra\'iz cuadrada de $a$ m\'odulo $p$.
+\begin{enumerate}
+\item Si $p \equiv 3 ~mod~4$ devolver $a^{(p+1)/4}~mod~p$.
+\item Si $p \equiv 1 ~mod~4$ realizar los siguientes pasos:
+\begin{enumerate}
+\item Encontrar $h \in {\mathbb Z}_p^*$ que no sea un residuo cuadr\'atico m\'odulo $p$. (Esto debe ser sencillo porque la mitad de los valores no lo son).
+\item Calcular $s \geq 0$ y $t$ impar tales que $p-1 = 2^s t$.
+\item Calcular $A := a^t ~mod~p$ y $H:=h^t~mod~p$. Asignar $v:=0$.
+\item Para cada $i$ desde $1$ hasta $s-1$ comprobar si $(AH^v)^{2^{s-1-i}} \equiv -1 ~mod~p$ y en caso positivo hacer $v := v + 2^i$.
+\item Devolver $a^{(t+1)/2} H^{v/2} ~mod~p$.
+\end{enumerate}
+\end{enumerate}
+\end{algorithm}
+\begin{proof}
+Ver \cite[Proposition 2.16]{Pardo}.
+\end{proof}
+
+En este algoritmo se calculan varias potencias modulares, eso se puede hacer de forma
+polin\'omica mediante el algoritmo de exponenciaci\'on modular para el cual existen
+distintas alternativas, ver \cite[Section 2.7.2]{Pardo}.
+
+Utilizando el Algoritmo de Tonelli podemos resolver el problema de calcular
+la ra\'iz cuadrada modular en el caso primo, y si conocemos la factorizaci\'on
+de $N = pq$, podemos combinar las ra\'ices cuadradas modulares para obtener una
+ra\'iz cuadrada m\'odulo $N$ tal y como vimos en la
+Proposici\'on~\ref{numResCuadpq:prop}.
+
+Sin embargo, conocer un m\'etodo para calcular ra\'ices cuadradas modulares es un problema
+equivalente a la factorizaci\'on a partir de un teorema debido a Rabin y que esencialmente nos
+dice lo siguiente: Supongamos que disponemos de un m\'etodo para calcular ra\'ices cuadradas
+modulares en ${\mathbb Z}_N$ con $N = pq$ producto de dos primos impares. Entonces elegimos
+aleatoriamente elementos $x \in {\mathbb Z}_N$ y los elevamos al cuadrado. Al
+resultado le aplicamos nuestro or\'aculo y obtenemos una ra\'iz cuadrada $y$ tal que $x^2
+\equiv y^2 ~mod~N$. Esta es precisamente la relaci\'on que nos proporcionaba
+la factorizaci\'on de $N$ utilizando las bases de factores, as\'i que podemos proceder del
+mismo modo y factorizar $N$ con $mcd(x-y,N)$. Como el or\'aculo lo podemos
+utilizar m\'ultiples veces, si obtenemos valores para los cuales $mcd(x-y,N) = 1$, podemos
+calcular nuevos candidatos hasta que obtengamos la factorizaci\'on.
 
 
-\textbf{TODO Introducir aquí el problema del logaritmo discreto}
-%
-%
-%
-%
-%
-%
+\section{El Problema del Logaritmo Discreto}
+
+El problema del logaritmo discreto vamos a considerarlo en dos versiones diferentes a lo largo de esta memoria. La primera versi\'on es en un grupo cualquiera:
 
 \hfil
 
@@ -341,3 +843,26 @@ La composición siempre es asociativa, y el elemento neutro es la aplicación id
 \\
 
 \hfil
+
+El grupo multiplicativo de los anillos de restos m\'odulo $p$ para $p$ primo, es decir, ${\mathbb Z}^*_p$ es un conocido grupo c\'iclico que se usa frecuentemente:
+
+\hfil
+
+\begin{tabular}{|ll}
+	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
+	\textit{Parámetros:} & Un n\'umero primo $p$ \\ & un generador $g$ de ${\mathbb Z}_p^*$,\\ & y un elemento $y\in {\mathbb Z}_p^*$. \\
+	\textit{Pregunta:} & ¿Conoce P el entero $s$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = s$? \\
+\end{tabular}
+\\
+
+\hfil
+
+La realidad es que la estructura del grupo $G$ es importante en los m\'etodos que se pueden aplicar para la resoluci\'on del problema. En la segunda versi\'on del algoritmo
+podemos hacer uso no solo de la estructura multiplicativa del anillo ${\mathbb Z}_p$ sino tambi\'en de la estructura de anillo, lo cual hace que existan algoritmos m\'as efectivos,
+concretamente existe un algoritmo denominado Index Calculus que utilizando una t\'ecnica parecida a la de las bases de factores, permite resolver el problema en tiempo subexponencial.
+
+Sin embargo, en grupos sin esa estructura adicional tendr\'iamos que recurrir a algoritmos menos efectivos, como por ejemplo el algoritmo Baby-Step Giant-Step que tiene una complejidad
+exponencial del orden de la raz\'iz cuadrada de $n$ con algunos factores adicionales logar\'itmicos.
+
+A la vista de esta situaci\'on, en el caso de utilizar grupos del tipo ${\mathbb Z}_p^*$ ser\'a necesario aumentar el tama\~no del grupo para evitar el efecto de los algoritmos
+como el Idex Calculus.
