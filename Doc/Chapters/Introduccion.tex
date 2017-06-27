@@ -11,50 +11,40 @@ Existe un área de la criptología que se encarga de abordar este problema, demo
 \begin{quote}
 Imaginemos una cueva, donde el camino principal se bifurca y al final de cada pasillo los caminos se vuelven a encontrar, formando una especie de anillo. En el punto en que se unen, dentro de la cueva, hay una puerta mágica con una palabra secreta, la cual permite abrirla y cruzar al otro lado.
 
-\textbf{P}aula conoce la clave secreta y quiere \textbf{p}robarlo a su amigo Víctor, pero sin tener que revelársela.
-\marginpar{\includegraphics[width=1.\linewidth]{gfx/graficoJL_ZKP_1}\\La cueva \citep{ZKPcave:fig}
-. Paula entra por A o B al azar. Víctor espera fuera.}
-Paula y Víctor quedan en la entrada de la cueva con unos \textit{walkie-talkies}, de modo que Víctor esperará fuera y Paula entrará a la cueva y tomará uno de los pasillos, que llamaremos A y B, sin decirle cuál a Víctor.
+\textbf{P}aula conoce la clave secreta y quiere \textbf{p}robarlo a su amigo Víctor, pero sin tener que revelársela. Paula y Víctor quedan en la entrada de la cueva con unos \textit{walkie-talkies}, de modo que Víctor esperará fuera y Paula entrará a la cueva y tomará uno de los pasillos, que llamaremos A y B, sin decirle cuál a Víctor.
 
-%\begin{figure}[bth]
-%	\begin{center}
-%		\includegraphics[width=.45\linewidth]{gfx/graficoJL_ZKP_1}
-%	\end{center}
-%	\caption{La cueva \citep{ZKPcave:fig}. Paula entra por A o B al azar, Víctor espera fuera.}
-%	\label{fig:ZKPcave1}
-%\end{figure}
 
 Al llegar a la puerta, Paula avisa a Víctor para que entre a la cueva y espere en la bifurcación, donde \textbf{V}íctor, para intentar \textbf{v}erificar que Paula conoce la palabra secreta, le indicará por qué pasillo quiere que vuelva, el A o el B.
 
 
-%\begin{figure}[bth]
-%	\begin{center}
-%		\includegraphics[width=.45\linewidth]{gfx/graficoJL_ZKP_2}
-%	\end{center}
-%	\caption{La cueva. Víctor elige al azar por dónde quiere que regrese Paula.}
-%	\label{fig:ZKPcave2}
-%\end{figure}
+Si Paula realmente conoce el secreto, podrá volver a la bifurcación por el pasillo solicitado, abriendo, si es preciso, la puerta.
 
-Si Paula realmente conoce el secreto, podrá volver a la bifurcación por el pasillo solicitado, abriendo, si es preciso, la puerta.\marginpar{\includegraphics[width=1.\linewidth]{gfx/graficoJL_ZKP_2}\\La cueva. Víctor elige al azar por dónde quiere que regrese Paula.}
 Pero en caso de no conocer la clave, al entrar por uno de los pasillos, tenía una probabilidad del $50\%$ de adivinar cuál pediría Víctor.
 
-
-%\begin{figure}[bth]
-%	\begin{center}
-%		\includegraphics[width=.45\linewidth]{gfx/graficoJL_ZKP_3}
-%	\end{center}
-%	\caption{La cueva. Paula vuelve por el camino pedido.}
-%	\label{fig:ZKPcave3}
-%\end{figure}
-
 Víctor no se queda contento con una sola prueba, pues Paula podría haber tenido suerte, así que la repiten hasta que se convence. Con unas 20 repeticiones, Paula tendría solo una probabilidad de $2^{-20}$, prácticamente nula, de acertar todas las veces y engañar así a Víctor.
-\marginpar{\includegraphics[width=1.\linewidth]{gfx/graficoJL_ZKP_3}\\La cueva. Paula vuelve por el camino pedido.}
-
 
 \textbf{E}va, curiosa de qué hacían Víctor y Paula en la cueva, \textbf{e}spía a Víctor durante todo el proceso. Eva no sabe si Paula y Víctor han acordado previamente qué pasillo pedir por el \textit{walkie-talkie}, y sólo Víctor está seguro de que él los estaba eligiendo al azar y sin previo acuerdo.%, por eso, Eva no puede estar segura de si Paula conoce la clave secreta, o bien estaban \textbf{s}imulando todo para engañarla por cotilla.
 
 Más tarde Eva habla con Víctor, que está seguro de que Paula conoce la clave, y éste querría convencer también a Eva, pero como él no conoce la clave, no puede repetir la prueba a Eva, sólo Paula puede realizarla con éxito.
 \end{quote}
+
+
+
+\begin{figure}[!htb]
+	\minipage{0.3\textwidth}
+	\includegraphics[width=\linewidth]{gfx/graficoJL_ZKP_1}
+	\caption*{La cueva \citep{ZKPcave:fig}. Paula entra por A o B al azar. Víctor espera fuera.}\label{fig:awesome_image1}
+	\endminipage\hfill
+	\minipage{0.3\textwidth}
+	\includegraphics[width=\linewidth]{gfx/graficoJL_ZKP_2}
+	\caption*{Víctor elige al azar por dónde quiere que regrese Paula.}\label{fig:awesome_image2}
+	\endminipage\hfill
+	\minipage{0.3\textwidth}%
+	\includegraphics[width=\linewidth]{gfx/graficoJL_ZKP_3}
+	\caption*{Paula vuelve por el camino pedido.\\ }\label{fig:awesome_image3}
+	\endminipage
+\end{figure}
+
 
 
 \hfil
@@ -74,5 +64,5 @@ enunciaremos pruebas que utilicen los problemas anteriores, y demostraremos que 
 La tercera parte de la memoria estar\'a dedicada a las aplicaciones prácticas de estas Pruebas de Conocimiento Cero. La utilizaci\'on de estos algoritmos permite resolver problemas
 relacionados con la privacidad de las comunicaciones, aumentando la seguridad y la funcionalidad de las aplicaciones.
 
-Por \'ultimo, dedicaremos un ap\'endice a mostrar algunas implementaciones de estos algoritmos utilizando {\tt sage}, que es un software matem\'atico basado en python de
+Por \'ultimo, dedicaremos un ap\'endice a mostrar algunas implementaciones de estos algoritmos utilizando {\tt sage}, que es un software matem\'atico basado en Python de
 libre distribuci\'on.
