@@ -21,7 +21,7 @@
   \item Se dice que una arista es \textit{incidente} con un vértice $v$ cuando $v$ es uno de sus extremos.
 	\item El grado de un nodo $v \in V$ es el n\'umero de aristas incidentes en \'el.
   \item Un camino es una sucesi\'on de nodos $(v_1,v_2,\cdots,v_k)$ tales que
-	para todo $i \in \{1,\cdots,k-1\}$ se tiene que $(v_i,v_{i+1}) \in V$.
+	para todo $i \in \{1,\cdots,k-1\}$ se tiene que $(v_i,v_{i+1}) \in E$.
 	\item La longitud de un camino se define como el n\'umero de aristas que lo forman,
 	en el caso del camino $(v_1,v_2,\cdots,v_k)$ la longitud es $k-1$.
 	\item Un camino $(v_1,v_2,\cdots,v_k)$ se dir\'a un ciclo si $v_1 = v_k$ y no
@@ -56,15 +56,15 @@ sin repetir ninguno (salvo los extremos).
 \end{proof}
 
 \begin{definition}
-	Una \textit{coloración} de un grafo $G=(V,E)$ es una aplicación $c:V\rightarrow
-	\{1,2,\dots , l\}$. El valor $c(v_i)$ es el \textit{color} correspondiente al
+	Una \textit{coloración} de un grafo $G=(V,E)$ es una aplicación $\phi:V\rightarrow
+	\{1,2,\dots , l\}$. El valor $\phi(v_i)$ es el \textit{color} correspondiente al
 	nodo $v_i$.
 \end{definition}
 
 \begin{definition}
 	Una \textit{coloración propia} de un grafo es una coloración que hace corresponder
 	colores diferentes a vértices adyacentes, es decir
-	$\forall (u,v)\in E$ se tiene que $c(u)\neq c(v)$.
+	$\forall (u,v)\in E$ se tiene que $\phi(u)\neq \phi(v)$.
 \end{definition}
 
 
@@ -83,7 +83,7 @@ utilizados en pruebas de conocimiento cero.
 
 \hfil
 
-\begin{tabular}{|ll}
+\begin{tabular}{|ll}\label{problemaGI}
 	\textit{Nombre:} & Problema GI ({\em Graph Isomorphism}). \\
 	\textit{Parámetros:} & Dos grafos $G_1 = (V_1, E_1)$ y $G_2 = (V_2, E_2)$,
 	\\ & del mismo orden $\mid V_1 \mid = \mid V_2 \mid = n$. \\
@@ -99,7 +99,7 @@ Una forma de tratar este problema por fuerza bruta consistir\'ia en calcular
 todas las posibles premutaciones de $n$ elementos para ver si una de ellas
 cumple las concidiones requeridas para el isomorfismo de grafos. Puesto que el
 n\'umero de permutaciones de $n$ elementos es $n!$, esta aproximaci\'on ser\'ia
-claramente polin\'omica e intratable para valores de $n$ m\'inimamente grandes.
+claramente exponencial e intratable para valores de $n$ m\'inimamente grandes.
 
 Sin embargo, el problema puede tener casos en los cuales la soluci\'on sea
 relativamente sencilla ya que los isomorfismos de grafos conservan muchas de las
@@ -119,15 +119,15 @@ pero ciertamente mejores que la exponencial.
 Muy recientemente se han producido novedades en relaci\'on con este problema. Concretamente
 en el a\~no 2015 el profesor László Babai present\'o un algoritmo quasi-polin\'omico para
 el problema del isomorfismo de grafos. Esta publicaci\'on se puede consultar por ejemplo en \cite{babai}.
-Sin embargo el 4 de enero de 2017, el propio autor se retractaba de su propio resultado al haber sido
+Sin embargo el 4 de enero de 2017, el propio autor se retractaba de su resultado al haber sido
 detectado un error en la demostraci\'on. Poco despu\'es, el 9 de enero de 2017, anunciaba una versi\'on
 corregida del problema que parece que se ha confirmado como correcta.
 
 La complejidad que presenta este algoritmo es $e^{(\ln n)^{O(1)}}$. Las consecuencias que esto puede
 tener en la utilizaci\'on del problema del isomorfismo de grafos en algoritmos de seguridad criptogr\'afica
-es algo que escapa a nuestros conocimientos aunque no parece que se haya producido ninguna reacci\'on
+es algo que escapa a nuestros conocimientos, aunque no parece que se haya producido ninguna reacci\'on
 importante en relaci\'on con este resultado. En cualquier caso, conviene estar atentos a los avances
-en este sentido por si es conveniente usar t\'ecnicas alternativas.
+en este sentido por si debemos usar t\'ecnicas alternativas.
 
 La historia de este descubrimiento se puede consultar en la revista Investigaci\'on y Ciencia,
 edici\'on espa\~nola de la
@@ -177,7 +177,7 @@ comprobar que un ciclo concreto cumple las condiciones de ciclo hamiltoniano es 
 	\textit{Nombre:} & Problema G3C. \\
 	\textit{Parámetros:} &Un grafo $G=(V,E)$. \\
 	\textit{Pregunta:} & ¿Existe una función
-	$c : V \to \{1,2,3\}$ tal que \\ & $\forall (u,v)\in E$, se cumple $c(u)\neq c(v)$? \\
+	$\phi : V \to \{1,2,3\}$ tal que \\ & $\forall (u,v)\in E$, se cumple $\phi(u)\neq \phi(v)$? \\
 \end{tabular}
 \\
 
@@ -204,7 +204,7 @@ diciendo que dicha coloraci\'on es imposible.
 El problema es totalmente diferente en el caso de que dispongamos de tres colores.
 Dado un nodo cualquiera con un color asignado, por ejemplo $1$, nos da dos opciones
 para la coloraci\'on de los nodos adyacentes, o bien $2$ o bien $3$. Podemos tratar
-de probar todas las opciones, con lo que obtendr\'iamos un gran n\'umero de opciones
+de probar todas las opciones, con lo que obtendr\'iamos un gran n\'umero de posibilidades
 cuando tratamos con un caso gen\'erico (por supuesto casos particulares pueden tener
 soluciones sencillas).
 

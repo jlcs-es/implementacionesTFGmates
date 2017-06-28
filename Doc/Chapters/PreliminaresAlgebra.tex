@@ -15,7 +15,7 @@
 
 En este cap\'itulo vamos a hacer un repaso de las cuestiones b\'asicas de
 aritm\'etica entera y modular en las que se basan los problemas utilizados
-para las pruebas de conocimiento cero que desarrollaremos en los siguientes
+para las pruebas de conocimiento cero que estudiaremos en los siguientes
 cap\'itulos.
 
 Aunque para muchos de estos problemas se han desarrollado t\'ecnicas muy
@@ -28,7 +28,7 @@ secreto.
 Llamar a estos problemas {\em Teor\'ia de N\'umeros} podr\'ia considerarse
 excesivo, podr\'iamos simplemente llamarlos problemas artim\'eticos, pero
 hemos preferido la terminolog\'ia de {\em Teor\'ia de N\'umeros} para ser
-coherente con muchos textos que incluyen estos m\'etodos dentro del
+coherentes con muchos textos que incluyen estos m\'etodos dentro del
 ep\'igrafe de {\em Introducci\'on a la Teor\'ia de N\'umeros}.
 
 \section{Aritm\'etica Entera y Modular}
@@ -117,7 +117,7 @@ $\forall a,b,c \in A$ se tiene $a\cdot(b+c)=a\cdot b + a\cdot c$ y $(b+c)\cdot a
 
 El anillo es \textit{conmutativo} si lo es el producto. En general, no todos los
 elementos de un anillo son invertibles (es decir, tienen inverso para la multiplicaci\'on),
-por ejemplo el elemento $0$ nunca no es. Un anillo conmutativo donde todo elemento
+por ejemplo el elemento $0$ nunca lo es. Un anillo conmutativo donde todo elemento
 distinto de cero es invertible, se dice que es un \textit{cuerpo}.
 \end{definition}
 
@@ -129,7 +129,7 @@ multiplicación usual $\mathbb{Z}^* = \{-1,1\}$.
 Los elementos invertibles tambi\'en los llamaremos {\em unidades} del anillo $A$.
 
 Si $A$ es un cuerpo, por definici\'on $A^* = A \setminus \{0\}$, por ejemplo
-${\mathbb Q}^* = {\mathbb Q} \setminus \{0\}$ o ${\mathbb R}^* = {\mathbb R}\setminus \{0\}$.
+${\mathbb Q}^* = {\mathbb Q} \setminus \{0\}$ ó ${\mathbb R}^* = {\mathbb R}\setminus \{0\}$.
 \end{definition}
 
 \begin{proposition}
@@ -222,7 +222,7 @@ para referirnos a la clase de equivalencia del $3$ en el conjunto cociente ${\ma
 Esto en general simplifica las notaciones y no causa problemas de interpretaci\'on.
 
 La utilizaci\'on de $-~mod~n$ como un operador entre ${\mathbb Z}$ y $\{0,1,\cdots,n-1\}$
-no es del todo est\'andar, pero la utilizaremos en esta memoria por que resulta c\'omoda
+no es del todo est\'andar, pero la utilizaremos en esta memoria porque resulta c\'omoda
 para trabajar en aritm\'etica modular y en la pr\'actica, casi todos los lenguajes de
 programaci\'on tienen el reducido m\'odulo $n$ como una funci\'on m\'as.
 
@@ -242,12 +242,12 @@ elegido puesto que la congruencia respeta la suma. Lo mismo sucede con el produc
 el producto de las clases, es la clase del producto de dos representantes
 cualesquiera de las clases.
 
-Esta definici\'on que parece muy complicada, se simplifica mucho en la pr\'actica
+Esta definici\'on se simplifica mucho en la pr\'actica
 cuando tenemos elegidos unos representantes de las clases y un operador como $~mod~n$
 puesto que podemos partir del conjunto $\{0,1,\cdots,n-1\}$, hacer las operaciones de suma
 y producto con esos representante y si el resultado final se sale fuera del conjunto de
 representantes, aplicar el operador $~mod~n$ al resultado. De esta forma podemos decir
-que en en anillo ${\mathbb Z}_2$ se tiene que $1+1=0$ puesto que $1+1$ ser\'ia $2$
+que en el anillo ${\mathbb Z}_2$ se tiene que $1+1=0$ puesto que $1+1$ ser\'ia $2$
 pero al aplicar el operador $~mod~2$ obtenemos el resultado $0$.
 
 Para prodecer de esta forma, es fundamental tener un m\'etodo para calcular el reducido
@@ -353,7 +353,7 @@ $a$ es una unidad con inverso $r$.
 
 Rec\'iprocamente, si $a$ es una unidad con inverso $r$ tenemos que $ar \equiv
 1~(mod~n)$ y por lo tanto $ar = 1 + ns$ para alg\'un $s$. Si $d$ es el m\'aximo
-com\'un divisor de $n$ y $a$, en particular $d$ divide a $ar$ y a $nr$ por lo
+com\'un divisor de $n$ y $a$, en particular $d$ divide a $ar$ y a $ns$ por lo
 que divide a $ar-ns = 1$, lo cual prueba que $d$ necesariamente ha de ser $1$.
 \end{proof}
 
@@ -379,7 +379,7 @@ pero eso es claro porque si $p$ es primo, no puede tener un factor com\'un disti
 \end{proof}
 
 \begin{remark}
-De la proposici\'on anterior, deducimos que $p$ es un n\'umero primo $\varphi(p) = p-1$.
+De la proposici\'on anterior, deducimos que si $p$ es un n\'umero primo, entonces $\varphi(p) = p-1$.
 \end{remark}
 
 \begin{theorem}[de Euler]
@@ -387,7 +387,7 @@ Para cualquier $a \in {\mathbb Z}_n^*$ se tiene que $a^{\varphi(n)} \equiv 1 ~(m
 \end{theorem}
 \begin{proof}
 Puesto que las unidades forman un grupo abeliano finito, esto es un caso particular
-de la Proposici\'on~\ref{profLagrange1}.
+de la Proposici\'on~\ref{propLagrange1}.
 \end{proof}
 
 \begin{proposition}
@@ -412,7 +412,7 @@ $f(x) = (x~mod~m, x~mod~n)$.
 Los operadores $-~mod~m$ y $-~mod~n$ respetan la suma y el producto, por lo que
 $f$ respeta estas dos operaciones. El punto clave de la demostraci\'on es ver cual es
 la funci\'on inversa de $f$ y esta viene dada del siguiente modo: Utilizando el Algoritmo
-de Euclides Extendido tomemos $r$ y $s$ tales que $rm+sn =1$. Dado un para de elementos
+de Euclides Extendido tomemos $r$ y $s$ tales que $rm+sn =1$. Dado un par de elementos
 $a \in {\mathbb Z}_m$ y $b \in {\mathbb Z}_n$ podemos calcular $x = asn+brm$ y vemos que
 $a = a1 = arm+asn = x + (a-b)rm$ por lo que $a \equiv x~mod~m$. De forma similar se ve
 que $b \equiv x~mod~n$ por lo que concluimos que $f(x) = (a,b)$. Formalmente esto prueba que
@@ -430,7 +430,7 @@ Seam $m$ y $n$ enteros coprimos, entonces $\varphi(mn)=\varphi(m)\varphi(n)$.
 El isomorfismo de anillos que nos da el Teorema Chino de los Restos nos proporciona una
 biyecci\'on entre los conjuntos de unidades ${\mathbb Z}_{mn}^*$ y ${\mathbb Z}_m^* \times
 {\mathbb Z}_n^*$, por lo que el n\'umero de elementos de estos dos conjuntos es
-el mismo, pero dicho n\'umero es el el primer caso $\varphi(mn)$ y en el segundo $\varphi(m)\varphi(n)$.
+el mismo, pero dicho n\'umero es en el primer caso $\varphi(mn)$ y en el segundo $\varphi(m)\varphi(n)$.
 \end{proof}
 
 \begin{corollary}
@@ -519,22 +519,22 @@ Adem\'as, si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
 correspondientes anillos, podemos combinarlas mediante el Teorema Chino de los Restos
 para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
 
-En particular esto es cierto cuando queramos estudiar los residuos cuadr\'aticos en
+En particular, esto es cierto cuando queramos estudiar los residuos cuadr\'aticos en
 ${\mathbb Z}_{pq}$ con $p$ y $q$ dos primos impares distintos, que son en particular coprimos.
 \end{proposition}
 \begin{proof}
 Esto es consecuencia directa del isomorfismo de anillos $f:{\mathbb Z}_{mn} \to {\mathbb Z}_m \times {\mathbb Z}_n$ dado por el Teorema Chino de los Restos, ya que si
 $c^2 \equiv x ~mod~mn$ entonces podemos tomar $a = c~mod~m$ y $b = c~mod~n$ de forma que $a^2 \equiv c^2 \equiv x ~mod~m$ y $b^2 \equiv c^2 \equiv x~mod~n$. El
 el sentido contrario, si tenemos $a$ y $b$ ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$, entonces podemos combinarlas a un $c \in {\mathbb Z}_{mn}$ tal que
-$x \equiv a \equiv c^2~mod~m$ y $x \equiv b \equiv c^2 ~mod~n$ por lo que $f(x-c^2) = 0$ y usando que $f$ es inyectiva, tenemos que $x \equiv c^2 ~mod~mn$.
+$x \equiv a^2 \equiv c^2~mod~m$ y $x \equiv b^2 \equiv c^2 ~mod~n$ por lo que $f(x-c^2) = 0$ y usando que $f$ es inyectiva, tenemos que $x \equiv c^2 ~mod~mn$.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}\label{corNumResCuad}
 Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
 \end{corollary}
 \begin{proof}
 Hemos visto que un residuo cuadr\'atico m\'odulo $n$ es combinaci\'on de los residuos cuadr\'aticos de ${\mathbb Z}_p$ y ${\mathbb Z}_q$, pero hay $\frac{p-1}{2}$ formas
-de elegir uno en ${\mathbb Z}_p$ y $\frac{q-1}{2}$ formas de elegirlo en ${\mathbb Z}_q$, por lo que en total tendremos $\frac{(p-1)(q-1)}{4}$.
+de elegir uno en ${\mathbb Z}_p$ y $\frac{q-1}{2}$ formas de elegir otro en ${\mathbb Z}_q$, por lo que en total tendremos $\frac{(p-1)(q-1)}{4}$.
 \end{proof}
 
 Para identificar los residuos cuadráticos en el caso ${\mathbb Z}_p$ con $p$ primo, disponemos de una herramienta muy útil:
@@ -559,7 +559,7 @@ como S\'imbolo de Jacobi (tambi\'en denominado S\'imbolo de Jacobi-Kronecker en 
 
 \begin{definition}
 Sea $n$ un entero impar positivo cuya descomposici\'on en factores primos es $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$ y sea $a$ un entero. Entonces definimos
-el s\'imbolo de Jacobi de $a$ y $n$ como
+el \textit{s\'imbolo de Jacobi} de $a$ y $n$ como
 \[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
 En la parte derecha de la igualdad, los s\'imbolos que aparecen son los de Legendre puesto que los $p_i$ son primos. En la parte izquierda tenemos el S\'imbolo de Jacobi
 que ser\'a igual al s\'imbolo de Legendre cuando tengamos el caso $n$ primo.
@@ -571,15 +571,19 @@ Un ejemplo importante de este hecho es el caso en que $n$ sea el producto de dos
 \begin{proposition}
 \label{propResiduosPQ}
 Sean $p$ y $q$ dos primos impares, $n = pq$ y $a \in {\mathbb Z}_n^*$, entonces $\left( \dfrac{a}{n} \right) = 1$ si y s\'olo si se cumple alguna de estas dos condiciones, o
-bien $a$ es un residuo cuadr\'atico m\'odulo $n$, o bien $a~mod~p$ y $a~mod~p$ son ambos no residuos cuadr\'aticos m\'odulo $n$.
+bien $a$ es un residuo cuadr\'atico m\'odulo $n$, o bien $a~mod~p$ y $a~mod~q$ son ambos no residuos cuadr\'aticos.
 \end{proposition}
 \begin{proof}
 Por definici\'on $\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p} \right) \left( \dfrac{a}{q} \right)$ y como $\left( \dfrac{a}{p} \right) \left( \dfrac{a}{q} \right)$
-ha de ser $1$, pero estos valores s\'olo pueden ser $1$ \'o $-1$ tenemos que o bien los dos valen $1$ o los dos valen $-1$ que son las dos condiciones que hemos considerado.
+ha de ser $1$, pero como estos valores s\'olo pueden ser $1$ \'o $-1$, tenemos que, o bien los dos valen $1$, o bien los dos valen $-1$, que son las dos condiciones que hemos considerado.
 \end{proof}
 
-A pesar de perder esta propiedad en relaci\'on con los residuos cuadr\'aticos que estudiaremos m\'as adelante, la gran ventaja del S\'imbolo de Jacobi son las
-propiedades que tiene que permiten su c\'alculo sin necesidad de conocer la factorizaci\'on de los n\'umeros involucrados.
+\begin{remark}
+	Una notaci\'on utilizada en las pruebas de conocimiento cero es escribir $\mathbb{Z}_n^Q$ para el conjunto de los valores con S\'imbolo de Jacobi $1$, $\mathbb{Z}_n^{Q+}$ para el subconjunto de $\mathbb{Z}_n^Q$ que son residuos cuadr\'aticos, y  $\mathbb{Z}_n^{Q-}$ para los no-residuos cuadr\'aticos. Se sigue que $\mathbb{Z}_n^Q = \mathbb{Z}_n^{Q+} \cup \mathbb{Z}_n^{Q-}$ y $\mathbb{Z}_n^{Q+} \cap \mathbb{Z}_n^{Q-} = \emptyset $.
+\end{remark}
+
+A pesar de perder la capacidad de identificar los residuos cuadr\'aticos tal como hacía el S\'imbolo de Legendre, la gran ventaja del S\'imbolo de Jacobi son las
+propiedades que tiene y que permiten su c\'alculo sin necesidad de conocer la factorizaci\'on de los n\'umeros involucrados.
 
 \begin{proposition}
 Sean $a,b \in {\mathbb Z}$ y sean $m$, $n$ enteros positivos impares. Entonces se cumplen las siguientes propiedades del s\'imbolo de Jacobi:
@@ -602,7 +606,7 @@ Aunque se han utilizado aqu\'i las f\'ormulas con los valores $(-1)^t$, estos va
 de todas las f\'ormulas a partir del valor de $n$ y $m$ como sigue: $(n-1)/2$ es par si $n \equiv 1~mod~4$ e impar si $n \equiv 3~mod~4$. Por otro lado $(n^2-1)/8$ siempre ser\'a
 entero puesto que $n^2-1$ es el producto de dos n\'umeros pares consecutivos $(n-1)(n+1)$ y uno de los dos necesariamente es un m\'ultiplo de $4$. Adem\'as, si $n \equiv \pm 1~mod~8$
 tendremos que $(n^2-1)/8$ es par, y si $n \equiv \pm 3 ~mod~ 8$ entonces este n\'umero ser\'a impar. Por \'ultimo, en la Ley de Reciprocidad Cuadr\'atica, tendremos que $(n-1)(m-1)/4$ es
-par si y s\'olo si $m \equiv n \equiv 3 ~mod~4$, lo cual se puede comprobar con un operador l\'ogico sencillo, por ejemplo en C se podr\'ia programar como un simple \verb!if(m & n & 2)!.
+impar si y s\'olo si $m \equiv n \equiv 3 ~mod~4$, lo cual se puede comprobar con un operador l\'ogico sencillo, por ejemplo en C se podr\'ia programar como un simple \verb!if(m & n & 2)!.
 \end{remark}
 
 Para el c\'alculo efectivo de $\left( \dfrac{a}{b} \right)$ se proceder\'ia del siguiente modo:
@@ -664,7 +668,7 @@ miles de cifras.
 Si nos centramos pues en los algoritmos que pueden resolver los casos del tipo
 $N = pq$ con $p$ y $q$ dos primos aproximadamente del mismo tama\~no, lo primero que tenemos que
 hacer es notar que hay un caso particular que permite factorizar $N$ cuando $p$
-y $q$ est\'an {\em demasiado} cercanos. Es el conocido como m\'etodo de factorizaci\'on
+y $q$ son {\em demasiado} cercanos. Es el conocido como m\'etodo de factorizaci\'on
 de Fermat.
 
 Consiste en calcular $x_i = \lceil\sqrt{N}\rceil + i$ para valores de $i = 0,1,2,\cdots$
@@ -693,7 +697,7 @@ Sea $N$ un entero impar compuesto. Llamaremos una base de factores a un conjunto
 ${\mathcal B} = \{ p_0 = -1, p_1, p_2, \cdots, p_k \}$ donde los valores $p_i$ con $i>0$ son
 n\'umeros primos peque\~nos. Se incluye normalmente a $-1$ como uno de los
 elementos de las bases de factores aunque no es primo.
-Dada una base de factores ${\mathcal B}$ y un entero n\'umero $x$, diremos
+Dada una base de factores ${\mathcal B}$ y un n\'umero entero $x$, diremos
 que $x$ es ${\mathcal B}$-smooth\footnote{Se ha preferido la terminolog\'ia en
 ingl\'es porque la traducci\'on que podr\'ia ser ${\mathcal B}$-suave no se
 suele usar en los libros.} si $x^2~mod~N$ se puede factorizar
@@ -712,10 +716,10 @@ Los elementos $d(z_t)$ son vectores en un espacio de dimensi\'on $k+1$, por lo t
 si tenemos un n\'umero suficientemente grande de ellos (con seguridad si tenemos $k+2$), estos
 vectores ser\'an linealmente dependientes.
 
-Sean $\alpha_t \{0,1\}$ los coeficientes de una posible relaci\'on de dependencia lineal entre los
+Sean $\alpha_t \in \{0,1\}$ los coeficientes de una posible relaci\'on de dependencia lineal entre los
 vectores, es decir, $\sum_{t} \alpha_t d(z_t) = 0 \in {\mathbb Z}_2^{k+1}$. Puesto que los $d(z_t)$ eran las reducciones m\'odulo $2$ de los vectores $e(z_t)$, si
 aplicamos estas mismas relaciones a los vectores originales lo que obtenemos es $\sum_t \alpha_t e(z_t) = (2u_0, 2u_1, \cdots, 2u_k)$ con lo que podemos
-tomar $y= (-1)^{u_0} p_1 ^ {u_1} \cdots p_k^{u_k}$ con lo que obtenemos
+tomar $y= (-1)^{u_0} p_1 ^ {u_1} \cdots p_k^{u_k}$ de modo que obtenemos
 \[
 y^2 =  p_0^{2u_0} p_1 ^ {2u_1} \cdots p_k^{2u_k} = \prod_{i} p_i^{2u_i} = \prod_i p_i^{\sum_t \alpha_t e_{ti}} =
 \prod_i \prod_t \left(p_i^{e_{ti}}\right)^{\alpha_t} = \] \[\prod_t \prod_i \left(p_i^{e_{ti}}\right)^{\alpha_t} = \prod_t \left(\prod_i p_i^{e_{ti}}\right)^{\alpha_t} = \prod_t z_t^{\alpha_t} \equiv
@@ -725,12 +729,12 @@ y^2 =  p_0^{2u_0} p_1 ^ {2u_1} \cdots p_k^{2u_k} = \prod_{i} p_i^{2u_i} = \prod_
 Con lo que, tomando $x = \prod_t x_t^{\alpha_t}$ hemos obtenido una relaci\'on del tipo $y^2 \equiv x^2~mod~N$ para cada una de las combinaciones lineales de los
 vectores que nos dan la dependencia lineal.
 
-Esta t\'ecnica se ha demostrado muy exitosa y los m\'etodos de factorizaci\'on la han ido perfeccionando para encontrar n\'umero ${\mathcal B}$-smooth de forma cada
+Esta t\'ecnica se ha demostrado muy exitosa y los m\'etodos de factorizaci\'on la han ido perfeccionando para encontrar n\'umeros ${\mathcal B}$-smooth de forma cada
 vez m\'as r\'apida. Los m\'etodos que usan esta t\'ecnica son el de las fracciones cont\'inuas (CFRAC), el de la criba cuadr\'atica multipolin\'omica (MPQS) y el del
 la criba de los cuerpos de n\'umeros (NFS).
 
 La complejidad de estos m\'etodos es subexponencial, concretamente la del NFS es $O(L_n[1/3,(64/9)^{1/3} + o(1)])$. Estos m\'etodos no permiten factorizar n\'umeros
-enormemente grandes (del orden de las 1000 cifras binarias), pero s\'i otros de moderada longitud (nos pocos cientos de cifras binarias).
+enormemente grandes (del orden de las 1000 cifras binarias), pero s\'i otros de moderada longitud (unos pocos cientos de cifras en binario).
 
 La situaci\'on del problema de la factorizaci\'on podr\'ia cambiar dram\'aticamente con la aparici\'on de los ordenadores cu\'anticos puesto que existen algoritmos
 eficientes para la factorizaci\'on con esta nueva tecnolog\'ia. Sin embargo, estos ordenadores est\'an todav\'ia en una fase experimental.
@@ -744,9 +748,9 @@ a $N$, es o no un residuo cuadrático:
 
 \hfil
 
-\begin{tabular}{|ll}
+\begin{tabular}{|ll}\label{problemaQR}
 	\textit{Nombre:} & Problema de los residuos cuadr\'aticos (QR). \\
-	\textit{Parámetros:} & Un $N$ un entero impar tal que $N = pq$ para $p$ y \\
+	\textit{Parámetros:} & $N$ un entero impar tal que $N = pq$ para $p$ y \\
 	& $q$ primos, y el entero $x$ tal que $\left( \dfrac{x}{N} \right) = 1$. \\
 	\textit{Pregunta:} & ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N$? \\
 \end{tabular}
@@ -757,9 +761,9 @@ a $N$, es o no un residuo cuadrático:
 Cuando un n\'umero $x$ es un residuo cuadr\'atico m\'odulo $N$, en particular lo
 es para $p$ y para $q$ por lo que el S\'imbolo de Jacobi va a ser $1$. La cantidad
 de valores para los que esto sucede es $\frac{(p-1)(q-1)}{4}$ tal y como vimos en
-la Proposici\'on~\ref{propResiduosPQ}. Tambi\'en podemos obtener que el S\'imbolo
+el Corolario \ref{corNumResCuad}. Tambi\'en podemos obtener que el S\'imbolo
 de Jacobi sea $1$ sin ser un residuo cuadr\'atico, eso sucede cuando $x$ no es residuo
-cuadr\'atico m\'odulo $p$ ni m\'odulo $q$. El n\'umero de valores para los que esto sucede
+cuadr\'atico m\'odulo $p$ ni m\'odulo $q$ (Proposici\'on \ref{propResiduosPQ}). El n\'umero de valores para los que esto sucede
 es el mismo $\frac{(p-1)(q-1)}{4}$, por lo tanto, dado un n\'umero $x$ cuyo s\'imbolo
 de Jacobi sea $1$, tenemos una probabilidad de $\frac{1}{2}$ de que $x$ sea efectivamente
 un residuo cuadr\'atico en ${\mathbb Z}_{N}$, la misma que la de que no lo sea.
@@ -772,7 +776,7 @@ problema de la factorizaci\'on.
 \end{proposition}
 \begin{proof}
 Si conocieramos la descomposición en primos de $N = pq$, el algoritmo \ref{algoSimJacob} aplicado a cada uno de los factores,
-nos resuelve el problema es calcular el símbolo de Legendre de $x$ respecto de $p$ y de $q$ (que en este caso es el mismo que el S\'imbolo de Jacobi)
+nos resuelve el problema de calcular el símbolo de Legendre de $x$ respecto de $p$ y de $q$ (que en este caso es el mismo que el S\'imbolo de Jacobi)
 por lo que podemos responder $Falso$ si alguno de estos s\'imbolos es $-1$ y $Verdadero$ si valen $1$.
 \end{proof}
 
@@ -833,7 +837,7 @@ El problema del logaritmo discreto vamos a considerarlo en dos versiones diferen
 
 \hfil
 
-\begin{tabular}{|ll}
+\begin{tabular}{|ll}\label{problemaDL}
 	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
 	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el problema del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
 	\textit{Pregunta:} & ¿Conoce P el entero $s\in \mathbb{Z}_q$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = s$? \\
@@ -860,7 +864,7 @@ podemos hacer uso no solo de la estructura multiplicativa del anillo ${\mathbb Z
 concretamente existe un algoritmo denominado Index Calculus que utilizando una t\'ecnica parecida a la de las bases de factores, permite resolver el problema en tiempo subexponencial.
 
 Sin embargo, en grupos sin esa estructura adicional tendr\'iamos que recurrir a algoritmos menos efectivos, como por ejemplo el algoritmo Baby-Step Giant-Step que tiene una complejidad
-exponencial del orden de la raz\'iz cuadrada de $n$ con algunos factores adicionales logar\'itmicos.
+exponencial del orden de la ra\'iz cuadrada de $n$ con algunos factores adicionales logar\'itmicos.
 
 A la vista de esta situaci\'on, en el caso de utilizar grupos del tipo ${\mathbb Z}_p^*$ ser\'a necesario aumentar el tama\~no del grupo para evitar el efecto de los algoritmos
 como el Index Calculus.

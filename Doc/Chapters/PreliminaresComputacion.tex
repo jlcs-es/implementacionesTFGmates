@@ -68,7 +68,7 @@ puede resultar de una dificultad muy diferente del problema original. Considerem
 
 	Un algoritmo para solucionarlo ser\'ia realizar el producto de las matrices $A_1$ y $A_2$ y comprobar que el resultado coincide con $A$. Esto nos dar\'ia una soluci\'on del problema por reducci\'on al caso anterior y por lo tanto la dificultad del problema ser\'ia la misma que la del problema original.
 
-	Sin embargo podemos encontrar en algunos casos algoritmos m\'as eficientes que nos permitan resolver el problema de decisi\'on pero que no establecen una soluci\'on al problema inicial.
+	Sin embargo, podemos encontrar en algunos casos algoritmos m\'as eficientes que nos permitan resolver el problema de decisi\'on pero que no establecen una soluci\'on al problema inicial.
 \end{example}
 
 Este ejemplo de la multiplicaci\'on de matrices, lo trataremos m\'as adelante, pero se puede entender la diferencia fundamental que puede suponer la informaci\'on adicional que nos ha ofrecido el nuevo problema con otro ejemplo. Mientras que dado un n\'umero, determinar cuales son sus factores es un problema muy dif\'icil, el problema de determinar si un factor concreto es un divisor de un n\'umero es tan simple como hacer una divisi\'on.
@@ -117,15 +117,15 @@ El algoritmo de la multiplicaci\'on ya es un poco m\'as complicado, puesto que t
 y luego sumar, eso nos da un n\'umero de operaciones dependientes de $l^2$ y no de $l$ como antes, pero aun as\'i el algoritmo es f\'acil de hacer con papel y l\'apiz si no superamos
 las 4 \'o 5 cifras.
 
-Sin embargo, pensemos en el algoritmo para el c\'alculo del factorial, el n\'umero de operaciones ahora no depende de $l$ sino de el valor del n\'umero, si estamos hablando de la base $10$, ser\'ia
+Sin embargo, pensemos en el algoritmo para el c\'alculo del factorial, el n\'umero de operaciones ahora no depende de $l$, el número de cifras, sino de el valor del n\'umero, pues si estamos hablando de la base $10$, ser\'ian
 $10^l$ el n\'umero aproximado de multiplicaciones que tendr\'iamos que hacer. Esto ser\'ia totalmente imposible hacerlo con l\'apiz y papel para valores tan peque\~nos como $l = 3$
 porque requerir\'ian un n\'umero entre $100$ y $999$ multiplicaciones.
 
 Cuando el tiempo que tarde un algoritmo depende de una potencia del n\'umero de cifras de la entrada (lo que se suele llamar del tama\~no de la entrada) diremos que el algoritmo es polin\'omico, en el ejemplo anterior, la suma depende de $l$ y el producto de $l^2$.
-Si pero si el tiempo depende de el valor concreto del n\'umero como en el caso del factorial diremos que el algoritmo es exponencial.
+Pero si el tiempo depende del valor concreto del n\'umero como en el caso del factorial diremos que el algoritmo es exponencial.
 
 Vamos a formalizar estos conceptos utilizando la notaci\'on asint\'otica. Para ello empecemos fij\'andonos que el n\'umero de cifras en base $b$ de un n\'umero $n$ es
-$\log_b(n) = \ln(n)/\ln(b)$ por lo que cambiar de base \'unicamente nos modifica una constante que en la notaci\'on asint\'otica se desprecia, es decir $\log_b(n) \in O(\ln(n))$.
+$\log_b(n) = \ln(n)/\ln(b)$ por lo que cambiar de base \'unicamente nos modifica una constante, que en la notaci\'on asint\'otica se desprecia, es decir $\log_b(n) \in O(\ln(n))$.
 
 Podemos decir por tanto que el tama\~no de un n\'umero es del orden $\ln(n)$ puesto que sea la que sea la base con la que trabajemos, la diferencia ser\'a una constante.
 
@@ -206,7 +206,7 @@ Es inmediato que  que \textbf{P} $\subseteq$ \textbf{NP} y \textbf{P} $\subseteq
 	El problema pertenece a \textbf{NP} porque se puede comprobar en tiempo polinomial que
 	$n$ es compuesto si nos dan su \textit{certificado}, un divisor $a$ de $n$, tal que $1 < a < n$.
 	Basta usar la división euclídea de $n$ entre $a$ y ver que el resto es $0$. Sin embargo,
-	aún no se conoce si pertenece a \textbf{P}.
+	aún no se conoce si el problema pertenece a \textbf{P}.
 \end{example}
 
 
@@ -272,9 +272,7 @@ O expresado de otra manera:
 
 \begin{theorem}
 	\label{redNPC:theo}
-	Todo problema $Q \in $ \textbf{NP} se puede reducir en tiempo polinomial al problema de satisfacibilidad booleana.
-
-	$\forall Q \in $ \textbf{NP}, $Q \leq_P SAT$.
+	Todo problema $Q \in $ \textbf{NP} se puede reducir en tiempo polinomial al problema de satisfacibilidad booleana: $\forall Q \in $ \textbf{NP}, $Q \leq_P SAT$.
 \end{theorem}
 
 
@@ -342,7 +340,7 @@ Para intentar resolver la infactibilidad computacional de ciertos problemas, sur
 Un problema que es tratado en muchos textos como un problema probabil\'istico aunque hoy en d\'ia ya no es un ejemplo v\'alido es el de la primalidad. Vamos a exponerlo porque tambi\'en nos servir\'a para explicar algunos otros aspectos de la complejidad de algoritmos.
 
 \begin{example}[Test de primalidad]
-	El problema de decisión
+	El problema de decisión:
 
 	\begin{tabular}{|ll}
 		\textit{Nombre:} & Problema de primalidad (PRIM). \\
@@ -356,10 +354,10 @@ Un problema que es tratado en muchos textos como un problema probabil\'istico au
 Este problema ha sido tratado tradicionalmente como un problema de tipo \textbf{NP} aunque en el a\~no 2002 se encontr\'o un algoritmo determinista de tiempo polin\'omico que resolv\'ia el problema. Este algoritmo se conoce como AKS por el nombre de sus descubridores, M. Agrawal, N. Kayal y N. Saxena. A pesar de ser un algoritmo polin\'omico, su compejidad te\'orica es del orden $O(n^{21/2})$, lo cual es muy ineficiente para el tama\~no de enteros que se utilizan en la
 pr\'actica.
 
-Existe sin embargo un algoritmo muy conocido de tipo probabil\'istico que nos determina si un entero es compuesto con total seguridad o primo con una probabilidad de error tan peque\~na como deseemos, es el algoritmo de Miller-Rabin. Este algoritmo es el que se sigue usando para las aplicaciones pr\'acticas puesto que el error que puede ofrecer puede hacerse tan peque\~no que sea incluso mayor que el de un error en el hardware.
+Existe sin embargo un algoritmo muy conocido de tipo probabil\'istico que nos determina si un entero es compuesto con total seguridad o primo con una probabilidad de error tan peque\~na como deseemos, es el algoritmo de Miller-Rabin. Este algoritmo es el que se sigue usando para las aplicaciones pr\'acticas puesto que el error que puede ofrecer puede hacerse tan peque\~no que sea incluso menor que el de un error en el hardware.
 
 Otro ejemplo que podemos considerar para ver la diferencia entre un algoritmo determinista y uno probabil\'istico es el del producto de matrices. Dadas dos matrices $A_1$ y $A_2$ determinar si una tercera matriz $A$ es el producto de las dos anteriores.
 
-Una soluci\'on al problema es hacer el producto y comprobar que el resultado es igual a $A$. Utilizando el algoritmo tradicional de multiplicaci\'on de matrices, la complejidad de este algoritmo ser\'ia $n^3$ si consideramos para simplificar matrices cuadradas de tama\~no $n$.  Existen algoritmos de multiplicaci\'on algo m\'as eficientes, pero vamos a ver c\'omo se podr\'ia resolver el problema utilizando un algoritmo probabil\'istico.
+Una soluci\'on al problema es hacer el producto y comprobar que el resultado es igual a $A$. Utilizando el algoritmo tradicional de multiplicaci\'on de matrices, la complejidad de este algoritmo ser\'ia $n^3$ si consideramos, para simplificar, matrices cuadradas de tama\~no $n$.  Existen algoritmos de multiplicaci\'on algo m\'as eficientes, pero vamos a ver c\'omo se podr\'ia resolver el problema utilizando un algoritmo probabil\'istico.
 
-Si el producto de dos matrices $A_1 A_2$ es distinto de $0$, sabemos que el n\'ucleo de la aplicaci\'on lineal que representa dicho producto es de dimensi\'on como m\'aximo $n-1$ por lo que el n\'umero de vectores $X$ en el n\'ucleo es como m\'aximo $|K|^{n-1}$ siendo $|K|$ el n\'umero de elementos del cuerpo. La probablidad de que el vector $X$ est\'e en el n\'ucleo si este producto de matrices es distinto de $0$ es por lo tanto menor que $\frac{1}{|K|}$. Eligiendo aleatoriamente vectores $X_1, X_2, ..., X_t$ y comprobando que $A_1 (A_2 X_i)=0$ (lo cual es puede hacer con complejidad $n^2$ si se hace en este orden) podemos obtener un algoritmo probabil\'istico de complejidad cuadr\'atica y con un error menor que $\frac{1}{|K|^t}$, valor que se puede hacer tan peque\~no como queramos de forma bastante r\'apida.
+Si el producto de dos matrices $A_1 A_2$ es distinto de $0$, sabemos que el n\'ucleo de la aplicaci\'on lineal que representa dicho producto es de dimensi\'on como m\'aximo $n-1$, por lo que el n\'umero de vectores $X$ en el n\'ucleo es como m\'aximo $|K|^{n-1}$ siendo $|K|$ el n\'umero de elementos del cuerpo. La probablidad de que el vector $X$ est\'e en el n\'ucleo si este producto de matrices es distinto de $0$ es por lo tanto menor que $\frac{1}{|K|}$. Eligiendo aleatoriamente vectores $X_1, X_2, ..., X_t$ y comprobando que $A_1 (A_2 X_i)-A=0$ (lo cual puede hacer con complejidad $n^2$ si se hace en este orden) podemos obtener un algoritmo probabil\'istico de complejidad cuadr\'atica y con un error menor que $\frac{1}{|K|^t}$, valor que se puede hacer tan peque\~no como queramos de forma bastante r\'apida.

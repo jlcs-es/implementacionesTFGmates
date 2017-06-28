@@ -82,20 +82,7 @@ Un P o un V que no siguen el protocolo e intentan romper estas propiedades, los 
 
 \subsection{Prueba Interactiva para el Problema QR}
 
-Vamos a ver una prueba interactiva para demostrar que un entero $x$ con Símbolo de Jacobi 1 respecto a $n$, $x \in \mathbb{Z}^Q_n$, es un residuo cuadrático, $x \in \mathbb{Z}^{Q+}_n$.
-
-\hfil
-
-\begin{tabular}{|ll}
-	\textit{Nombre:} & Problema QR. \\
-	\textit{Parámetros:} &Un entero compuesto impar $N$, y el entero $x\in \mathbb{Z}^Q_N$. \\
-	\textit{Pregunta:} & ¿Es $x$ un residuo cuadrático, $x \in \mathbb{Z}^{Q+}_N$? \\
-\end{tabular}
-\\
-
-\hfil
-
-Una instancia $Verdadera$ del problema es un $x$ residuo cuadrático módulo $N$. Una prueba interactiva para demostrar que $x$ es residuo cuadrático es la siguiente:
+Vamos a ver una prueba interactiva para demostrar el problema QR (\autoref{problemaQR}), donde hemos de determinar si un entero $x$ con Símbolo de Jacobi 1 respecto a $n$, $x \in \mathbb{Z}^Q_n$, es un residuo cuadrático, $x \in \mathbb{Z}^{Q+}_n$.
 
 \hfil
 
@@ -203,10 +190,8 @@ Cuando tratamos con V$^*$, un verificador tramposo, éste podría no generar los
 
 Para una instancia $q$ y un verificador cualquiera V$^*$, escribimos la Vista de una prueba interactiva como:
 \[ Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)}). \]
-
 El verificador tramposo V$^*$ generará los retos $B_i$ con un algoritmo probabilístico de tiempo polinomial $F$ tal que
 \[ B_i = F(q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{i-1},\,B_{i-1},\,C_{i-1},\,A_i). \]
-
 Para un verificador honesto, $F$ se puede considerar como un generador de números aleatorios que no utiliza ninguno de los parámetros de entrada.
 
 
@@ -317,7 +302,6 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} y c
 	es igual al del Simulador:
 	\[ S_{V^*}(x,N,h)= (x,N,h,U_1^`,B_1^`,W_1^`,\dots , U_{i-1}^`, B_{i-1}^`, W_{i-1}^`). \]
 	
-	\hfill
 
 	Siguiendo el protocolo de la prueba interactiva, se generará la siguiente tupla de la Vista, $(U_i, B_i, W_i)$. La variable $U_i$ se elige al inicio aleatoriamente, por lo que es independiente. La v.a. $B_i$ se calcula con $F$, por lo que depende de $U_i$, $V_{i-1}$ y $h$. $W_i$ depende de ambos. La probabilidad de la tupla nos queda:
 	\[
@@ -325,61 +309,42 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} y c
 	\]
 	\[ P(U_i=u)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
 	
-	
-	\hfil
-	
 	Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
 	
 	Denotamos $ P(B_i=b \mid V_{i-1}=v, U_i=u,h)=p_b$, que dependerá de la $F$ utilizada.
 	
 	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. Entonces:
-	\[P(W_i=w \mid U_i=u, B_i=0) = \frac{1}{\beta},\ \forall w \in \Omega_u\]
-	\[P(W_i=w \mid U_i=u, B_i=1) = \frac{1}{\beta},\ \forall w \in \Omega_{xu}\]
+	\[P(W_i=w \mid U_i=u, B_i=0) = 1/\beta,\ \forall w \in \Omega_u\]
+	\[P(W_i=w \mid U_i=u, B_i=1) = 1/\beta,\ \forall w \in \Omega_{xu}\]
 	
-	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \dfrac{p_b}{\alpha \beta}$.
+	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
 	
-	
-	
-	\hfil
 	
 	Ahora veamos la tupla generada por el Simulador, $(U_i^`, B_i^`, W_i^`)$. La v.a. $U_i^`$ se calcula a partir de $B_i^`$ y $W_i^`$. La variable $B_i^`$ depende de $U_i^`$, $V_{i-1}$ y $h$ por $F$ en el paso 4. Y la v.a. $W_i^`$ se elige de manera uniforme en $\mathbb{Z}_N^*$.
 	
 	La probabilidad de la tupla es:
-	
 	\[P(U_i^`=u, B_i^`=b, W_i^`=w) = \]
 	\[P(W_i^`=w)\cdot P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) \cdot P(U_i^`=u \mid W_i^`=w, B_i^`=b)\]
 	
 	Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i^`=w) = \frac{1}{\alpha \beta}$.
 	
-	La probabilidad
-	\marginpar{$w\in \Omega_u \Leftrightarrow b=0$ \\$w\in \Omega_{xu} \Leftrightarrow b=1$ \\ $W_i^`$, $B_i^`$ indep.}
+	Utilizando que $w\in \Omega_u \Leftrightarrow b=0$, $w\in \Omega_{xu} \Leftrightarrow b=1$ y que $W_i^`$ y $B_i^`$ son independientes, la probabilidad
 	\begin{align*}
 	P(U_i^`=u)  & = P(U_i^`=u, W_i^`\in \Omega_u \cup \Omega_{xu}, B_i^` \in \{0,1\}) = \\
-				&= \sum_{w\in \Omega_u} P(U_i^`=u, W_i^`=w, B_i^` = 0) + \\
-				& +	\sum_{w\in \Omega_{xu}} P(U_i^`=u, W_i^`=w, B_i^` = 1) = \\
+				&= \sum_{w\in \Omega_u} P(U_i^`=u, W_i^`=w, B_i^` = 0) + \sum_{w\in \Omega_{xu}} P(U_i^`=u, W_i^`=w, B_i^` = 1) =  \\
 				&= \sum_{w\in \Omega_u} P(W_i^`=w)P(B_i^` = 0) + \sum_{w\in \Omega_{xu}} P(W_i^`=w)P(B_i^` = 1) = \\
-				&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i^`=0) + P(B_i^`=1)) = \\
-				&= \frac{1}{\alpha}
+				&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i^`=0) + P(B_i^`=1)) = \frac{1}{\alpha}
 	\end{align*}
-	
 	indica que $U_i^`$ tiene la misma distribución que $U_i$, de modo que, al calcular $b_{i} = F(x,N,h,v_{i-1},u_{i})$, se tiene 
 	$P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) = p_b$, es decir, $B_i^`$ tiene la misma distribución que $B_i$.
-	
 	
 	Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i^`$ tenga el valor $u$ condicionado a que $ B_i^`=b$ y que $W_i^`=w$, es 1:
 	\[P(U_i^`=u \mid W_i^`=w, B_i^`=b) = 1\]
 	
-	
-	\hfil
-	
-	En total, tenemos que $P(U_i^`=u, B_i^`=b, W_i^`=w) = \dfrac{p_b}{\alpha \beta}$.
+	En total, tenemos que $P(U_i^`=u, B_i^`=b, W_i^`=w) = \frac{p_b}{\alpha \beta}$.
 	
 	
-	Terminamos así la inducción en $i$ y los ensambles de la Vista y el Simulador son idénticos.
-	
-	\hfil
-	
-	Concluimos que la prueba interactiva \ref{QRinteractive:alg} del problema QR es perfecta de conocimiento cero.
+	Terminamos así la inducción en $i$ y los ensambles de la Vista y el Simulador son idénticos. Concluimos que la prueba interactiva \ref{QRinteractive:alg} del problema QR es perfecta de conocimiento cero.
 	
 \end{proof}
 
@@ -388,20 +353,8 @@ Ahora podemos volver al problema QR, que ya vimos en el \autoref{theo:QRint} y c
 \subsection{Prueba de conocimiento cero para el problema de isomorfismo de grafos}
 
 
-Otro problema de decisión del que podemos dar una prueba interactiva de conocimiento cero es el de determinar si dos grafos dados son isomorfo:
+Otro problema de decisión del que podemos dar una prueba interactiva de conocimiento cero es el de determinar si dos grafos dados son isomorfos (\autoref{problemaGI}).
 
-
-
-\hfil
-
-\begin{tabular}{|ll}
-	\textit{Nombre:} & Problema GI (\textit{Graph Isomorphism}). \\
-	\textit{Parámetros:} & Dos grafos $G_0 = (V_0, E_0)$ y $G_1 = (V_1, E_1)$, \\ & del mismo orden $\mid V_0 \mid = \mid V_1 \mid = n$. \\
-	\textit{Pregunta:} & ¿Existe un isomorfismo $\pi : V_0 \rightarrow V_1$ tal que \\ & una arista $(u,v)\in E_0$ si y solo si $(\pi (u),\pi (v)) \in E_1$? \\
-\end{tabular}
-\\
-
-\hfil
 
 \begin{theorem}
 	El problema GI tiene una prueba de conocimiento cero.
@@ -566,18 +519,7 @@ Otro problema de decisión del que podemos dar una prueba interactiva de conocim
 \subsection{Prueba de conocimiento cero para el problema del logaritmo discreto}\label{perfectDL}
 
 
-Vamos a expresar el problema del logaritmo discreto como una prueba de conocimiento de la potencia $s$, donde podamos mantener dicha información en secreto y que no se revele durante la interacción:
-
-\hfil
-
-\begin{tabular}{|ll}
-	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
-	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el problema del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
-	\textit{Pregunta:} & ¿Conoce P el entero $s\in \mathbb{Z}_q$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = s$? \\
-\end{tabular}
-\\
-
-\hfil
+La última prueba de conocimiento cero perfecta que veremos será la del problema del logaritmo discreto (\autoref{problemaDL}) en su primera versión, el grupo es $G=\left\langle g \right\rangle $ de orden primo $q$, donde P debe probar que conoce la potencia $s$ que genera un cierto valor $y=g^s$. 
 
 
 \begin{theorem}
@@ -726,7 +668,6 @@ Vamos a expresar el problema del logaritmo discreto como una prueba de conocimie
 	
 	Concluimos que $P(A_i=a, B_i=b, W_i = w) = \dfrac{p_b}{q-1}$.
 	
-	\hfil
 	
 	Observando el orden en que se calculan los valores en el Simulador, la probabilidad de la $i$-ésima tupla del Simulador es:
 	\begin{align*}
@@ -764,7 +705,7 @@ La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulado
 
 En esta sección veremos un tipo de pruebas de conocimiento cero, utilizadas en la práctica, que derivan de las ZKP perfectas al añadir una condición al Verificador: que siempre cumpla el protocolo indicado.
 
-En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de un algoritmo $F$ que un Verificador tramposo, V$^*$, utilizaría para elegir los retos, en un intento de obtener más información de P. En este tipo de de pruebas V no dispondrá de $F$ para elegir los retos.
+En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de un algoritmo $F$ que un Verificador tramposo, V$^*$, utilizaría para elegir los retos, en un intento de obtener más información de P. En este tipo de pruebas V no dispondrá de $F$ para elegir los retos.
 
 
 \begin{definition}[Propiedad de conocimiento cero con Verificador Honesto]
