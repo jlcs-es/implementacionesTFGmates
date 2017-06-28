@@ -14,42 +14,26 @@ En este capítulo nos alejamos del estudio teórico de las pruebas de conocimien
 
 \section{Pruebas de conocimiento cero no interactivas}
 
-Hemos visto que la interacción habitual en una prueba de conocimiento cero es enviar un \textit{testigo}, un \textit{reto} y una \textit{respuesta} en cada iteración.
+Hemos visto que la interacción habitual en una prueba de conocimiento cero consiste en enviar un \textit{testigo} $u$, un \textit{reto} $b$ y una \textit{respuesta} $w=\xi(u,b)$ en cada iteración, para que V verifique que el testigo corresponde al reto y respuesta enviados, $u=\vartheta(b,w)$.
 
-\begin{center}
-	\begin{tabular}{ll}
-		P y V & conocen información previa $\Upsilon$
-		\\
-		P $\rightarrow$ V :& \textit{testigo} $u$
-		\\
-		V $\rightarrow$ P :& \textit{reto} $b$
-		\\
-		P $\rightarrow$ V :& \textit{respuesta} $w = \xi(u,b,\Upsilon)$
-		\\
-		V verifica & $u=\vartheta(b,w,\Upsilon)$.
-	\end{tabular}
-\end{center}
+La desventaja de estos protocolos en la práctica es sincronizar a P y V para comunicarse, por la necesidad de que el Verificador debe generar el reto él mismo, para estar seguro de que la prueba es correcta (por la propiedad de conocimiento cero).
 
-\hfil
+Una técnica para convertir las pruebas en no interactivas es la \textit{heurística de Fiat-Shamir}, la cual consiste en sustituir el reto $b$ por un resumen digital $h$, de \textit{hash} en inglés, aplicado al testigo $u$, de modo que para un P computacionalmente limitado, éste no puede anticipar el valor de $h$ y así V confía en que P no ha elegido el $u$ adecuado para falsear la prueba.
 
-La desventaja de estos protocolos es sincronizar a P y V para comunicarse, por la necesidad de que el verificador debe generar el reto para estar seguro de la prueba (por la propiedad de conocimiento cero).
-
-Una técnica para convertir las pruebas en no interactivas es la \textit{heurística de Fiat-Shamir}, que consiste en sustituir el reto por un resumen digital $h$, \textit{hash} en inglés, del testigo $u$, de modo que para un P computacionalmente limitado, V puede confiar en que P no ha elegido $u$ tal que con el reto calculado pueda falsear la prueba.
-
-Aprovechando la función del \textit{hash}, se puede convertir el protocolo en un esquema de firma digital de un mensaje $m$, realizando el \textit{hash} sobre el testigo y el mensaje a la vez (concatenándolos, por ejemplo).
+Aprovechando la heurística de Fiat-Shamir, podemos convertir el protocolo en un esquema de firma digital de un mensaje $m$, aplicando el \textit{hash} sobre el testigo y el mensaje a la vez:
 
 
 \begin{center}
 	\begin{tabular}{ll}\label{fiat-shamir-heur}
-		P calcula :& \textit{testigo} $u$, \textit{respuesta} $w = \xi(u, h,\Upsilon)$, donde $h=$\textbf{hash(u|m)}
+		P calcula :& el \textit{testigo} $u$, el \textit{reto} $h=$\textbf{hash(u|m)}, y la \textit{respuesta} $w = \xi(u, h)$.
 		\\
-		P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \quad $(h,w)$
+		P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \, $(h,w)$
 		\\
-		V verifica & $h=hash(\vartheta(h,w,\Upsilon)|m)$.
+		V verifica :& $h=hash(\,\vartheta(h,w)\,|\,m\,)$.
 	\end{tabular}
 \end{center}
 
-Podemos construir así una firma digital, con un solo mensaje, por lo que es válido para cualquier V, y donde P no ha debido compartir ninguna clave o información extra aparte de los parámetros del sistema, $\Upsilon$.
+Podemos construir así una firma digital, con un solo mensaje, por lo que es válido para cualquier Verificador, lo que permite la no interactividad. 
 
 \hfil
 
@@ -57,10 +41,7 @@ Podemos construir así una firma digital, con un solo mensaje, por lo que es vá
 \begin{remark}
 	\hfil
 	
-	En las pruebas de conocimiento cero perfectas estudiadas, los retos consistían en un bit, por lo que los posibles valores son $0$ ó $1$ y un ataque a la función de \textit{hash} es muy fácil. Por ello, se utilizan versiones de ZKP donde el conjunto de los posibles valores del reto es suficientemente grande, por ejemplo, un entero representado en tantos bits como produce la firma digital, usualmente 256 o 512 bits.
-	
-	Al hacer este cambio, muchas veces perdemos la condición de perfecta en la prueba de conocimiento cero, rebajándola a otro de los tipos vistos, pero que en la práctica es perfectamente aceptable.
-	
+	En las pruebas de conocimiento cero perfectas estudiadas, los retos consistían en un bit, por lo que los posibles valores son $0$ ó $1$ y un ataque a la función de \textit{hash} es muy fácil. Por ello, se utilizan pruebas de conocimiento cero como el protocolo de Schnorr, donde el conjunto de los posibles valores del reto es suficientemente grande, por ejemplo, un entero representado en tantos bits como produce la firma digital, usualmente unas centenas de bits.	
 \end{remark}
 
 
@@ -70,20 +51,20 @@ Podemos construir así una firma digital, con un solo mensaje, por lo que es vá
 
 
 
-\section{Protocolos de identificación basados en ZKP}
+\section{Protocolos de identificación basados en pruebas de conocimiento cero}
 % Fiat-Shamir, FFS, GQ, Schnorr
 
 
-Las pruebas de conocimiento cero tienen una gran aplicación en el campo de la seguridad informática, en particular en la \textbf{autenticación}. Además, un sistema de identificación basado en pruebas de conocimiento cero consigue privacidad, al no revelar información del usuario, y seguridad al no \textit{degradarse} con el uso, es decir, resiste al criptoanálisis por muchos mensajes que se intercepten. 
+Las pruebas de conocimiento cero tienen una gran aplicación en el campo de la seguridad informática, en particular en la \textbf{autenticación}. Un sistema de identificación basado en pruebas de conocimiento cero consigue por un lado privacidad, al no revelar información del usuario, y por otro lado seguridad, al no \textit{degradarse} con el uso, es decir, resiste al criptoanálisis por muchos mensajes que se intercepten. 
 
-Estos protocolos de identificación se basan en una prueba de conocimiento cero de un cierto problema $Q$, donde P (el usuario) tiene un \textit{secreto} que le permite demostrar una instancia $Verdadera$ de $Q$ al verificador V, y que además conocer dicho secreto le relaciona con una identidad de un certificado en el que P y V confían.
+Estos protocolos de identificación se basan en una prueba de conocimiento cero de un cierto problema $Q$, donde P (el usuario) tiene un \textit{secreto} que le permite demostrar una instancia $Verdadera$ al verificador V. Dicho valor secreto le relacionará con una identidad pública, de modo que al realizar la prueba, P se autentica como el dueño de dicha identidad.
 
 
 \subsection{Protocolo de identificación de Fiat-Shamir}
 
 El protocolo de identificación de Fiat-Shamir es el más característico basado en pruebas de conocimiento cero del problema QR.
 
-Como hemos visto, el problema QR es \textbf{NP}, de modo que obtener una raíz cuadrada módulo un $N$ compuesto, es computacionalmente inviable, equivalente a factorizar $N$. Bajo esta suposición, podemos utilizar como información pública un residuo cuadrático módulo $N$, que llamaremos $v$, y asociarlo a una identidad, de modo que el usuario que conozca una de sus raíces cuadradas, el secreto $s$, podrá demostrar que $v$ es un residuo cuadrático:
+Como nuestro usuario P no es computacionalmente todopoderoso, partiremos de que P conoce $s$, la raíz modular de un residuo cuadrático $v$, lo cual le permitiría realizar la prueba con éxito sin conocer la factorización de $N$. V autenticará al usuario P si éste es capaz de demostrar que $v$ es un residuo cuadrático, sin revelar $s$.
 
 
 \rule{\textwidth}{1pt}
@@ -114,21 +95,15 @@ Como hemos visto, el problema QR es \textbf{NP}, de modo que obtener una raíz c
 \hfil
 
 
-El protocolo de Fiat-Shamir es casi idéntico a la prueba interactiva \ref{QRinteractive:alg}, donde aquí $(v,N)$ hace el papel de instancia $Verdadera$ del problema QR, y como P, el usuario, es una máquina computacionalmente limitada, en vez de elegir aleatoriamente el residuo cuadrático $u$ y la raíz cuadrada $w$, parte de las raíces cuadradas, $s$ y $r$, para poder calcular $u$, $v$ y $w$ elevando al cuadrado. Como los valores que se envían siguen siendo $u$, un residuo cuadrático aleatorio, $b$ un bit de reto, y $w$ una raíz cuadrada aleatoria de $u$ o $uv$, según $b$, las transcripciones del protocolo de Fiat-Shamir son las mismas que las de la prueba interactiva, que sabemos que es de conocimiento cero perfecta.
+El protocolo de Fiat-Shamir es casi idéntico a la prueba interactiva \ref{QRinteractive:alg}, donde aquí $(v,N)$ hace el papel de instancia $Verdadera$ del problema QR, y como P, el usuario, es una máquina computacionalmente limitada, en vez de elegir aleatoriamente el residuo cuadrático $u$ y la raíz cuadrada $w$, parte de las raíces modulares $s$ y $r$ para poder calcular $u$, $v$ y $w$ residuos cuadráticos.
 
-\hfil
 
-El intento de ataque que vimos en la demostración de robustez varía ligeramente para Fiat-Shamir, pues el objetivo es intentar demostrar que $v$ es residuo cuadrático, sin conocer $s$ u otra raíz cuadrada, necesaria para una máquina de cómputo limitado del mundo real.
+El intento de ataque que vimos en la demostración de robustez varía ligeramente para Fiat-Shamir, pues el objetivo aquí es intentar demostrar que $v$ es residuo cuadrático, sin conocer $s$ u otra raíz cuadrada, mientras que en la prueba interactiva del capítulo anterior, el objetivo era demostrar que un no-residuo cuadrático era un residuo cuadrático.
 
 Un atacante debe adivinar el bit del reto que recibirá, de modo que si cree que $b=0$ calcula el testigo como en el protocolo, pero si cree que $b=1$, calcula en el paso 2 el testigo $u \equiv r^2\cdot v^{-1} \, mod \, N$, y en 4 la respuesta $w \equiv r \, mod \, N$. En ambos casos fallaría si no adivina $b$ correctamente, pues para corregir su error debería ser capaz de calcular, respectivamente, una raíz cuadrada de $v$, que permitiría pasar la prueba siempre, o una raíz cuadrada de $u \equiv r^2\cdot v^{-1} \, mod \, N$, computacionalmente inviable pues $p$ y $q$ los guarda como secretos la entidad de verificación.
 
 Como en la prueba interactiva, un atacante tiene una probabilidad de $1/2$ de engañar a V en cada ronda, de modo que la robustez se mantiene con una probabilidad de ataque de $2^{-t}$. Si P pasa correctamente las $t$ rondas, V da por válida la prueba. Si falla aunque sea sólo una, rechaza la identificación.
 
-\hfil
-
-%%%%%%%%%%%%
-Un detalle importante a tener en cuenta es que, considerando ordenadores reales para el caso práctico, si P no utiliza un buen generador de números aleatorios para sus $r$ del paso 1, un atacante podría adivinar cuándo repetirá el $r$, mandar $b=0$ y $b=1$, y así calcular el secreto $s$.
-%%%%%%%%%%%%%%
 
 
 
@@ -180,7 +155,7 @@ La probabilidad de que un atacante pueda engañar a V es la de acertar el reto d
 
 \subsection{Protocolo de identificación de Schnorr}
 
-Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el logaritmo discreto, era una prueba de conocimiento cero con verificador honesto. Aquí damos una variación del protocolo donde se indica cómo la entidad de confianza genera los certificados y cómo a partir de la prueba de Schnorr un usuario P se autentica ante V con su certificado y clave privada: 
+Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el logaritmo discreto, era una prueba de conocimiento cero con verificador honesto. Aquí damos una ampliación del protocolo donde se indica cómo la entidad de confianza genera los certificados y cómo a partir de la prueba de Schnorr un usuario P se autentica ante V con su certificado y clave privada: 
 
 
 \rule{\textwidth}{1pt}
@@ -198,7 +173,7 @@ Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el lo
 		
 		\subitem (b) Escoge una clave privada $a$, $0\leq a \leq q-1$, y calcula $v = \beta^{-a}\, mod\, p$.
 		
-		\subitem (c) La entidad certificadora vincula la identidad $I_P$ y el valor $v$ firmando, con cualquier método de firma $S(\cdot)$, el certificado $cert_A = (I_P, v, S_T(I_P|v))$.
+		\subitem (c) La entidad certificadora vincula la identidad $I_P$ y el valor $v$ firmando, con cualquier método de firma $S_T(\cdot)$, el certificado $cert_P = (I_P, v, S_T(I_P|v))$.
 		
 	\end{enumerate}
 	
@@ -215,7 +190,6 @@ Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el lo
 \end{algorithm}
 \rule{\textwidth}{1pt}
 
-\hfil
 
 
 
@@ -233,7 +207,7 @@ Vimos en la \autoref{honestVer:sec} que el protocolo de Schnorr, basado en el lo
 
 Identity Mixer, o Idemix, es un protocolo desarrollado por IBM\footnote{Identity Mixer - \url{https://www.research.ibm.com/labs/zurich/idemix/}} para crear certificados digitales basados en atributos, donde se preserva la privacidad. Este protocolo no solo permite la autenticación sin revelar un valor secreto, también permite realizar pruebas sobre los atributos del certificado de un usuario, sin revelar los valores, como por ejemplo, ``\texttt{año\_actual - año\_nacimiento $\geq$ 18}''.
 
-Los protocolos criptográficos en los que se especifican en Idemix \citep{idemixSpec} han sido desarrollados durante años por expertos en el área, donde destacan Jan Camenisch y Anna Lysyanskaya con el desarrollo de la firma CL \citep{camenisch2002signature} \citep{camenisch2001efficient} que se utiliza para firmar certificados sin tener que conocer los valores de todos los atributos, y que permite posteriormente al usuario demostrar que posee dicha firma, sin desvelarla. Esto permite poder utilizar múltiples veces un certificado de manera anónima sin que se relacionen los diferentes usos con la misma persona.
+Los protocolos criptográficos en los que se basa Idemix \citep{idemixSpec} han sido desarrollados durante años por expertos en el área, donde destacan Jan Camenisch y Anna Lysyanskaya con el desarrollo de la firma CL \citep{camenisch2002signature} \citep{camenisch2001efficient} que se utiliza para firmar certificados sin tener que conocer los valores de todos los atributos, y que permite posteriormente al usuario demostrar que posee dicha firma, sin desvelarla. Esto permite utilizar múltiples veces un certificado de manera anónima sin que se relacionen los diferentes usos con la misma persona.
 
 
 
@@ -246,38 +220,20 @@ Como hemos visto, cualquier problema de decisión posee una prueba de conocimien
 \begin{center}
 	$ZKPoK\{ (w) : \mathcal{L}(w,x) \}$
 \end{center}
-donde $w$ es un testigo, normalmente el secreto, $x$ es información conocida por ambas partes, y $\mathcal{L}(w,x)$ es un predicado que representa una condición sobre $w$ y $x$. Se puede leer como ``conozco un testigo $w$ tal que el predicado $\mathcal{L}(w,x)$ se cumple para $w$ y $x$''. Para abreviar, en vez de ZKPoK (\textit{Zero-Knowledge Proof of Knowledge}), usaremos ZKP o PK.
+donde $w$ es un valor secreto, $x$ es información conocida por ambas partes, y $\mathcal{L}(w,x)$ es un predicado que representa una condición sobre $w$ y $x$. Se puede leer como ``conozco un secreto $w$ tal que el predicado $\mathcal{L}(w,x)$ se cumple para $w$ y $x$''. Para abreviar, en vez de ZKPoK (\textit{Zero-Knowledge Proof of Knowledge}), usaremos ZKP o PK.
 
-\hfil
-
-Por ejemplo,
-\begin{center}
-	$PK\{ (\alpha) : y=g^\alpha \}$
-\end{center}
-donde $y\in G = <g>$, un grupo de orden $q$ primo, denota el protocolo de identificación de Schnorr.
+Por ejemplo, $PK\{ (\alpha) : y=g^\alpha \}$ donde $y\in G = <g>$, un grupo de orden $q$ primo, denota el protocolo de identificación de Schnorr.
 
 
-\subsection{Combinar diferentes pruebas de conocimiento}
-
-Cuando leamos pruebas de conocimiento con varias condiciones, como
-\begin{center}
-	$$
-	PK\{ (\alpha_1,\dots,\alpha_l,\beta_1,\dots,\beta_{l`}) : y=\prod_{i=1}^{l}g_i^{\alpha_i} \wedge z=\prod_{i=1}^{l`}h_i^{\beta_i} \}
-	$$
-\end{center}
-con $g_i,h_i,y,z\in G$, será equivalente a realizar de manera paralela e independiente cada protocolo:
-\begin{center}
-	$$
-	PK\{ (\alpha_1,\dots,\alpha_l) : y=\prod_{i=1}^{l}g_i^{\alpha_i} \}
-	$$
-	y
-	$$
-	PK\{ (\beta_1,\dots,\beta_{l`}) : z=\prod_{i=1}^{l`}h_i^{\beta_i} \}
-	$$
-\end{center}
-
-
-En el primer mensaje, P envía los testigos de cada uno de los protocolos. Entonces, V envía un único reto, el mismo para cada protocolo. Finalmente, P responde al reto con la respuesta de cada prueba, y V las verifica.
+%\subsection{Combinar diferentes pruebas de conocimiento}
+%
+%Cuando leamos pruebas de conocimiento con varias condiciones, como
+%\[	PK\{ (\alpha_1,\dots,\alpha_l,\beta_1,\dots,\beta_{l`}) : y=\prod_{i=1}^{l}g_i^{\alpha_i} \wedge z=\prod_{i=1}^{l`}h_i^{\beta_i} \} \]
+%con $g_i,h_i,y,z\in G$, será equivalente a realizar de manera paralela e independiente cada protocolo:
+%\[
+%	PK\{ (\alpha_1,\dots,\alpha_l) : y=\prod_{i=1}^{l}g_i^{\alpha_i} \}\quad y\quad PK\{ (\beta_1,\dots,\beta_{l`}) : z=\prod_{i=1}^{l`}h_i^{\beta_i} \}
+%\]
+%donde en el primer mensaje P envía los testigos de cada uno de los protocolos, entonces, V envía un único reto, el mismo para cada protocolo, y finalmente, P responde al reto con la respuesta de cada prueba individual, y que V verificará.
 
 
 \subsection{Probar el conocimiento de una representación}\label{reprKP}
@@ -312,19 +268,11 @@ La probabilidad de que un P malicioso adivine los $k$ bits aleatorios del reto $
 
 \subsection{Firma Camenisch-Lysyanskaya}
 
-El esquema de firma de Camenisch-Lysyanskaya, o firma CL, es la base de los certificados Idemix. 
+El esquema de firma de Camenisch-Lysyanskaya, o firma CL, es la base de los certificados Idemix. Procedemos a describirlo.
 
-Sean $p`$ y $q`$ dos primos, tal que $p=2p`+1$ y $q=2q`+1$ también lo son, llamados \textit{primos seguros}. Los parámetros del sistema, conocidos por el firmante y quien comprueba la firma son: el entero $n=pq$, $Z,S,R\in QR_n$ (grupo multiplicativo de los residuos cuadráticos módulo $n$). La clave secreta del firmante es $(p,q)$ y el mensaje lo denominaremos $m$. La firma CL sobre $m$ es la tupla $(A,e,v)$ tal que
-\begin{center}
-	$A \equiv \left( \dfrac{Z}{S^v R^m} \right) ^{1/e} \, mod \, n$
-\end{center}
-donde $e,v$ son aleatorios, $e$ primo y $\frac{1}{e}\cdot e \equiv 1 \, mod \, \varphi(n)$.
+Sean $p`$ y $q`$ dos primos, tal que $p=2p`+1$ y $q=2q`+1$ también lo son, llamados \textit{primos seguros}. Los parámetros del sistema, conocidos por el firmante y quien comprueba la firma son: el entero $n=pq$, $Z,S,R\in QR_n$ (grupo multiplicativo de los residuos cuadráticos módulo $n$). La clave secreta del firmante es $(p,q)$ y el mensaje lo denominaremos $m$. La firma CL sobre $m$ es la tupla $(A,e,v)$ tal que $A \equiv \left( \dfrac{Z}{S^v R^m} \right) ^{1/e} \, mod \, n$, donde $e,v$ son aleatorios, $e$ primo y $\frac{1}{e}\cdot e \equiv 1 \, mod \, \varphi(n)$.
 
-
-Para comprobar que una firma $(A,e,v)$ es correcta, basta comprobar si
-\begin{center}
-	$Z \overset{?}{\equiv} A^e S^v R^m \, mod \, n$.
-\end{center}
+Para verificar que una firma $(A,e,v)$ es correcta, basta comprobar si $Z \overset{?}{\equiv} A^e S^v R^m \, mod \, n$.
 
 \hfil
 
@@ -335,26 +283,15 @@ La ventaja de esta firma es que se puede aplicar sobre múltiples mensajes a la 
 
 \hfil
 
-Para verificar la firma, comprobamos que
-\begin{center}
-	$Z \overset{?}{\equiv} A^e S^v \prod_{i=0}^{l} R_i^{m_i} \, mod \, n$.
-\end{center}
-
-
-La firma CL se basa en la \textit{suposición RSA fuerte}, donde tanto el problema RSA y el del logaritmo discreto son difíciles de resolver a la vez, es decir, dado un módulo RSA $n$, y un valor $u\in \mathbb{Z}_n^*$, es difícil calcular una pareja de valores $(e,v)$, tal que $v^e \equiv u \, mod \, n$.
-
-
-
-Como el firmante conoce los factores primos $p$ y $q$ de $n$, puede calcular, utilizando el Teorema Chino de los Restos, la firma fácilmente, pero quien no la conoce, se enfrenta al problema anterior para deshacer los cálculos.
-
+Para verificar la firma, comprobamos que $Z \overset{?}{\equiv} A^e S^v \prod_{i=0}^{l} R_i^{m_i} \, mod \, n$.
 
 \subsection{Firma Camenisch-Lysyanskaya aleatorizada}\label{CLrandomized}
 
-Dada una firma CL $(A,e,v)$, sobre los mensajes  $m_0,m_1,\dots,m_l$, podemos obtener una firma $(\acute{A},e,\hat{v})$ distinta de la anterior, excepto por $e$, y todavía válida. Esta nueva firma la puede generar cualquier usuario, pues no precisa del secreto $(p,q)$ de la firma original.
+Dada una firma CL $(A,e,v)$, sobre los mensajes  $m_0,m_1,\dots,m_l$, podemos obtener una firma $(\acute{A},e,\hat{v})$ distinta de la anterior, excepto por $e$, que todavía sea válida. Esta nueva firma la puede generar cualquier usuario, pues no precisa del secreto $(p,q)$ de la firma original.
 
-La nueva firma se calcula a partir de un entero aleatorio $r$, tal que $\acute{A}= A\cdot S^{-r}\, mod\, n$ y $\hat{v}=v+er$.
+La nueva firma se obtiene a partir de un entero aleatorio $r$, calculando $\acute{A}= A\cdot S^{-r}\, mod\, n$ y $\hat{v}=v+er$.
 
-La verificación de $(\acute{A},e,\hat{v})$ se realiza igual que en la original, ya que:
+La verificación de $(\acute{A},e,\hat{v})$ se realiza igual que en la firma original, ya que:
 
 \begin{center}
 	$
@@ -367,11 +304,11 @@ La verificación de $(\acute{A},e,\hat{v})$ se realiza igual que en la original,
 
 En la expedición del certificado intervienen el Usuario y el Emisor (por ej., una compañía o gobierno). Durante el protocolo de emisión, el Usuario y el Emisor calculan interactivamente una firma CL, es decir, entre los dos generarán la firma CL, porque ninguno tendrá toda la información necesaria para generar la firma por sí mismo. En cada paso, una prueba de conocimiento cero asegurará que cada parte ha seguido el protocolo.
 
-El Emisor conocerá la factorización de $n$, mientras que el Usuario guardará su clave secreta, $m_0$ y, opcionalmente, los atributos del certificado, $m_1,\dots,m_l$. Al final de la firma, el Usuario conocerá una representación, $(m_1,\dots,m_l)$ de $\frac{Z}{A^eS^v}$ con respecto a la base $(R_0,\dots,R_l)$, y como ya hemos visto, podrá demostrar con una prueba de conocimiento cero que conoce dicha representación sin revelar ninguno, o solo un subconjunto. Además, el Emisor no conocerá la firma $(A,e,v)$ final, pues $v$ se calculará también de manera conjunta de modo que sólo el Usuario conocerá el valor final.
+El Emisor conocerá la factorización de $n$, mientras que el Usuario guardará una clave secreta, $m_0$ y, opcionalmente, los atributos del certificado, $m_1,\dots,m_l$. Al final de la firma, el Usuario conocerá una representación, $(m_0,\dots,m_l)$ de $\frac{Z}{A^eS^v}$ con respecto a la base $(R_0,\dots,R_l)$, y como ya hemos visto, podrá demostrar con una prueba de conocimiento cero que conoce dicha representación sin revelar necesariamente ninguno. Además, el Emisor no conocerá la firma $(A,e,v)$ final, pues $v$ se calculará también de manera conjunta de modo que sólo el Usuario conocerá la firma generada.
 
 \hfil
 
-A continuación presentamos una versión simplificada del protocolo, donde los atributos son conocidos por el Emisor. En otras versiones el Usuario puede enviar pruebas sobre alguna propiedad del atributo, o pseudónimos, sin revelar el verdadero valor al Emisor. Es importante notar que el número de residuos cuadráticos generados por el emisor, $R_0,\dots,R_{l'}$ determina el máximo de atributos que puede llevar un certificado.
+A continuación presentamos una versión simplificada del protocolo, donde todos los atributos, menos la clave secreta, son conocidos por el Emisor. En otras versiones el Usuario puede enviar pruebas sobre alguna propiedad del atributo sin revelar el verdadero valor al Emisor, pero esto depende de la política del Emisor al firmar certificados. Es importante notar que el número de residuos cuadráticos generados por el emisor, $R_0,\dots,R_{l'}$ determina el máximo de atributos que puede llevar un certificado.
 
 \rule{\textwidth}{1pt}
 \begin{algorithm}[Emisión de certificado Idemix]
@@ -401,7 +338,7 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 			
 			\item Calcula* la prueba $P_1 := ZKP\{(\nu',\mu_0) : U \equiv S^{\nu'}R_0^{\mu_0} \, mod \, n \}(n_1)$, no interactiva, dependiente de $n_1$.
 			
-			\item Envía $U,P_1,n_2$, donde $n_2$ es un valor aleatorio elegido por el Usuario.
+			\item Envía $(U,P_1,n_2)$, donde $n_2$ es un valor aleatorio elegido por el Usuario.
 
 		\end{enumerate}
 
@@ -411,9 +348,9 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 			
 			\item Elige un valor un $e$ primo y $v''$ aleatorios (segundo paso para calcular el $v$ de la firma).
 			
-			\item Calcula el valor $A = \left(  \dfrac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{1/e} \, mod \, n$.
+			\item Calcula el valor $A = \left(  \frac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{1/e} \, mod \, n$.
 			
-			\item Calcula* $P_2 := ZKP\{(\delta) : A \equiv \left( \dfrac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{\delta} \, mod \, n \}(n_2)$, no interactiva, dependiente de $n_2$.
+			\item Calcula* $P_2 := ZKP\{(\delta) : A \equiv \left( \frac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{\delta} \, mod \, n \}(n_2)$, no interactiva, dependiente de $n_2$.
 			
 			\item Envía $(A,e,v'')$ y $P_2$ al Usuario.
 		\end{enumerate}
@@ -438,7 +375,7 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 
 \begin{figure}[bth]
 	\begin{center}
-		\includegraphics[width=\linewidth]{gfx/issuanceIdemix}
+		\includegraphics[width=0.8\linewidth]{gfx/issuanceIdemix}
 	\end{center}
 	\caption{Idemix: firma de credenciales simplificada.}
 	\label{fig:issuanceIdemix}
@@ -447,7 +384,7 @@ A continuación presentamos una versión simplificada del protocolo, donde los a
 \hfil
 
 
-La prueba de conocimiento $P_1$ indica que conocemos un $v'$, primera parte del $v$ final de la firma CL, y un $m_0$, nuestra clave secreta, tales que $U$ se representa como $(v', m_0)$ en la \textit{base} $(S,R_0)$. Utilizando la heurística de Fiat-Shamir, en vez de pedir varios retos al Emisor para conseguir robustez, utilizamos una función de hash junto a un reto $n_1$ del emisor, llamado en inglés \textit{nonce}. La prueba que se envía consiste en el reto obtenido con el hash, y las respuestas a dicho reto.
+La prueba de conocimiento $P_1$ indica que conocemos un $v'$, primera parte del $v$ final de la firma CL, y un $m_0$, nuestra clave secreta, tales que $U$ se representa como $(v', m_0)$ en la \textit{base} $(S,R_0)$. Utilizando la heurística de Fiat-Shamir, en vez de pedir varios retos al Emisor para conseguir robustez, utilizamos una función de hash junto a un reto $n_1$ del emisor, llamado en inglés \textit{nonce}. La prueba que se envía consiste en una tupla con el reto obtenido por el hash, y las respuestas a dicho reto.
 
 \begin{algorithm}[$KP\{(v',m_0) : U \equiv S^{v'}R_0^{m_0} \, mod \, n \}(n_1)$]
 	\hfil
@@ -479,7 +416,7 @@ Para verificar la prueba anterior, por la heurística de Fiat-Shamir (\ref{fiat-
 \hfil
 
 
-En la prueba de conocimiento del Verificador, demostramos que conocemos la inversa del $e$ de la firma CL, pero sin desvelar su valor, que solo el Emisor, conocedor de $p$ y $q$, puede calcular.
+En la prueba de conocimiento $P_2$ del Emisor, demostramos que conocemos la inversa del $e$ de la firma CL, pero sin desvelar su valor, que solo el Emisor, conocedor de $p$ y $q$, puede calcular.
 
 \begin{algorithm}[$KP\{(e^{-1}) : A \equiv \left( \frac{Z}{U\cdot S^{v''}\cdot \prod_{i=1}^{l} R_i^{m_i}} \right)^{e^{-1}} \, mod \, n \}(n_2)$]
 	\hfil
@@ -490,16 +427,16 @@ En la prueba de conocimiento del Verificador, demostramos que conocemos la inver
 		\item Calcular $\tilde{A} = Q^r \, mod \, n$.
 		\item Calcular el reto por Fiat-Shamir $c' = H(Q||A||n_2||\tilde{A})$.
 		\item Calcular la respuesta $s_e = r-c'e^{-1}$.
-		\item $P_2 := (s_e, c')$.
+		\item $P_2 := (c', s_e)$.
 	\end{enumerate}
 	
 \end{algorithm}
 
 \hfil
 
-Como antes, \textit{recuperamos} el valor calculado $\tilde{A}$ y comparamos los hashes.
+Como antes, para verificar la prueba, \textit{recuperamos} el valor $\tilde{A}$ y comparamos los hashes.
 
-\begin{algorithm}[Verificar $P_2 := (s_e, c')(n_2)$]
+\begin{algorithm}[Verificar $P_2 := (c', s_e)(n_2)$]
 	\hfil
 	
 	\begin{enumerate}
@@ -515,7 +452,7 @@ Como antes, \textit{recuperamos} el valor calculado $\tilde{A}$ y comparamos los
 
 Partiendo de un certificado con la clave secreta $m_0$, los atributos $m_1,\dots,m_l$ y la firma CL $(A,e,v)$, vamos a revelar a un Verificador todos nuestros atributos, excepto los dos primeros, $m_1$ y $m_2$, y por supuesto, tampoco la clave privada $m_0$.
 
-Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} y realizaremos una prueba no interactiva de que conocemos la representación $(m_0,m_1,m_2)$ (\ref{reprKP}) de un cierto valor en una cierta base.
+Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} y realizaremos una prueba no interactiva de que conocemos la representación $(m_0,m_1,m_2)$ (\ref{reprKP}) de un cierto valor en la base $R_0$, $R_1$ y $R_2$.
 
 \rule{\textwidth}{1pt}
 \begin{algorithm}[Revelación selectiva]
@@ -525,8 +462,6 @@ Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} 
 	
 	\textit{Conocimiento del Usuario}: $m_0$, su clave secreta, $m_1$ y $m_2$, sus atributos ocultos, $(A,e,v)$ su firma CL.
 	
-	\hfil
-	
 	\textit{Protocolo}:
 	\begin{enumerate}
 		\item V$\rightarrow$ P : valor aleatorio $n_1$.
@@ -534,7 +469,7 @@ Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} 
 		\item Usuario aleatoriza la firma CL:
 		\begin{enumerate}[label*=\arabic*.]
 			
-			\item $r$ aleatorio, $(A':=AS^{r} (mod\, n),\, e,\, v':=v-er)$
+			\item $r$ aleatorio, $(A':=AS^{-r}\,mod\, n,\, e,\, v':=v+er)$
 			
 		\end{enumerate}
 		
@@ -547,10 +482,7 @@ Para esto, primero aleatorizaremos la firma CL como vimos en \ref{CLrandomized} 
 			\item Elige valores aleatorios $\tilde{m}_0$, $\tilde{m}_1$ y $\tilde{m}_2$.
 			\item Calcula $\tilde{Z}:=(A')^{\tilde{e}} \left( \prod_{i=0}^3 R_i^{\tilde{m}_i} \right) S^{\tilde{v}'} \, mod \, n $.
 			\item Genera el reto por Fiat-Shamir $c:=Hash(A'||\tilde{Z}||n_1)$.
-			\item Calcula:
-			\subitem $\hat{e}:=\tilde{e}+ce$
-			\subitem $\hat{v}':=\tilde{v}+cv'$
-			\subitem $\hat{m}_i:=\tilde{m}_i+cm_i$, para $i=0,1,2$.
+			\item Calcula: $\hat{e}:=\tilde{e}+ce$;\; $\hat{v}':=\tilde{v}+cv'$;\; $\hat{m}_i:=\tilde{m}_i+cm_i$, para $i=0,1,2$.
 			\item $P_1:=(c, \hat{e}, \hat{v}', \hat{m}_0, \hat{m}_1, \hat{m}_2)$.			
 		\end{enumerate}
 		
@@ -606,3 +538,28 @@ Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger 
 % All transactions are zerocoin
 % Splitting and merging are supported. Put transaction value inside the envelope.
 % Ledger merely records existence of transactions.
+
+
+
+
+
+
+
+
+
+
+
+\section{TODO Conclusiones}
+
+BORRADOR
+
+Antes de introducir las aplicaciones prácticas de las pruebas de conocimiento cero, es importante repasar lo que hemos conseguido hasta ahora.
+
+Comenzamos con una pequeña base de teoría de la computación, que en el Grado de Matemáticas apenas se llega a mencionar para comprender la eficiencia de los algoritmos en asignaturas como 	Cálculo Numérico en Una Variable o Métodos Numéricos de Ecuaciones Diferenciales. Sin embargo, esta teoría es vital para comprender qué problemas se utilizan en la seguridad informática actual.
+
+Que un problema sea difícil de resolver, no implica que sea difícil de entender, como se comentó durante el seminario \textit{Grupos y criptograf\'ia: de Julio Cesar a las curvas el\'ipticas} de Adolfo Quirós, el pasado abril. Esto lo comprobamos al estudiar los preliminares del trabajo, donde la teoría de grafos y álgebra extienden su desarrollo durante el Grado, excepto quizás, los residuos cuadráticos, cuya teoría, por desgracia, ya no se incluye en el plan de estudios del Grado. De esta teoría, enunciamos y realizamos un análisis de los problemas de isomorfismo de grafos, 3-coloración de grafos, factorización, residuos cuadráticos y logaritmo discreto.
+
+En este mismo capítulo realizamos el estudio formal de la teoría que da nombre al trabajo, y mostramos las pruebas de conocimiento cero más características y utilizadas en la práctica. De estudiar las pruebas de conocimiento cero perfectas comprendemos el acertado nombre de \textit{conocimiento cero}, pues ninguna máquina podría obtener de ellas más información que la que quieren demostrar. Debido a las fuertes restricciones que la definición original imponía, estudiamos otros tipos de pruebas que en la práctica, con los computadores actuales, consiguen la misma propiedad de no revelar más información. De las pruebas con Verificador Honesto la confianza proviene de no conocer ataques viables al actuar como un Verificador tramposo. Sin embargo, en las pruebas computacionales, utilizamos los esquemas de compromiso con secreto computacional, que nos permite demostrar que cualquier Verificador, incluso uno malicioso, con restricción computacional, será incapaz de obtener más información de la prueba.
+
+
+

@@ -189,6 +189,7 @@
 % ********************************************************************
 % Using PDFLaTeX
 % ********************************************************************
+\PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{pdftex,hyperfootnotes=false,pdfpagelabels}{hyperref}
     \usepackage{hyperref}  % backref linktocpage pagebackref
 \pdfcompresslevel=9
@@ -215,7 +216,7 @@
     pdfsubject={},%
     pdfkeywords={},%
     pdfcreator={pdfLaTeX},%
-    pdfproducer={LaTeX with hyperref and classicthesis}%
+    pdfproducer={LaTeX with hyperref and classicthesis},%
 }   
 
 % ********************************************************************
@@ -281,7 +282,7 @@
 % Changing the text area
 % ********************************************************************
 %\linespread{1.05} % a bit more for Palatino
-\areaset[current]{430pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
+\areaset[current]{440pt}{770pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
 %\setlength{\marginparwidth}{7em}%
 %\setlength{\marginparsep}{2em}%
 
