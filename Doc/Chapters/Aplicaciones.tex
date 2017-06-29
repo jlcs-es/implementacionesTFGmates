@@ -549,17 +549,25 @@ Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger 
 
 
 
-\section{TODO Conclusiones}
+\chapter*{Conclusiones}
+\addcontentsline{toc}{chapter}{Conclusiones}
 
 BORRADOR
 
-Antes de introducir las aplicaciones prácticas de las pruebas de conocimiento cero, es importante repasar lo que hemos conseguido hasta ahora.
+Como cierre de este trabajo podemos destacar los conocimientos obtenidos durante el camino. Éste ha sido un trabajo de investigación que permite tratar un área de las matemáticas muy relacionada con la informática, desde que en el primer capítulo tratásemos la teoría de la computación hasta las aplicaciones de seguridad al final de la memoria. Sin embargo, los problemas matemáticos analizados y usados como base de la criptografía y pruebas de conocimiento cero, no es una teoría que se estudie fuera al mismo nivel que en el Grado en Matemáticas. El estudio formal que hemos realizado para poder demostrar las definiciones dadas sobre cada protocolo es una parte intrínseca de las matemáticas.
+ 
+ 
+Durante el seminario \textit{Grupos y criptograf\'ia: de Julio Cesar a las curvas el\'ipticas} de Adolfo Quirós, el pasado abril de 2017, se hizo el acertado comentario de que los problemas utilizados en criptografía no eran difíciles de entender. En efecto, hemos utilizado problemas de distintas áreas de las matemáticas, y los enunciados de los mismos no requerían un estudio extensivo sobre sus respectivas áreas para comprenderlos. Sin embargo, han demostrado que hasta el día de hoy, lo difícil es resolverlos. Por ejemplo, en el problema de la factorización vimos cómo las técnicas más avanzadas conseguían tiempos subexponenciales que sólo sirven en la práctica para valores de tamaño relativamente pequeño.
 
-Comenzamos con una pequeña base de teoría de la computación, que en el Grado de Matemáticas apenas se llega a mencionar para comprender la eficiencia de los algoritmos en asignaturas como 	Cálculo Numérico en Una Variable o Métodos Numéricos de Ecuaciones Diferenciales. Sin embargo, esta teoría es vital para comprender qué problemas se utilizan en la seguridad informática actual.
+Construimos esquemas de compromiso donde una de sus propiedades básicas, secreto o vinculación, dependían de la dificultad de resolver los problemas previos.
 
-Que un problema sea difícil de resolver, no implica que sea difícil de entender, como se comentó durante el seminario \textit{Grupos y criptograf\'ia: de Julio Cesar a las curvas el\'ipticas} de Adolfo Quirós, el pasado abril. Esto lo comprobamos al estudiar los preliminares del trabajo, donde la teoría de grafos y álgebra extienden su desarrollo durante el Grado, excepto quizás, los residuos cuadráticos, cuya teoría, por desgracia, ya no se incluye en el plan de estudios del Grado. De esta teoría, enunciamos y realizamos un análisis de los problemas de isomorfismo de grafos, 3-coloración de grafos, factorización, residuos cuadráticos y logaritmo discreto.
+Y también basándonos en esa dificultad, construimos algoritmos polinomiales que los pueden resuelven, a costa de suponer que una máquina P todopoderosa existe y es capaz de resolverlos, anulando en P la dificultad de los problemas. Modificando condiciones ajenas a P pasamos de pruebas perfectas, donde sabemos que de la prueba ninguna máquina podría obtener más información, a pruebas con Verificador Honesto, donde no conocemos ataques eficaces, o pruebas computacionales, donde la seguridad del conocimiento cero dependía de la dificultad del problema utilizado en el esquema de compromiso.
 
-En este mismo capítulo realizamos el estudio formal de la teoría que da nombre al trabajo, y mostramos las pruebas de conocimiento cero más características y utilizadas en la práctica. De estudiar las pruebas de conocimiento cero perfectas comprendemos el acertado nombre de \textit{conocimiento cero}, pues ninguna máquina podría obtener de ellas más información que la que quieren demostrar. Debido a las fuertes restricciones que la definición original imponía, estudiamos otros tipos de pruebas que en la práctica, con los computadores actuales, consiguen la misma propiedad de no revelar más información. De las pruebas con Verificador Honesto la confianza proviene de no conocer ataques viables al actuar como un Verificador tramposo. Sin embargo, en las pruebas computacionales, utilizamos los esquemas de compromiso con secreto computacional, que nos permite demostrar que cualquier Verificador, incluso uno malicioso, con restricción computacional, será incapaz de obtener más información de la prueba.
+Sin embargo, si queremos utilizar dichos métodos en la práctica, nuestro P también estará limitado computacionalmente, y deberá conocer de antemano una solución al problema, sin tener que calcular la solución. Es lo que vimos en la variación de la prueba de conocimiento cero de los residuos cuadráticos en el algoritmo de identificación de Fiat-Shamir.
 
+Finalmente, hemos visto que las aplicaciones de las pruebas de conocimiento cero no se quedan sólo en pequeñas interacciones para identificación, sino que permiten realizar tareas más complejas como computación distribuida, que se combinan en un protocolo como Idemix.
+
+
+En el ámbito personal, creo que este trabajo me ha permitido comprender e iniciarme en la investigación, en concreto en un campo que en los Grados que he estudiado no se termina de combinar para un estudio del que tenemos nivel para realizar, pero que comprendo que actualmente no es viable su realización.
 
 
