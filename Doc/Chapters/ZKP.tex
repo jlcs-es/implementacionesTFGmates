@@ -13,13 +13,6 @@
 % damgardcommitment
 % blum
 
-% Intro
-% Ejemplo intuitivo del laberinto
-% Pruebas interacticas: completitud y solvencia/solidez/robustez == completo y robusto/sólido, apartado corto, poner QR en el siguiente
-% Prueba de conocimiento cero
-%	Perfect vs Comp.
-%	QR: es Perfect ZKP, y aplicaciones (id de Shamir, ...)
-%	
 
 
 % Para la estadística referenciar:
@@ -150,17 +143,11 @@ Vamos a ver una prueba interactiva para demostrar el problema QR (\autoref{probl
 
 \section{Pruebas de conocimiento cero}
 
-% Introducción: De manera informal,....
-% Definiciones: Prueba de conocimiento (como subconjunto de pruebas de problemas de decisión?), Ensemble, View, Simulator
-
-%TODO: ahora que se habla más de un secreto, que es lo que queremos mantener privado en P, demostrar de la robustez, que si un cheating P no conoce el secreto, pero pasa la prueba, tiene un conocimiento equivalente al secreto. Dem por tema de la probabilidad.
-
-
 Entre las pruebas interactivas existe un subconjunto que llamamos de \textit{conocimiento cero} si durante el protocolo no se puede inferir información de P, aparte de la veracidad de la instancia. En particular, aún tras realizar la prueba, y estar V convencido, éste no podría repetirla a otro verificador tomando el lugar de P.
 
 \hfil
 
-Antes de ver una definición más formal de una prueba de conocimiento cero, necesitamos algunas definiciones previas.
+Antes de ver una definición más formal de una prueba de conocimiento cero, necesitamos algunas definiciones previas. Seguiremos en esta sección el guión de \citep{pieprzyk2013fundamentals} que nos pareció el más indicado.
 
 
 
@@ -691,11 +678,13 @@ La última prueba de conocimiento cero perfecta que veremos será la del problem
 
 \paragraph{Otros tipos de pruebas de conocimiento cero}
 
-La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Esto limita la cantidad de pruebas de conocimiento cero conocidas, y por eso se definen pruebas con menos restricciones, que en la práctica pueden funcionar como las ZKP perfectas, y en ocasiones de forma más óptima.
+La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Una variación de la propiedad de conocimiento cero admite que los ensambles sean asintóticamente iguales, y de este modo a las pruebas se les llama \textit{pruebas de conocimiento cero estadísticas}.
+
+Al relajar la definición de conocimiento cero, ampliamos la cantidad de pruebas de conocimiento cero conocidas, y por eso se definen diferentes tipos de \textit{conocimiento cero}, con menos restricciones, que en la práctica pueden funcionar como las pruebas de conocimiento cero perfectas, e incluso en ocasiones ser más óptimos.
+
+
 
 \hfil
-
-
 
 
 \section{Pruebas de conocimiento cero de Verificador Honesto}\label{honestVer:sec}
@@ -716,7 +705,7 @@ En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores e
 
 \hfil
 
-Veremos en este apartado una variación de la prueba de conocimiento cero perfecta basada en el problema del Logaritmo Discreto (\ref{problemaDL}), llamado \textit{Protocolo de Identificación de Schnorr}.
+Veremos en este apartado una variación de la prueba de conocimiento cero perfecta basada en el problema del Logaritmo Discreto (\ref{problemaDL}), llamado \textit{Protocolo de Identificación de Schnorr}. Para esta prueba seguiremos principalmente el texto de Stinson \citep[Section 9.4]{stinson2005cryptography}.
 
 Primero hemos de definir unos parámetros comunes conocidos por P y V. Elegimos dos valores primos, $p$ y $q$ tal que $p\equiv 1 \, mod \, q$, es decir, $q\mid (p-1)$, y el problema del logaritmo discreto es difícil en el subgrupo de $\mathbb{Z}_p^*$ generado por $\alpha$ con orden $q$. Además debemos elegir un valor $t$ que definirá la robustez del protocolo. En resumen tenemos:
 
@@ -880,28 +869,13 @@ Aún así, Schnorr es utilizado ampliamente en la práctica, pues tampoco se con
 
 
 
-\section{Pruebas de conocimiento cero estadísticas}
-
-Partiendo de la definición de prueba de conocimiento cero perfecta, denominamos \textit{pruebas de conocimiento cero estadísticas} a las pruebas interactivas con un Simulador cuyo ensamble no es necesariamente idéntico al de la Vista, pero cuya diferencia es despreciable.
-
-\begin{definition}[Propiedad de conocimiento cero estadística]	
-	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es de \textit{conocimiento cero estadística} si el ensamble $Vista_{P,V}(q,h)$ converge estadísticamente, en $n$ el tamaño de la instancia, al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$:
-	\[
-	\lim_{n\to\infty} Vista_{P,V^*}(q,h) =  \lim_{n\to\infty} S_{V^*}(q,h)
-	\]
-\end{definition}
-
-
-\hfil
-% TODO: ejemplo, referenciar textos de transformar estadísticas o algo
-
 
 \section{Esquemas de compromiso}\label{bitcommitment}
 
 En las pruebas de conocimiento cero vistas hasta ahora, el primer mensaje del Probador consistía en un \textit{compromiso} con el Verificador, al que llamamos \textit{testigo}, de modo que en la respuesta al reto no pudiera engañarle, con cierta probabilidad.
 
 
-Antes de introducir el último tipo de Pruebas de Conocimiento Cero de este capítulo, las Computacionales, debemos estudiar la existencia y propiedades de los llamados esquemas de compromiso, una herramienta que nos permite dar para todo problema \textbf{NPC} una Prueba de Conociemiento Cero Computacional, como muestra Manuel Blum en \citetitle{blum} \citep{blum}.
+Antes de introducir el último tipo de Pruebas de Conocimiento Cero de este capítulo, las Computacionales, debemos estudiar la existencia y propiedades de los llamados esquemas de compromiso, una herramienta que nos permite dar para todo problema \textbf{NPC} una Prueba de Conociemiento Cero Computacional, como muestra Manuel Blum en \citetitle{blum} \citep{blum}. La bibliografía básica para esta sección se encuentra principalmente en \citep{pieprzyk2013fundamentals,damgardcommitment}.
 
 Estos esquemas permiten esconder la estructura de una instancia $Verdadera$, donde P se compromete con su \textit{testigo} antes de conocer el \textit{reto} de V, de modo que V no puede obtener información de estos testigos. En la última \textit{respuesta} de P, se revelará una pequeña parte de la estructura de la instancia $Verdadera$, de la cual V no podrá aprender tampoco nada.
 
@@ -1434,7 +1408,7 @@ Otra prueba interactiva de conocimiento cero computacional es la de demostrar qu
 Como los problemas G3C y HC, de las sección anterior, son \textbf{NP}-completos, y como todos los problemas \textbf{NPC} son computacionalmente equivalentes, en el sentido de que todos se pueden reducir polinomialmente a otro problema \textbf{NPC}, tenemos que todo problema en \textbf{NPC} tiene una prueba de conocimiento cero computacional.
 
 
-Blum presenta en \citep{blum} una prueba de conocimiento cero para G3C, que sigue las líneas de la prueba del ciclo hamiltoniano, utilizando un bit como reto para desvelar el grafo $G$ o una prueba de que se ocultó una 3-coloración. Sin embargo, aquí presentamos una variación de la prueba que creemos es más sencilla de entender. 
+Blum presenta en \citep{blum} una prueba de conocimiento cero para G3C, que sigue las líneas de la prueba del ciclo hamiltoniano, utilizando un bit como reto para desvelar el grafo $G$ o una prueba de que se ocultó una 3-coloración. Sin embargo, en \citep{pieprzyk2013fundamentals} se muestra una variación de la prueba que creemos es más sencilla de entender.
 
 La idea de esta prueba es que en cada iteración, P elige una permutación aleatoria de la 3-coloración, $\pi \in Sym(\{1,2,3\})$, y oculta cada vértice coloreado en una caja negra. El \textit{testigo} que enviará a V consistirá en ocultar toda la 3-coloración del grafo en $n$ cajas negras cuyos índices corresponden a los vértices del grafo. V elegirá como \textit{reto} una arista aleatoria. Como \textit{respuesta}, P enviará la coloración permutada de esa arista, que deberá tener colores distintos en cada extremo, y las claves de cifrado de cada una, de modo que V podrá comprobar si corresponden al \textit{testigo} enviado:
 
@@ -1445,7 +1419,7 @@ La idea de esta prueba es que en cada iteración, P elige una permutación aleat
 	
 	\hfil
 	
-	\textit{Datos comunes}: Una instancia $G=(V,E)$ del Problema G3C. $(\mid V \mid = n, \mid E \mid=m)$ es el tamaño del problema.
+	\textit{Datos comunes}: Una instancia $G=(V,E)$ del Problema G3C.  $\mid E \mid=m$ y $\mid V \mid = n$ es el tamaño del problema.
 	
 	\textit{Protocolo}: 
 	
