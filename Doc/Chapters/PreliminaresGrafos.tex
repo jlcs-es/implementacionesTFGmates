@@ -4,7 +4,7 @@
 
 \section{Introducci\'on a la Teoría de Grafos}
 
-\begin{definition}
+\begin{definition}\index{Grafo}\index{Nodo}\index{Arista}
 	Un \textit{grafo} (simple no dirigido) es un par $(V,E)$ formado por un conjunto
 	finito $V \neq \emptyset$, a cuyos elementos denominaremos \textit{vértices} o
 	\textit{nodos}, y $E$, un conjunto de pares (no ordenados y formados por distintos
@@ -15,7 +15,7 @@
 \end{definition}
 
 
-\begin{definition}[Conceptos]
+\begin{definition}[Conceptos]\index{Ciclo}\index{Hamiltoniano}\index{Camino}
 	\begin{itemize}
 	\item A dos nodos $v_1$ y $v_2$ que forman parte de una misma arista se les llama \textit{adyacentes}.
   \item Se dice que una arista es \textit{incidente} con un vértice $v$ cuando $v$ es uno de sus extremos.
@@ -55,7 +55,7 @@ y por otro, al ser $\tau$ biyectiva, el ciclo contiene a todos los nodos
 sin repetir ninguno (salvo los extremos).
 \end{proof}
 
-\begin{definition}
+\begin{definition}\index{Coloraci\'on}
 	Una \textit{coloración} de un grafo $G=(V,E)$ es una aplicación $\phi:V\rightarrow
 	\{1,2,\dots , l\}$. El valor $\phi(v_i)$ es el \textit{color} correspondiente al
 	nodo $v_i$.
@@ -83,7 +83,7 @@ utilizados en pruebas de conocimiento cero.
 
 \hfil
 
-\begin{tabular}{|ll}\label{problemaGI}
+\begin{tabular}{|ll}\label{problemaGI}\index{Problema Isomorfismo de Grafos}\index{GI}
 	\textit{Nombre:} & Problema GI ({\em Graph Isomorphism}). \\
 	\textit{Parámetros:} & Dos grafos $G_1 = (V_1, E_1)$ y $G_2 = (V_2, E_2)$,
 	\\ & del mismo orden $\mid V_1 \mid = \mid V_2 \mid = n$. \\
@@ -140,7 +140,7 @@ revista Scientific American que est\'a disponible online en
 
 \hfil
 
-\begin{tabular}{|ll}\label{problemaHC}
+\begin{tabular}{|ll}\label{problemaHC}\index{Problema Ciclo Hamiltoniano}\index{HC}
 	\textit{Nombre:} & Problema HC ({\em Hamiltonial Cycle}). \\
 	\textit{Parámetros:} & Un grafo $G=(V,E)$. \\
 	\textit{Pregunta:} & ¿Existe un ciclo hamiltoniano en G? \\
@@ -173,7 +173,7 @@ comprobar que un ciclo concreto cumple las condiciones de ciclo hamiltoniano es 
 
 \hfil
 
-\begin{tabular}{|ll}\label{problemaG3C}
+\begin{tabular}{|ll}\label{problemaG3C}\index{Problema 3-coloración}\index{G3C}
 	\textit{Nombre:} & Problema G3C. \\
 	\textit{Parámetros:} &Un grafo $G=(V,E)$. \\
 	\textit{Pregunta:} & ¿Existe una función

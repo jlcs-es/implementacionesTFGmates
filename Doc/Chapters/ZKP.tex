@@ -22,7 +22,7 @@
 % Fundamentals
 % https://en.wikipedia.org/wiki/Computational_indistinguishability
 
-Las pruebas de conocimiento cero, con siglas ZKP del inglés \textit{Zero-Knowledge Proofs}, permiten demostrar la veracidad de una declaración, sin revelar nada más de ella. En las ZKP intervienen dos partes, el \textit{Prover} y el \textit{Verifier}, o Probador y Verificador. El Probador asegura que una declaración es cierta, y el Verificador quiere convencerse de ello a través de una interacción con el Probador, de modo que al final de la misma, o bien acaba convencido de que la declaración es cierta, o bien descubre, con una alta probabilidad, que el Probador mentía.
+Las pruebas de conocimiento cero, con siglas ZKP\index{ZKP} del inglés \textit{Zero-Knowledge Proofs}, permiten demostrar la veracidad de una declaración, sin revelar nada más de ella. En las ZKP intervienen dos partes, el \textit{Prover} y el \textit{Verifier}, o Probador y Verificador. El Probador asegura que una declaración es cierta, y el Verificador quiere convencerse de ello a través de una interacción con el Probador, de modo que al final de la misma, o bien acaba convencido de que la declaración es cierta, o bien descubre, con una alta probabilidad, que el Probador mentía.
 
 Las pruebas de conocimiento cero surgen a partir de los sistemas de pruebas interactivas, que forman una parte importante de la teoría de complejidad computacional, a las que añadiendo la propiedad de \textit{conocimiento cero} obtenemos el subconjunto de sistemas interactivos que conforman las pruebas de conocimiento cero.
 
@@ -31,9 +31,9 @@ Las referencias utilizadas para este capítulo se pueden encontrar en \citep{pie
 
 \section{Sistemas de Pruebas Interactivas}
 
-Un \textit{sistema de prueba interactivo} es un concepto perteneciente a la teoría computacional, que modela el intercambio de un número finito de mensajes entre dos partes, el probador P y el verificador V, con el objetivo de que P demuestre a V que una instancia de un cierto problema de decisión es $Verdadera$. V es una máquina con una capacidad de cómputo limitada, a lo sumo probabilístico de tiempo de polinomial. P es computacionalmente \textit{todopoderoso}. Al final del intercambio de mensajes, o bien V acepta que la instancia es $Verdadera$, o bien la rechaza por ser $Falsa$.
+Un \textit{sistema de prueba interactivo} es un concepto perteneciente a la teoría computacional, que modela el intercambio de un número finito de mensajes entre dos partes, el probador P\index{P (probador)}\index{Probador} y el verificador V\index{V (verificador)}\index{Verificador}, con el objetivo de que P demuestre a V que una instancia de un cierto problema de decisión es $Verdadera$. V es una máquina con una capacidad de cómputo limitada, a lo sumo probabilístico de tiempo de polinomial. P es computacionalmente \textit{todopoderoso}. Al final del intercambio de mensajes, o bien V acepta que la instancia es $Verdadera$, o bien la rechaza por ser $Falsa$.
 
-\begin{definition}
+\begin{definition}\index{Prueba Interactiva}\index{Completo}\index{Robusto}
 
 	
 	Se dice que un problema de decisión $Q$, no necesariamente en \textbf{NP},  tiene un \textit{sistema de prueba interactivo} si tiene un protocolo de interacción polinomialmente acotado en número de mensajes que cumple:
@@ -51,7 +51,7 @@ En resumen, si la instancia del problema $Q$ que P quiere demostrar es $Verdader
 Un P o un V que no siguen el protocolo e intentan romper estas propiedades, los llamaremos un P$^*$ o V$^*$ \textit{tramposos}.
 
 
-\begin{definition}
+\begin{definition}\index{IP}
 	Denominamos clase de problemas \textbf{IP} (Interactivos en tiempo Polinomial) al conjunto de problemas de decisión para los que existe un sistema de prueba interactivo.
 \end{definition}
 
@@ -151,7 +151,7 @@ Antes de ver una definición más formal de una prueba de conocimiento cero, nec
 
 
 
-\begin{definition}
+\begin{definition}\index{Vista}
 	Llamamos \textit{Vista} a la transcripción de los mensajes intercambiados entre P y V durante la ejecución de una prueba interactiva.
 \end{definition}
 
@@ -164,7 +164,7 @@ Pensemos en un protocolo con 3 mensajes por iteración. En la $i$-ésima ronda, 
 Una Vista sólo es de interés para una instancia $Verdadera$, donde P realmente conoce si es $Verdadera$. Para una instancia cuya prueba falla, o bien es una instancia $Falsa$ o P no puede probarla, por ser tramposo.
 
 
-\begin{definition}
+\begin{definition}\index{Ensamble}
 	Llamamos ensamble probabilístico (\textit{ensemble} en inglés) a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable.
 \end{definition}
 
@@ -183,7 +183,7 @@ Para un verificador honesto, $F$ se puede considerar como un generador de númer
 
 
 
-\begin{definition}
+\begin{definition}\index{Simulador}
 	Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible (el historial $h$ y la función $F$), para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P.
 \end{definition}
 
@@ -197,7 +197,7 @@ Podemos describir, por fin, la tercera propiedad de las pruebas de conocimiento 
 
 %\subsection{Pruebas de conocimiento cero perfectas}
 
-\begin{definition}[Propiedad de conocimiento cero]	
+\begin{definition}[Propiedad de conocimiento cero]	\index{Conocimiento Cero}\index{Conocimiento Cero Perfecto}
 	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es de \textit{conocimiento cero} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
 \end{definition}
 
@@ -678,7 +678,7 @@ La última prueba de conocimiento cero perfecta que veremos será la del problem
 
 \paragraph{Otros tipos de pruebas de conocimiento cero}
 
-La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Una variación de la propiedad de conocimiento cero admite que los ensambles sean asintóticamente iguales, y de este modo a las pruebas se les llama \textit{pruebas de conocimiento cero estadísticas}.
+La propiedad de \textit{conocimiento cero perfecta} exige que exista un Simulador probabilístico de tiempo polinomial, cuyo ensamble sea idéntico al del protocolo. Una variación de la propiedad de conocimiento cero admite que los ensambles sean asintóticamente iguales, y de este modo a las pruebas se les llama \textit{pruebas de conocimiento cero estadísticas}\index{Conocimiento Cero Estadístico}.
 
 Al relajar la definición de conocimiento cero, ampliamos la cantidad de pruebas de conocimiento cero conocidas, y por eso se definen diferentes tipos de \textit{conocimiento cero}, con menos restricciones, que en la práctica pueden funcionar como las pruebas de conocimiento cero perfectas, e incluso en ocasiones ser más óptimos.
 
@@ -697,7 +697,7 @@ En esta sección veremos un tipo de pruebas de conocimiento cero utilizadas en l
 En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores estudiados consideraban la existencia de un algoritmo $F$ que un Verificador tramposo, V$^*$, utilizaría para elegir los retos, en un intento de obtener más información de P. En este tipo de pruebas, V no dispondrá de $F$ para elegir los retos.
 
 
-\begin{definition}[Propiedad de conocimiento cero con Verificador Honesto]
+\begin{definition}[Propiedad de conocimiento cero con Verificador Honesto]\index{Conocimiento Cero Verificador Honesto}\index{Verificador Honesto}
 	\hfil
 	
 	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es \textit{perfecta de conocimiento cero con Verificador Honesto} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V}(q,h)$, donde el Verificador V sigue los pasos del protocolo, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
@@ -705,7 +705,7 @@ En las pruebas de conocimiento cero perfectas que hemos visto, los simuladores e
 
 \hfil
 
-Veremos en este apartado una variación de la prueba de conocimiento cero perfecta basada en el problema del Logaritmo Discreto (\ref{problemaDL}), llamado \textit{Protocolo de Identificación de Schnorr}. Para esta prueba seguiremos principalmente el texto de Stinson \citep[Section 9.4]{stinson2005cryptography}.
+Veremos en este apartado una variación de la prueba de conocimiento cero perfecta basada en el problema del Logaritmo Discreto (\ref{problemaDL}), llamado \textit{Protocolo de Identificación de Schnorr}\index{Schnorr}. Para esta prueba seguiremos principalmente el texto de Stinson \citep[Section 9.4]{stinson2005cryptography}.
 
 Primero hemos de definir unos parámetros comunes conocidos por P y V. Elegimos dos valores primos, $p$ y $q$ tal que $p\equiv 1 \, mod \, q$, es decir, $q\mid (p-1)$, y el problema del logaritmo discreto es difícil en el subgrupo de $\mathbb{Z}_p^*$ generado por $\alpha$ con orden $q$. Además debemos elegir un valor $t$ que definirá la robustez del protocolo. En resumen tenemos:
 
@@ -883,7 +883,7 @@ Estos esquemas permiten esconder la estructura de una instancia $Verdadera$, don
 Empecemos definiendo un esquema de compromiso para un bit:
 
 
-\begin{definition}\label{commit:def}
+\begin{definition}\label{commit:def}\index{Esquema de compromiso}\index{Compromiso}\index{Vinculación}\index{Secreto}
 	Un esquema de compromiso de un \textit{bit} es un par de funciones $(f,v)$ de tiempo polinomial. La función
 	
 	$
@@ -909,11 +909,11 @@ Empecemos definiendo un esquema de compromiso para un bit:
 
 Podemos clasificar los esquemas de compromiso de bit en dos tipos:
 
-\begin{definition}[Vinculación incondicional]
+\begin{definition}[Vinculación incondicional]\index{Vinculación incondicional}
 	Una máquina P con una capacidad computacional ilimitada (como en las pruebas interactivas) no puede cambiar el bit comprometido en el \textit{testigo} enviado.
 \end{definition}
 
-\begin{definition}[Secreto incondicional]
+\begin{definition}[Secreto incondicional]\index{Secreto incondicional}
 	Los ensambles $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$ son idénticos. Es decir, dada una máquina V con capacidad computacional ilimitada, no es capaz de distinguir los ensambles con mayor probabilidad que eligiendo al azar el posible valor de $b$.
 \end{definition}
 
@@ -927,11 +927,11 @@ Podemos clasificar los esquemas de compromiso de bit en dos tipos:
 
 Sin embargo, se puede conseguir una condición menos restrictiva, pero equivalentes en la práctica:
 
-\begin{definition}[Vinculación computacional]
+\begin{definition}[Vinculación computacional]\index{Vinculación computacional}
 	No existe ningún algoritmo probabilístico en tiempo polinomial que permita encontrar un $y'$ tal que P puede cambiar el bit comprometido.
 \end{definition}
 
-\begin{definition}[Secreto computacional]
+\begin{definition}[Secreto computacional]\index{Secreto computacional}
 	No existe ningún algoritmo probabilístico en tiempo polinomial que permita distinguir los ensambles probabilísticos $\{f(0,\Upsilon)\}$ y $\{f(1,\Upsilon)\}$. Se dice que los ensambles son \textit{indistinguibles polinomialmente}.
 \end{definition}
 
@@ -994,7 +994,7 @@ El algoritmo de compromiso es como sigue:
 \hfil
 
 
-A continuación, presentamos otro esquema de compromiso basado en el logaritmo discreto, conocido como \textit{compromiso de Pedersen}. Para llevarlo a cabo, P y V deben primero decidir un $p$ primo suficientemente grande y un generador $g\in \mathbb{Z}_p^*$ donde el problema del logaritmo discreto es \textit{difícil}. V además elige un valor aleatorio $s\in \mathbb{Z}_{p-1}$, de modo que no se conoce $log_g s$, y lo envía a P. Los conjuntos del esquema de compromiso son $\Upsilon = \mathbb{Z}_{p-1}$ para las \textit{claves} y $\chi= \mathbb{Z}_p^*$ para los blobs.
+A continuación, presentamos otro esquema de compromiso basado en el logaritmo discreto, conocido como \textit{compromiso de Pedersen}\index{Pedersen}. Para llevarlo a cabo, P y V deben primero decidir un $p$ primo suficientemente grande y un generador $g\in \mathbb{Z}_p^*$ donde el problema del logaritmo discreto es \textit{difícil}. V además elige un valor aleatorio $s\in \mathbb{Z}_{p-1}$, de modo que no se conoce $log_g s$, y lo envía a P. Los conjuntos del esquema de compromiso son $\Upsilon = \mathbb{Z}_{p-1}$ para las \textit{claves} y $\chi= \mathbb{Z}_p^*$ para los blobs.
 
 
 
@@ -1153,7 +1153,7 @@ Existen pruebas interactivas donde P necesita comprometerse con un valor en un c
 
 \hfil
 
-Veamos dos ejemplos basados en el problema del logaritmo discreto. El primero se basa en el compromiso de Pedersen, siendo de secreto incondicional, mientras que en el segundo ejemplo, basado en el algoritmo de ElGamal, conseguimos vinculación incondicional.
+Veamos dos ejemplos basados en el problema del logaritmo discreto. El primero se basa en el compromiso de Pedersen, siendo de secreto incondicional, mientras que en el segundo ejemplo, basado en el algoritmo de ElGamal\index{ElGamal}, conseguimos vinculación incondicional.
 
 
 \hfil
@@ -1263,7 +1263,7 @@ Por otro lado, si utilizamos esquemas de compromiso con secreto incondicional, P
 Introducimos ahora la última variedad de pruebas de conocimiento cero que veremos en este capítulo. La definición parte de la de conocimiento cero perfecta, pero considerando que los ensambles de la Vista y Simulador son indistinguibles sólo de manera computacional, sin necesidad de ser idénticos.
 
 
-\begin{definition}[Propiedad de conocimiento cero computacional]
+\begin{definition}[Propiedad de conocimiento cero computacional]\index{Conocimiento Cero Computacional}
 	\hfil
 	
 	Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es \textit{de conocimiento cero computacional} si el ensamble $Vista_{P,V^*}(q,h)$ es indistinguible polinomialmente al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
@@ -1272,7 +1272,7 @@ Introducimos ahora la última variedad de pruebas de conocimiento cero que verem
 \hfil
 
 
-Para las pruebas que veremos en esta sección utilizaremos esquemas de compromiso con vinculación incondicional y secreto computacional, pues ante un P \textit{todopoderoso}, debemos asegurarnos que no puede cambiar su compromiso. El esquema utilizado en cada algoritmo es arbitrario mientras cumpla la propiedad, de modo que denotaremos a un blob como una \textit{caja negra} $C$ que oculta un cierto valor, y lo desvela entregando su \textit{llave} a V.
+Para las pruebas que veremos en esta sección utilizaremos esquemas de compromiso con vinculación incondicional y secreto computacional, pues ante un P \textit{todopoderoso}, debemos asegurarnos que no puede cambiar su compromiso. El esquema utilizado en cada algoritmo es arbitrario mientras cumpla la propiedad, de modo que denotaremos a un blob como una \textit{caja negra}\index{Caja negra} $C$ que oculta un cierto valor, y lo desvela entregando su \textit{llave}\index{Llave} a V.
 
 
 En esta clase de pruebas de conocimiento cero se encuentran problemas como el del camino hamiltoniano (HC), o el de la 3-coloración del grafo (G3C).

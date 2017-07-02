@@ -56,7 +56,7 @@ $b$ es el \textit{inverso} de $a$ si $a\circ b=b\circ a=e$.
 
 Podemos ahora dar formalmente la definición de grupo:
 
-\begin{definition}
+\begin{definition}\index{Grupo}\index{Abeliano}
 	Un \textit{grupo} es un conjunto $G$ con una operación asociativa,
 con elemento neutro y con inverso para cada elemento. Si la operación es
 además conmutativa, se dice que $G$ es un \textit{grupo abeliano}.
@@ -77,7 +77,7 @@ aditiva o multiplicativa seg\'un resulte m\'as natural una u otra.
 Con la operación suma $+$ habitual, los conjuntos $\mathbb{Z}$, $\mathbb{Q}$ y
 $\mathbb{R}$ son grupos abelianos aditivos.
 
-\begin{definition}
+\begin{definition}\index{Orden}
 Sea $G$ un grupo conmutativo finito y $g \in G$. Llamaremos orden de $g$ y lo denotaremos
 $ord(g)$ al menor entero $t$ positivo tal que $g^t = 1$.
 \end{definition}
@@ -97,7 +97,7 @@ $g_1g_2\cdots g_n = g^n g_1g_2\cdots g_n$ y multiplicando por el inverso de $g_1
 Este resultado es tambi\'en cierto para grupos no conmutativos, pero la demostraci\'on no es tan elemental como en este caso, que es el que vamos a necesitar en esta memoria, por
 eso hemos hecho una demostraci\'on directa. Esta proposici\'on nos garantiza que el orden de un elemento en un grupo finito tiene que ser menor o igual que el n\'umero de elementos del grupo.
 
-\begin{definition}
+\begin{definition}\index{Generador}\index{Grupo cíclico}
 Un grupo abeliano finito $G$ diremos que es c\'iclico cuando exista alg\'un elemento
 $g$ tal que $ord(g) = |G|$. En caso de existir, un elemento $g$ que cumpla dichas
 propiedades se llamar\'a un generador del grupo $G$.
@@ -105,7 +105,7 @@ propiedades se llamar\'a un generador del grupo $G$.
 
 \hfil
 
-\begin{definition}
+\begin{definition}\index{Anillo}
 	Un \textit{anillo} es un conjunto $A$ con dos operaciones, $+$ y $\cdot$ (suma y producto), tales que:
 	\begin{itemize}
 		\item $(A,+)$ es un grupo abeliano con elemento neutro $0$.
@@ -121,7 +121,7 @@ por ejemplo el elemento $0$ nunca lo es. Un anillo conmutativo donde todo elemen
 distinto de cero es invertible, se dice que es un \textit{cuerpo}.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\index{Unidad}\index{Grupo de las unidades}
 Sea $A$ un anillo conmutativo, $A^*$ denotará el
 {\em conjunto de los elementos invertibles en A}. Así, con la
 multiplicación usual $\mathbb{Z}^* = \{-1,1\}$.
@@ -144,7 +144,7 @@ conmutativa por serlo en $A$, el $1$ est\'a en $A$ y todo elemento tiene inverso
 definici\'on de $A^*$.
 \end{proof}
 
-\begin{definition}
+\begin{definition}\index{Homomorfismo}\index{Isomorfismo}
 Sean $A$ y $B$ dos anillos conmutativos y $f:A \to B$ una aplicaci\'on.
 Diremos que es un homomorfismo de anillos si $f(a_1 + a_2) = f(a_1) +
 f(a_2)$, $f(a_1 a_2) = f(a_1) f(a_2)$, $f(0) = 0$ y $f(1) = 1$. Si la
@@ -191,13 +191,13 @@ que $a \in A^*$ y $b \in B^*$.
 
 \hfil
 
-\begin{definition}
+\begin{definition}\index{Divisor}
 Un entero $d$ se dice un {\em divisor} de un entero $a$ si existe un entero $c$ tal
 que $dc = a$. Tambi\'en se dice que $d$ divide a $a$ o que $a$ es un m\'ultiplo
 de $d$.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\index{Congruencia}\index{Módulo}
 Dados dos enteros $a$ y $b$ y otro entero $n>1$, diremos que $a$ y $b$ son {\bf
 congruentes m\'odulo $n$} si $a-b$ es un m\'ultiplo de $n$. Esta relaci\'on se
 denotar\'a por $a \equiv b ~(mod~n)$ o simplemente $a \equiv b~mod~n$.
@@ -268,7 +268,7 @@ $a~mod~n$. Adem\'as, con esta definici\'on $a-(a~mod~n) = nq$ por lo que
 $a \equiv a~mod~n$.
 \end{proof}
 
-\begin{definition}
+\begin{definition}\index{mcd}
 Dados dos enteros $a$ y $b$, llamaremos m\'aximo com\'un divisor de dichos n\'umeros
 (y lo denotaremos $mcd(a,b)$)
 al mayor entero no negativo $d$ tal que $d$ divide al mismo tiempo a $a$ y a $b$. Este
@@ -294,7 +294,7 @@ y $a-bq = cr'$ por lo que $a = c(b'q+r')$, lo cual prueba que $c$ es un divisor
 com\'un de $a$ y $b$.
 \end{proof}
 
-\begin{algorithm}[Algoritmo de Euclides]
+\begin{algorithm}[Algoritmo de Euclides]\index{Algoritmo de Euclides}
 Dados dos enteros $a$ y $b$ entonces podemos encontrar el m\'aximo com\'un divisor
 $d = mcd(a,b)$ mediante el siguiente algoritmo:
 \begin{enumerate}
@@ -317,7 +317,7 @@ divisores de $M_{1}$ y $0$ son los divisores de $M_{1}$ y el m\'aximo de todos e
 
 Este algoritmo se puede extender para calcular tambi\'en los coeficientes $r$ y $s$ que nos dan el m\'aximo com\'un divisor como combinaci\'on de $a$ y $b$.
 
-\begin{algorithm}[Algoritmo de Euclides Extendido]
+\begin{algorithm}[Algoritmo de Euclides Extendido]\index{Euclides Extendido}
 Dados dos enteros $a$ y $b$ entonces podemos encontrar el m\'aximo com\'un divisor
 $d = mcd(a,b)$ y valores enteros $s$ y $t$ tales que $d = sa+tb$ mediante el siguiente algoritmo:
 \begin{enumerate}
@@ -363,7 +363,7 @@ dado $a$ un elemento invertible de ${\mathbb Z}_n$, el inverso de $a$ m\'odulo
 $n$ se puede calcular como el coeficiente $r$ que hace que $ra+sn=1$.
 \end{remark}
 
-\begin{definition}
+\begin{definition}\index{Función de Euler}
 El n\'umero de unidades de ${\mathbb Z}_n$, es decir, el n\'umero de elementos de
 ${\mathbb Z}_n^*$ se denota $\varphi(n)$ que se conoce como la funci\'on
 $\varphi$ de Euler. Esta funci\'on se define tambi\'en para el $1$ con el
@@ -382,7 +382,7 @@ pero eso es claro porque si $p$ es primo, no puede tener un factor com\'un disti
 De la proposici\'on anterior, deducimos que si $p$ es un n\'umero primo, entonces $\varphi(p) = p-1$.
 \end{remark}
 
-\begin{theorem}[de Euler]
+\begin{theorem}[de Euler]\index{Teorema de Euler}
 Para cualquier $a \in {\mathbb Z}_n^*$ se tiene que $a^{\varphi(n)} \equiv 1 ~(mod~n)$.
 \end{theorem}
 \begin{proof}
@@ -403,9 +403,8 @@ que $ord(g)$ sea el menor entero tal que $g^{ord(g)} = 1$.
 Para todo $a \in {\mathbb Z}_n^*$ se tiene que $ord(a)$ divide a $\varphi(n)$.
 \end{corollary}
 
-\begin{theorem}[Teorema Chino de los Restos] Sean $m$ y $n$ dos n\'umeros enteros
-coprimos, entonces tenemos un isomorfismo de anillos
-\[ f : {\mathbb Z}_{mn} \to {\mathbb Z}_m \times {\mathbb Z}_n \] dado por
+\begin{theorem}[Teorema Chino de los Restos]\index{Teorema Chino de los Restos} Sean $m$ y $n$ dos n\'umeros enteros
+coprimos, entonces tenemos un isomorfismo de anillos $f : {\mathbb Z}_{mn} \to {\mathbb Z}_m \times {\mathbb Z}_n$ dado por
 $f(x) = (x~mod~m, x~mod~n)$.
 \end{theorem}
 \begin{proof}
@@ -457,7 +456,7 @@ de $p$ y $q$ y eso se puede hacer con el c\'alculo de una ra\'iz cuadrada, que
 es un problema polin\'omico en ${\mathbb Z}$.
 \end{proof}
 
-\begin{definition}
+\begin{definition}\index{Residuo Cuadrático}\index{Raíz modular}\index{No-Residuo Cuadrático}
 	Sea $a\in \mathbb{Z}^*_n$. Se dice que $a$ es un \textit{residuo cuadrático}
 	módulo n, o un \textit{cuadrado} módulo n, si existe un $x \in \mathbb{Z}^*_n$
 	tal que $x^2 \equiv a \, mod \, n$.
@@ -537,7 +536,7 @@ de elegir uno en ${\mathbb Z}_p$ y $\frac{q-1}{2}$ formas de elegir otro en ${\m
 
 Para identificar los residuos cuadráticos en el caso ${\mathbb Z}_p$ con $p$ primo, disponemos de una herramienta muy útil:
 
-\begin{definition}
+\begin{definition}\index{Símbolo de Legendre}
 	Dados un primo impar $p$ y un entero $a$, se define el {\em Símbolo de Legendre} y se denota $\left( \frac{a}{p} \right) $ como
 
 	\begin{center}
@@ -555,7 +554,7 @@ Para identificar los residuos cuadráticos en el caso ${\mathbb Z}_p$ con $p$ pr
 La definici\'on de este s\'imbolo requiere que $p$ sea un n\'umero primo, pero se puede extender la definici\'on para el caso general obtiendo lo que se conoce
 como S\'imbolo de Jacobi (tambi\'en denominado S\'imbolo de Jacobi-Kronecker en algunos textos). La definici\'on es la siguiente:
 
-\begin{definition}
+\begin{definition}\index{Símbolo de Jacobi}
 Sea $n$ un entero impar positivo cuya descomposici\'on en factores primos es $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$ y sea $a$ un entero. Entonces definimos
 el \textit{s\'imbolo de Jacobi} de $a$ y $n$ como
 \[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
@@ -647,7 +646,7 @@ indirecta y por su importancia merece un apartado especial.
 
 \hfil
 
-\begin{tabular}{|ll}
+\begin{tabular}{|ll}\index{Problema de la Factorización}
 	\textit{Nombre:} & Problema de la factorizaci\'on. \\
 	\textit{Parámetros:} & Sea $N$ un entero positivo no primo. \\
 	\textit{Pregunta:} & Encontrar valores $a$ y $b$ distintos de $1$ tales que $N = ab$. \\
@@ -698,7 +697,7 @@ varias relaciones de este tipo y la probabilidad de que encontremos el factor es
 Para poder encontrar las relaciones del tipo $x^2 \equiv y^2 ~mod~N$ se utilizan
 los conceptos que vamos a introducir a continuaci\'on:
 
-\begin{definition}
+\begin{definition}\index{B-smooth}\index{Base de factores}
 Sea $N$ un entero impar compuesto. Llamaremos una base de factores a un conjunto
 ${\mathcal B} = \{ p_0 = -1, p_1, p_2, \cdots, p_k \}$ donde los valores $p_i$ con $i>0$ son
 n\'umeros primos peque\~nos. Se incluye normalmente a $-1$ como uno de los
@@ -754,7 +753,7 @@ a $N$, es o no un residuo cuadrático:
 
 \hfil
 
-\begin{tabular}{|ll}\label{problemaQR}
+\begin{tabular}{|ll}\label{problemaQR}\index{Problema de los Residuos Cuadráticos}\index{QR}
 	\textit{Nombre:} & Problema de los residuos cuadr\'aticos (QR). \\
 	\textit{Parámetros:} & $N$ un entero impar tal que $N = pq$ para $p$ y \\
 	& $q$ primos, y el entero $x$ tal que $\left( \dfrac{x}{N} \right) = 1$. \\
@@ -791,34 +790,42 @@ algoritmo eficiente para resolver el problema QR aparte del de intentar
 adivinar la respuesta, lo cual en nuestro caso se podr\'ia hacer con
 probabilidad $1/2$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%Un problema asociado al de saber si un n\'umero es un residuo cuadr\'atico es el de encontrar efectivamente una ra\'iz cuadrada de dicho n\'umero.
+%En el caso de que el m\'odulo sobre el que trabajemos sea primo, este problema se puede resolver de forma polin\'omica mediante el siguiente algoritmo:
+
+%\begin{algorithm}[Tonelli]
+%\label{algoTonelli}
+%Sea $p$ un primo impar y $a$ un entero tal que $\left( \dfrac{a}{p} \right) = 1$.
+%Este algoritmo nos devuelve una ra\'iz cuadrada de $a$ m\'odulo $p$.
+%\begin{enumerate}
+%\item Si $p \equiv 3 ~mod~4$ devolver $a^{(p+1)/4}~mod~p$.
+%\item Si $p \equiv 1 ~mod~4$ realizar los siguientes pasos:
+%\begin{enumerate}
+%\item Encontrar $h \in {\mathbb Z}_p^*$ que no sea un residuo cuadr\'atico m\'odulo $p$. (Esto debe ser sencillo porque la mitad de los valores no lo son).
+%\item Calcular $s \geq 0$ y $t$ impar tales que $p-1 = 2^s t$.
+%\item Calcular $A := a^t ~mod~p$ y $H:=h^t~mod~p$. Asignar $v:=0$.
+%\item Para cada $i$ desde $1$ hasta $s-1$ comprobar si $(AH^v)^{2^{s-1-i}} \equiv -1 ~mod~p$ y en caso positivo hacer $v := v + 2^i$.
+%\item Devolver $a^{(t+1)/2} H^{v/2} ~mod~p$.
+%\end{enumerate}
+%\end{enumerate}
+%\end{algorithm}
+%\begin{proof}
+%Ver \cite[Proposition 2.16]{Pardo}.
+%\end{proof}
+%
+%En este algoritmo se calculan varias potencias modulares, eso se puede hacer de forma
+%polin\'omica mediante el algoritmo de exponenciaci\'on modular para el cual existen
+%distintas alternativas, ver \cite[Section 2.7.2]{Pardo}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Un problema asociado al de saber si un n\'umero es un residuo cuadr\'atico es el de encontrar efectivamente una ra\'iz cuadrada de dicho n\'umero.
-En el caso de que el m\'odulo sobre el que trabajemos sea primo, este problema se puede resolver de forma polin\'omica mediante el siguiente algoritmo:
-
-\begin{algorithm}[Tonelli]
-\label{algoTonelli}
-Sea $p$ un primo impar y $a$ un entero tal que $\left( \dfrac{a}{p} \right) = 1$.
-Este algoritmo nos devuelve una ra\'iz cuadrada de $a$ m\'odulo $p$.
-\begin{enumerate}
-\item Si $p \equiv 3 ~mod~4$ devolver $a^{(p+1)/4}~mod~p$.
-\item Si $p \equiv 1 ~mod~4$ realizar los siguientes pasos:
-\begin{enumerate}
-\item Encontrar $h \in {\mathbb Z}_p^*$ que no sea un residuo cuadr\'atico m\'odulo $p$. (Esto debe ser sencillo porque la mitad de los valores no lo son).
-\item Calcular $s \geq 0$ y $t$ impar tales que $p-1 = 2^s t$.
-\item Calcular $A := a^t ~mod~p$ y $H:=h^t~mod~p$. Asignar $v:=0$.
-\item Para cada $i$ desde $1$ hasta $s-1$ comprobar si $(AH^v)^{2^{s-1-i}} \equiv -1 ~mod~p$ y en caso positivo hacer $v := v + 2^i$.
-\item Devolver $a^{(t+1)/2} H^{v/2} ~mod~p$.
-\end{enumerate}
-\end{enumerate}
-\end{algorithm}
-\begin{proof}
-Ver \cite[Proposition 2.16]{Pardo}.
-\end{proof}
-
+En el caso de que el m\'odulo sobre el que trabajemos sea primo, este problema se puede resolver de forma polin\'omica mediante el Algoritmo de Tonelli, ver \cite[Proposition 2.16]{Pardo}.
 En este algoritmo se calculan varias potencias modulares, eso se puede hacer de forma
 polin\'omica mediante el algoritmo de exponenciaci\'on modular para el cual existen
 distintas alternativas, ver \cite[Section 2.7.2]{Pardo}.
 
-Utilizando el Algoritmo de Tonelli podemos resolver el problema de calcular
+Utilizando el Algoritmo de Tonelli\index{Algoritmo de Tonelli} podemos resolver el problema de calcular
 la ra\'iz cuadrada modular en el caso primo, y si conocemos la factorizaci\'on
 de $N = pq$, podemos combinar las ra\'ices cuadradas modulares para obtener una
 ra\'iz cuadrada m\'odulo $N$ tal y como vimos en la
@@ -843,7 +850,7 @@ El problema del logaritmo discreto vamos a considerarlo en dos versiones diferen
 
 \hfil
 
-\begin{tabular}{|ll}\label{problemaDL}
+\begin{tabular}{|ll}\label{problemaDL}\index{Problema del Logaritmo Discreto}\index{DL}
 	\textit{Nombre:} & Problema DL (\textit{Discrete Logarithm}). \\
 	\textit{Parámetros:} & Un grupo cíclico $G$ de orden $q$ primo, \\ & donde se supone difícil el problema del logaritmo discreto,  \\ & un generador $g$, $G=\left\langle g \right\rangle$,\\ & y un elemento $y\in G$. \\
 	\textit{Pregunta:} & ¿Conoce P el entero $s\in \mathbb{Z}_q$ tal que \\ & $g^s = y$, o equivalentemente, $log_g y = s$? \\

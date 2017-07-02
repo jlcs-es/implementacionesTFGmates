@@ -4,7 +4,7 @@
 
 En la actualidad, para demostrar que conocemos un secreto a alguien, utilizamos un medio donde nadie nos espíe y le contamos el secreto directamente a nuestro interlocutor. En el ámbito de la criptografía, cifraríamos el secreto con una clave, simétrica o asimétrica, tal que, sólo quien conozca la clave de descifrado pueda leer nuestro secreto. Esto es la base de las comunicaciones seguras en Internet. Ciframos nuestra contraseña de modo que sólo el servidor de correo pueda leerla, pudiendo iniciar nuestra sesión sin que ningún espía nos la pueda robar. El problema es que hay dos partes que conocen el secreto, dos puntos de ataque.
 
-Existe un área de la criptología que se encarga de abordar este problema, demostrar que conocemos algo, pero sin que de la misma prueba se obtenga más información. Estos métodos se conocen como pruebas de conocimiento cero. Elegimos estudiar estas técnicas a raíz del TFG de Ing. Informática, \textit{Integración de Idemix en entornos IoT}, donde Idemix es un protocolo criptográfico basado en pruebas de conocimiento cero. En la Facultad de Informática no habría sido posible un estudio en profundidad como el que presentamos aquí, por ello, ese trabajo lo limitamos a la implementación, mientras que con este conseguiremos entender por qué funciona realmente.
+Existe un área de la criptología que se encarga de abordar este problema, demostrar que conocemos algo, pero sin que de la misma prueba se obtenga más información. Estos métodos se conocen como pruebas de conocimiento cero. Elegimos estudiar estas técnicas a raíz del TFG de Ing. Informática, \textit{Integración de Idemix en entornos IoT}, donde Idemix es un protocolo criptográfico basado en pruebas de conocimiento cero. Al inicio del estudio de dicho trabajo, observamos la gran cantidad de resultados matemáticos relacionados, por ello, nos interesó estudiarlo de manera formal y en profundidad, y lo enfocamos como Trabajo de Fin de Grado de Matemáticas.
 
 Para ilustrar las pruebas de conocimiento cero, en 1990, Guillou, Quisquater y Berson publicaron en \textit{How to Explain Zero-Knowledge Protocols to Your Children} \citep{ZKPcave:story} una historia sobre cómo Alí Babá demostró poder abrir la cueva sin decir a nadie cuáles eran las palabras mágicas. Aquí presentamos una versión resumida que destaca las propiedades básicas de estos métodos:
 
@@ -67,4 +67,4 @@ La tercera parte de la memoria estar\'a dedicada a las aplicaciones prácticas d
 relacionados con la privacidad de las comunicaciones, aumentando la seguridad y la funcionalidad de las aplicaciones.
 
 Por \'ultimo, dedicaremos un ap\'endice a mostrar algunas implementaciones de estos algoritmos utilizando {\tt sage}, que es un software matem\'atico basado en Python de
-libre distribuci\'on.
+libre distribuci\'on. Éstas no corresponden a las implementaciones realizadas durante el TFG de Ing. Informática, realizadas en C para otro tipo de dispositivos.

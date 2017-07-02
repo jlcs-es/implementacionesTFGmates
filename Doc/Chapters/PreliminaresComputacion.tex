@@ -25,7 +25,7 @@
 
 En este capítulo introducimos unos preliminares sobre la complejidad computacional, que nos permitirán entender qué problemas matemáticos, y por qué, se utilizan en criptografía. Comencemos con unas definiciones:
 
-\begin{definition}
+\begin{definition}\index{Problema}
 	Llamamos \textit{problema} a la descripción general de una tarea que depende de unos parámetros. La \textit{definición} de un problema consta de dos partes. La primera da el escenario del problema, describiendo los parámetros necesarios. La segunda parte indica una pregunta de la que se espera una respuesta o solución.
 \end{definition}
 
@@ -39,17 +39,17 @@ En este capítulo introducimos unos preliminares sobre la complejidad computacio
 	\end{tabular}
 \end{example}
 
-\begin{definition}
+\begin{definition}\index{Instancia de un problema}
 	Una \textit{instancia} de un problema es el caso particular de un problema al que se le han dado valores a los parámetros.
 \end{definition}
 
 
-\begin{definition}
+\begin{definition}\index{Algoritmo}
 	Un \textit{algoritmo} es una lista de instrucciones que para una instancia produce una respuesta correcta. Se dice que un algoritmo \textit{resuelve} un problema si devuelve respuestas correctas para todas las instancias del problema.
 \end{definition}
 
 
-\begin{definition}
+\begin{definition}\index{Problema de decisi\'on}
 	Se llama \textit{problema de decisión} a un problema cuya respuesta está en el conjunto $\mathcal{B}= \{Verdadero, Falso\}$.
 \end{definition}
 
@@ -81,7 +81,7 @@ Todos estos ejemplos los trataremos m\'as en profundidad a lo largo de la memori
 
 Para poder estudiar cómo crecen el tiempo de ejecución, la memoria usada, o cualquier otro recurso, de un algoritmo, dependiendo del tamaño de los datos de entrada, utilizamos distintas \textit{notaciones asintóticas}. Nos interesa en particular la siguiente:
 
-\begin{definition}
+\begin{definition}\index{O grande}\index{Orden (de complejidad)}
 	Sea $f : \mathbb{N} \rightarrow \mathbb{R}^+$. Definimos la notación \textit{O grande} u \textit{orden} de $f$ al conjunto de funciones de $\mathbb{N}$ a $\mathbb{R}^+$ acotadas superiormente por un múltiplo positivo de $f$ a partir de cierto valor $n \in \mathbb{N}$:
 
 	$O(f) = \{t:\mathbb{N} \rightarrow \mathbb{R}^+ \, | \; \exists c \in \mathbb{R}^+,\, \exists
@@ -129,7 +129,7 @@ $\log_b(n) = \ln(n)/\ln(b)$ por lo que cambiar de base \'unicamente nos modifica
 
 Podemos decir por tanto que el tama\~no de un n\'umero es del orden $\ln(n)$ puesto que sea la que sea la base con la que trabajemos, la diferencia ser\'a una constante.
 
-\begin{definition}
+\begin{definition}\index{Algoritmo polinomial}\index{Algoritmo exponencial}
 Se llama algoritmo de \textit{tiempo de cálculo polinomial} al algoritmo cuya función de tiempo del caso más desfavorable es de orden
 $O(l^k)$, donde $l$ es el tamaño de la entrada y $k$ una constante. Si la entrada es num\'erica, tal y como hemos visto $l$ se puede tomar $\ln(n)$.
 Cualquier algoritmo cuyo tiempo de ejecución no puede acotarse de esa manera se llama de \textit{tiempo de cálculo exponencial}.
@@ -139,7 +139,7 @@ En los problemas que trataremos en esta memoria, aparecen algoritmos que no sien
 Estos son conocidos como algoritmos subexponenciales y vendr\'an dados por un par\'ametro $\alpha$ que de forma cont\'inua nos dar\'a una cierta
 medida de la complejidad.
 
-\begin{definition}
+\begin{definition}\index{Algoritmo subexponencial}
 Sea $\alpha$ un n\'umero real en el intervalo $[0,1]$ y sea $c$ un n\'umero real positivo. Llamaremos funci\'on subexponencial de par\'ametros
 $\alpha$ y $c$ a la funci\'on
 \[ L_n[\alpha,c] = e^{c(\ln n)^\alpha (\ln \ln n)^{1-\alpha}} \]
@@ -154,6 +154,7 @@ sin embargo este par\'ametro $\alpha$ puede tomar muchos valores intermedios y s
 de algunos algoritmos.
 
 \section{Clases de complejidad}
+\index{Clase de complejidad}
 
 Tal y como hemos visto en la secci\'on anterior, un algoritmo se denomina de complejidad {\em polin\'omica}
 cuando la función de tiempo del caso más desfavorable es de orden $O(l^k)$, donde $l$ es el tamaño de la entrada y $k$ una constante.
@@ -169,11 +170,11 @@ notaci\'on asint\'otica es una buena medida para el estudio de la complejidad de
 
 Bas\'andonos en esta notaci\'on asint\'otica, podemos definir las siguientes clases de complejidad en problemas de decisi\'on:
 
-\begin{definition}
+\begin{definition}\index{P}
 	El conjunto de problemas de decisión que se pueden resolver en tiempo polinomial se llama clase \textbf{P}.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\index{NP}
 	\label{def:NP}
 	Se llama clase de complejidad \textbf{NP} al conjunto de problemas de decisión
 	donde una respuesta que sea $Verdadero$ se puede verificar en tiempo polinomial,
@@ -184,13 +185,13 @@ Bas\'andonos en esta notaci\'on asint\'otica, podemos definir las siguientes cla
 	de conocimento cero.}.
 \end{definition}
 
-\begin{definition}
-	Se llama clase de complejidad \textbf{co-NP} al conjunto de problemas de decisión
-	donde una respuesta que sea $Falso$ se puede verificar en tiempo polinomial,
-	dado el correspondiente \textit{certificado}.
-\end{definition}
+%\begin{definition}
+%	Se llama clase de complejidad \textbf{co-NP} al conjunto de problemas de decisión
+%	donde una respuesta que sea $Falso$ se puede verificar en tiempo polinomial,
+%	dado el correspondiente \textit{certificado}.
+%\end{definition}
 
-Es inmediato que  que \textbf{P} $\subseteq$ \textbf{NP} y \textbf{P} $\subseteq$ \textbf{co-NP}.
+Es inmediato que  que \textbf{P} $\subseteq$ \textbf{NP}.% y \textbf{P} $\subseteq$ \textbf{co-NP}.
 
 \begin{example}[Problema en \textbf{NP}]
 	Consideremos el siguiente problema de decisión:
@@ -212,7 +213,7 @@ Es inmediato que  que \textbf{P} $\subseteq$ \textbf{NP} y \textbf{P} $\subseteq
 
 \hfil
 
-\begin{definition}
+\begin{definition}\index{Reducible en tiempo polinomial}
 	\label{reducePoly:def}
 	Sean dos problemas de decisión $L_1, L_2 \in $ \textbf{NP}, con correspondientes
 	conjuntos de instancias $I_1$ e $I_2$. Sean $I_1^+$ e $I_2^+$ los subconjuntos
@@ -236,7 +237,7 @@ si lo hace el algoritmo que resuelve $L_2$.
 Si $L_1 \leq_P L_2$, entonces se puede entender que $L_2$ es, al menos
 computacionalmente, tan difícil como $L_1$, o que $L_1$ no es más difícil que $L_2$.
 
-\begin{definition}
+\begin{definition}\index{NP-completo}\index{NPC}
 	Un problema de decisión $L$ se dice que es \textbf{NP}-completo, o \textbf{NPC} si:
 	\begin{enumerate}[label=(\roman*)]
 		\item $L \in $ \textbf{NP}, y
@@ -282,15 +283,19 @@ Existen otros problemas del tipo \textbf{NPC} que nos aparecer\'an m\'as adelant
 como el de la 3-coloraci\'on de grafos, pero la existencia de uno es suficiente
 por la equivalencia te\'orica de todos ellos.
 
+%%%%%%%%%%%%%%
+%A día de hoy conocemos ciertas propiedades sobre las clases de equivalencia, pero
+%quedan muchas cuestiones sin resolver:
+%
+%\begin{itemize}
+%	\item Uno de los siete problemas del milenio, ¿\textbf{P} $=$ \textbf{NP}?
+%	\item ¿\textbf{NP} $=$ \textbf{co-NP}?
+%	\item ¿\textbf{P} $=$ \textbf{NP} $\cap$ \textbf{co-NP}?
+%\end{itemize}
+%%%%%%%%%%%%%%%
+
 A día de hoy conocemos ciertas propiedades sobre las clases de equivalencia, pero
-quedan muchas cuestiones sin resolver:
-
-\begin{itemize}
-	\item Uno de los siete problemas del milenio, ¿\textbf{P} $=$ \textbf{NP}?
-	\item ¿\textbf{NP} $=$ \textbf{co-NP}?
-	\item ¿\textbf{P} $=$ \textbf{NP} $\cap$ \textbf{co-NP}?
-\end{itemize}
-
+quedan muchas cuestiones sin resolver, entre ellas, uno de los siete problemas del milenio, ¿\textbf{P} $=$ \textbf{NP}?
 
 La opinión de los expertos en base a ciertas evidencias es que la respuesta a
 las tres es \textit{no}, pero hasta que se encuentren demostraciones formales
@@ -298,14 +303,14 @@ de cada una, quedarán en conjeturas. Y basándose en esas conjeturas es donde
 se apoya la seguridad informática.
 
 
-\begin{figure}[bth]
-	\begin{center}
-		\includegraphics[width=.45\linewidth]{gfx/NPclasses}
-	\end{center}
-	\caption{Conjetura de las relaciones entre clases \textbf{NP}, \textbf{co-NP},
-	\textbf{NPC}, \textbf{P}.}
-	\label{fig:NPclasses}
-\end{figure}
+%\begin{figure}[bth]
+%	\begin{center}
+%		\includegraphics[width=.45\linewidth]{gfx/NPclasses}
+%	\end{center}
+%	\caption{Conjetura de las relaciones entre clases \textbf{NP}, \textbf{co-NP},
+%	\textbf{NPC}, \textbf{P}.}
+%	\label{fig:NPclasses}
+%\end{figure}
 
 
 Existen tres problemas que se conoce que pertenecen a \textbf{NP}, pero se
@@ -315,10 +320,12 @@ isomorfismo de grafos, el logaritmo discreto y la factorización de enteros.
 En los siguientes capítulos los estudiaremos como base de diferentes pruebas
 de conocimiento cero.
 
-\hfil
+
 
 
 \section{Algoritmos probabilísticos}
+
+\index{Algoritmo probabil\'istico}
 
 Para intentar resolver la infactibilidad computacional de ciertos problemas, surge un modelo alternativo de computación que utiliza métodos probabilísticos. Estos métodos no pueden asegurar cotas superiores absolutas de tiempo, e incluso pueden devolver una respuesta errónea. Sin embargo, dadas unas cotas muy pequeñas de errores, en la práctica, ciertos métodos probabilísticos son más eficientes que los algoritmos conocidos, pues el tiempo de ejecución \textit{esperado} del método, calculado probabilísticamente, es menor que el orden del algoritmo original.
 
@@ -326,14 +333,14 @@ Para intentar resolver la infactibilidad computacional de ciertos problemas, sur
 % Tipos de algoritmos probabilísticos según errores
 % Ejemplo de test de primalidad
 
-\begin{definition}
+\begin{definition}\index{Monte Carlo}
 	Llamamos \textit{algoritmo de Monte Carlo} a un algoritmo probabilístico que resuelve un problema de decisión, pero tiene un error $\epsilon$ de equivocarse.
 
 	Decimos que es \textit{parcialmente} $Verdadero$ si cuando se le da una instancia $Verdadera$ nunca se equivoca, pero si la instancia es $Falsa$ puede devolver $Verdadero$ con probabilidad $\epsilon$. De la misma manera, decimos que es \textit{parcialmente} $Falso$ si siempre resuelve correctamente instancias $Falsas$, pero puede cometer un error al resolver instancias $Verdaderas$.
 \end{definition}
 
 
-\begin{definition}
+\begin{definition}\index{Las Vegas}
 	Llamamos \textit{algoritmo de Las Vegas} a un algoritmo probabilístico que resuelve un problema de decisión, pero o bien lo resuelve correctamente, o bien informa de error y termina sin resolver el problema con una probabilidad $\epsilon$.
 \end{definition}
 
@@ -351,7 +358,7 @@ Un problema que es tratado en muchos textos como un problema probabil\'istico au
 	\hfil
 \end{example}
 
-Este problema ha sido tratado tradicionalmente como un problema de tipo \textbf{NP} aunque en el a\~no 2002 se encontr\'o un algoritmo determinista de tiempo polin\'omico que resolv\'ia el problema. Este algoritmo se conoce como AKS por el nombre de sus descubridores, M. Agrawal, N. Kayal y N. Saxena. A pesar de ser un algoritmo polin\'omico, su compejidad te\'orica es del orden $O(n^{21/2})$, lo cual es muy ineficiente para el tama\~no de enteros que se utilizan en la
+Este problema ha sido tratado tradicionalmente como un problema de tipo \textbf{NP} aunque en el a\~no 2002 se encontr\'o un algoritmo determinista de tiempo polin\'omico que resolv\'ia el problema. Este algoritmo se conoce como AKS por el nombre de sus descubridores, M. Agrawal, N. Kayal y N. Saxena. A pesar de ser un algoritmo polin\'omico, su compejidad te\'orica es del orden $O((log\, n)^{12+\epsilon})$, ver \citep[Página 314]{Pardo}, lo cual es muy ineficiente para el tama\~no de enteros que se utilizan en la
 pr\'actica.
 
 Existe sin embargo un algoritmo muy conocido de tipo probabil\'istico que nos determina si un entero es compuesto con total seguridad o primo con una probabilidad de error tan peque\~na como deseemos, es el algoritmo de Miller-Rabin. Este algoritmo es el que se sigue usando para las aplicaciones pr\'acticas puesto que el error que puede ofrecer puede hacerse tan peque\~no que sea incluso menor que el de un error en el hardware.

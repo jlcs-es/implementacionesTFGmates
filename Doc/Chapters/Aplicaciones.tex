@@ -18,13 +18,13 @@ Hemos visto que la interacción habitual en una prueba de conocimiento cero cons
 
 La desventaja de estos protocolos en la práctica es sincronizar a P y V para comunicarse, por la necesidad de que el Verificador debe generar el reto él mismo, para estar seguro de que la prueba es correcta (por la propiedad de conocimiento cero). Para solucionarlo, querríamos generar pruebas de conocimiento cero de manera asíncrona, con un solo mensaje a ser verificado cuando V lo reciba. 
 
-Una función de \textit{hash}, o resumen digital, recibe un mensaje arbitrario como entrada, y tras una serie de operaciones sobre el mismo, devuelve una cantidad fija de bits que es difícil de anticipar antes de ejecutar la función. Una propiedad de estas funciones es que con un mínimo cambio en el mensaje original, el resultado devuelto cambia drásticamente.
+Una función de \textit{hash}\index{hash}, o resumen digital\index{Resumen digital}, recibe un mensaje arbitrario como entrada, y tras una serie de operaciones sobre el mismo, devuelve una cantidad fija de bits que es difícil de anticipar antes de ejecutar la función. Una propiedad de estas funciones es que con un mínimo cambio en el mensaje original, el resultado devuelto cambia drásticamente.
 
-Una técnica para convertir las pruebas de conocimiento cero en no interactivas es la \textit{heurística de Fiat-Shamir}, la cual consiste en sustituir el reto $b$ por un resumen digital del testigo $u$, de modo que para un P computacionalmente limitado, éste no puede anticipar el valor del hash, y así V confía en que P no ha elegido el $u$ adecuado para falsear la prueba.
+Una técnica para convertir las pruebas de conocimiento cero en no interactivas es la \textit{heurística de Fiat-Shamir}\index{Heurística Fiat-Shamir}\index{Fiat-Shamir}, la cual consiste en sustituir el reto $b$ por un resumen digital del testigo $u$, de modo que para un P computacionalmente limitado, éste no puede anticipar el valor del hash, y así V confía en que P no ha elegido el $u$ adecuado para falsear la prueba.
 
 \hfil
 
-Aprovechando la heurística de Fiat-Shamir, podemos convertir el protocolo en un esquema de firma digital de un mensaje $m$, que equivale a una firma real sobre un documento de papel que sería el mensaje. Aplicando el resumen digital sobre el testigo y el mensaje a la vez, asociamos el mensaje a la prueba de conocimiento cero no interactiva:
+Aprovechando la heurística de Fiat-Shamir, podemos convertir el protocolo en un esquema de firma digital\index{Firma digital} de un mensaje $m$, que equivale a una firma real sobre un documento de papel que sería el mensaje. Aplicando el resumen digital sobre el testigo y el mensaje a la vez, asociamos el mensaje a la prueba de conocimiento cero no interactiva:
 
 
 \begin{center}
@@ -204,7 +204,7 @@ Como en la prueba interactiva, un atacante tiene una probabilidad de $1/2$ de en
 
 \section{Pruebas de conocimiento cero en Identity Mixer}
 
-Identity Mixer, o Idemix para acortar, es un protocolo desarrollado por IBM\footnote{Identity Mixer - \url{https://www.research.ibm.com/labs/zurich/idemix/}} para crear certificados digitales basados en atributos, donde se preserva la privacidad. Este protocolo no solo permite la autenticación sin revelar un valor secreto, también permite realizar pruebas sobre los atributos del certificado de un usuario, sin revelar los valores, como por ejemplo, ``\texttt{año\_actual - año\_nacimiento $\geq$ 18}''.
+Identity Mixer\index{Identity Mixer}, o Idemix\index{Idemix} para acortar, es un protocolo desarrollado por IBM\footnote{Identity Mixer - \url{https://www.research.ibm.com/labs/zurich/idemix/}} para crear certificados digitales basados en atributos, donde se preserva la privacidad. Este protocolo no solo permite la autenticación sin revelar un valor secreto, también permite realizar pruebas sobre los atributos del certificado de un usuario, sin revelar los valores, como por ejemplo, ``\texttt{año\_actual - año\_nacimiento $\geq$ 18}''.
 
 Los protocolos criptográficos en los que se basa Idemix \citep{idemixSpec} han sido desarrollados durante años por expertos en el área, donde destacan Jan Camenisch y Anna Lysyanskaya con el desarrollo de la firma CL \citep{camenisch2002signature} \citep{camenisch2001efficient} que se utiliza para firmar certificados sin tener que conocer los valores de todos los atributos, y que permite posteriormente al usuario demostrar que posee dicha firma, sin desvelarla. Esto permite utilizar múltiples veces un certificado de manera anónima sin que se relacionen los diferentes usos con la misma persona.
 
@@ -214,7 +214,7 @@ Los protocolos criptográficos en los que se basa Idemix \citep{idemixSpec} han 
 
 \subsection{Notación para ZKP}
 
-Como hemos visto, cualquier problema de decisión posee una prueba de conocimiento cero, y de entre esas pruebas, las pruebas de conocimiento de un secreto son las que se utilizan en los certificados. Utilizaremos la siguiente notación de Camenisch y Stadler \citep{camenisch1997efficient} para denotar una prueba de conocimiento cero de conocimiento de un secreto.
+Como hemos visto, cualquier problema de decisión posee una prueba de conocimiento cero, y de entre esas pruebas, las pruebas de conocimiento de un secreto son las que se utilizan en los certificados. Utilizaremos la siguiente notación de Camenisch y Stadler \citep{camenisch1997efficient} para denotar una prueba de conocimiento cero de conocimiento de un secreto.\index{ZKPoK}
 
 \begin{center}
 	$ZKPoK\{ (w) : \mathcal{L}(w,x) \}$
@@ -267,7 +267,7 @@ La probabilidad de que un P malicioso adivine los $k$ bits aleatorios del reto $
 
 \subsection{Firma Camenisch-Lysyanskaya}
 
-El esquema de firma de Camenisch-Lysyanskaya, o firma CL, es la base de los certificados Idemix. Procedemos a describirlo.
+El esquema de firma de Camenisch-Lysyanskaya\index{CL}, o firma CL\index{Firma CL}, es la base de los certificados Idemix. Procedemos a describirlo.
 
 Sean $p`$ y $q`$ dos primos, tal que $p=2p`+1$ y $q=2q`+1$ también lo son, llamados \textit{primos seguros}. Los parámetros del sistema, conocidos por el firmante y quien comprueba la firma son: el entero $n=pq$, $Z,S,R\in QR_n$ (grupo multiplicativo de los residuos cuadráticos módulo $n$). La clave secreta del firmante es $(p,q)$ y el mensaje lo denominaremos $m$. La firma CL sobre $m$ es la tupla $(A,e,v)$ tal que $A \equiv \left( \dfrac{Z}{S^v R^m} \right) ^{1/e} \, mod \, n$, donde $e,v$ son aleatorios, $e$ primo y $\frac{1}{e}\cdot e \equiv 1 \, mod \, \varphi(n)$.
 
@@ -301,7 +301,7 @@ La verificación de $(\acute{A},e,\hat{v})$ se realiza igual que en la firma ori
 
 \subsection{Firma de credenciales Idemix}\label{idemix:cert}
 
-Una credencial Idemix consiste en una lista de atributos con valores, la cual estará firmada por un Emisor de confianza, como puede ser un gobierno al firmar el DNI electrónico. Sin embargo, la firma CL del certificado Idemix la calcularán interactivamente el Usuario y el Emisor, pues ninguno tendrá toda la información necesaria para generar la firma por sí mismo. En cada paso, una prueba de conocimiento cero asegurará que cada parte ha seguido el protocolo.
+Una credencial\index{Credencial} Idemix consiste en una lista de atributos con valores, la cual estará firmada por un Emisor de confianza, como puede ser un gobierno al firmar el DNI electrónico. Sin embargo, la firma CL del certificado Idemix la calcularán interactivamente el Usuario y el Emisor, pues ninguno tendrá toda la información necesaria para generar la firma por sí mismo. En cada paso, una prueba de conocimiento cero asegurará que cada parte ha seguido el protocolo.
 
 El Emisor conocerá la factorización de $n$, mientras que el Usuario guardará una clave secreta, $m_0$ y, opcionalmente, los atributos del certificado, $m_1,\dots,m_l$. Al final de la firma, el Usuario conocerá una representación, $(m_0,\dots,m_l)$ de $\frac{Z}{A^eS^v}$ con respecto a la base $(R_0,\dots,R_l)$, y como ya hemos visto, podrá demostrar con una prueba de conocimiento cero que conoce dicha representación sin revelar necesariamente ninguno. Además, el Emisor no conocerá la firma $(A,e,v)$ final, pues $v$ se calculará también de manera conjunta de modo que sólo el Usuario conocerá la firma generada.
 
