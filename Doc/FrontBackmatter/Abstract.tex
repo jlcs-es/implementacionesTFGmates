@@ -14,7 +14,10 @@
 
 Nowadays, to proof someone we know a certain secret, we shall use a transmission channel where nobody could spy on us, and then we send the secret directly to our listener. In the scope of cryptography, we would cipher the secret with a key, in a symmetric or asymmetric scheme, such that only those who know the deciphering key can actually read our encrypted secret. This is the foundation of the Internet's security. We cipher our password in a way only the mail server can read it, so it deciphers the password and if it matches the one stored in its side, the server lets you log in and access to your account, without any eavesdropper stealing our password in between. The problem here is that the password is only secured during the transmission, two entities know the secret and therefore we have two possible points of attack where a malicious entity would not need to break de ciphering scheme used in the transmission channel.
 
-There exists a special area in cryptology in charge of studying this issue, proving someone we know something, but that from the proof performed, no other information is obtained, except that the proof itself is correct. These methods are known as Zero-Knowledge Proofs, because they leak no extra knowledge from performing them. To illustrate how these proofs work, in 1990 Louis C. Guillou, Jean-Jacques Quisquater and Thomas A. Berson published in \textit{How to Explain Zero-Knowledge Protocols to Your Children} \citep{ZKPcave:story} a story about how Ali Baba proved he was able to open the door of the cave, without revealing anyone the magic words. Due to it being a 4 pages long story, here we present a brief version which highlights the basic properties of these methods:
+There exists a special area in cryptology in charge of studying this issue, proving someone we know something, but that from the proof performed, no other information is obtained, except that the proof itself is correct. These methods are known as Zero-Knowledge Proofs, because they leak no extra knowledge from performing them.
+We chose to study these techniques due to the Computer Science degree thesis, \textit{Integration of Idemix in IoT environments}, where Idemix is a cryptographic protocol based on zero-knowledge proofs. It would have not been possible in the Computer Science Faculty to perform a deep study like the one showed in this paper, thus, that project was focused on the implementation, whereas here we will be able to understand why they really work.
+
+To illustrate how zero-knowledge proofs work, in 1990 Guillou, Quisquater and Berson published in \textit{How to Explain Zero-Knowledge Protocols to Your Children} \citep{ZKPcave:story} a story about how Ali Baba proved he was able to open the door of the cave, without revealing anyone the magic words. Due to it being a 4 pages long story, here we present a brief version which highlights the basic properties of these methods:
 
 \hfil
 
@@ -82,25 +85,14 @@ The third part will be dedicated to the practical applications of Zero-Knowledge
 
 One of the most important results in this chapter is the non-interactivity of Zero-Knowledge Proofs, through the Fiat-Shamir heuristic, which uses hash functions, hard to predict in the practice.
 
-Combining many techniques of the Zero-Knowledge Proofs, IBM developed a security suite protocol for privacy preserving, called Identity Mixer. The issuance of credentials uses the Camenisch-Lysyanskaya (from the cryptographers Jan Camenisch and Anna Lysyanskaya) signature, which most strong features are that it can be performed between two parties, and it can be randomized, in a way some values of the signature change affected by a random parameter, but the signature is still valid.
+Combining many techniques of the Zero-Knowledge Proofs, IBM developed a security suite protocol for privacy preserving, called Identity Mixer. The issuance of credentials uses the Camenisch-Lysyanskaya signature, which most strong features are that it can be performed between two parties, and it can be randomized, in a way some values of the signature change affected by a random parameter, but the signature is still valid.
 
 Then, a certificate can be partially disclosed, that is, when a user presents its certificate to a verifier, only part of the certificate is shown, and the other part is committed with a Zero-Knowledge Proof assuring the hidden values are signed by a valid Camenisch-Lysyanskaya signature, which is also randomized to avoid correlations between different uses of the certificate.
 
-Identity Mixer accomplishes authentication in a real privacy preserving fashion, removing the need of storing delicate information in the server side, avoiding possible security attacks where the user could not say anything about the security measures to apply. \textit{``If your personal data is never collected, it can not be stolen''} -- Maria Dubovitskaya, from the Identity Mixer team.
+%Identity Mixer accomplishes authentication in a real privacy preserving fashion, removing the need of storing delicate information in the server side, avoiding possible security attacks where the user could not say anything about the security measures to apply. \textit{``If your personal data is never collected, it can not be stolen''} -- Maria Dubovitskaya, from the Identity Mixer team.
 
 
 Finally, we include an appendix to show some implementations of these algorithms using \texttt{sage}, a Python based mathematical software of free distribution. It offers tools for modular arithmetic so we can focus on the implementation of the protocols instead of writing efficient implementations of modular arithmetic operations to work in other programming languages.
-
-
-
-
-
-
-
-
-
-
-
 
 
 

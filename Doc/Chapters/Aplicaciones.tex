@@ -435,7 +435,7 @@ Un ejemplo cercano de uso de este protocolo podría ser las encuestas anónimas 
 
 Con un certificado Idemix, un atributo podría ser ``Alumno de la asignatura X'', otro sus datos de identificación. La Universidad firmó su certificado, que puede llevar en la tarjeta inteligente, por lo que disponemos de una firma CL. Al iniciar sesión en la encuesta, bastaría con mostrar que se es alumno de la asignatura, y generar la prueba no interactiva de que posee un certificado firmado por la Universidad. Sólo los verdaderos alumnos podrán acceder, y ningún registro puede relacionar una opinión con su autor.
 
-Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger la transmisión, que el mensaje no pudiera ser interceptado. Con las pruebas de conocimiento cero hemos conseguido protegernos ante un interlocutor en quien no confiamos.
+Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger la transmisión, que el mensaje no pudiera ser interceptado. Con las pruebas de conocimiento cero hemos conseguido proteger los mismos datos, ante un interlocutor en quien no confiamos.
 
 
 
@@ -480,12 +480,12 @@ Otras soluciones criptográficas tradicionales sólo se preocupaban de proteger 
 \section*{Conclusiones}
 \addcontentsline{toc}{chapter}{Conclusiones}
 
-Como cierre de este trabajo podemos destacar los conocimientos obtenidos durante el camino. Éste ha sido un trabajo de investigación que permite tratar un área de las matemáticas muy relacionada con la informática, desde que en el primer capítulo tratásemos la teoría de la computación hasta las aplicaciones de seguridad al final de la memoria. Sin embargo, los problemas matemáticos analizados y usados como base de la criptografía y pruebas de conocimiento cero, no es una teoría que se estudie fuera al mismo nivel que en el Grado en Matemáticas. El estudio formal que hemos realizado para poder demostrar las definiciones dadas sobre cada protocolo es una parte intrínseca de las matemáticas.
+Como cierre de este trabajo podemos destacar los conocimientos obtenidos durante el camino. Éste ha sido un trabajo de investigación que permite tratar un área de las matemáticas muy relacionada con la informática, desde que en el primer capítulo tratásemos la teoría de la computación hasta las aplicaciones de seguridad al final de la memoria. Sin embargo, los problemas matemáticos analizados y usados, como base de la criptografía y pruebas de conocimiento cero, no es una teoría que se estudie al mismo nivel en el Grado en Matemáticas que en otros estudios. El estudio formal que hemos realizado para poder entenderlas es fundamentalmente matemático, pero con aplicación a otras áreas.
  
  
-Durante el seminario \textit{Grupos y criptograf\'ia: de Julio Cesar a las curvas el\'ipticas} de Adolfo Quirós, el pasado abril de 2017, se hizo el acertado comentario de que los problemas utilizados en criptografía no eran difíciles de entender. En efecto, hemos utilizado problemas de distintas áreas de las matemáticas, y los enunciados de los mismos no requerían un estudio extensivo sobre sus respectivas áreas para comprenderlos. Sin embargo, han demostrado que hasta el día de hoy, lo difícil es resolverlos. Por ejemplo, en el problema de la factorización vimos cómo las técnicas más avanzadas conseguían tiempos subexponenciales que sólo sirven en la práctica para valores de tamaño relativamente pequeño.
+Durante el seminario \textit{Grupos y criptograf\'ia: de Julio Cesar a las curvas el\'ipticas} de Adolfo Quirós, el pasado abril de 2017, se hizo el acertado comentario de que los problemas utilizados en criptografía no eran difíciles de entender. En efecto, hemos utilizado problemas de distintas áreas de las matemáticas, y los enunciados de los mismos no requerían un estudio extensivo sobre sus respectivas áreas para comprenderlos. Sin embargo, han demostrado que hasta el día de hoy, lo difícil es resolverlos. Por ejemplo, en el problema de la factorización vimos cómo las técnicas más avanzadas conseguían tiempos subexponenciales que sólo sirven en la práctica para factorizar números de tamaño relativamente pequeño.
 
-Construimos esquemas de compromiso donde una de sus propiedades básicas, secreto o vinculación, dependían de la dificultad de resolver los problemas previos.
+También construimos unas herramientas fundamentales, los esquemas de compromiso, donde una de sus propiedades básicas, secreto o vinculación, dependían de la dificultad de resolver los problemas de teoría de números o grafos vistos.
 
 Y también basándonos en esa dificultad, construimos algoritmos polinomiales que los pueden resuelven, a costa de suponer que una máquina P todopoderosa existe y es capaz de resolverlos, anulando en P la dificultad de los problemas. Modificando condiciones ajenas a P pasamos de pruebas perfectas, donde sabemos que de la prueba ninguna máquina podría obtener más información, a pruebas con Verificador Honesto, donde no conocemos ataques eficaces, o pruebas computacionales, donde la seguridad del conocimiento cero dependía de la dificultad del problema utilizado en el esquema de compromiso.
 
@@ -493,7 +493,7 @@ Sin embargo, si queremos utilizar dichos métodos en la práctica, nuestro P tam
 
 Finalmente, hemos visto que las aplicaciones de las pruebas de conocimiento cero no se quedan sólo en pequeñas interacciones para identificación, sino que permiten realizar tareas más complejas como computación distribuida, que se combinan en un protocolo como Idemix.
 
+Inicialmente elegimos este área de trabajo debido a que para el TFG de Ing. Informática no había cabida para estudiar como se merecía la criptografía de Idemix, junto a su implementación en entornos IoT, tema central de dicho trabajo. Aprovechando que en el plan de estudios del doble grado ahora debíamos realizar dos Trabajos de Fin de Grado, separamos la teoría y la práctica de modo que no hubiera ningún solapamiento entre los trabajos presentados. Sin embargo, ambos se complementaron indirectamente, pues desarrollar uno ayudaba a comprender mejor el otro. En mi opinión personal, creo que fue una buena decisión que ahora refleja las ventajas del doble grado.
 
-En el ámbito personal, creo que este trabajo me ha permitido comprender e iniciarme en la investigación, en concreto en un campo que en los Grados que he estudiado no se termina de combinar para un estudio del que tenemos nivel para realizar, pero que comprendo que actualmente no es viable su realización.
 
 
