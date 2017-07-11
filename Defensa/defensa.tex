@@ -27,9 +27,9 @@
 \section{Decision Problems}
 
 \begin{frame}{Decision Problem}
-	\begin{definition}[Decision Problem]
+	\begin{block}{Definition (Decision Problem)}
 		General description of a task which depend on some parameters and which possible answers are in the set $\{True, False \}$.
-	\end{definition}
+	\end{block}
 	\begin{description}[Parameters]
 		\item[Name] \textit{A characteristic name.}
 		\item[Parameters] \textit{Arguments the problem depends on}.
@@ -81,6 +81,70 @@
 	\end{tikzpicture}
 	\end{center}
 \end{frame}
+
+
+\begin{frame}{Complexity classes}
+
+\begin{block}{Definition (Class P)}
+	The set of decision problems which can be solved in polynomial time.
+\end{block}
+
+\begin{block}{Definition (Class NP)}
+	The set of decision problems where a $True$ answer can be verified in polynomial time, given some extra information (certificate).
+\end{block}
+
+\begin{block}{Fact}
+	$P\subset NP$
+\end{block}
+
+\begin{block}{Millennium Problem}
+	$P\overset{?}{=} NP$ % P versus NP
+\end{block}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Discrete Logarithm}
+
+\begin{description}[Parameters]
+	\item[Name] Discrete Logarithm problem (DL).
+	\item[Parameters] A cyclic group $G=\left\langle g \right\rangle$ of prime order $q$, an element $y\in G$.
+	\item[Question] Does P know  $s\in \mathbb{Z}_q$ such that $g^s = y$, or $log_g y = s$?
+\end{description}
+
+\begin{columns}
+	
+	\begin{column}{0.5\textwidth}
+		\includegraphics[width=\linewidth]{DL}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+		Discrete Logarithm with $G=\mathbb{Z}_{1231}$, $g=3$.
+		
+		\small{Adolfo Quirós Gracián. \textit{Grupos y criptografía: de Julio César a las curvas elípticas.}}
+	\end{column}
+	
+\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}{Complexity classes}
+	\begin{block}{Definition (Polynomial-time reduction $L_1 \leq_P L_2$)}
+		Be $L_1$ and $L_2$ two decision problems. $L_1$ can be reduced in polynomial time to $L_2$ if $L_1$ can be solved using $L_2$ as a subroutine plus a polynomial time.
+	\end{block}
+	
+	\begin{block}{Definition (Class NP-complete or NPC)}
+		A decision problems $L$ is in \textbf{NPC} if:
+		\begin{enumerate}
+			\item $L \in $ \textbf{NP}, and
+			\item $L_1 \leq_P L \quad \forall L_1 \in $ \textbf{NP}.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
 
 
 \begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
@@ -157,59 +221,11 @@
 
 
 
-\begin{frame}{Discrete Logarithm}
-
-	\begin{description}[Parameters]
-		\item[Name] Discrete Logarithm problem (DL).
-		\item[Parameters] A cyclic group $G=\left\langle g \right\rangle$ of prime order $q$, an element $y\in G$.
-		\item[Question] What is the integer  $s\in \mathbb{Z}_q$ such that $g^s = y$, or $log_g y = s$?
-	\end{description}
-
-	\begin{columns}
-
-		\begin{column}{0.5\textwidth}
-			\includegraphics[width=\linewidth]{DL}
-		\end{column}
-		\begin{column}{0.5\textwidth}
-			Discrete Logarithm with $G=\mathbb{Z}_{1231}$, $g=3$.
-			
-			\small{Adolfo Quirós Gracián. \textit{Grupos y criptografía: de Julio César a las curvas elípticas.}}
-		\end{column}
-	
-	\end{columns}
-
-
-\end{frame}
-
-
-\begin{frame}{Complexity classes}
-
-\begin{block}{Definition (Class P)}
-	The set of decision problems which can be solved in polynomial time.
-\end{block}
-
-\begin{block}{Definition (Class NP)}
-	The set of decision problems where a $True$ answer can be verified in polynomial time, given some extra information (certificate).
-\end{block}
-	
-\end{frame}
 
 
 
-\begin{frame}{Complexity classes}
 
-\begin{block}{Definition (Polynomial-time reduction $L_1 \leq_P L_2$)}
-	Be $L_1$ and $L_2$ two decision problems. $L_1$ can be reduced in polynomial time to $L_2$ if $L_1$ can be solved using $L_2$ as a subroutine plus a polynomial time.
-\end{block}
 
-\begin{block}{Definition (Class NP-complete or NPC)}
-	A decision problems $L$ is in \textbf{NPC} if:
-	\begin{enumerate}
-		\item $L \in $ \textbf{NP}, and
-		\item $L_1 \leq_P L \quad \forall L_1 \in $ \textbf{NP}.
-	\end{enumerate}
-\end{block}
-\end{frame}
 
 
 \section{Residuos Cuadráticos}
@@ -290,6 +306,17 @@
 	\begin{alertblock}{Observación}
 		Un Símbolo de Jacobi $-1$ nos indica \textit{no-residuo}, pero un $1$ ya no indica necesariamente \textit{residuo cuadrático}.
 	\end{alertblock}
+\end{frame}
+
+
+
+\begin{frame}{Residuos Cuadráticos}
+	\begin{itemize}
+		\item El Símbolo de \textbf{Legendre} nos indica si un entero es residuo cuadrático módulo un \textbf{primo} mayor que 2.
+		\item Podemos calcular una \textbf{raíz} cuadrada módulo un primo en tiempo polinomial con el \textbf{Algoritmo de Tonelli}.
+		\item El Símbolo de \textbf{Jacobi} se puede calcular en tiempo polinomial \textbf{sin} conocer la \textbf{factorización} del módulo.
+		\item Conociendo la \textbf{factorización} del módulo, podemos calcular la \textbf{raíz} modular en tiempo polinomial con el Teorema Chino de los Restos y el Algoritmo de Tonelli.
+	\end{itemize}
 \end{frame}
 
 % TODO: reducir a FACT
@@ -398,9 +425,6 @@
 	\end{enumerate}
 	
 \end{block}
-
-% TODO : en las diapositivas extra
-% TODO: para la presentación, si preguntan por qué t(n) depende del tamaño de la entrada, preparar ejemplo de Z_5 o Z_15 mejor, por 15=3*5 los primos impares, indicar que hay 7 residuos cuadráticos y 7 no-residuos, que la cantidad de u's distintos que puede tomar aleatoriamente de entre los rq y los no-rq para intentar engañarlo es mínima, y en pocas iteraciones pueden haber probado todas las combinaciones, y seguir el protocolo es repetir valores ya contrastados, y comparando con primos de 2048 bits, se pueden pedir más iteraciones.
 \end{frame}
 
 
@@ -410,7 +434,7 @@
 		
 		Instancia $(x,N)$ $Verdadera$ $\Rightarrow$ $x$ es residuo cuadrático, existe raíz.
 		
-		P computacionalmente todopoderoso $\Rightarrow$ puede calcular $w$ raíz de $x$ o $xu$.
+		P computacionalmente todopoderoso $\Rightarrow$ puede calcular $w$ raíz de $x$ o $xu$, residuos cuadráticos.
 		
 		V acepta la prueba de P.
 	\end{proof}
@@ -444,7 +468,146 @@
 \section{Pruebas de Conocimiento Cero}
 
 \begin{frame}{Pruebas de Conocimiento Cero}
-	
+	\begin{definition}[Propiedad de conocimiento cero]
+		Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es de \textit{conocimiento cero} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
+	\end{definition}
 \end{frame}
+
+
+
+
+\begin{frame}{Pruebas de Conocimiento Cero}
+	\begin{definition}[Ensamble]
+		Llamamos ensamble probabilístico (\textit{ensemble} en inglés) a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable.
+	\end{definition}
+	$ Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)}). $
+
+	\begin{definition}[Simulador]
+		Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible, para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P.
+	\end{definition}
+\end{frame}
+
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+	\begin{theorem}
+		La prueba interactiva del problema QR es de conocimiento cero.
+	\end{theorem}
+	\textbf{Demostración}
+	
+	%\textit{Datos}: \quad $(x,N)$, una instancia $Verdadera$ del problema QR; \quad $h$, transcripciones de ejecuciones previas del protocolo; \quad $v_i$, transcripción de la interacción actual ($i$ rondas).
+	\textbf{Simulador} Instancia $(x,N)$ $Verdadera$ del problema QR.\\
+	\textit{Ejecución}: Generadas las primeras $i$ rondas. Repetir para $i+1 \leq t(n)$:
+	
+	\begin{enumerate}
+		\item Elegir $b_{i+1} \in_R \{0,\,1\}$
+		
+		\item Elegir $w_{i+1} \in_R \mathbb{Z}^*_N$
+		
+		\item \textbf{Si} $b_{i+1} = 0$, \textbf{entonces} calcular \qquad $u_{i+1} \equiv w_{i+1}^2 \, mod \,  N$ \\
+		\textbf{Si no}, \qquad \qquad \qquad \qquad \qquad \qquad \: $u_{i+1} \equiv w_{i+1}^2 \cdot x^{-1} \, mod \,  N$
+		
+		\item \textbf{Si} $b_{i+1} = F(x,N,h,v_i,u_{i+1})$, \textbf{entonces} añadir la tupla \\ $(u_{i+1},\,b_{i+1},\,w_{i+1})$ a la transcripción. \textbf{Si no}, volver al paso 1.
+		
+		\item $i = i+1$
+		
+	\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+	\textbf{Variables aleatorias}
+	\begin{description}[Wi]
+	\item[$U_i$] El residuo cuadrático aleatorio enviado por P en el primer mensaje, $u \in_R \mathbb{Z}^{Q+}_N$.
+	
+	\item[$B_i$] El reto aleatorio generado por V, $b \in_R \{0,\,1\}$.
+	
+	\item[$W_i$] La \textit{prueba} de P, $w \in_R \Omega_u$ o bien $w \in_R \Omega_{xu}$.
+\end{description}
+\end{frame}
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+	\textbf{Probabilidad en la Vista}
+	\[
+	P(U_i=u, B_i=b, W_i=w) = 
+	\]
+	\[ P(U_i=u)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
+	
+	Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
+	
+	Denotamos $ P(B_i=b \mid V_{i-1}=v, U_i=u,h)=p_b$, que dependerá de la $F$ utilizada.
+	
+	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. Entonces:
+	\[P(W_i=w \mid U_i=u, B_i=0) = 1/\beta,\ \forall w \in \Omega_u\]
+	\[P(W_i=w \mid U_i=u, B_i=1) = 1/\beta,\ \forall w \in \Omega_{xu}\]
+	
+	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
+\end{frame}
+
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+	\textbf{Probabilidad del Simulador}
+	\[P(U_i=u, B_i=b, W_i=w) = \]
+	\[P(W_i=w)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(U_i=u \mid W_i=w, B_i=b)\]
+	
+	Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i^`=w) = \frac{1}{\alpha \beta}$.
+	
+	Utilizando que $w\in \Omega_u \Leftrightarrow b=0$, $w\in \Omega_{xu} \Leftrightarrow b=1$ y que $W_i^`$ y $B_i^`$ son independientes, la probabilidad
+	\begin{align*}
+	P(U_i^`=u)  & = P(U_i^`=u, W_i^`\in \Omega_u \cup \Omega_{xu}, B_i^` \in \{0,1\}) = \\
+	&= \sum_{w\in \Omega_u} P(U_i^`=u, W_i^`=w, B_i^` = 0) + \sum_{w\in \Omega_{xu}} P(U_i^`=u, W_i^`=w, B_i^` = 1) =  \\
+	&= \sum_{w\in \Omega_u} P(W_i^`=w)P(B_i^` = 0) + \sum_{w\in \Omega_{xu}} P(W_i^`=w)P(B_i^` = 1) = \\
+	&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i^`=0) + P(B_i^`=1)) = \frac{1}{\alpha}
+	\end{align*}
+	indica que $U_i^`$ tiene la misma distribución que $U_i$, de modo que, al calcular $b_{i} = F(x,N,h,v_{i-1},u_{i})$, se tiene 
+	$P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) = p_b$.
+	
+	Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i^`$ tenga el valor $u$ condicionado a que $ B_i^`=b$ y que $W_i^`=w$, es 1:
+	\[P(U_i^`=u \mid W_i^`=w, B_i^`=b) = 1\]
+	
+	$P(U_i^`=u, B_i^`=b, W_i^`=w) = \frac{p_b}{\alpha \beta}$.
+\end{frame}
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+
+
+\appendix
+
+\begin{frame}{Residuos Cuadráticos: Símbolo de Jacobi}
+\textbf{Propiedades} del S\'imbolo de Jacobi.
+
+Sean $a,b \in {\mathbb Z}$ y sean $m$, $n$ enteros positivos impares:
+\begin{enumerate}
+	\item Si $a\equiv b~mod~n$ entonces $\left( \frac{a}{n} \right) = \left( \frac{b}{n} \right)$.
+	\item $\left( \frac{a^2}{n} \right) = 1$.
+	\item $\left( \frac{ab}{n} \right) = \left( \frac{a}{n} \right)\left( \frac{b}{n} \right)$.
+	\item $\left( \frac{-1}{n} \right) = (-1)^{(n-1)/2}$.
+	\item $\left( \frac{2}{n} \right) = (-1)^{(n^2-1)/8}$.
+	\item $\left( \frac{m}{n} \right) = (-1)^{(n-1)(m-1)/4} \left( \frac{n}{m} \right)$ \textit{Ley de Reciprocidad Cuadr\'atica}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Residuos Cuadráticos: Símbolo de Jacobi}
+Podemos calcular el Símbolo de Jabobi $\left( \dfrac{a}{b} \right)$ en tiempo polinomial \textbf{sin conocer la factorización de} $b$: 
+\begin{enumerate}
+\item En caso de que $a$ sea mayor que $b$, reducirlo m\'odulo $b$, $a := a ~ mod ~b$.
+\item Si $a$ es $0$, devolver $0$.
+\item Si $a$ es $1$, devolver $1$.
+\item Dividir $a$ por $2$ para ponerlo en la forma $a = 2^e a'$ con $a'$ impar. Si $e$ es par o $b \equiv \pm 1 ~mod~8$ poner $s := 1$, en caso contrario poner $s := -1$.
+\item Finalmente si $a' \equiv 3 ~mod~4$ y $b \equiv 3~mod~4$ devolver $-s {\sf Jacobi}(b,a')$ y en caso contrario devolver $s {\sf Jacobi}(b,a')$.
+\end{enumerate}
+\end{frame}
+
 
 \end{document}

@@ -1,0 +1,112 @@
+[Title]
+
+Good morning, I'm José Luis Cánovas and I'm going to defend my Degree Thesis (?) named
+Zero-Knowledge Proofs and its Applications.
+
+[Outline]
+
+We will first introduce what are Decision Problems, for which we will give examples and focus on
+the Quadratic Residues theory and related problems. Then we will describe an interactive technique to solve decision problems, and we will focus on a subset with a special property called Zero-Knowledge.
+Finally, we will give some Applications of these techniques.
+
+[Decision Problems:title]
+
+[Decision Problem:definition]
+
+A decision problem is a general description of a task which has parameteres the problem depends on and a question to be answered with either True or False.
+
+[Graph Isomorphism]
+
+For example, the Graph Isomorphism problem, where we ask if given two graphs, there exists an isomorphism between them.
+
+[Complexity classes]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Pruebas Interactivas:título]
+
+Pasamos ahora a describir las técnicas interactivas que nos permitirán resolver los 
+problemas de decisión.
+
+[Pruebas Interactivas:P y V]
+
+En las pruebas interactivas consideraremos dos máquinas, llamadas el Probador, P, 
+que consideraremos computacionalmente ilimitado, y el Verificador, V, una máquina 
+limitada a algoritmos probabilísticos en tiempo polinomial.
+
+[Pruebas Interactivas:definición]
+
+Un sistema de prueba interactiva entre P y V para resolver un problema de decisión, es un protocolo polinomialmente acotado en número de mensajes que tiene dos propiedades, la completitud y robustez.
+
+La completitud significa que dada una instancia del problema de decisión cuya respuesta es Verdadero, tras el protocolo la máquina V siempre obtendrá ese resultado.
+
+La robustez significa que ante una instancia Falsa, hay una pequeña probabilidad de un falso positivo, es decir, que V tome la solución Verdadero en vez de la correcta, Falso.
+
+[IP]
+
+Al conjunto de problemas de decisión que tienen una prueba interactiva, lo llamamos IP.
+
+[NP C IP]
+
+Para cualquier problema de decisión en NP, éste tiene una prueba interactiva, que consiste en que P, computacionalmente todopoderoso, puede resolver el problema, generar su certificado por ser NP y enviarlo a V para que lo compruebe. La prueba se realiza en un mensaje, con completitud y robustez sin falsos positivos.
+
+[Ejemplo QR interactiva]
+
+Veamos por ejemplo el problema de decisión de los residuos cuadráticos, donde debemos distinguir si un entero con símbolo de Jacobi 1 es un residuo cuadrático o no, módulo  n igual a p por q.
+
+[Algoritmo QR]
+
+La prueba interactiva consistirá en repetir t(n) veces el intercambio de 3 mensajes.
+En el primero, P envía a V un residuo cuadrático módulo N aleatorio, que llamaremos testigo.
+En el segundo mensaje, V envía a P un reto, un bit, 0 ó 1, elegido aleatoriamente.
+En el tercer mensaje, P, computacionalmente todopoderoso, podrá calcular una raíz módulo N cualquiera de u o de ux dependiendo del valor de b.
+Por último, V comprobará que la respuesta w es efectivamente una raíz de u o xu. Si no lo es, concluye que x no es residuo cuadrático, si lo es, sigue con el protocolo.
+
+[Demostración:completitud]
+
+Veamos primero la completitud. Suponiendo que x es un residuo cuadrático, es decir, la instancia del problema es Verdadera, existe una raíz cuadrada de x.
+Como u también es un residuo cuadrático, también tendrá una raíz cuadrada. Y también tenemos que xu es un residuo cuadrático, con sus respectivas raíces.
+Como P que es computacionalmente ilimitado podrá calcular una raíz aleatoria de x o xu residuos cuadráticos.
+
+V siempre aceptará la prueba.
+
+[Demostración:robustez]
+
+Ahora veamos la robustez.
+Si la instancia es Falsa, x no es un residuo cuadrático, un P, incluso computacionalmente todopodereoso, no podrá calcular una raíz cuadrada de xu si u es un residuo cuadrático. Por ello, si P cree que el siguiente reto no es un b=0, deberá calcular u no como un residuo cuadrático aleatorio, sino de forma que pueda responder un w que cumpla la comprobación de V.
+
+La probabilidad de adivinar el reto es 1/2, por b igual a 0 ó 1. Y tras t(n) iteraciones del protocolo, la probabilidad de un falso positivo es 2^-t(n), despreciable, por lo que cumple la propiedad de robustez.
+
+[Pruebas de Conocimiento Cero:título]
+
+Una vez vistas las pruebas de conocimiento cero, veamos el subconjunto de las mismas que cumple la siguiente propiedad.
+
+[Pruebas de Conocimiento Cero:definición]
+
+
+
