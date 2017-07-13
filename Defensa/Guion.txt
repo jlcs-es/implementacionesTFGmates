@@ -6,7 +6,8 @@ Zero-Knowledge Proofs and its Applications.
 [Outline]
 
 We will first introduce what are Decision Problems, for which we will give examples and focus on
-the Quadratic Residues theory and related problems. Then we will describe an interactive technique to solve decision problems, and we will focus on a subset with a special property called Zero-Knowledge.
+the Quadratic Residues theory and related problem. Then we will describe an interactive technique 
+to solve decision problems, and we will focus on a subset with a special property called Zero-Knowledge.
 Finally, we will give some Applications of these techniques.
 
 [Decision Problems:title]

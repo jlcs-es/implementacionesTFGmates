@@ -16,6 +16,12 @@
 \author{José Luis Cánovas Sánchez\\[3mm]\scriptsize Tutores:\\Antonio José Pallarés Ruiz\\Leandro Marín Muñoz}
 
 \institute{Universidad de Murcia\\Facultad de Matemáticas}
+
+
+
+% La exposición durará entre 10 y 20 minutos y será en español, salvo 5 minutos que se expondrán en el idioma usado en el resumen de la memoria.
+
+
 \begin{document}
 \maketitle
 
@@ -41,7 +47,7 @@
 	\begin{description}[Parameters]
 		\item[Name] Graph Isomorphism Problem (GI).
 		\item[Parameters] Given two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$ with $\mid V_1 \mid = \mid V_2 \mid = n$.
-		\item[Question] Is there a permutation $\tau : V_1 \rightarrow V_2$ such that an edge $(u,v)\in E_1$ if and only if $(\tau (u),\tau (v)) \in E_2$?
+		\item[Question] Is there an isomorphism $\tau : V_1 \rightarrow V_2$ such that an edge $(u,v)\in E_1$ if and only if $(\tau (u),\tau (v)) \in E_2$?
 	\end{description}
 
 
@@ -106,168 +112,88 @@
 
 
 
-\begin{frame}{Discrete Logarithm}
 
-\begin{description}[Parameters]
-	\item[Name] Discrete Logarithm problem (DL).
-	\item[Parameters] A cyclic group $G=\left\langle g \right\rangle$ of prime order $q$, an element $y\in G$.
-	\item[Question] Does P know  $s\in \mathbb{Z}_q$ such that $g^s = y$, or $log_g y = s$?
-\end{description}
 
-\begin{columns}
+
+\section{Quadratic Residues}
+
+\begin{frame}{Quadratic Residues}
+\begin{definition}
+	Given $x\in \mathbb{Z}^*_n$ we say that $x$ is a \textit{quadratic residue}
+	modulo $n$ if there exists an $a \in \mathbb{Z}^*_n$ such thtat
 	
-	\begin{column}{0.5\textwidth}
-		\includegraphics[width=\linewidth]{DL}
-	\end{column}
-	\begin{column}{0.5\textwidth}
-		Discrete Logarithm with $G=\mathbb{Z}_{1231}$, $g=3$.
-		
-		\small{Adolfo Quirós Gracián. \textit{Grupos y criptografía: de Julio César a las curvas elípticas.}}
-	\end{column}
+	$x \equiv a^2 \, mod \, n$.
 	
-\end{columns}
+	If said $a$ doesn't exist, then $x$ is called a \textit{quadratic non-residue}.
+\end{definition}
+
+We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}$ the set of quadratic non-residues.
 \end{frame}
 
 
 
+%\section{Residuos Cuadráticos}
+%
+%\begin{frame}{Residuos Cuadráticos}
+%	\begin{definition}
+%		Sea $x\in \mathbb{Z}^*_n$. Se dice que $x$ es un \textit{residuo cuadrático}
+%		módulo n, o un \textit{cuadrado} módulo n, si existe un $a \in \mathbb{Z}^*_n$
+%		tal que
+%		
+%		$x \equiv a^2 \, mod \, n$.
+%		
+%		Si no existe dicho $a$, entonces $x$ se llama un \textit{no-residuo cuadrático} módulo n.
+%	\end{definition}
+%
+%	Al conjunto de los residuos cuadráticos módulo n los denotaremos como $Q_n$.
+%	Al de los no-residuos cuadráticos, como $\overline{Q_n}$.
+%\end{frame}
 
-\begin{frame}{Complexity classes}
-	\begin{block}{Definition (Polynomial-time reduction $L_1 \leq_P L_2$)}
-		Be $L_1$ and $L_2$ two decision problems. $L_1$ can be reduced in polynomial time to $L_2$ if $L_1$ can be solved using $L_2$ as a subroutine plus a polynomial time.
-	\end{block}
-	
-	\begin{block}{Definition (Class NP-complete or NPC)}
-		A decision problems $L$ is in \textbf{NPC} if:
-		\begin{enumerate}
-			\item $L \in $ \textbf{NP}, and
-			\item $L_1 \leq_P L \quad \forall L_1 \in $ \textbf{NP}.
-		\end{enumerate}
-	\end{block}
+
+
+%\begin{frame}{Quadratic Residues}
+%\begin{block}{Example}
+%	If we take $n=4$, the quadratic non-residues are $2$ and $3$, and the only quadratic residue is $1$:
+%	\begin{align*}
+%	1^2 \equiv 1 \, mod \, 4 \qquad 2^2 \equiv 0 \, mod \, 4 \qquad  3^2 \equiv 1 \, mod \, 4
+%	\end{align*}
+%\end{block}
+%\textbf{Note:} By definition  $0 \notin \mathbb{Z}^*_n$, therefore $0 \notin Q_n$ and $0 \notin \overline{Q_n}$.
+%\end{frame}
+
+%\begin{frame}{Residuos Cuadráticos}
+%	\begin{example}
+%		Si tomamos $n=4$, los no-residuos cuadráticos son $2$ y $3$, y el único residuo cuadrático es $1$:
+%		\begin{align*}
+%		1^2 \equiv 1 \, mod \, 4 \qquad 2^2 \equiv 0 \, mod \, 4 \qquad  3^2 \equiv 1 \, mod \, 4
+%		\end{align*}
+%	\end{example}
+%	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ ni $0 \notin \overline{Q_n}$.
+%\end{frame}
+
+
+\begin{frame}{Quadratic Residues: Properties}
+\begin{itemize}
+	\item Given a prime $p$, $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
+	\item Given $n$, $m$ coprime,  $x \in {\mathbb Z}_{mn}$ is a quadratic residue if and only if $x~mod~m$ and  $x~mod~n$ are respectively quadratic residues in ${\mathbb Z}_m$ and ${\mathbb Z}_n$.
+	\item If $a$ and $b$ are square roots of $x~mod~m$ and $x~mod~n$, we can use the \textbf{Chinese Remainder Theorem} to combine both as a square root of $x$ in ${\mathbb Z}_{mn}$.
+	\item Be $n = pq$, $p$ and $q$ different primes, then $|Q_n| = \frac{(p-1)(q-1)}{4}$
+\end{itemize}
 \end{frame}
 
 
-
-\begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
-\begin{description}[Parameters]
-	\item[Name] Hamiltonian Cycle Problem (HC).
-	\item[Parameters] Given graph $G=(V,E)$.
-	\item[Question] Does there exist a Hamiltonian cycle in $G$?
-\end{description}
-
-\begin{center}
-	\tikzstyle{every node}=[circle, draw, fill=black!50, inner sep=0pt, minimum width=8pt]
-\begin{tikzpicture}[thick]
-	\draw [line width=0.8mm,purple](120:2) -- (240:2) -- (0:2) -- (0:0) -- cycle;
-	\draw (120:2) node {} -- (0:2) node {};
-	\draw (0:0) node {} -- (240:2) node {};
-\end{tikzpicture}
-\end{center}
-
-\end{frame}
-
-
-\begin{frame}{Graph 3-colorability \textsuperscript{NPC}}
-
-\begin{description}[Parameters]
-	\item[Name] Graph 3-colorability Problem (G3C).
-	\item[Parameters] Given graph $G=(V,E)$.
-	\item[Question] Is there a function	$\phi : V \to \{1,2,3\}$ such that $\phi(u)\neq \phi(v) \quad \forall (u,v)\in E$?
-\end{description}
-
-\begin{center}
-	\begin{tikzpicture}[style=thick]
-	\draw (18:2cm) -- (90:2cm) -- (162:2cm) -- (234:2cm) --
-	(306:2cm) -- cycle;
-	\draw (18:1cm) -- (162:1cm) -- (306:1cm) -- (90:1cm) --
-	(234:1cm) -- cycle;
-	\foreach \x in {18,90,162,234,306}{
-		\draw (\x:1cm) -- (\x:2cm);
-	}
-	\draw (18:2cm) circle (5pt)[fill=blue!50];
-	\draw (90:2cm) circle (5pt)[fill=green!50];
-	\draw (162:2cm) circle (5pt)[fill=red!50];
-	\draw (234:2cm) circle (5pt)[fill=green!50];
-	\draw (306:2cm) circle (5pt)[fill=red!50];
-	
-	\draw (18:1cm) circle (5pt)[fill=red!50];%4
-	\draw (162:1cm) circle (5pt)[fill=blue!50];%2
-	\draw (306:1cm) circle (5pt)[fill=green!50];%5
-	\draw (90:1cm) circle (5pt)[fill=red!50];%3
-	\draw (234:1cm) circle (5pt)[fill=blue!50];%1
-\end{tikzpicture}
-\end{center}
-
-\end{frame}
-
-
-\begin{frame}{Quadratic residue}
-	\begin{description}[Parameters]
-		\item[Name] Factorization problem (FACT).
-		\item[Parameters] Positive integer $N$.
-		\item[Question] Are there integers $p,q\geq 2$ such that $N = pq$?
-	\end{description}
-
-	\begin{description}[Parameters]
-		\item[Name] Quadratic residue problem (QR).
-		\item[Parameters] Given a composite integer $N=pq$ and the integer $x$ with Jacobi Symbol $\left( \frac{x}{N} \right) = 1$.
-		\item[Question] Is $x$ a quadratic residue in ${\mathbb Z}_N$? $\exists a\in {\mathbb Z}_N : x\equiv a^2 (N)$?
-	\end{description}
-
-	\begin{block}{Theorem}
-		$QR \leq_P FACT$
-	\end{block}
-
-\end{frame}
-
-
-
-
-
-
-
-
-
-
-\section{Residuos Cuadráticos}
-
-\begin{frame}{Residuos Cuadráticos}
-	\begin{definition}
-		Sea $x\in \mathbb{Z}^*_n$. Se dice que $x$ es un \textit{residuo cuadrático}
-		módulo n, o un \textit{cuadrado} módulo n, si existe un $a \in \mathbb{Z}^*_n$
-		tal que
-		
-		$x \equiv a^2 \, mod \, n$.
-		
-		Si no existe dicho $a$, entonces $x$ se llama un \textit{no-residuo cuadrático} módulo n.
-	\end{definition}
-
-	Al conjunto de los residuos cuadráticos módulo n los denotaremos como $Q_n$.
-	Al de los no-residuos cuadráticos, como $\overline{Q_n}$.
-\end{frame}
-
-
-\begin{frame}{Residuos Cuadráticos}
-	\begin{example}
-		Si tomamos $n=4$, los no-residuos cuadráticos son $2$ y $3$, y el único residuo cuadrático es $1$:
-		\begin{align*}
-		1^2 \equiv 1 \, mod \, 4 \qquad 2^2 \equiv 0 \, mod \, 4 \qquad  3^2 \equiv 1 \, mod \, 4
-		\end{align*}
-	\end{example}
-	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ ni $0 \notin \overline{Q_n}$.
-\end{frame}
-
-\begin{frame}{Residuos Cuadráticos: Propiedades}
-	\begin{itemize}
-		\item Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
-		\item Sean $n$, $m$ coprimos. $x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
-		y $x~mod~n$ son residuos cuadr\'aticos en ${\mathbb Z}_m$ y ${\mathbb Z}_n$
-		respectivamente.
-		\item Si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
-		correspondientes anillos, podemos combinarlas mediante el \textbf{Teorema Chino de los Restos}
-		para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
-		\item Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
-	\end{itemize}
-\end{frame}
+%\begin{frame}{Residuos Cuadráticos: Propiedades}
+%	\begin{itemize}
+%		\item Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
+%		\item Sean $n$, $m$ coprimos. $x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
+%		y $x~mod~n$ son residuos cuadr\'aticos en ${\mathbb Z}_m$ y ${\mathbb Z}_n$
+%		respectivamente.
+%		\item Si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
+%		correspondientes anillos, podemos combinarlas mediante el \textbf{Teorema Chino de los Restos}
+%		para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
+%		\item Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
+%	\end{itemize}
+%\end{frame}
 
 
 \begin{frame}{Residuos Cuadráticos: Símbolo de Legendre}
@@ -521,7 +447,7 @@
 	%Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i$ tenga el valor $u$ condicionado a que $ B_i=b$ y que $W_i=w$, es 1:
 	{\small$P(U_i=u \mid W_i=w, B_i=b) = 1$ por construcción de $u$.}
 	
-	$P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
+	$P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.\hfil $\square$
 \end{frame}
 
 \begin{frame}{Otros tipos de Pruebas de Conocimiento Cero}
@@ -604,6 +530,143 @@
 
 
 \appendix
+
+
+
+
+
+
+
+
+\begin{frame}{Discrete Logarithm}
+
+\begin{description}[Parameters]
+	\item[Name] Discrete Logarithm problem (DL).
+	\item[Parameters] A cyclic group $G=\left\langle g \right\rangle$ of prime order $q$, an element $y\in G$.
+	\item[Question] Does P know  $s\in \mathbb{Z}_q$ such that $g^s = y$, or $log_g y = s$?
+\end{description}
+
+\begin{columns}
+	
+	\begin{column}{0.5\textwidth}
+		\includegraphics[width=\linewidth]{DL}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+		Discrete Logarithm with $G=\mathbb{Z}_{1231}$, $g=3$.
+		
+		\small{Adolfo Quirós Gracián. \textit{Grupos y criptografía: de Julio César a las curvas elípticas.}}
+	\end{column}
+	
+\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}{Complexity classes}
+\begin{block}{Definition (Polynomial-time reduction $L_1 \leq_P L_2$)}
+Be $L_1$ and $L_2$ two decision problems. $L_1$ can be reduced in polynomial time to $L_2$ if $L_1$ can be solved using $L_2$ as a subroutine plus a polynomial time.
+\end{block}
+
+\begin{block}{Definition (Class NP-complete or NPC)}
+A decision problems $L$ is in \textbf{NPC} if:
+\begin{enumerate}
+	\item $L \in $ \textbf{NP}, and
+	\item $L_1 \leq_P L \quad \forall L_1 \in $ \textbf{NP}.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+
+
+\begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
+\begin{description}[Parameters]
+\item[Name] Hamiltonian Cycle Problem (HC).
+\item[Parameters] Given graph $G=(V,E)$.
+\item[Question] Does there exist a Hamiltonian cycle in $G$?
+\end{description}
+
+\begin{center}
+\tikzstyle{every node}=[circle, draw, fill=black!50, inner sep=0pt, minimum width=8pt]
+\begin{tikzpicture}[thick]
+\draw [line width=0.8mm,purple](120:2) -- (240:2) -- (0:2) -- (0:0) -- cycle;
+\draw (120:2) node {} -- (0:2) node {};
+\draw (0:0) node {} -- (240:2) node {};
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}{Graph 3-colorability \textsuperscript{NPC}}
+
+\begin{description}[Parameters]
+\item[Name] Graph 3-colorability Problem (G3C).
+\item[Parameters] Given graph $G=(V,E)$.
+\item[Question] Is there a function	$\phi : V \to \{1,2,3\}$ such that $\phi(u)\neq \phi(v) \quad \forall (u,v)\in E$?
+\end{description}
+
+\begin{center}
+\begin{tikzpicture}[style=thick]
+\draw (18:2cm) -- (90:2cm) -- (162:2cm) -- (234:2cm) --
+(306:2cm) -- cycle;
+\draw (18:1cm) -- (162:1cm) -- (306:1cm) -- (90:1cm) --
+(234:1cm) -- cycle;
+\foreach \x in {18,90,162,234,306}{
+\draw (\x:1cm) -- (\x:2cm);
+}
+\draw (18:2cm) circle (5pt)[fill=blue!50];
+\draw (90:2cm) circle (5pt)[fill=green!50];
+\draw (162:2cm) circle (5pt)[fill=red!50];
+\draw (234:2cm) circle (5pt)[fill=green!50];
+\draw (306:2cm) circle (5pt)[fill=red!50];
+
+\draw (18:1cm) circle (5pt)[fill=red!50];%4
+\draw (162:1cm) circle (5pt)[fill=blue!50];%2
+\draw (306:1cm) circle (5pt)[fill=green!50];%5
+\draw (90:1cm) circle (5pt)[fill=red!50];%3
+\draw (234:1cm) circle (5pt)[fill=blue!50];%1
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}{Quadratic residue}
+\begin{description}[Parameters]
+\item[Name] Factorization problem (FACT).
+\item[Parameters] Positive integer $N$.
+\item[Question] Are there integers $p,q\geq 2$ such that $N = pq$?
+\end{description}
+
+\begin{description}[Parameters]
+\item[Name] Quadratic residue problem (QR).
+\item[Parameters] Given a composite integer $N=pq$ and the integer $x$ with Jacobi Symbol $\left( \frac{x}{N} \right) = 1$.
+\item[Question] Is $x$ a quadratic residue in ${\mathbb Z}_N$? $\exists a\in {\mathbb Z}_N : x\equiv a^2 (N)$?
+\end{description}
+
+\begin{block}{Theorem}
+$QR \leq_P FACT$
+\end{block}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{frame}{Residuos Cuadráticos: Símbolo de Jacobi}
 \textbf{Propiedades} del S\'imbolo de Jacobi.
