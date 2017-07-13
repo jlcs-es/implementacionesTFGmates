@@ -257,25 +257,16 @@
 \end{frame}
 
 \begin{frame}{Residuos Cuadráticos: Propiedades}
-	\begin{block}{Proposición}
-		Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
-	\end{block}
-	\begin{block}{Proposición}
-		Sea $n$ y $m$ dos n\'umeros enteros positivos coprimos. Entonces un elemento
-		$x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
+	\begin{itemize}
+		\item Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
+		\item Sean $n$, $m$ coprimos. $x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
 		y $x~mod~n$ son residuos cuadr\'aticos en ${\mathbb Z}_m$ y ${\mathbb Z}_n$
 		respectivamente.
-		
-		Adem\'as, si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
-		correspondientes anillos, podemos combinarlas mediante el Teorema Chino de los Restos
+		\item Si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
+		correspondientes anillos, podemos combinarlas mediante el \textbf{Teorema Chino de los Restos}
 		para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
-		
-		En particular, esto es cierto cuando queramos estudiar los residuos cuadr\'aticos en
-		${\mathbb Z}_{pq}$ con $p$ y $q$ dos primos impares distintos, que son en particular coprimos.
-	\end{block}
-	\begin{corollary}
-		Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
-	\end{corollary}
+		\item Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
+	\end{itemize}
 \end{frame}
 
 
@@ -303,9 +294,6 @@
 		el \textit{s\'imbolo de Jacobi} de $a$ y $n$ como
 		\[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
 	\end{definition}
-	\begin{alertblock}{Observación}
-		Un Símbolo de Jacobi $-1$ nos indica \textit{no-residuo}, pero un $1$ ya no indica necesariamente \textit{residuo cuadrático}.
-	\end{alertblock}
 \end{frame}
 
 
@@ -315,7 +303,8 @@
 		\item El Símbolo de \textbf{Legendre} nos indica si un entero es residuo cuadrático módulo un \textbf{primo} mayor que 2.
 		\item Podemos calcular una \textbf{raíz} cuadrada módulo un primo en tiempo polinomial con el \textbf{Algoritmo de Tonelli}.
 		\item El Símbolo de \textbf{Jacobi} se puede calcular en tiempo polinomial \textbf{sin} conocer la \textbf{factorización} del módulo.
-		\item Conociendo la \textbf{factorización} del módulo, podemos calcular la \textbf{raíz} modular en tiempo polinomial con el Teorema Chino de los Restos y el Algoritmo de Tonelli.
+		\item Un Símbolo de \textbf{Jacobi} $-1$ nos indica \textit{no-residuo}, pero un $1$ ya no indica necesariamente \textit{residuo cuadrático}.
+		\item Conociendo la \textbf{factorización} del módulo, podemos calcular la \textbf{raíz} modular en tiempo \textbf{polinomial} con el \textbf{Teorema Chino de los Restos} y el \textbf{Algoritmo de Tonelli}.
 	\end{itemize}
 \end{frame}
 
@@ -325,7 +314,7 @@
 	\begin{description}[Parámetros]
 		\item[Nombre] Problema de los residuos cuadr\'aticos (QR).
 		\item[Parámetros] $N$ un entero impar tal que $N = pq$ para $p$ y $q$ primos, y el entero $x$ tal que $\left( \frac{x}{N} \right) = 1$.
-		\item[Pregunta] ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N$?
+		\item[Pregunta] ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N^*$?
 	\end{description}
 \end{frame}
 
@@ -333,11 +322,13 @@
 \section{Pruebas Interactivas}
 
 \begin{frame}{Pruebas Interactivas}
-
-\begin{description}[Q]
-	\item[Probador (P)] computacionalmente \textit{todopoderosa}.
-	\item[Verificador (V)] cómputo limitado, probabilístico de tiempo de polinomial.
-\end{description}
+	
+	\begin{description}[Verificador (V)]
+		\item[Probador (P)] computacionalmente \textit{todopoderosa}.
+		\item[Verificador (V)] cómputo limitado, probabilístico de tiempo de polinomial.	
+	\end{description}
+	{\Large\[P \leftrightarrows  V\]}
+	\textbf{Objetivo:} P quiere probar \textit{algo} a V, p. ej., que una instancia de un problema es $Verdadera$.
 
 \end{frame}
 
@@ -354,37 +345,6 @@
 	\end{definition}
 \end{frame}
 
-
-\begin{frame}{Pruebas Interactivas}
-
-
-\begin{definition}
-	Denominamos clase de problemas \textbf{IP} (Interactivos en tiempo Polinomial) al conjunto de problemas de decisión para los que existe un sistema de prueba interactivo.
-\end{definition}
-
-
-\end{frame}
-
-
-
-\begin{frame}{Pruebas Interactivas}
-	\begin{theorem}
-		\textbf{NP} $\subset$ \textbf{IP}.
-	\end{theorem}
-	
-	\begin{proof}
-		Sea $Q$ un problema \textbf{NP}. Definimos el siguiente protocolo:
-		\begin{enumerate}
-			\item  P resuelve la instancia del problema gracias a su capacidad de cómputo ilimitada y genera el certificado para V.
-			\item  V recibe y verifica el certificado en tiempo polinomial. Si es válido, V acepta como $Verdadera$ la instancia. Si no, rechaza la prueba.
-		\end{enumerate}
-		%El protocolo es completo y robusto, con probabilidad nula de falso positivo, pues si la instancia es $Falsa$, ningún P puede generar un certificado que no existe.
-	\end{proof}
-\end{frame}
-
-
-
-
 \begin{frame}{Ejemplo Pruebas Interactivas: Problema QR}
 	\begin{theorem}
 		El problema QR tiene un sistema de prueba interactivo.
@@ -393,7 +353,7 @@
 	\begin{description}[Parámetros]
 		\item[Nombre] Problema de los residuos cuadr\'aticos (QR).
 		\item[Parámetros] $N$ un entero impar tal que $N = pq$ para $p$ y $q$ primos, y el entero $x$ tal que $\left( \frac{x}{N} \right) = 1$.
-		\item[Pregunta] ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N$?
+		\item[Pregunta] ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N^*$?
 	\end{description}
 \end{frame}
 
@@ -485,6 +445,7 @@
 	\begin{definition}[Simulador]
 		Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible, para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P.
 	\end{definition}
+	Si V no sigue el protocolo, elegirá los retos en base a un algoritmo $F(\cdot)$ en base a toda la información disponible.
 \end{frame}
 
 
@@ -494,7 +455,37 @@
 	\end{theorem}
 	\textbf{Demostración}
 	
-	%\textit{Datos}: \quad $(x,N)$, una instancia $Verdadera$ del problema QR; \quad $h$, transcripciones de ejecuciones previas del protocolo; \quad $v_i$, transcripción de la interacción actual ($i$ rondas).
+	\textbf{Variables aleatorias}
+	\begin{description}[Wi]
+		\item[$U_i$] El residuo cuadrático aleatorio enviado por P en el primer mensaje, $u \in_R \mathbb{Z}^{Q+}_N$.
+		
+		\item[$B_i$] El reto aleatorio generado por V, $b \in_R \{0,\,1\}$.
+		
+		\item[$W_i$] La \textit{prueba} de P, $w \in_R \Omega_u$ o bien $w \in_R \Omega_{xu}$.
+	\end{description}
+
+	\[  Vista_{P,V^*}(x,N,h) = (x,N,h,U_1,B_1,W_1,\dots , U_{t(n)}, B_{t(n)}, W_{t(n)}) \]
+\end{frame}
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+	\textbf{Probabilidad en la Vista}
+	\[
+	P(U_i=u, B_i=b, W_i=w) = 
+	\]
+	\[ P(U_i=u)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
+	
+	Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
+	
+	Denotamos $ P(B_i=b \mid U_i=u)=p_b$, dependerá de $F$.
+	
+	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. $u$ fijo por construcción. Entonces:
+	\[P(W_i=w \mid U_i=u, B_i=0) = 1/\beta,\ \forall w \in \Omega_u\]
+	\[P(W_i=w \mid U_i=u, B_i=1) = 1/\beta,\ \forall w \in \Omega_{xu}\]
+	
+	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
+\end{frame}
+
+\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
 	\textbf{Simulador} Instancia $(x,N)$ $Verdadera$ del problema QR.\\
 	\textit{Ejecución}: Generadas las primeras $i$ rondas. Repetir para $i+1 \leq t(n)$:
 	
@@ -515,61 +506,91 @@
 
 
 \begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
-	\textbf{Variables aleatorias}
-	\begin{description}[Wi]
-	\item[$U_i$] El residuo cuadrático aleatorio enviado por P en el primer mensaje, $u \in_R \mathbb{Z}^{Q+}_N$.
-	
-	\item[$B_i$] El reto aleatorio generado por V, $b \in_R \{0,\,1\}$.
-	
-	\item[$W_i$] La \textit{prueba} de P, $w \in_R \Omega_u$ o bien $w \in_R \Omega_{xu}$.
-\end{description}
-\end{frame}
-
-\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
-	\textbf{Probabilidad en la Vista}
-	\[
-	P(U_i=u, B_i=b, W_i=w) = 
-	\]
-	\[ P(U_i=u)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
-	
-	Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
-	
-	Denotamos $ P(B_i=b \mid V_{i-1}=v, U_i=u,h)=p_b$, que dependerá de la $F$ utilizada.
-	
-	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. Entonces:
-	\[P(W_i=w \mid U_i=u, B_i=0) = 1/\beta,\ \forall w \in \Omega_u\]
-	\[P(W_i=w \mid U_i=u, B_i=1) = 1/\beta,\ \forall w \in \Omega_{xu}\]
-	
-	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
-\end{frame}
-
-
-\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
 	\textbf{Probabilidad del Simulador}
-	\[P(U_i=u, B_i=b, W_i=w) = \]
-	\[P(W_i=w)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(U_i=u \mid W_i=w, B_i=b)\]
+	{\small\[P(U_i=u, B_i=b, W_i=w) = \]
+	\[P(W_i=w)\cdot P(B_i=b \mid U_i=u) \cdot P(U_i=u \mid W_i=w, B_i=b)\]}
+
+	{\small Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i=w) = \frac{1}{\alpha \beta}$.}
+	{\tiny\begin{align*}
+	P(U_i=u) &= \sum_{w\in \Omega_u} P(U_i=u, W_i=w, B_i = 0) + \sum_{w\in \Omega_{xu}} P(U_i=u, W_i=w, B_i = 1) =  \\
+	&= \sum_{w\in \Omega_u} P(W_i=w)P(B_i = 0) + \sum_{w\in \Omega_{xu}} P(W_i=w)P(B_i = 1) = \\
+	&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i=0) + P(B_i=1)) = \frac{1}{\alpha}
+	\end{align*}}
+	{\small $\Rightarrow U_i$ misma distribución que $U_i$ de la $Vista$ $\Rightarrow$ $P(B_i=b=F(\cdot) \mid U_i=u) = p_b$.}
 	
-	Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i^`=w) = \frac{1}{\alpha \beta}$.
+	%Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i$ tenga el valor $u$ condicionado a que $ B_i=b$ y que $W_i=w$, es 1:
+	{\small$P(U_i=u \mid W_i=w, B_i=b) = 1$ por construcción de $u$.}
 	
-	Utilizando que $w\in \Omega_u \Leftrightarrow b=0$, $w\in \Omega_{xu} \Leftrightarrow b=1$ y que $W_i^`$ y $B_i^`$ son independientes, la probabilidad
-	\begin{align*}
-	P(U_i^`=u)  & = P(U_i^`=u, W_i^`\in \Omega_u \cup \Omega_{xu}, B_i^` \in \{0,1\}) = \\
-	&= \sum_{w\in \Omega_u} P(U_i^`=u, W_i^`=w, B_i^` = 0) + \sum_{w\in \Omega_{xu}} P(U_i^`=u, W_i^`=w, B_i^` = 1) =  \\
-	&= \sum_{w\in \Omega_u} P(W_i^`=w)P(B_i^` = 0) + \sum_{w\in \Omega_{xu}} P(W_i^`=w)P(B_i^` = 1) = \\
-	&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i^`=0) + P(B_i^`=1)) = \frac{1}{\alpha}
-	\end{align*}
-	indica que $U_i^`$ tiene la misma distribución que $U_i$, de modo que, al calcular $b_{i} = F(x,N,h,v_{i-1},u_{i})$, se tiene 
-	$P(B_i^`=b \mid V_{i-1}=v, U_i^`=u,h) = p_b$.
-	
-	Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i^`$ tenga el valor $u$ condicionado a que $ B_i^`=b$ y que $W_i^`=w$, es 1:
-	\[P(U_i^`=u \mid W_i^`=w, B_i^`=b) = 1\]
-	
-	$P(U_i^`=u, B_i^`=b, W_i^`=w) = \frac{p_b}{\alpha \beta}$.
+	$P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
 \end{frame}
 
-\begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
+\begin{frame}{Otros tipos de Pruebas de Conocimiento Cero}
+	\begin{description}[Verificador Honesto]
+		\item[$\uparrow$Perfectas] Igualdad de los ensambles.
+		\item[]
+		\item[Estadísticas] Igualdad asintótica de los ensambles.
+		\item[Verificador Honesto] Igualdad, suponiendo que V sigue el protocolo.
+		\item[Computacionales] Indistinguibilidad computacional de los ensambles. Los \textbf{esquemas de compromiso} son una herramienta fundamental.
+	\end{description}
+\end{frame}
+
+
+
+\section{Aplicaciones}
+
+\begin{frame}{Heurística de Fiat-Shamir: Firma digital}
+	Problema: Sincronizar a P y V.
+	
+	Sustituir reto de V por un valor difícil de predecir: función \texttt{hash}.
+	
+	\textbf{$\rightarrow$Firma digital}
+	
+	\begin{center}
+		\begin{tabular}{ll}
+			P calcula :& el \textit{testigo} $u$,\\& el \textit{reto} $h=$\textbf{hash(u$\mid$m)},\\& y la \textit{respuesta} $w = \xi(u, h)$.
+			\\
+			P $\rightarrow$ V :& \textit{\textbf{firma del mensaje}} $m$: \, $(h,w)$
+			\\
+			V verifica :& $h=hash(\,\vartheta(h,w)\,|\,m\,)$.
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Protocolos de identificación: Fiat-Shamir}
+	\textit{Configuración de la identidad}:
+	\begin{enumerate}
+		\item La entidad de confianza selecciona y publica $N=pq$, con $p$ y $q$ primos y secretos.
+		
+		\item Cada usuario P genera un secreto $s \in \mathbb{Z_N^*}$, coprimo con $N$ (si no, se podría obtener la factorización de $N$ y perder la seguridad del protocolo). Calcula $v \equiv s^2 \, mod \, N$ y lo envía a la entidad de confianza como su clave pública.
+		
+	\end{enumerate}
+	
+	
+	\textit{Protocolo}: Repetir $t$ rondas:
+	\begin{enumerate}
+		\item P escoge aleatoriamente $r \in_R \mathbb{Z_N^*}$, el \textit{compromiso}.
+		\item $P \rightarrow V$:\quad $u \equiv r^2 \, mod \, N$, el \textit{testigo}.
+		\item $V \rightarrow P$:\quad $b \in_R \{0,1\}$, el \textit{reto}.
+		\item $P \rightarrow V$:\quad $w \equiv r\cdot s^b \, mod \, N$, la \textit{respuesta}.
+		\item V verifica si \quad $ w^2 \equiv u\cdot v^b \, mod \, N$.
+	\end{enumerate}
 
 \end{frame}
+
+
+
+
+\begin{frame}{Protocolos orientados a privacidad: Identity Mixer}	
+	\begin{itemize}
+		\item \textbf{Firma distribuida de la credencial}: las pruebas de conocimiento cero aseguran que se sigue el algoritmo.
+		\item \textbf{Muestra selectiva de atributos}: prueba de conocimiento cero sobre la posesión de una firma válida, sin revelarla.
+	\end{itemize}
+\end{frame}
+
 
 
 
@@ -609,5 +630,29 @@ Podemos calcular el Símbolo de Jabobi $\left( \dfrac{a}{b} \right)$ en tiempo p
 \end{enumerate}
 \end{frame}
 
+
+
+\begin{frame}{Pruebas Interactivas}
+\begin{definition}
+	Denominamos clase de problemas \textbf{IP} (Interactivos en tiempo Polinomial) al conjunto de problemas de decisión para los que existe un sistema de prueba interactivo.
+\end{definition}
+\end{frame}
+
+
+
+\begin{frame}{Pruebas Interactivas}
+\begin{theorem}
+\textbf{NP} $\subset$ \textbf{IP}.
+\end{theorem}
+
+\begin{proof}
+Sea $Q$ un problema \textbf{NP}. Definimos el siguiente protocolo:
+\begin{enumerate}
+	\item  P resuelve la instancia del problema gracias a su capacidad de cómputo ilimitada y genera el certificado para V.
+	\item  V recibe y verifica el certificado en tiempo polinomial. Si es válido, V acepta como $Verdadera$ la instancia. Si no, rechaza la prueba.
+\end{enumerate}
+%El protocolo es completo y robusto, con probabilidad nula de falso positivo, pues si la instancia es $Falsa$, ningún P puede generar un certificado que no existe.
+\end{proof}
+\end{frame}
 
 \end{document}
