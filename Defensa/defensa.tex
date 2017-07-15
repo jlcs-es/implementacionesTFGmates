@@ -171,30 +171,6 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 %	Por definición $0 \notin \mathbb{Z}^*_n$, y por tanto $0 \notin Q_n$ ni $0 \notin \overline{Q_n}$.
 %\end{frame}
 
-
-\begin{frame}{Quadratic Residues: Properties}
-\begin{itemize}
-	\item Given a prime $p$, $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
-	\item Given $n$, $m$ coprime,  $x \in {\mathbb Z}_{mn}$ is a quadratic residue if and only if $x~mod~m$ and  $x~mod~n$ are respectively quadratic residues in ${\mathbb Z}_m$ and ${\mathbb Z}_n$.
-	\item If $a$ and $b$ are square roots of $x~mod~m$ and $x~mod~n$, we can use the \textbf{Chinese Remainder Theorem} to combine both as a square root of $x$ in ${\mathbb Z}_{mn}$.
-	\item Be $n = pq$, $p$ and $q$ different primes, then $|Q_n| = \frac{(p-1)(q-1)}{4}$
-\end{itemize}
-\end{frame}
-
-
-%\begin{frame}{Residuos Cuadráticos: Propiedades}
-%	\begin{itemize}
-%		\item Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
-%		\item Sean $n$, $m$ coprimos. $x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
-%		y $x~mod~n$ son residuos cuadr\'aticos en ${\mathbb Z}_m$ y ${\mathbb Z}_n$
-%		respectivamente.
-%		\item Si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
-%		correspondientes anillos, podemos combinarlas mediante el \textbf{Teorema Chino de los Restos}
-%		para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
-%		\item Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
-%	\end{itemize}
-%\end{frame}
-
 \begin{frame}{Quadratic Residues: Legendre Symbol}
 \begin{definition}[Legendre Symbol]
 	Given an odd primes $p$ and an integer $a$, we define the \textit{Legendre Symbol} as:
@@ -246,14 +222,48 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 %	\end{definition}
 %\end{frame}
 
-\begin{frame}{Quadratic Residues}
+
+\begin{frame}{Quadratic Residues: Properties}
 \begin{itemize}
-	\item We can compute a \textbf{square root} modulo a prime in polynomial time with \textbf{Tonelli Algorithm}.
+	\item Using the \textbf{Chinese Remainder Theorem} it is equivalent to work with quadratic residues in ${\mathbb Z}_{pq}$ or in ${\mathbb Z}_p$ and ${\mathbb Z}_q$.
+	\item We can compute a \textbf{square root} modulo a \textbf{prime} in polynomial time with \textbf{Tonelli Algorithm}.
 	\item \textbf{Jacobi} Symbol can be computed in polynomial time \textbf{without} the module factorization.
 	\item \textbf{Jacobi} Symbol $1$ does not imply a \textit{quadratic residue}.
 	\item Given a module \textbf{factorization}, we can compute the modular \textbf{square roots} in polynomial time with the \textit{Chinese Remainder Theorem} and \textit{Tonelli} Algorithm.
 \end{itemize}
 \end{frame}
+
+%\begin{frame}{Quadratic Residues: Properties}
+%\begin{itemize}
+%	\item Given a prime $p$, $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
+%	\item Given $n$, $m$ coprime,  $x \in {\mathbb Z}_{mn}$ is a quadratic residue if and only if $x~mod~m$ and   $x~mod~n$ are respectively quadratic residues in ${\mathbb Z}_m$ and ${\mathbb Z}_n$.
+%	\item If $a$ and $b$ are square roots of $x~mod~m$ and $x~mod~n$, we can use the \textbf{Chinese Remainder Theorem} to combine both as a square root of $x$ in ${\mathbb Z}_{mn}$.
+%	\item Be $n = pq$, $p$ and $q$ different primes, then $|Q_n| = \frac{(p-1)(q-1)}{4}$
+%\end{itemize}
+%\end{frame}
+
+
+%\begin{frame}{Residuos Cuadráticos: Propiedades}
+%	\begin{itemize}
+%		\item Sea $p>1$ un n\'umero primo, entonces $|Q_p| = |\overline{Q_p}| = \frac{p-1}{2}$.
+%		\item Sean $n$, $m$ coprimos. $x \in {\mathbb Z}_{mn}$ es un residuo cuadr\'atico si y s\'olo si $x~mod~m$
+%		y $x~mod~n$ son residuos cuadr\'aticos en ${\mathbb Z}_m$ y ${\mathbb Z}_n$
+%		respectivamente.
+%		\item Si $a$ y $b$ son ra\'ices cuadradas de $x~mod~m$ y $x~mod~n$ en sus
+%		correspondientes anillos, podemos combinarlas mediante el \textbf{Teorema Chino de los Restos}
+%		para obtener una ra\'iz cuadrada de $x$ en ${\mathbb Z}_{mn}$.
+%		\item Sea $n = pq$ el producto de dos primos distintos, entonces el n\'umero de residuos cuadr\'aticos m\'odulo $n$ es $\frac{(p-1)(q-1)}{4}$.
+%	\end{itemize}
+%\end{frame}
+
+%\begin{frame}{Quadratic Residues: Properties}
+%\begin{itemize}
+%	\item We can compute a \textbf{square root} modulo a prime in polynomial time with \textbf{Tonelli Algorithm}.
+%	\item \textbf{Jacobi} Symbol can be computed in polynomial time \textbf{without} the module factorization.
+%	\item \textbf{Jacobi} Symbol $1$ does not imply a \textit{quadratic residue}.
+%	\item Given a module \textbf{factorization}, we can compute the modular \textbf{square roots} in polynomial time with the \textit{Chinese Remainder Theorem} and \textit{Tonelli} Algorithm.
+%\end{itemize}
+%\end{frame}
 
 %\begin{frame}{Residuos Cuadráticos}
 %	\begin{itemize}
@@ -437,7 +447,7 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 	\[
 	P(U_i=u, B_i=b, W_i=w) = 
 	\]
-	\[ P(U_i=u)\cdot P(B_i=b \mid V_{i-1}=v, U_i=u,h) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
+	\[ P(U_i=u)\cdot P(B_i=b \mid U_i=u) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
 	
 	Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
 	
