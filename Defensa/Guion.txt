@@ -1,6 +1,6 @@
 [Title]
 
-Good morning, I'm José Luis Cánovas and I'm going to defend my Degree Thesis (?) named
+Good morning, I'm José Luis Cánovas and I'm going to defend my Final Degree Project named
 Zero-Knowledge Proofs and its Applications.
 
 [Outline]

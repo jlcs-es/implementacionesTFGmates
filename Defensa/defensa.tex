@@ -195,54 +195,91 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 %	\end{itemize}
 %\end{frame}
 
-
-\begin{frame}{Residuos Cuadráticos: Símbolo de Legendre}
-	\begin{definition}[Símbolo de Legendre]
-		Dados un primo impar $p$ y un entero $a$, se define el {\em Símbolo de Legendre} como
-		
-		\begin{center}
-			$
-			\left( \dfrac{a}{p} \right) =
-			\begin{cases}
-			0, & si\ a \equiv 0 \, mod \, p\\
-			1, & si\ a \in Q_p  \\
-			-1, & si\ a \in \overline{Q_p} \\
-			\end{cases}
-			$
-		\end{center}
-	\end{definition}
+\begin{frame}{Quadratic Residues: Legendre Symbol}
+\begin{definition}[Legendre Symbol]
+	Given an odd primes $p$ and an integer $a$, we define the \textit{Legendre Symbol} as:
+	
+	\begin{center}
+		$
+		\left( \dfrac{a}{p} \right) =
+		\begin{cases}
+		0, & if\ a \equiv 0 \, mod \, p\\
+		1, & if\ a \in Q_p  \\
+		-1, & if\ a \in \overline{Q_p} \\
+		\end{cases}
+		$
+	\end{center}
+\end{definition}
 \end{frame}
 
 
-\begin{frame}{Residuos Cuadráticos: Símbolo de Jacobi}
-	\begin{definition}[Símbolo de Jacobi]
-		Sea $n$ un entero impar positivo cuya descomposici\'on en factores primos es $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$ y sea $a$ un entero. Entonces definimos
-		el \textit{s\'imbolo de Jacobi} de $a$ y $n$ como
-		\[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
-	\end{definition}
+%\begin{frame}{Residuos Cuadráticos: Símbolo de Legendre}
+%	\begin{definition}[Símbolo de Legendre]
+%		Dados un primo impar $p$ y un entero $a$, se define el {\em Símbolo de Legendre} como
+%		
+%		\begin{center}
+%			$
+%			\left( \dfrac{a}{p} \right) =
+%			\begin{cases}
+%			0, & si\ a \equiv 0 \, mod \, p\\
+%			1, & si\ a \in Q_p  \\
+%			-1, & si\ a \in \overline{Q_p} \\
+%			\end{cases}
+%			$
+%		\end{center}
+%	\end{definition}
+%\end{frame}
+
+
+\begin{frame}{Quadratic Residues: Jacobi Symbol}
+\begin{definition}[Jacobi Symbol]
+	Be $n$ is an odd integer with prime factorization $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$, and $a$ an integer. Then we define the \textit{Jacobi Symbol} of $a$ as:
+	\[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
+\end{definition}
 \end{frame}
 
+%\begin{frame}{Residuos Cuadráticos: Símbolo de Jacobi}
+%	\begin{definition}[Símbolo de Jacobi]
+%		Sea $n$ un entero impar positivo cuya descomposici\'on en factores primos es $n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}$ y sea $a$ un entero. Entonces definimos
+%		el \textit{s\'imbolo de Jacobi} de $a$ y $n$ como
+%		\[\left( \dfrac{a}{n} \right) = \left( \dfrac{a}{p_1} \right)^{e_1} \cdot \left( \dfrac{a}{p_2} \right)^{e_2} \cdot \cdots \cdot \left( \dfrac{a}{p_t} \right)^{e_t}\]
+%	\end{definition}
+%\end{frame}
 
-
-\begin{frame}{Residuos Cuadráticos}
-	\begin{itemize}
-		\item El Símbolo de \textbf{Legendre} nos indica si un entero es residuo cuadrático módulo un \textbf{primo} mayor que 2.
-		\item Podemos calcular una \textbf{raíz} cuadrada módulo un primo en tiempo polinomial con el \textbf{Algoritmo de Tonelli}.
-		\item El Símbolo de \textbf{Jacobi} se puede calcular en tiempo polinomial \textbf{sin} conocer la \textbf{factorización} del módulo.
-		\item Un Símbolo de \textbf{Jacobi} $-1$ nos indica \textit{no-residuo}, pero un $1$ ya no indica necesariamente \textit{residuo cuadrático}.
-		\item Conociendo la \textbf{factorización} del módulo, podemos calcular la \textbf{raíz} modular en tiempo \textbf{polinomial} con el \textbf{Teorema Chino de los Restos} y el \textbf{Algoritmo de Tonelli}.
-	\end{itemize}
+\begin{frame}{Quadratic Residues}
+\begin{itemize}
+	\item We can compute a \textbf{square root} modulo a prime in polynomial time with \textbf{Tonelli Algorithm}.
+	\item \textbf{Jacobi} Symbol can be computed in polynomial time \textbf{without} the module factorization.
+	\item \textbf{Jacobi} Symbol $1$ does not imply a \textit{quadratic residue}.
+	\item Given a module \textbf{factorization}, we can compute the modular \textbf{square roots} in polynomial time with the \textit{Chinese Remainder Theorem} and \textit{Tonelli} Algorithm.
+\end{itemize}
 \end{frame}
 
-% TODO: reducir a FACT
+%\begin{frame}{Residuos Cuadráticos}
+%	\begin{itemize}
+%		\item El Símbolo de \textbf{Legendre} nos indica si un entero es residuo cuadrático módulo un \textbf{primo} mayor que 2.
+%		\item Podemos calcular una \textbf{raíz} cuadrada módulo un primo en tiempo polinomial con el \textbf{Algoritmo de Tonelli}.
+%		\item El Símbolo de \textbf{Jacobi} se puede calcular en tiempo polinomial \textbf{sin} conocer la \textbf{factorización} del módulo.
+%		\item Un Símbolo de \textbf{Jacobi} $-1$ nos indica \textit{no-residuo}, pero un $1$ ya no indica necesariamente \textit{residuo cuadrático}.
+%		\item Conociendo la \textbf{factorización} del módulo, podemos calcular la \textbf{raíz} modular en tiempo \textbf{polinomial} con el \textbf{Teorema Chino de los Restos} y el \textbf{Algoritmo de Tonelli}.
+%	\end{itemize}
+%\end{frame}
 
-\begin{frame}{Residuos Cuadráticos: Problema QR}
-	\begin{description}[Parámetros]
-		\item[Nombre] Problema de los residuos cuadr\'aticos (QR).
-		\item[Parámetros] $N$ un entero impar tal que $N = pq$ para $p$ y $q$ primos, y el entero $x$ tal que $\left( \frac{x}{N} \right) = 1$.
-		\item[Pregunta] ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N^*$?
+\begin{frame}{Quadratic Residues: QR Problem}
+	\begin{description}[Parameters]
+		\item[Name] Quadratic residue problem (QR).
+		\item[Parameters] Given a composite integer $N=pq$ and the integer $x$ with Jacobi Symbol $\left( \frac{x}{N} \right) = 1$.
+		\item[Question] Is $x$ a quadratic residue in ${\mathbb Z}_N$? $\exists a\in {\mathbb Z}_N : x\equiv a^2 (N)$?
 	\end{description}
 \end{frame}
+
+%\begin{frame}{Residuos Cuadráticos: Problema QR}
+%	\begin{description}[Parámetros]
+%		\item[Nombre] Problema de los residuos cuadr\'aticos (QR).
+%		\item[Parámetros] $N$ un entero impar tal que $N = pq$ para $p$ y $q$ primos, y el entero $x$ tal que $\left( \frac{x}{N} \right) = 1$.
+%		\item[Pregunta] ¿Es $x$ un residuo cuadrático en ${\mathbb Z}_N^*$?
+%	\end{description}
+%\end{frame}
 
 
 \section{Pruebas Interactivas}
@@ -320,7 +357,7 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 		
 		Instancia $(x,N)$ $Verdadera$ $\Rightarrow$ $x$ es residuo cuadrático, existe raíz.
 		
-		P computacionalmente todopoderoso $\Rightarrow$ puede calcular $w$ raíz de $x$ o $xu$, residuos cuadráticos.
+		P computacionalmente todopoderoso $\Rightarrow$ puede calcular $w$ raíz de $u$ o $xu$, residuos cuadráticos.
 		
 		V acepta la prueba de P.
 	\end{proof}
@@ -353,26 +390,28 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 
 \section{Pruebas de Conocimiento Cero}
 
+
+\begin{frame}{Pruebas de Conocimiento Cero} 
+	\begin{definition}[Ensamble] 
+		Llamamos ensamble probabilístico (\textit{ensemble} en inglés) a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable. 
+	\end{definition} 
+	$ Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)}). $ 
+	
+	\begin{definition}[Simulador] 
+		Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible, para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P. 
+	\end{definition} 
+	Si V no sigue el protocolo, elegirá los retos en base a un algoritmo $F(\cdot)$ en base a toda la información disponible. 
+\end{frame} 
+
+
 \begin{frame}{Pruebas de Conocimiento Cero}
 	\begin{definition}[Propiedad de conocimiento cero]
 		Un sistema de prueba interactiva (completo y robusto), para un problema de decisión $Q$, es de \textit{conocimiento cero} si el ensamble $Vista_{P,V}(q,h)$ es idéntico al ensamble generado por un Simulador $S_{V^*}(q,h)$, para cualquier instancia $Verdadera$ $q\in Q$ y cualquier historial $h$.
 	\end{definition}
+
+	Toda la información que se pueda obtener de interactuar con P, se puede obtener sin interactuar con P.
 \end{frame}
 
-
-
-
-\begin{frame}{Pruebas de Conocimiento Cero}
-	\begin{definition}[Ensamble]
-		Llamamos ensamble probabilístico (\textit{ensemble} en inglés) a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable.
-	\end{definition}
-	$ Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)}). $
-
-	\begin{definition}[Simulador]
-		Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible, para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P.
-	\end{definition}
-	Si V no sigue el protocolo, elegirá los retos en base a un algoritmo $F(\cdot)$ en base a toda la información disponible.
-\end{frame}
 
 
 \begin{frame}{Pruebas de Conocimiento Cero: Problema QR}

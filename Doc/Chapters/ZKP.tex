@@ -130,7 +130,7 @@ Vamos a ver una prueba interactiva para demostrar el problema QR (\autoref{probl
 		
 	Queda ver que el protocolo anterior es completo y robusto.
 	
-	La prueba es \textit{completa}, pues para cualquier instancia $Verdadera$ de QR, $x \in \mathbb{Z}^{Q+}_N$, V acepta la prueba de P. En cada iteración, como P es computacionalmente todopoderoso, puede calcular $w$, una raíz cuadrada módulo $N$ de $x$ o $xu$, según el valor de $b$, ambos en $\mathbb{Z}^{Q+}_N$.
+	La prueba es \textit{completa}, pues para cualquier instancia $Verdadera$ de QR, $x \in \mathbb{Z}^{Q+}_N$, V acepta la prueba de P. En cada iteración, como P es computacionalmente todopoderoso, puede calcular $w$, una raíz cuadrada módulo $N$ de $u$ o $xu$, según el valor de $b$, ambos en $\mathbb{Z}^{Q+}_N$.
 	
 	Para una instancia $Falsa$, $x \in \mathbb{Z}^{Q-}_N$, cuando V envíe $b=1$, si P sigue el protocolo $u$ será un residuo cuadrático, pero $x\cdot u$ es un no-residuo cuadrático módulo $N$, por lo que no podrá calcular $w$ por mucho poder computacional ilimitado que tenga. Un P tramposo podría intentar engañar a V en el caso $b = 1$ eligiendo $u$ tal que $xu$ es un residuo cuadrático, pero entonces $u$ es un no-residuo cuadrático y fallaría la prueba si $b=0$.
 	
