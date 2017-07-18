@@ -25,10 +25,10 @@
 \begin{document}
 \maketitle
 
-\begin{frame}
-	\frametitle{Outline}
-	\tableofcontents
-\end{frame}
+%\begin{frame}
+%	\frametitle{Outline}
+%	\tableofcontents
+%\end{frame}
 
 \section{Decision Problems}
 
@@ -37,9 +37,9 @@
 		General description of a task which depend on some parameters and which possible answers are in the set $\{True, False \}$.
 	\end{block}
 	\begin{description}[Parameters]
-		\item[Name] \textit{A characteristic name.}
-		\item[Parameters] \textit{Arguments the problem depends on}.
-		\item[Question] \textit{Question such the possible answers are} $True$ \textit{or} $False$.
+		\item[Name] \textit{of the problem.}
+		\item[Parameters] \textit{the problem depends on}.
+		\item[Question] \textit{such the possible answers are} $True$ \textit{or} $False$.
 	\end{description}
 \end{frame}
 
@@ -227,9 +227,9 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 \begin{itemize}
 	\item Using the \textbf{Chinese Remainder Theorem} it is equivalent to work with quadratic residues in ${\mathbb Z}_{pq}$ or in ${\mathbb Z}_p$ and ${\mathbb Z}_q$.
 	\item We can compute a \textbf{square root} modulo a \textbf{prime} in polynomial time with \textbf{Tonelli Algorithm}.
+	\item Given a module \textbf{factorization}, we can compute the modular \textbf{square roots} in polynomial time with the \textit{Chinese Remainder Theorem} and \textit{Tonelli} Algorithm.
 	\item \textbf{Jacobi} Symbol can be computed in polynomial time \textbf{without} the module factorization.
 	\item \textbf{Jacobi} Symbol $1$ does not imply a \textit{quadratic residue}.
-	\item Given a module \textbf{factorization}, we can compute the modular \textbf{square roots} in polynomial time with the \textit{Chinese Remainder Theorem} and \textit{Tonelli} Algorithm.
 \end{itemize}
 \end{frame}
 
@@ -301,7 +301,7 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 		\item[Verificador (V)] cómputo limitado, probabilístico de tiempo de polinomial.	
 	\end{description}
 	{\Large\[P \leftrightarrows  V\]}
-	\textbf{Objetivo:} P quiere probar \textit{algo} a V, p. ej., que una instancia de un problema es $Verdadera$.
+	\textbf{Objetivo:} P quiere probar una instancia de un problema de decisión.
 
 \end{frame}
 
@@ -403,14 +403,13 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 
 \begin{frame}{Pruebas de Conocimiento Cero} 
 	\begin{definition}[Ensamble] 
-		Llamamos ensamble probabilístico (\textit{ensemble} en inglés) a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable. 
+		Llamamos ensamble probabilístico a una familia de variables aleatorias $\{X_i\}_{i\in I}$, con $I$ numerable. 
 	\end{definition} 
 	$ Vista_{P,V^*}(q,h) = (q,\,h,\,A_1,\,B_1,\,C_1, \dots ,\,A_{t(n)},\,B_{t(n)},\,C_{t(n)}). $ 
 	
 	\begin{definition}[Simulador] 
 		Un Simulador $S_{V^*}(q,h)$ es un algoritmo probabilístico de tiempo polinomial, que utiliza toda la información que V$^*$ tiene disponible, para generar una transcripción de una prueba interactiva, para una instancia $q$ del problema $Q$, sin necesidad de interactuar con P. 
-	\end{definition} 
-	Si V no sigue el protocolo, elegirá los retos en base a un algoritmo $F(\cdot)$ en base a toda la información disponible. 
+	\end{definition}
 \end{frame} 
 
 
@@ -420,6 +419,8 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 	\end{definition}
 
 	Toda la información que se pueda obtener de interactuar con P, se puede obtener sin interactuar con P.
+	
+	{\small\textbf{Nota}: Si V no sigue el protocolo, elegirá los retos en base a un algoritmo $F(\cdot)$ en base a toda la información disponible.}
 \end{frame}
 
 
@@ -449,15 +450,17 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 	\]
 	\[ P(U_i=u)\cdot P(B_i=b \mid U_i=u) \cdot P(W_i=w \mid U_i=u, B_i=b) \]
 	
-	Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
+	\begin{itemize}
+		\item Sea $\alpha = \mid \mathbb{Z}^{Q+}_N \mid $, entonces $P(U_i=u) = \frac{1}{\alpha}$.
+		
+		\item Denotamos $ P(B_i=b \mid U_i=u)=p_b$, dependerá de $F$.
+		
+		\item Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. $u$ fijo por construcción. Entonces:
+		\[P(W_i=w \mid U_i=u, B_i=0) = 1/\beta,\ \forall w \in \Omega_u\]
+		\[P(W_i=w \mid U_i=u, B_i=1) = 1/\beta,\ \forall w \in \Omega_{xu}\]
+	\end{itemize}
 	
-	Denotamos $ P(B_i=b \mid U_i=u)=p_b$, dependerá de $F$.
-	
-	Por último, sea $\beta = \mid \Omega_u \mid = \mid \Omega_{xu} \mid $. $u$ fijo por construcción. Entonces:
-	\[P(W_i=w \mid U_i=u, B_i=0) = 1/\beta,\ \forall w \in \Omega_u\]
-	\[P(W_i=w \mid U_i=u, B_i=1) = 1/\beta,\ \forall w \in \Omega_{xu}\]
-	
-	En total nos queda, $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
+	En total nos queda: $P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.
 \end{frame}
 
 \begin{frame}{Pruebas de Conocimiento Cero: Problema QR}
@@ -484,17 +487,19 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 	\textbf{Probabilidad del Simulador}
 	{\small\[P(U_i=u, B_i=b, W_i=w) = \]
 	\[P(W_i=w)\cdot P(B_i=b \mid U_i=u) \cdot P(U_i=u \mid W_i=w, B_i=b)\]}
-
-	{\small Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i=w) = \frac{1}{\alpha \beta}$.}
-	{\tiny\begin{align*}
-	P(U_i=u) &= \sum_{w\in \Omega_u} P(U_i=u, W_i=w, B_i = 0) + \sum_{w\in \Omega_{xu}} P(U_i=u, W_i=w, B_i = 1) =  \\
-	&= \sum_{w\in \Omega_u} P(W_i=w)P(B_i = 0) + \sum_{w\in \Omega_{xu}} P(W_i=w)P(B_i = 1) = \\
-	&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i=0) + P(B_i=1)) = \frac{1}{\alpha}
-	\end{align*}}
-	{\small $\Rightarrow U_i$ misma distribución que $U_i$ de la $Vista$ $\Rightarrow$ $P(B_i=b \mid U_i=u) = p_b$, depende de $F(\cdot)$.}
-	
-	%Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i$ tenga el valor $u$ condicionado a que $ B_i=b$ y que $W_i=w$, es 1:
-	{\small$P(U_i=u \mid W_i=w, B_i=b) = 1$ por construcción de $u$.}
+	\begin{itemize}
+		\item {\small Sabemos que $\mid \mathbb{Z}^*_N \mid = \alpha \cdot \beta $, por lo que $P(W_i=w) = \frac{1}{\alpha \beta}$.}
+		\item {\small $U_i$ de $Sym$ tiene la misma distribución que $U_i$ de la $Vista$:} {\tiny\begin{align*}
+			P(U_i=u) &= \sum_{w\in \Omega_u} P(U_i=u, W_i=w, B_i = 0) + \sum_{w\in \Omega_{xu}} P(U_i=u, W_i=w, B_i = 1) =  \\
+			&= \sum_{w\in \Omega_u} P(W_i=w)P(B_i = 0) + \sum_{w\in \Omega_{xu}} P(W_i=w)P(B_i = 1) = \\
+			&=\beta \cdot \frac{1}{\alpha \beta} \cdot (P(B_i=0) + P(B_i=1)) = \frac{1}{\alpha}
+			\end{align*}}
+			{\small $\Rightarrow$ $P(B_i=b \mid U_i=u) = p_b$, depende de $F(\cdot)$.}
+		
+		\item %Por construcción, dados $w$ y $b$ en el simulador, $u$ tiene un único valor posible, $u\equiv w^2x^{-b}\,mod\,N$, por tanto, la probabilidad de que dada la tupla $(u, b, w)$, $U_i$ tenga el valor $u$ condicionado a que $ B_i=b$ y que $W_i=w$, es 1:
+		{\small$P(U_i=u \mid W_i=w, B_i=b) = 1$ por construcción de $u$.}
+		
+	\end{itemize}
 	
 	$P(U_i=u, B_i=b, W_i=w) = \frac{p_b}{\alpha \beta}$.\hfil $\square$
 \end{frame}
@@ -503,7 +508,7 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 	\begin{description}[Verificador Honesto]
 		\item[$\uparrow$Perfectas] Igualdad de los ensambles.
 		\item[]
-		\item[Estadísticas] Igualdad asintótica de los ensambles.
+		\item[Estadísticas] Igualdad asintótica de los ensambles: diferencia estadística es una función \textit{despreciable}.
 		\item[Verificador Honesto] Igualdad, suponiendo que V sigue el protocolo.
 		\item[Computacionales] Indistinguibilidad computacional de los ensambles. Los \textbf{esquemas de compromiso} son una herramienta fundamental.
 	\end{description}
