@@ -114,32 +114,13 @@
 \end{frame}
 
 
-\begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
-\begin{description}[Parameters]
-	\item[Name] Hamiltonian Cycle Problem (HC).
-	\item[Parameters] Given graph $G=(V,E)$.
-	\item[Question] Does there exist a Hamiltonian cycle in $G$?
-\end{description}
-
-\begin{center}
-	\tikzstyle{every node}=[circle, draw, fill=black!50, inner sep=0pt, minimum width=8pt]
-	\begin{tikzpicture}[thick]
-	\draw [line width=0.8mm,purple](120:2) -- (240:2) -- (0:2) -- (0:0) -- cycle;
-	\draw (120:2) node {} -- (0:2) node {};
-	\draw (0:0) node {} -- (240:2) node {};
-	\end{tikzpicture}
-\end{center}
-
-\end{frame}
-
-
-\begin{frame}{Primality Test}
-	\begin{description}[Parameters]
-		\item[Name] Primality problem (PRIM).
-		\item[Parameters] Positive integer $N$.
-		\item[Question] Is $N$ prime?
-	\end{description}
-\end{frame}
+%\begin{frame}{Primality Test}
+%	\begin{description}[Parameters]
+%		\item[Name] Primality problem (PRIM).
+%		\item[Parameters] Positive integer $N$.
+%		\item[Question] Is $N$ prime?
+%	\end{description}
+%\end{frame}
 
 \section{Example Problem: Quadratic Residues}
 
@@ -534,9 +515,9 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 	\begin{description}[Verificador Honesto]
 		\item[$\uparrow$Perfectas] Igualdad de los ensambles.
 		\item[]
-		\item[Estadísticas] Igualdad asintótica de los ensambles: diferencia estadística es una función \textit{despreciable}.
+		\item[Estadísticas] Igualdad asintótica de los ensambles.%: diferencia estadística es una función \textit{despreciable}.
 		\item[Verificador Honesto] Igualdad, suponiendo que V sigue el protocolo.
-		\item[Computacionales] Indistinguibilidad computacional de los ensambles. Los \textbf{esquemas de compromiso} son una herramienta fundamental.
+		\item[Computacionales] Indistinguibilidad computacional de los ensambles.% Los \textbf{esquemas de compromiso} son una herramienta fundamental.
 	\end{description}
 \end{frame}
 
@@ -679,7 +660,23 @@ A decision problems $L$ is in \textbf{NPC} if:
 
 
 
+\begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
+\begin{description}[Parameters]
+	\item[Name] Hamiltonian Cycle Problem (HC).
+	\item[Parameters] Given graph $G=(V,E)$.
+	\item[Question] Does there exist a Hamiltonian cycle in $G$?
+\end{description}
 
+\begin{center}
+	\tikzstyle{every node}=[circle, draw, fill=black!50, inner sep=0pt, minimum width=8pt]
+	\begin{tikzpicture}[thick]
+	\draw [line width=0.8mm,purple](120:2) -- (240:2) -- (0:2) -- (0:0) -- cycle;
+	\draw (120:2) node {} -- (0:2) node {};
+	\draw (0:0) node {} -- (240:2) node {};
+	\end{tikzpicture}
+\end{center}
+
+\end{frame}
 
 \begin{frame}{Graph 3-colorability \textsuperscript{NPC}}
 

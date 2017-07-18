@@ -1,7 +1,48 @@
 [Title]
 
-Good morning, I'm José Luis Cánovas and I'm going to defend my Final Degree Project named
-Zero-Knowledge Proofs and its Applications.
+[ZKP]
+
+A zero-knowledge proof is an interactive method by which one party, the prover, can prove to another party, the verifier, that a given statement is true.
+
+From this proof, we will get no more information apart from the fact that the statement is indeed true.
+
+For example, imagine we know Ali Baba's cave and the magic word to open the door in the inside. We want to prove this fact to our friend Victor, but we also want to keep our secret private to us. We can perform a zero-knowledge proof so that Victor is convinced that we know the magic word, and Victor won't be able to deduce the word from the proof.
+
+This has multiple applications to secrecy and privacy as we will see.
+
+[The Statement: Decision Problems]
+
+But first, let's see what are those statements that we can proof, and later we will see with an example how to prove them.
+
+
+[Decision Problem:definition]
+
+A decision problem is a general description of a task which has parameteres the problem depends on and a question to be answered with either True or False.
+
+[Graph Isomorphism]
+
+For example, the Graph Isomorphism problem, where we ask if given two graphs with the same number of nodes, there exists an isomorphism between them.
+
+
+[Example Problem: Quadratic Residues]
+
+In this presentation we will focus on the quadratic residues problem to showcase how a Zero-Knowledge proof works.
+
+[Quadratic Residues]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [Outline]
 
