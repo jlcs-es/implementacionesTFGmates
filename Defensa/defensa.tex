@@ -30,7 +30,32 @@
 %	\tableofcontents
 %\end{frame}
 
-\section{Decision Problems}
+
+
+\begin{frame}[t]{Zero-Knowledge Proof}
+	\textit{An interactive method by which one party (the prover) can prove to another party (the verifier) that a given statement is true.}
+		
+	\textit{From the proof, we get no other information apart from the fact that the statement is indeed true.}
+	
+	\hfil
+	
+	\begin{center}
+		The cave with the magic door.
+	\end{center}
+	\begin{columns}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{graficoJL_ZKP_1}
+		\end{column}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{graficoJL_ZKP_2}
+		\end{column}
+		\begin{column}{0.3\textwidth}
+			\includegraphics[width=\linewidth]{graficoJL_ZKP_3}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\section{The Statement: Decision Problems}
 
 \begin{frame}{Decision Problem}
 	\begin{block}{Definition (Decision Problem)}
@@ -89,43 +114,44 @@
 \end{frame}
 
 
-\begin{frame}{Complexity classes}
+\begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
+\begin{description}[Parameters]
+	\item[Name] Hamiltonian Cycle Problem (HC).
+	\item[Parameters] Given graph $G=(V,E)$.
+	\item[Question] Does there exist a Hamiltonian cycle in $G$?
+\end{description}
 
-\begin{block}{Definition (Class P)}
-	The set of decision problems which can be solved in polynomial time.
-\end{block}
-
-\begin{block}{Definition (Class NP)}
-	The set of decision problems where a $True$ answer can be verified in polynomial time, given some extra information (certificate).
-\end{block}
-
-\begin{block}{Fact}
-	$P\subset NP$
-\end{block}
-
-\begin{block}{Millennium Problem}
-	$P\overset{?}{=} NP$ % P versus NP
-\end{block}
-
+\begin{center}
+	\tikzstyle{every node}=[circle, draw, fill=black!50, inner sep=0pt, minimum width=8pt]
+	\begin{tikzpicture}[thick]
+	\draw [line width=0.8mm,purple](120:2) -- (240:2) -- (0:2) -- (0:0) -- cycle;
+	\draw (120:2) node {} -- (0:2) node {};
+	\draw (0:0) node {} -- (240:2) node {};
+	\end{tikzpicture}
+\end{center}
 
 \end{frame}
 
 
+\begin{frame}{Primality Test}
+	\begin{description}[Parameters]
+		\item[Name] Primality problem (PRIM).
+		\item[Parameters] Positive integer $N$.
+		\item[Question] Is $N$ prime?
+	\end{description}
+\end{frame}
 
-
-
-
-\section{Quadratic Residues}
+\section{Example Problem: Quadratic Residues}
 
 \begin{frame}{Quadratic Residues}
-\begin{definition}
+\begin{block}{Definition}
 	Given $x\in \mathbb{Z}^*_n$ we say that $x$ is a \textit{quadratic residue}
-	modulo $n$ if there exists an $a \in \mathbb{Z}^*_n$ such thtat
+	modulo $n$ if there exists an $a \in \mathbb{Z}^*_n$ such that
 	
 	$x \equiv a^2 \, mod \, n$.
 	
 	If said $a$ doesn't exist, then $x$ is called a \textit{quadratic non-residue}.
-\end{definition}
+\end{block}
 
 We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}$ the set of quadratic non-residues.
 \end{frame}
@@ -589,7 +615,26 @@ We define $Q_n$ as the set of quadratic residues modulo $n$, and $\overline{Q_n}
 
 
 
+\begin{frame}{Complexity classes}
 
+\begin{block}{Definition (Class P)}
+	The set of decision problems which can be solved in polynomial time.
+\end{block}
+
+\begin{block}{Definition (Class NP)}
+	The set of decision problems where a $True$ answer can be verified in polynomial time, given some extra information (certificate).
+\end{block}
+
+\begin{block}{Fact}
+	$P\subset NP$
+\end{block}
+
+\begin{block}{Millennium Problem}
+	$P\overset{?}{=} NP$ % P versus NP
+\end{block}
+
+
+\end{frame}
 
 
 \begin{frame}{Discrete Logarithm}
@@ -633,23 +678,7 @@ A decision problems $L$ is in \textbf{NPC} if:
 
 
 
-\begin{frame}{Hamiltonian Cycle \textsuperscript{NPC}}
-\begin{description}[Parameters]
-\item[Name] Hamiltonian Cycle Problem (HC).
-\item[Parameters] Given graph $G=(V,E)$.
-\item[Question] Does there exist a Hamiltonian cycle in $G$?
-\end{description}
 
-\begin{center}
-\tikzstyle{every node}=[circle, draw, fill=black!50, inner sep=0pt, minimum width=8pt]
-\begin{tikzpicture}[thick]
-\draw [line width=0.8mm,purple](120:2) -- (240:2) -- (0:2) -- (0:0) -- cycle;
-\draw (120:2) node {} -- (0:2) node {};
-\draw (0:0) node {} -- (240:2) node {};
-\end{tikzpicture}
-\end{center}
-
-\end{frame}
 
 
 \begin{frame}{Graph 3-colorability \textsuperscript{NPC}}
